@@ -161,5 +161,5 @@ export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearc
   );
 }
 
-/** Shorthand alias used in page components */
+/** Legacy alias kept for backward compatibility */
 export const SB = SearchBar;

@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
 import { DateTimePicker } from '@/components/ui/DatePicker';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FTextarea } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
 import { C } from '@/lib/theme/colors';
@@ -152,7 +152,7 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
           </div>
         </div>
         <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
-          <Btn onClick={onClose}>닫기</Btn>
+          <Button onClick={onClose}>닫기</Button>
         </div>
       </SidePanel>
     );
@@ -175,7 +175,7 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
       >
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="공지사항 정보" />
+            <SectionTitle label="공지사항 정보" />
             <FormRow label="사용유무">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.st === '사용'} onClick={() => !ro && setField('st', form.st === '사용' ? '미사용' : '사용')} disabled={ro} />
@@ -184,11 +184,11 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
             </FormRow>
 
             <FormRow label="제목" required>
-              <FInput value={form.title} onChange={(e) => setField('title', e.target.value)} readOnly={ro} />
+              <FormInput value={form.title} onChange={(e) => setField('title', e.target.value)} readOnly={ro} />
             </FormRow>
 
             <FormRow label="내용">
-              <FTextarea
+              <FormTextarea
                 value={form.content}
                 onChange={(e) => setField('content', e.target.value)}
                 readOnly={ro}
@@ -248,13 +248,13 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="등록자" style={{ flex: 1 }}>
-                <FInput value={form.registrant} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+                <FormInput value={form.registrant} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
               </FormRow>
               <FormRow label="등록일" style={{ flex: 1 }}>
-                <FInput value={form.regDt} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+                <FormInput value={form.regDt} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
               </FormRow>
               <FormRow label="조회수" style={{ flex: 1 }}>
-                <FInput value={String(item?.views ?? 0)} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+                <FormInput value={String(item?.views ?? 0)} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
               </FormRow>
             </div>
           </div>
@@ -264,18 +264,18 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isNew || editMode ? (
               <>
-                <Btn onClick={handleCancel}>취소</Btn>
+                <Button onClick={handleCancel}>취소</Button>
                 <div style={{ flex: 1 }} />
-                <Btn primary onClick={saveNotice}>{isNew ? '등록' : '저장'}</Btn>
+                <Button primary onClick={saveNotice}>{isNew ? '등록' : '저장'}</Button>
               </>
             ) : (
               <>
-                <Btn onClick={onClose}>닫기</Btn>
+                <Button onClick={onClose}>닫기</Button>
                 <div style={{ flex: 1 }} />
-                <Btn danger onClick={() => setDeleteConfirm(true)}>삭제</Btn>
-                <Btn success style={{ marginLeft: 8 }} onClick={startEdit}>
+                <Button danger onClick={() => setDeleteConfirm(true)}>삭제</Button>
+                <Button success style={{ marginLeft: 8 }} onClick={startEdit}>
                   수정
-                </Btn>
+                </Button>
               </>
             )}
           </div>

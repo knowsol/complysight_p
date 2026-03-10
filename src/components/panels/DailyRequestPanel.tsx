@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { FormInput } from '@/components/ui/FormField';
 import { FormRow } from '@/components/ui/FormRow';
 import { SidePanel } from '@/components/ui/SidePanel';
@@ -23,8 +23,8 @@ export function DailyRequestPanel({ open, onClose }: DailyRequestPanelProps) {
       </div>
       <div style={{ padding: '16px 24px', borderTop: '1px solid #eee' }}>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <Btn onClick={onClose}>취소</Btn>
-          <Btn primary onClick={onClose}>등록</Btn>
+          <Button onClick={onClose}>취소</Button>
+          <Button primary onClick={onClose}>등록</Button>
         </div>
       </div>
     </SidePanel>

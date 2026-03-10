@@ -2,12 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { YnBadge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
 import { C } from '@/lib/theme/colors';
 import { SYS } from '@/data/manager';
 import { RES } from '@/data/resources';
@@ -114,7 +114,7 @@ const MgrRes = ({ toast }) => {
 
   return (
     <div>
-      <PH title="자원관리" bc="홈 > 자원관리" />
+      <PageHeader title="자원관리" bc="홈 > 자원관리" />
 
       <div style={{ display: "flex", gap: 14, alignItems: "start" }}>
 
@@ -156,7 +156,7 @@ const MgrRes = ({ toast }) => {
                   width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round">
                   <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
                 </svg>
-                <FInput value={sysSearch} onChange={e => setSysSearch(e.target.value)}
+                <FormInput value={sysSearch} onChange={e => setSysSearch(e.target.value)}
                   placeholder="시스템 검색"
                   style={{ width: "100%", padding: "6px 24px 6px 26px", fontSize: 12, border: `1px solid ${C.brd}`,
                     borderRadius: 6, outline: "none", boxSizing: "border-box", background: "#F8FAFC", color: C.txt, fontFamily: "inherit" }} />
@@ -226,16 +226,16 @@ const MgrRes = ({ toast }) => {
         {/* ── 오른쪽: 자원 목록 ── */}
         <div style={{ flex: 1, minWidth: 0 }}>
 
-          <SB ph="자원명 또는 IP로 검색"
+          <SearchBar ph="자원명 또는 IP로 검색"
             fields={[{ key:"status", label:"상태", type:"select", options:["전체","사용","미사용"] }]}
             onSearch={(f, kw) => { setResKw(kw); setResSt(f.status||"전체"); setResPage(1); }} />
 
-          <Tbl
+          <DataTable
             secTitle={`${sel ? selSysNm : "전체"} 자원 목록`}
             secCount={filteredRes.length}
             secButtons={<>
-              <Btn onClick={() => setShowExcelUpload(true)}>📤 엑셀 일괄등록</Btn>
-              <Btn primary onClick={() => setShowAddRes(true)}>+ 자원추가</Btn>
+              <Button onClick={() => setShowExcelUpload(true)}>📤 엑셀 일괄등록</Button>
+              <Button primary onClick={() => setShowAddRes(true)}>+ 자원추가</Button>
             </>}
             data={filteredRes}
             onRow={r => setPanelRes(r)}

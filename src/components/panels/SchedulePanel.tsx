@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FSelect } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 import { CL_INIT } from '@/data/checklists';
 import { RES } from '@/data/resources';
@@ -239,12 +239,12 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
               marginBottom: 16,
             }}
           >
-            <Ic n="info" s={13} c={FREQ_COLOR[form.freq] || C.pri} />
+            <Icon n="info" s={13} c={FREQ_COLOR[form.freq] || C.pri} />
             <span style={{ fontSize: 12, color: FREQ_COLOR[form.freq] || C.pri, fontWeight: 600 }}>{summaryText}</span>
           </div>
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="스케줄 정보" />
+            <SectionTitle label="스케줄 정보" />
 
             <FormRow label="사용유무">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -254,7 +254,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
             </FormRow>
 
             <FormRow label="스케줄 명" required>
-              <FInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} readOnly={ro} style={errors.nm ? { borderColor: C.red } : undefined} />
+              <FormInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} readOnly={ro} style={errors.nm ? { borderColor: C.red } : undefined} />
               {errors.nm ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.nm}</div> : null}
             </FormRow>
 
@@ -295,10 +295,10 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                 {errors.startDt ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.startDt}</div> : null}
               </FormRow>
               <FormRow label="배치시작시간" required style={{ flex: 1 }}>
-                <FInput type="time" value={form.batchStartTime} onChange={(e) => setField('batchStartTime', e.target.value)} readOnly={ro} />
+                <FormInput type="time" value={form.batchStartTime} onChange={(e) => setField('batchStartTime', e.target.value)} readOnly={ro} />
               </FormRow>
               <FormRow label="예상소요시간(분)" required style={{ flex: 1 }}>
-                <FInput
+                <FormInput
                   type="number"
                   min={10}
                   max={300}
@@ -311,14 +311,14 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="정보시스템" required style={{ flex: 1 }}>
-                <FSelect value={form.sysId} onChange={(e) => setField('sysId', e.target.value)} disabled={ro}>
+                <FormSelect value={form.sysId} onChange={(e) => setField('sysId', e.target.value)} disabled={ro}>
                   <option value="">선택하세요</option>
                   {SYS.map((sys) => (
                     <option key={sys.id} value={sys.id}>
                       {sys.nm}
                     </option>
                   ))}
-                </FSelect>
+                </FormSelect>
                 {errors.sysId ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.sysId}</div> : null}
               </FormRow>
               <FormRow label="연결 점검표" style={{ flex: 1 }}>
@@ -339,7 +339,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                 </div>
               </FormRow>
               <FormRow label="보고기한(시간)" style={{ flex: 1 }}>
-                <FInput
+                <FormInput
                   type="number"
                   min={1}
                   max={240}
@@ -352,7 +352,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
           </div>
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="대상 자원 정보" />
+            <SectionTitle label="대상 자원 정보" />
             <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
@@ -424,41 +424,41 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                   <div style={{ fontSize: 12, fontWeight: 600, color: C.txS, marginBottom: 6 }}>자원 검색</div>
                   <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden' }}>
                     <div style={{ padding: '7px 8px', background: '#F9FAFC', display: 'flex', gap: 5, borderBottom: `1px solid ${C.brd}` }}>
-                      <FSelect value={form.sysId} onChange={(e) => setField('sysId', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
+                      <FormSelect value={form.sysId} onChange={(e) => setField('sysId', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
                         <option value="">정보시스템</option>
                         {SYS.map((sys) => (
                           <option key={sys.id} value={sys.id}>
                             {sys.nm}
                           </option>
                         ))}
-                      </FSelect>
-                      <FSelect value={form._resCat} onChange={(e) => setField('_resCat', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
+                      </FormSelect>
+                      <FormSelect value={form._resCat} onChange={(e) => setField('_resCat', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
                         <option value="">중분류</option>
                         {midOptions.map((mid) => (
                           <option key={mid} value={mid}>
                             {mid}
                           </option>
                         ))}
-                      </FSelect>
-                      <FSelect value={form._resSmall} onChange={(e) => setField('_resSmall', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
+                      </FormSelect>
+                      <FormSelect value={form._resSmall} onChange={(e) => setField('_resSmall', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
                         <option value="">소분류</option>
                         {smallOptions.map((small) => (
                           <option key={small} value={small}>
                             {small}
                           </option>
                         ))}
-                      </FSelect>
+                      </FormSelect>
                     </div>
                     <div style={{ padding: '6px 8px', background: '#F9FAFC', borderBottom: `1px solid ${C.brd}` }}>
                       <div style={{ position: 'relative' }}>
-                        <FInput
+                        <FormInput
                           value={form._resSearch}
                           onChange={(e) => setField('_resSearch', e.target.value)}
                           placeholder="자원명 또는 IP 검색"
                           style={{ width: '100%', padding: '3px 6px 3px 22px', fontSize: 12 }}
                         />
                         <span style={{ position: 'absolute', left: 6, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                          <Ic n="search" s={11} c={C.txL} />
+                          <Icon n="search" s={11} c={C.txL} />
                         </span>
                       </div>
                     </div>
@@ -525,13 +525,13 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
 
           {ro ? (
             <div style={{ marginBottom: 18 }}>
-              <SecTitle label="수행 이력" />
+              <SectionTitle label="수행 이력" />
               <div style={{ display: 'flex', gap: 12 }}>
                 <FormRow label="마지막 수행 일시" half>
-                  <FInput value={form.lastRunDt || '—'} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+                  <FormInput value={form.lastRunDt || '—'} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
                 </FormRow>
                 <FormRow label="다음 수행 예정일" half>
-                  <FInput value={form.nextRunDt || '—'} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+                  <FormInput value={form.nextRunDt || '—'} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
                 </FormRow>
               </div>
             </div>
@@ -552,25 +552,25 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                 border: '1px solid #FED7AA',
               }}
             >
-              <Ic n="alert" s={13} c="#EA580C" />
+              <Icon n="alert" s={13} c="#EA580C" />
               <span style={{ color: '#9A3412', fontSize: 12 }}>연결된 자원이 있어 삭제할 수 없습니다. 자원 연결을 해제한 후 삭제하세요.</span>
             </div>
           ) : null}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isNew || editMode ? (
               <>
-                <Btn onClick={requestClose}>취소</Btn>
+                <Button onClick={requestClose}>취소</Button>
                 <div style={{ flex: 1 }} />
-                <Btn primary onClick={savePanel}>{isNew ? '등록' : '저장'}</Btn>
+                <Button primary onClick={savePanel}>{isNew ? '등록' : '저장'}</Button>
               </>
             ) : (
               <>
-                <Btn onClick={onClose}>닫기</Btn>
+                <Button onClick={onClose}>닫기</Button>
                 <div style={{ flex: 1 }} />
-                <Btn danger disabled={form.resources.length > 0} onClick={() => form.resources.length === 0 && setDeleteConfirm(true)} style={{ marginRight: 8 }}>
+                <Button danger disabled={form.resources.length > 0} onClick={() => form.resources.length === 0 && setDeleteConfirm(true)} style={{ marginRight: 8 }}>
                   삭제
-                </Btn>
-                <Btn success onClick={() => setEditMode(true)}>수정</Btn>
+                </Button>
+                <Button success onClick={() => setEditMode(true)}>수정</Button>
               </>
             )}
           </div>

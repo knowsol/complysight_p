@@ -4,20 +4,26 @@ import React from 'react';
 import { C } from '@/lib/theme/colors';
 import { fInput, fSelect, fTextarea } from '@/lib/theme/styles';
 
-export interface FInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
 }
 
-export interface FSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+export type FInputProps = FormInputProps;
+
+export interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   style?: React.CSSProperties;
   children?: React.ReactNode;
 }
 
-export interface FTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export type FSelectProps = FormSelectProps;
+
+export interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   style?: React.CSSProperties;
 }
 
-export interface RoSelectProps {
+export type FTextareaProps = FormTextareaProps;
+
+export interface ReadOnlySelectProps {
   readOnly?: boolean;
   value?: string | number;
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
@@ -26,9 +32,11 @@ export interface RoSelectProps {
   placeholder?: string;
 }
 
+export type RoSelectProps = ReadOnlySelectProps;
+
 const _chevron = 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWw0IDQgNC00IiBzdHJva2U9IiM5MjkyOTIiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=")';
 
-export const FInput = ({ style, ...props }: FInputProps) => (
+export const FormInput = ({ style, ...props }: FormInputProps) => (
   <input
     style={{ ...fInput, ...style }}
     onFocus={(e) => {
@@ -41,7 +49,7 @@ export const FInput = ({ style, ...props }: FInputProps) => (
   />
 );
 
-export const FSelect = ({ style, children, ...props }: FSelectProps) => (
+export const FormSelect = ({ style, children, ...props }: FormSelectProps) => (
   <select
     style={{ ...fSelect, ...style }}
     onFocus={(e) => {
@@ -56,7 +64,7 @@ export const FSelect = ({ style, children, ...props }: FSelectProps) => (
   </select>
 );
 
-export const FTextarea = ({ style, ...props }: FTextareaProps) => (
+export const FormTextarea = ({ style, ...props }: FormTextareaProps) => (
   <textarea
     style={{ ...fTextarea, ...style }}
     onFocus={(e) => {
@@ -69,7 +77,7 @@ export const FTextarea = ({ style, ...props }: FTextareaProps) => (
   />
 );
 
-export const RoSelect = ({ readOnly, value, onChange, style, children, placeholder }: RoSelectProps) => {
+export const ReadOnlySelect = ({ readOnly, value, onChange, style, children, placeholder }: ReadOnlySelectProps) => {
   if (readOnly) {
     let label = String(value || placeholder || '');
 
@@ -101,3 +109,8 @@ export const RoSelect = ({ readOnly, value, onChange, style, children, placehold
 
   return React.createElement('select', { style: { ...style, backgroundImage: _chevron }, value, onChange }, children);
 };
+
+export const FInput = FormInput;
+export const FSelect = FormSelect;
+export const FTextarea = FormTextarea;
+export const RoSelect = ReadOnlySelect;

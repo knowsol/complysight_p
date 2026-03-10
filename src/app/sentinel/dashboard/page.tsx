@@ -1,8 +1,8 @@
 'use client';
 
-import { PH } from '@/components/ui/PageHeader';
-import { Stat } from '@/components/ui/Stat';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { StatCard } from '@/components/ui/StatCard';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge } from '@/components/ui/Badge';
 import { useDI } from '@/contexts/DIContext';
 import { C } from '@/lib/theme/colors';
@@ -17,14 +17,14 @@ export default function SentinelDashboardPage() {
 
   return (
     <div>
-      <PH title="대시보드" bc="홈 > 대시보드" />
+      <PageHeader title="대시보드" bc="홈 > 대시보드" />
       <div style={{ display: 'flex', gap: 14, marginBottom: 18, flexWrap: 'wrap' }}>
-        <Stat label="오늘 점검" value={cnt.p + cnt.d + cnt.c} color={C.sec} icon="cal" />
-        <Stat label="진행 중" value={cnt.p} color={C.pri} icon="check" />
-        <Stat label="지연" value={cnt.d} color={C.red} icon="alert" />
-        <Stat label="완료" value={cnt.c} color={C.purp} icon="check" />
+        <StatCard label="오늘 점검" value={cnt.p + cnt.d + cnt.c} color={C.sec} icon="cal" />
+        <StatCard label="진행 중" value={cnt.p} color={C.pri} icon="check" />
+        <StatCard label="지연" value={cnt.d} color={C.red} icon="alert" />
+        <StatCard label="완료" value={cnt.c} color={C.purp} icon="check" />
       </div>
-      <Tbl
+      <DataTable
         secTitle="나의 점검 현황"
         secCount={di.length}
         data={di}

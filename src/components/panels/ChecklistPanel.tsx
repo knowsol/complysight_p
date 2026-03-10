@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FSelect, FTextarea, RoSelect } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormSelect, FormTextarea, RoSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 import { PRETENDARD_FONT, fSelect } from '@/lib/theme/styles';
 import { RES } from '@/data/resources';
@@ -441,11 +441,11 @@ export function ChecklistPanel({
       </FormRow>
 
       <div style={{ marginBottom: 18 }}>
-        <SecTitle label="기본 정보" primary />
+        <SectionTitle label="기본 정보" primary />
         <div style={{ display: 'flex', gap: 12 }}>
           <div style={{ flex: 2 }}>
             <FormRow label="점검표 명" required>
-              <FInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} placeholder="점검표 명" readOnly={readOnly} style={roStyle} maxLength={100} />
+              <FormInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} placeholder="점검표 명" readOnly={readOnly} style={roStyle} maxLength={100} />
             </FormRow>
           </div>
           <div style={{ flex: 1 }}>
@@ -494,7 +494,7 @@ export function ChecklistPanel({
       </div>
 
       <div style={{ marginBottom: 18 }}>
-        <SecTitle label="점검항목" />
+        <SectionTitle label="점검항목" />
         {!form.inspKind ? <div style={{ padding: 16, textAlign: 'center', color: C.txL, fontSize: 12, background: '#F9FAFC', borderRadius: 6, marginBottom: 8 }}>점검세부분류를 먼저 선택하세요.</div> : null}
 
         {form.inspKind ? (
@@ -502,9 +502,9 @@ export function ChecklistPanel({
             {!readOnly ? (
               <div style={{ marginBottom: 10 }}>
                 <div style={{ position: 'relative', marginBottom: 6 }}>
-                  <FInput value={itemFilter} onChange={(e) => setItemFilter(e.target.value)} placeholder="항목명 또는 검증코드로 검색..." style={{ paddingLeft: 28, fontSize: 14, height: 32 }} />
+                  <FormInput value={itemFilter} onChange={(e) => setItemFilter(e.target.value)} placeholder="항목명 또는 검증코드로 검색..." style={{ paddingLeft: 28, fontSize: 14, height: 32 }} />
                   <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                    <Ic n="search" s={13} c={C.txL} />
+                    <Icon n="search" s={13} c={C.txL} />
                   </span>
                   {itemFilter ? (
                     <span onClick={() => setItemFilter('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL, lineHeight: 1 }}>
@@ -561,7 +561,7 @@ export function ChecklistPanel({
                     <td>
                       <span style={{ padding: '1px 6px', borderRadius: 3, background: entry.method === '자동' ? '#dbeafe' : '#fff7ed', color: entry.method === '자동' ? '#1e40af' : '#c2410c' }}>{entry.method}</span>
                     </td>
-                    <td>{readOnly ? <span style={{ color: C.txS }}>{entry.std}</span> : <FInput value={entry.std} onChange={(e) => updateItemStd(entry.id, e.target.value)} style={{ width: 80, padding: '3px 6px', border: `1px solid ${C.brd}`, borderRadius: 4 }} />}</td>
+                    <td>{readOnly ? <span style={{ color: C.txS }}>{entry.std}</span> : <FormInput value={entry.std} onChange={(e) => updateItemStd(entry.id, e.target.value)} style={{ width: 80, padding: '3px 6px', border: `1px solid ${C.brd}`, borderRadius: 4 }} />}</td>
                     <td style={{ color: C.txS }}>{entry.unit}</td>
                     {!readOnly ? (
                       <td style={{ textAlign: 'center' }}>
@@ -581,23 +581,23 @@ export function ChecklistPanel({
       </div>
 
       <div style={{ marginBottom: 18 }}>
-        <SecTitle label="관리 정보" />
+        <SectionTitle label="관리 정보" />
         <div style={{ display: 'flex', gap: 12 }}>
           <FormRow label="등록자" style={{ flex: 1 }}>
-            <FInput value={form.registrant} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+            <FormInput value={form.registrant} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
           </FormRow>
           <FormRow label="등록일" style={{ flex: 1 }}>
-            <FInput value={form.regDt} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+            <FormInput value={form.regDt} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
           </FormRow>
           <div style={{ flex: 1 }} />
         </div>
         {readOnly ? (
           <div style={{ display: 'flex', gap: 12 }}>
             <FormRow label="연결된 자원" style={{ flex: 1 }}>
-              <FInput value={form.linkedRes} readOnly style={roStyle} />
+              <FormInput value={form.linkedRes} readOnly style={roStyle} />
             </FormRow>
             <FormRow label="연결된 정기점검" style={{ flex: 1 }}>
-              <FInput value={form.linkedSch} readOnly style={roStyle} />
+              <FormInput value={form.linkedSch} readOnly style={roStyle} />
             </FormRow>
             <div style={{ flex: 1 }} />
           </div>
@@ -672,35 +672,35 @@ export function ChecklistPanel({
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
           <div style={{ display: 'flex', gap: 6 }}>
-            <FSelect value={resSys} onChange={(e) => setResSys(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+            <FormSelect value={resSys} onChange={(e) => setResSys(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
               <option value="">전체 시스템</option>
               {SYS.map((sys) => (
                 <option key={sys.id} value={sys.id}>
                   {sys.nm}
                 </option>
               ))}
-            </FSelect>
-            <FSelect value={resMid} onChange={(e) => setResMid(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+            </FormSelect>
+            <FormSelect value={resMid} onChange={(e) => setResMid(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
               <option value="">전체 중분류</option>
               {['서버', 'WEB', 'WAS', 'DBMS', '네트워크', '보안', '스토리지', '백업', '서비스'].map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
-            </FSelect>
-            <FSelect value={resLarge} onChange={(e) => setResLarge(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+            </FormSelect>
+            <FormSelect value={resLarge} onChange={(e) => setResLarge(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
               <option value="">전체 대분류</option>
               {['하드웨어', '소프트웨어'].map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
-            </FSelect>
+            </FormSelect>
           </div>
           <div style={{ position: 'relative' }}>
-            <FInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
+            <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
             <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-              <Ic n="search" s={12} c={C.txL} />
+              <Icon n="search" s={12} c={C.txL} />
             </span>
             {resSearch ? (
               <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL }}>
@@ -712,12 +712,12 @@ export function ChecklistPanel({
 
         {selectableIds.length > 0 ? (
           <div style={{ display: 'flex', gap: 8, marginBottom: 6 }}>
-            <Btn xs outline onClick={() => selectableIds.forEach((id) => !linkedResIds.includes(id) && onLinkChange?.(id, true))}>
+            <Button xs outline onClick={() => selectableIds.forEach((id) => !linkedResIds.includes(id) && onLinkChange?.(id, true))}>
               전체 선택
-            </Btn>
-            <Btn xs disabled={!anySelected} onClick={() => selectableIds.forEach((id) => linkedResIds.includes(id) && onLinkChange?.(id, false))}>
+            </Button>
+            <Button xs disabled={!anySelected} onClick={() => selectableIds.forEach((id) => linkedResIds.includes(id) && onLinkChange?.(id, false))}>
               전체 선택 해제
-            </Btn>
+            </Button>
           </div>
         ) : null}
 
@@ -880,42 +880,42 @@ export function ChecklistPanel({
                 {activeTab === 'info' ? (
                   isNew || editMode ? (
                     <>
-                      <Btn onClick={handleCancel}>취소</Btn>
-                      <Btn primary onClick={() => setShowPreview((prev) => !prev)} style={{ marginLeft: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <Button onClick={handleCancel}>취소</Button>
+                      <Button primary onClick={() => setShowPreview((prev) => !prev)} style={{ marginLeft: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
                         {showPreview ? '미리보기 닫기' : '점검표 미리보기'}
-                      </Btn>
+                      </Button>
                       <div style={{ flex: 1 }} />
-                      <Btn primary onClick={handleSave}>
+                      <Button primary onClick={handleSave}>
                         {isNew ? '등록' : '저장'}
-                      </Btn>
+                      </Button>
                     </>
                   ) : (
                     <>
-                      <Btn onClick={onClose}>닫기</Btn>
-                      <Btn primary onClick={() => setShowPreview((prev) => !prev)} style={{ marginLeft: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <Button onClick={onClose}>닫기</Button>
+                      <Button primary onClick={() => setShowPreview((prev) => !prev)} style={{ marginLeft: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
                         {showPreview ? '미리보기 닫기' : '점검표 미리보기'}
-                      </Btn>
+                      </Button>
                       <div style={{ flex: 1 }} />
                       <div style={{ display: 'flex', gap: 8 }}>
-                        <Btn danger disabled={linkedResIds.length > 0} onClick={() => linkedResIds.length === 0 && setDeleteConfirm(true)}>
+                        <Button danger disabled={linkedResIds.length > 0} onClick={() => linkedResIds.length === 0 && setDeleteConfirm(true)}>
                           삭제
-                        </Btn>
-                        <Btn success onClick={() => setEditMode(true)}>
+                        </Button>
+                        <Button success onClick={() => setEditMode(true)}>
                           수정
-                        </Btn>
+                        </Button>
                       </div>
                     </>
                   )
                 ) : (
                   <>
-                    <Btn onClick={onClose}>닫기</Btn>
-                    <Btn primary onClick={() => setShowPreview((prev) => !prev)} style={{ marginLeft: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <Button onClick={onClose}>닫기</Button>
+                    <Button primary onClick={() => setShowPreview((prev) => !prev)} style={{ marginLeft: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
                       {showPreview ? '미리보기 닫기' : '점검표 미리보기'}
-                    </Btn>
+                    </Button>
                     <div style={{ flex: 1 }} />
-                    <Btn primary onClick={onClose}>
+                    <Button primary onClick={onClose}>
                       저장
-                    </Btn>
+                    </Button>
                   </>
                 )}
               </div>

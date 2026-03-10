@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { SYS } from '@/data/manager';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FSelect, FTextarea } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
 import { C } from '@/lib/theme/colors';
@@ -301,7 +301,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
       >
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="계정 정보" />
+            <SectionTitle label="계정 정보" />
 
             <FormRow label="상태">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -314,7 +314,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="사용자 ID" required style={{ flex: 1 }}>
-                <FInput
+                <FormInput
                   value={form.userId}
                   onChange={(event) => setField('userId', event.target.value.replace(/[^a-zA-Z0-9_-]/g, ''))}
                   placeholder="영문, 숫자, -, _"
@@ -327,10 +327,10 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
 
               <FormRow label="비밀번호" required={isNew} style={{ flex: 1 }}>
                 {ro ? (
-                  <FInput readOnly value="••••••••••••" style={{ ...readonlyStyle, letterSpacing: 2 }} />
+                  <FormInput readOnly value="••••••••••••" style={{ ...readonlyStyle, letterSpacing: 2 }} />
                 ) : isNew ? (
                   <>
-                    <FInput
+                    <FormInput
                       type="password"
                       value={form.password}
                       onChange={(event) => setField('password', event.target.value)}
@@ -343,10 +343,10 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                 ) : (
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <FInput readOnly value="••••••••••••" style={{ ...readonlyStyle, letterSpacing: 2, flex: 1 }} />
-                      <Btn small success={resetPassword || pwResetDone} outline={!resetPassword && !pwResetDone} onClick={handlePasswordReset}>
+                      <FormInput readOnly value="••••••••••••" style={{ ...readonlyStyle, letterSpacing: 2, flex: 1 }} />
+                      <Button small success={resetPassword || pwResetDone} outline={!resetPassword && !pwResetDone} onClick={handlePasswordReset}>
                         {passwordResetLabel}
-                      </Btn>
+                      </Button>
                     </div>
                     <div style={{ fontSize: 11, color: resetPassword ? C.green : C.txL, marginTop: 4 }}>
                       {resetPassword ? '저장 시 비밀번호 초기화가 반영됩니다.' : '저장 시 비밀번호를 초기화할 수 있습니다.'}
@@ -358,7 +358,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="사용자명" required style={{ flex: 1 }}>
-                <FInput
+                <FormInput
                   value={form.userNm}
                   onChange={(event) => setField('userNm', event.target.value)}
                   placeholder="실명"
@@ -370,7 +370,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
               </FormRow>
 
               <FormRow label="이메일" required style={{ flex: 1 }}>
-                <FInput
+                <FormInput
                   type="email"
                   value={form.email}
                   onChange={(event) => setField('email', event.target.value)}
@@ -383,7 +383,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
               </FormRow>
 
               <FormRow label="연락처" style={{ flex: 1 }}>
-                <FInput
+                <FormInput
                   value={form.phone}
                   onChange={(event) => setField('phone', event.target.value)}
                   placeholder="010-0000-0000"
@@ -396,58 +396,58 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="그룹" style={{ flex: 1 }}>
-                <FSelect value={form.groupId} onChange={(event) => setField('groupId', event.target.value)} disabled={ro} style={ro ? readonlyStyle : undefined}>
+                <FormSelect value={form.groupId} onChange={(event) => setField('groupId', event.target.value)} disabled={ro} style={ro ? readonlyStyle : undefined}>
                   <option value="">그룹 없음</option>
                   {groups.map((group) => (
                     <option key={group.id} value={group.id}>
                       {group.nm}
                     </option>
                   ))}
-                </FSelect>
+                </FormSelect>
               </FormRow>
 
               <FormRow label="역할" style={{ flex: 1 }}>
-                <FSelect value={form.role} onChange={(event) => handleRoleChange(event.target.value as UserRole)} disabled={ro} style={ro ? readonlyStyle : undefined}>
+                <FormSelect value={form.role} onChange={(event) => handleRoleChange(event.target.value as UserRole)} disabled={ro} style={ro ? readonlyStyle : undefined}>
                   {ROLE_OPTIONS.map((role) => (
                     <option key={role} value={role}>
                       {role}
                     </option>
                   ))}
-                </FSelect>
+                </FormSelect>
               </FormRow>
 
               <FormRow label="관리자 여부" style={{ flex: 1 }}>
-                <FSelect value={form.isAdmin} onChange={(event) => setField('isAdmin', event.target.value as 'Y' | 'N')} disabled={ro} style={ro ? readonlyStyle : undefined}>
+                <FormSelect value={form.isAdmin} onChange={(event) => setField('isAdmin', event.target.value as 'Y' | 'N')} disabled={ro} style={ro ? readonlyStyle : undefined}>
                   <option value="Y">Y (관리자)</option>
                   <option value="N">N (일반)</option>
-                </FSelect>
+                </FormSelect>
               </FormRow>
             </div>
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="관리자 권한" style={{ flex: 1 }}>
-                <FSelect value={form.adminAuth} onChange={(event) => setField('adminAuth', event.target.value)} disabled={ro} style={ro ? readonlyStyle : undefined}>
+                <FormSelect value={form.adminAuth} onChange={(event) => setField('adminAuth', event.target.value)} disabled={ro} style={ro ? readonlyStyle : undefined}>
                   {ADMIN_AUTH_OPTIONS.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
                   ))}
-                </FSelect>
+                </FormSelect>
               </FormRow>
 
               <FormRow label="센티널 권한" style={{ flex: 1 }}>
-                <FSelect value={form.sntlAuth} onChange={(event) => setField('sntlAuth', event.target.value)} disabled={ro} style={ro ? readonlyStyle : undefined}>
+                <FormSelect value={form.sntlAuth} onChange={(event) => setField('sntlAuth', event.target.value)} disabled={ro} style={ro ? readonlyStyle : undefined}>
                   {SENTINEL_AUTH_OPTIONS.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
                   ))}
-                </FSelect>
+                </FormSelect>
               </FormRow>
             </div>
 
             <FormRow label="메모">
-              <FTextarea
+              <FormTextarea
                 value={form.memo}
                 onChange={(event) => setField('memo', event.target.value)}
                 placeholder="기타 메모"
@@ -459,7 +459,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
           </div>
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="소속 정보시스템" />
+            <SectionTitle label="소속 정보시스템" />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
               {form.systems.length === 0 ? <span style={{ fontSize: 12, color: C.txL }}>소속 정보시스템이 없습니다.</span> : null}
               {form.systems.map((systemId) => {
@@ -497,20 +497,20 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
             </div>
 
             {!ro ? (
-              <FSelect value="" onChange={(event) => handleAddSystem(event.target.value)} style={{ maxWidth: 280 }}>
+              <FormSelect value="" onChange={(event) => handleAddSystem(event.target.value)} style={{ maxWidth: 280 }}>
                 <option value="">+ 정보시스템 추가</option>
                 {availableSystems.map((system) => (
                   <option key={system.id} value={system.id}>
                     {system.nm}
                   </option>
                 ))}
-              </FSelect>
+              </FormSelect>
             ) : null}
           </div>
 
           {user ? (
             <div style={{ marginBottom: 18 }}>
-              <SecTitle label="접속 정보" />
+              <SectionTitle label="접속 정보" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 12 }}>
                 <AccessCard label="가입일시" value={user.joinDt || '—'} />
                 <AccessCard label="마지막 로그인" value={user.lastLoginDt || '—'} />
@@ -528,22 +528,22 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
         <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
           {(isNew || editMode) ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Btn onClick={handleCancel}>취소</Btn>
+              <Button onClick={handleCancel}>취소</Button>
               <div style={{ flex: 1 }} />
-              <Btn primary onClick={savePanel}>
+              <Button primary onClick={savePanel}>
                 {isNew ? '등록' : '저장'}
-              </Btn>
+              </Button>
             </div>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Btn onClick={onClose}>닫기</Btn>
+              <Button onClick={onClose}>닫기</Button>
               <div style={{ flex: 1 }} />
-              <Btn danger onClick={() => setDeleteConfirm(true)}>
+              <Button danger onClick={() => setDeleteConfirm(true)}>
                 삭제
-              </Btn>
-              <Btn success style={{ marginLeft: 8 }} onClick={() => setEditMode(true)}>
+              </Button>
+              <Button success style={{ marginLeft: 8 }} onClick={() => setEditMode(true)}>
                 수정
-              </Btn>
+              </Button>
             </div>
           )}
         </div>

@@ -2,9 +2,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
-import { FInput, FSelect } from '@/components/ui/Input';
-import { Ic } from '@/components/ui/Icon';
+import { Button } from '@/components/ui/Button';
+import { FormInput, FormSelect } from '@/components/ui/Input';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 import { RES, CL_INIT } from '@/data';
 import { SYS } from '@/data/systems';
@@ -94,7 +94,7 @@ export function BatchInspModal({ open, onClose, currentUser, onSubmit }) {
             </div>
             <div style={{ fontSize: 18, fontWeight: 800, color: '#16A34A', marginBottom: 8 }}>요청 완료</div>
             <div style={{ fontSize: 15, color: C.txS, lineHeight: 1.8, marginBottom: 28 }}><span style={{ fontWeight: 700, color: C.txt }}>{resultCnt}개</span> 자원에 대한<br />자동점검 결과가 목록에 반영되었습니다.</div>
-            <Btn primary onClick={onClose}>확인</Btn>
+            <Button primary onClick={onClose}>확인</Button>
           </div>
         ) : submitting ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px 24px', textAlign: 'center' }}>
@@ -107,17 +107,17 @@ export function BatchInspModal({ open, onClose, currentUser, onSubmit }) {
           <>
             <div style={{ padding: '12px 20px 8px', borderBottom: `1px solid ${C.brd}`, flexShrink: 0 }}>
               <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                <FSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+                <FormSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
                   <option value="">전체 시스템</option>
                   {SYS.filter((s) => myRes.some((r) => r.sysId === s.id)).map((s) => <option key={s.id} value={s.id}>{s.nm}</option>)}
-                </FSelect>
-                <FSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+                </FormSelect>
+                <FormSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
                   <option value="">전체 분류</option>
                   {cats.map((c) => <option key={c} value={c}>{c}</option>)}
-                </FSelect>
+                </FormSelect>
                 <div style={{ position: 'relative', flex: 1, minWidth: 140 }}>
-                  <FInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
-                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}><Ic n="search" s={12} c={C.txL} /></span>
+                  <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
+                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}><Icon n="search" s={12} c={C.txL} /></span>
                   {resSearch && <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL }}>×</span>}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 20, background: sel.length >= BATCH_MAX ? '#FEF3C7' : C.priL, border: `1px solid ${sel.length >= BATCH_MAX ? '#F59E0B' : C.pri + '44'}` }}>
@@ -157,11 +157,11 @@ export function BatchInspModal({ open, onClose, currentUser, onSubmit }) {
             <div style={{ padding: '14px 20px', borderTop: `1px solid ${C.brd}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
               <div style={{ fontSize: 12, color: C.txL }}>{sel.length > 0 ? <><span style={{ fontWeight: 700, color: C.pri }}>{sel.length}개</span> 자원 선택됨</> : '점검할 자원을 선택하세요'}</div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <Btn onClick={onClose}>취소</Btn>
-                <Btn primary disabled={sel.length === 0} onClick={handleSubmit} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Button onClick={onClose}>취소</Button>
+                <Button primary disabled={sel.length === 0} onClick={handleSubmit} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
                   일괄 점검 요청
-                </Btn>
+                </Button>
               </div>
             </div>
           </>

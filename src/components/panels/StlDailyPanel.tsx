@@ -4,12 +4,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDI } from '@/contexts/DIContext';
 import { SidePanel } from '@/components/ui/SidePanel';
-import { Btn } from '@/components/ui/Button';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FSelect, FTextarea } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { RES, CL_INIT } from '@/data';
 import { SYS } from '@/data/systems';
 import { C } from '@/lib/theme/colors';
@@ -465,23 +465,23 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
 
             {freeMode && step === 1 && (
               <>
-                <SecTitle label="대상 자원 선택" />
+                <SectionTitle label="대상 자원 선택" />
                 <div style={{ fontSize: 12, color: C.txL, marginBottom: 10 }}>
                   점검할 자원을 1개 선택하세요. <span style={{ color: C.pri, fontWeight: 600 }}>{myRes.length}개</span>의 자원이 등록되어 있습니다.
                 </div>
                 <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-                  <FSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', minWidth: 120, outline: 'none' }}>
+                  <FormSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', minWidth: 120, outline: 'none' }}>
                     <option value="">전체 시스템</option>
                     {SYS.filter((s) => myRes.some((r) => r.sysId === s.id)).map((s) => <option key={s.id} value={s.id}>{s.nm}</option>)}
-                  </FSelect>
-                  <FSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', minWidth: 90, outline: 'none' }}>
+                  </FormSelect>
+                  <FormSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', minWidth: 90, outline: 'none' }}>
                     <option value="">전체 분류</option>
                     {cats.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </FSelect>
+                  </FormSelect>
                   <div style={{ position: 'relative', flex: 1, minWidth: 140 }}>
-                    <FInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
+                    <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
                     <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                      <Ic n="search" s={12} c={C.txL} />
+                      <Icon n="search" s={12} c={C.txL} />
                     </span>
                     {resSearch && <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL }}>×</span>}
                   </div>
@@ -526,8 +526,8 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                   })}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, paddingTop: 16, marginTop: 16, borderTop: `1px solid ${C.brd}` }}>
-                  <Btn onClick={onClose}>취소</Btn>
-                  <Btn primary onClick={() => selRes && handleFreeCreate()} style={{ opacity: selRes ? 1 : 0.4, cursor: selRes ? 'pointer' : 'not-allowed' }}>점검 시작 →</Btn>
+                  <Button onClick={onClose}>취소</Button>
+                  <Button primary onClick={() => selRes && handleFreeCreate()} style={{ opacity: selRes ? 1 : 0.4, cursor: selRes ? 'pointer' : 'not-allowed' }}>점검 시작 →</Button>
                 </div>
               </>
             )}
@@ -568,12 +568,12 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
 
                 <div style={{ marginBottom: 18 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                    <SecTitle label="자동점검" style={{ marginBottom: 0 }} />
+                    <SectionTitle label="자동점검" style={{ marginBottom: 0 }} />
                     {!isComp && autoHistory.length === 0 && (
-                      <Btn sm outline onClick={() => setAutoConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+                      <Button sm outline onClick={() => setAutoConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
                         자동점검 수행
-                      </Btn>
+                      </Button>
                     )}
                   </div>
 
@@ -636,9 +636,9 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                 {!(isComp && (!item.eyeRes || item.eyeRes === '-')) && (
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 0 }}>
-                      <SecTitle label="육안점검" style={{ marginBottom: 0 }} />
+                      <SectionTitle label="육안점검" style={{ marginBottom: 0 }} />
                       {!isComp && (
-                        <Btn sm success={eyeSaved} outline={!eyeSaved} onClick={() => {
+                        <Button sm success={eyeSaved} outline={!eyeSaved} onClick={() => {
                           const eyeVal = Object.values(eyeRes).some((v) => v === '비정상') ? '비정상' : Object.values(eyeRes).every((v) => v === '정상') ? '정상' : '-';
                           const totalPhotos = Object.values(eyeItemPhotos).flat().length;
                           const eyePatch = { eyeRes: eyeVal, note, hasFile: totalPhotos > 0, eyeItemPhotos };
@@ -656,7 +656,7 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                           }
                         }} style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
                           {eyeSaved ? <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>저장됨</> : <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg>저장</>}
-                        </Btn>
+                        </Button>
                       )}
                     </div>
 
@@ -681,7 +681,7 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                                   <label style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 14px', borderRadius: 4, border: `1.5px solid ${itemPhotos.length > 0 ? C.pri : C.brd}`, background: itemPhotos.length > 0 ? C.priL : '#fff', color: itemPhotos.length > 0 ? C.pri : C.txS, fontWeight: 600, fontSize: 12, cursor: 'pointer', transition: 'all .15s', flexShrink: 0 }} onMouseEnter={(ev) => { ev.currentTarget.style.borderColor = C.pri; ev.currentTarget.style.color = C.pri; ev.currentTarget.style.background = C.priL; }} onMouseLeave={(ev) => { if (!itemPhotos.length) { ev.currentTarget.style.borderColor = C.brd; ev.currentTarget.style.color = C.txS; ev.currentTarget.style.background = '#fff'; } }}>
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="12" cy="12" r="3.5" /><path d="M9 5l1.5-2h3L15 5" /></svg>
                                     {itemPhotos.length > 0 ? `${itemPhotos.length}장` : '사진'}
-                                    <FInput type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={(ev) => {
+                                    <FormInput type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={(ev) => {
                                       const files = Array.from(ev.target.files);
                                       if (!files.length) return;
                                       const newPhotos = files.map((f) => ({ id: Date.now() + Math.random(), label: f.name, color: '#F0F5FF' }));
@@ -711,8 +711,8 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                   </>
                 )}
 
-                <SecTitle label="특이사항" />
-                <FTextarea style={{ marginBottom: 18, ...(isComp ? { background: '#F9FAFC', pointerEvents: 'none' } : {}) }} value={note} onChange={(e) => setNote(e.target.value)} placeholder="특이사항을 입력하세요 (선택)" readOnly={isComp} maxLength={500} />
+                <SectionTitle label="특이사항" />
+                <FormTextarea style={{ marginBottom: 18, ...(isComp ? { background: '#F9FAFC', pointerEvents: 'none' } : {}) }} value={note} onChange={(e) => setNote(e.target.value)} placeholder="특이사항을 입력하세요 (선택)" readOnly={isComp} maxLength={500} />
               </>
             )}
 
@@ -737,9 +737,9 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
 
           {freeMode && step === 1 && (
             <div style={{ flexShrink: 0, borderTop: `1px solid ${C.brd}`, padding: '14px 24px', background: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Btn onClick={onClose}>취소</Btn>
+              <Button onClick={onClose}>취소</Button>
               <div style={{ flex: 1 }} />
-              <Btn primary onClick={() => selRes && handleFreeCreate()} style={{ opacity: selRes ? 1 : 0.4, cursor: selRes ? 'pointer' : 'not-allowed' }}>점검 시작 →</Btn>
+              <Button primary onClick={() => selRes && handleFreeCreate()} style={{ opacity: selRes ? 1 : 0.4, cursor: selRes ? 'pointer' : 'not-allowed' }}>점검 시작 →</Button>
             </div>
           )}
 
@@ -763,20 +763,20 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                 </div>
               )}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Btn onClick={onClose}>{isComp ? '닫기' : '취소'}</Btn>
-                <Btn onClick={() => setShowPreview((p) => !p)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Button onClick={onClose}>{isComp ? '닫기' : '취소'}</Button>
+                <Button onClick={() => setShowPreview((p) => !p)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
                   {showPreview ? '미리보기 닫기' : '보고서 미리보기'}
-                </Btn>
+                </Button>
                 <div style={{ flex: 1 }} />
-                {!isComp && <Btn primary onClick={handleSubmitClick} style={{ opacity: canSubmit ? 1 : 0.4, cursor: canSubmit ? 'pointer' : 'not-allowed' }}>{freeMode ? '점검 보고' : '보고 제출'}</Btn>}
+                {!isComp && <Button primary onClick={handleSubmitClick} style={{ opacity: canSubmit ? 1 : 0.4, cursor: canSubmit ? 'pointer' : 'not-allowed' }}>{freeMode ? '점검 보고' : '보고 제출'}</Button>}
               </div>
             </div>
           )}
 
           {freeMode && step === 3 && (
             <div style={{ flexShrink: 0, borderTop: `1px solid ${C.brd}`, padding: '14px 24px', background: '#fff', display: 'flex', justifyContent: 'flex-end' }}>
-              <Btn primary onClick={onClose} style={{ minWidth: 120, justifyContent: 'center' }}>확인</Btn>
+              <Button primary onClick={onClose} style={{ minWidth: 120, justifyContent: 'center' }}>확인</Button>
             </div>
           )}
 
@@ -798,8 +798,8 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                   <span style={{ fontSize: 13, color: C.txS }}>다음부터 확인하지 않기</span>
                 </label>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-                  <Btn onClick={() => setSubmitConfirm(false)}>취소</Btn>
-                  <Btn primary onClick={() => { if (skipCheck) setCookie(COOKIE_SKIP_SUBMIT_CONFIRM, '1', 365); setSubmitConfirm(false); doSubmit(); }}>제출</Btn>
+                  <Button onClick={() => setSubmitConfirm(false)}>취소</Button>
+                  <Button primary onClick={() => { if (skipCheck) setCookie(COOKIE_SKIP_SUBMIT_CONFIRM, '1', 365); setSubmitConfirm(false); doSubmit(); }}>제출</Button>
                 </div>
               </div>
             </div>

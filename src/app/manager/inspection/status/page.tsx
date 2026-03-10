@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { useDI } from '@/contexts/DIContext';
-import { PH } from '@/components/ui/PageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Badge } from '@/components/ui/Badge';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { C } from '@/lib/theme/colors';
@@ -33,7 +33,7 @@ const MgrInspSt = () => {
     : [];
 
   return <div>
-    <PH title="점검현황" bc="홈 > 점검현황" />
+    <PageHeader title="점검현황" bc="홈 > 점검현황" />
     <div style={{ background: C.white, borderRadius: 8, border: `1px solid ${C.brd}`, overflow: "hidden", display: "flex", flexDirection: "column", height: "calc(98vh - 170px)", maxHeight: 1500 }}>
       {/* 캘린더 네비게이션 */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 12px", borderBottom: `1px solid ${C.brd}`, flexShrink: 0 }}>

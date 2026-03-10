@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
-import { FInput } from '@/components/ui/Input';
+import { FormInput } from '@/components/ui/Input';
 import { C } from '@/lib/theme/colors';
 import type { Dispatch, SetStateAction } from 'react';
 import type { User, UserGroup } from '@/types/user';
@@ -110,7 +110,7 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
     <Modal open={open} onClose={onClose} title="사용자 그룹 관리" width={520}>
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: 440 }}>
         <div style={{ fontSize: 12, color: C.txS, marginBottom: 8 }}>그룹 검색</div>
-        <FInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="그룹명 또는 그룹 ID 검색" style={{ marginBottom: 12 }} />
+        <FormInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="그룹명 또는 그룹 ID 검색" style={{ marginBottom: 12 }} />
 
         {errMsg ? (
           <div style={{ marginBottom: 12, padding: '8px 12px', borderRadius: 6, border: '1px solid #FECACA', background: '#FEF2F2', color: C.red, fontSize: 12 }}>
@@ -144,7 +144,7 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
                 >
                   {isEditing ? (
                     <>
-                      <FInput
+                      <FormInput
                         value={editNm}
                         onChange={(event) => setEditNm(event.target.value)}
                         onKeyDown={(event) => {
@@ -153,10 +153,10 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
                         autoFocus
                         style={{ flex: 1 }}
                       />
-                      <Btn xs primary onClick={saveEdit}>
+                      <Button xs primary onClick={saveEdit}>
                         저장
-                      </Btn>
-                      <Btn
+                      </Button>
+                      <Button
                         xs
                         onClick={() => {
                           setEditId(null);
@@ -165,7 +165,7 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
                         }}
                       >
                         취소
-                      </Btn>
+                      </Button>
                     </>
                   ) : (
                     <>
@@ -176,12 +176,12 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
                           {inUseCount > 0 ? <span style={{ color: C.pri, fontWeight: 700, marginLeft: 8 }}>사용자 {inUseCount}명</span> : null}
                         </div>
                       </div>
-                      <Btn xs outline onClick={() => startEdit(group)}>
+                      <Button xs outline onClick={() => startEdit(group)}>
                         수정
-                      </Btn>
-                      <Btn xs outlineDanger onClick={() => deleteGroup(group)}>
+                      </Button>
+                      <Button xs outlineDanger onClick={() => deleteGroup(group)}>
                         삭제
-                      </Btn>
+                      </Button>
                     </>
                   )}
                 </div>
@@ -193,7 +193,7 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
         <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.brd}` }}>
           <div style={{ fontSize: 12, color: C.txS, marginBottom: 8 }}>신규 그룹 등록</div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <FInput
+            <FormInput
               value={newNm}
               onChange={(event) => {
                 setNewNm(event.target.value);
@@ -206,9 +206,9 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
               maxLength={50}
               style={{ flex: 1 }}
             />
-            <Btn primary onClick={addGroup}>
+            <Button primary onClick={addGroup}>
               등록
-            </Btn>
+            </Button>
           </div>
         </div>
       </div>

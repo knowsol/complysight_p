@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 
 interface ExcelUploadModalProps {
@@ -17,7 +17,7 @@ export function ExcelUploadModal({ open, onClose }: ExcelUploadModalProps) {
       <div style={{ fontSize: 12, marginBottom: 10 }}>{fileName || '선택된 파일 없음'}</div>
       <input type="file" accept=".xlsx,.xls" onChange={(e) => setFileName(e.target.files?.[0]?.name ?? '')} />
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 16 }}>
-        <Btn onClick={onClose}>닫기</Btn>
+        <Button onClick={onClose}>닫기</Button>
       </div>
     </Modal>
   );

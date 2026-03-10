@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { SearchBar } from '@/components/ui/SearchBar';
-import { Tbl } from '@/components/ui/Table';
+import { DataTable } from '@/components/ui/DataTable';
 import { NT } from '@/data/notices';
 import { NoticePanel } from '@/components/panels';
 import type { Notice } from '@/types/notice';
@@ -13,9 +13,9 @@ export default function SentinelBoardPage() {
 
   return (
     <div>
-      <PH title="게시판" bc="홈 > 게시판" />
+      <PageHeader title="게시판" bc="홈 > 게시판" />
       <SearchBar ph="제목으로 검색" />
-      <Tbl
+      <DataTable
         secTitle="공지사항 목록"
         secCount={NT.length}
         data={NT}

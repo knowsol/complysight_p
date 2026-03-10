@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
-import { SecTitle } from '@/components/ui/FormRow';
+import { Button } from '@/components/ui/Button';
+import { SectionTitle } from '@/components/ui/FormRow';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { C } from '@/lib/theme/colors';
 import { PRETENDARD_FONT } from '@/lib/theme/styles';
@@ -342,7 +342,7 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-              <SecTitle label="점검결과 요약" style={{ marginBottom: 0 }} />
+              <SectionTitle label="점검결과 요약" style={{ marginBottom: 0 }} />
             </div>
             <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
               {[
@@ -357,7 +357,7 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
               ))}
             </div>
 
-            <SecTitle label="자동점검" />
+            <SectionTitle label="자동점검" />
             <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden', marginBottom: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 10px', background: '#F8FAFC', borderBottom: `1px solid ${C.brd}` }}>
                 {[
@@ -425,7 +425,7 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
               </table>
             </div>
 
-            <SecTitle label="육안점검" />
+            <SectionTitle label="육안점검" />
             <div style={{ marginBottom: 18 }}>
               {eyeItems.map((row) => {
                 const isAbn = row.result === '비정상';
@@ -459,28 +459,28 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
               })}
             </div>
 
-            <SecTitle label="특이사항" />
+            <SectionTitle label="특이사항" />
             <div style={{ padding: '10px 12px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#FAFBFC', fontSize: 12, color: item.note ? '#F36D00' : C.txL, minHeight: 56, marginBottom: 20, lineHeight: 1.6 }}>
               {item.note || '특이사항 없음'}
             </div>
           </div>
 
           <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', padding: '12px 24px', borderTop: `1px solid ${C.brd}`, background: '#fff', gap: 6 }}>
-            <Btn onClick={onClose}>닫기</Btn>
-            <Btn outline onClick={() => setShowPreview((prev) => !prev)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <Button onClick={onClose}>닫기</Button>
+            <Button outline onClick={() => setShowPreview((prev) => !prev)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
               {showPreview ? '미리보기 닫기' : '보고서 미리보기'}
-            </Btn>
+            </Button>
             <div style={{ flex: 1 }} />
-            <Btn onClick={handleDownload} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <Button onClick={handleDownload} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
               </svg>
               보고서 다운로드
-            </Btn>
+            </Button>
           </div>
         </div>
       </div>

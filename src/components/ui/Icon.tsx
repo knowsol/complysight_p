@@ -2,11 +2,13 @@
 
 import React from 'react';
 
-export interface IcProps {
+export interface IconProps {
   n: string;
   s?: number;
   c?: string;
 }
+
+export type IcProps = IconProps;
 
 const ICON_PATHS: Record<string, string> = {
   dash: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
@@ -34,10 +36,12 @@ const ICON_PATHS: Record<string, string> = {
   layers: 'M2 12l10-8 10 8M4 10v10h16V10',
 };
 
-export const Ic = ({ n, s = 16, c = 'currentColor' }: IcProps) => {
+export const Icon = ({ n, s = 16, c = 'currentColor' }: IconProps) => {
   return (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d={ICON_PATHS[n] || ICON_PATHS.info} />
     </svg>
   );
 };
+
+export const Ic = Icon;

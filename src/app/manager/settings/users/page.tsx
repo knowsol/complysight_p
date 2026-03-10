@@ -2,11 +2,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { RoleBadge, YnBadge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn, SecBtnP } from '@/components/ui/Button';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
 import { C } from '@/lib/theme/colors';
 import { INIT_USER_GROUPS, USERS } from '@/data/users';
 import { GroupMgmtModal, UserPanel } from '@/components/panels';
@@ -150,7 +150,7 @@ const MgrUsers = () => {
 
   return (
     <div>
-      <PH title="사용자" bc="홈 > 환경설정 > 사용자 관리 > 사용자" />
+      <PageHeader title="사용자" bc="홈 > 환경설정 > 사용자 관리 > 사용자" />
 
       <div style={{ display: 'flex', gap: 14, alignItems: 'start' }}>
         <div style={{ width: 240, flexShrink: 0, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: 6, overflow: 'hidden' }}>
@@ -307,14 +307,14 @@ const MgrUsers = () => {
           </div>
 
           <div style={{ padding: '10px 12px', borderTop: `1px solid ${C.brd}` }}>
-            <Btn ghost onClick={() => setShowGrpMgmt(true)} style={{ width: '100%' }}>
+            <Button ghost onClick={() => setShowGrpMgmt(true)} style={{ width: '100%' }}>
               사용자 그룹관리
-            </Btn>
+            </Button>
           </div>
         </div>
 
         <div style={{ flex: 1 }}>
-          <SB
+          <SearchBar
             ph="이름, ID, 이메일 검색"
             fields={[{ key: 'status', label: '상태', type: 'select', options: ['사용', '미사용'] }]}
             onSearch={(fields, kw) => {
@@ -327,10 +327,10 @@ const MgrUsers = () => {
             }}
           />
 
-          <Tbl
+          <DataTable
             secTitle={`${selGroupNm} 사용자 목록`}
             secCount={filtered.length}
-            secButtons={<SecBtnP onClick={openAddPanel}>+ 사용자 등록</SecBtnP>}
+            secButtons={<Button variant="primary" onClick={openAddPanel}>+ 사용자 등록</Button>}
             data={filtered}
             onRow={openDetailPanel}
             cols={[

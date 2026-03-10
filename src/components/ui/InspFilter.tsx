@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { C } from '@/lib/theme/colors';
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 
 type InspFilterNode = string | { label: string; value?: string | null };
 
@@ -89,7 +89,7 @@ export function InspFilter({ menus, sel, sub = null, onSelect, data, kindKey = "
                 <span>{parent.label}</span>
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   {badge(dCnt(parent.value, null))}
-                  {hasC && <Ic n={isOpen ? "down" : "right"} s={10} c={C.txL} />}
+                  {hasC && <Icon n={isOpen ? "down" : "right"} s={10} c={C.txL} />}
                 </div>
               </div>
             </div>

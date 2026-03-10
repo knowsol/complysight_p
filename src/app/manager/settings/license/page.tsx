@@ -2,13 +2,13 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge } from '@/components/ui/Badge';
-import { Btn, SecBtnP } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
 import { C } from '@/lib/theme/colors';
 import { fInput } from '@/lib/theme/styles';
@@ -144,15 +144,15 @@ const MgrLicense = () => {
 
   return (
     <div>
-      <PH title="라이선스" bc="홈 > 라이선스 > 라이선스" />
+      <PageHeader title="라이선스" bc="홈 > 라이선스 > 라이선스" />
 
       <div>
         <div>
 
-          <Tbl
+          <DataTable
             secTitle="라이선스 목록"
             secCount={licenses.length}
-            secButtons={<SecBtnP onClick={openAdd}>+ 라이선스 추가</SecBtnP>}
+            secButtons={<Button variant="primary" onClick={openAdd}>+ 라이선스 추가</Button>}
             data={licenses}
             onRow={lic=>openDetail(lic)}
             cols={[
@@ -178,7 +178,7 @@ const MgrLicense = () => {
       <SidePanel open={panel === "add"} onClose={() => setPanel(null)} title="라이선스 추가" width={500} noScroll>
       {/* 바디 */}
       <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
-        <SecTitle label="라이선스 코드 입력" primary />
+        <SectionTitle label="라이선스 코드 입력" primary />
         <div style={{ fontSize: 12, color: C.txS, marginBottom: 16, lineHeight: 1.7 }}>
           발급받은 라이선스 코드를 입력하고 [코드 확인] 버튼을 클릭하세요.<br />
           코드 확인 후 라이선스 정보를 검토하고 등록을 진행할 수 있습니다.
@@ -186,14 +186,14 @@ const MgrLicense = () => {
 
         <FormRow label="라이선스 코드" required>
           <div style={{ display: "flex", gap: 8 }}>
-            <FInput
+            <FormInput
               value={codeInput}
               onChange={e => { setCodeInput(e.target.value.toUpperCase()); setCodeError(""); setCodePreview(null); }}
               placeholder="예) CS-STD-2026-CCDD"
               style={{ ...fInput, flex: 1, fontFamily:"inherit", letterSpacing: "0.03em" }}
               onKeyDown={e => e.key === "Enter" && handleCodeCheck()}
             />
-            <Btn sm primary onClick={handleCodeCheck} style={{ whiteSpace:"nowrap", flexShrink:0 }}>코드 확인</Btn>
+            <Button sm primary onClick={handleCodeCheck} style={{ whiteSpace:"nowrap", flexShrink:0 }}>코드 확인</Button>
           </div>
           {codeError && <div style={{ fontSize: 12, color: "#ef4444", marginTop: 4 }}>{codeError}</div>}
         </FormRow>
@@ -245,9 +245,9 @@ const MgrLicense = () => {
       </div>{/* /바디 */}
       <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <Btn onClick={() => setPanel(null)}>취소</Btn>
+          <Button onClick={() => setPanel(null)}>취소</Button>
           <div style={{ flex: 1 }} />
-          <Btn primary onClick={handleAddLicense}>라이선스 등록</Btn>
+          <Button primary onClick={handleAddLicense}>라이선스 등록</Button>
         </div>
       </div>
       </SidePanel>
@@ -289,7 +289,7 @@ const MgrLicense = () => {
               </div>
 
               {/* 이용 내역 */}
-              <SecTitle label="이용 내역" primary />
+              <SectionTitle label="이용 내역" primary />
               <div style={{ background: "#f8fafc", borderRadius: 8, border: `1px solid ${C.brd}`, overflow: "hidden", marginBottom: 20 }}>
                 {features.map((f, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", borderBottom: i < features.length - 1 ? `1px solid ${C.brd}` : "none", fontSize: 12 }}>
@@ -303,7 +303,7 @@ const MgrLicense = () => {
               {/* 관리 설정 — 구독중/만료예정만 */}
               {isActive && (
                 <>
-                  <SecTitle label="구독 설정" primary />
+                  <SectionTitle label="구독 설정" primary />
                   <FormRow label="자동 갱신">
                     <Radio options={[[true,"사용"],[false,"사용 안함"]]} value={liveLic.autoRenew} onChange={v => handleToggleAutoRenew(liveLic.id, v)} />
                     <div style={{ fontSize: 12, color: C.txS, marginTop: 4 }}>자동 갱신 시 만료 전 자동으로 결제됩니다.</div>
@@ -319,9 +319,9 @@ const MgrLicense = () => {
         {/* 푸터 */}
         <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {(liveStatus === "구독중" || liveStatus === "만료 예정") && <Btn outlineDanger onClick={() => handleCancel(liveLic?.id)}>라이선스 해지</Btn>}
+            {(liveStatus === "구독중" || liveStatus === "만료 예정") && <Button outlineDanger onClick={() => handleCancel(liveLic?.id)}>라이선스 해지</Button>}
             <div style={{ flex: 1 }} />
-            <Btn primary onClick={() => setPanel(null)}>확인</Btn>
+            <Button primary onClick={() => setPanel(null)}>확인</Button>
           </div>
         </div>
       </SidePanel>

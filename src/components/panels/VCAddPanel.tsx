@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { FormInput } from '@/components/ui/FormField';
 import { FormRow } from '@/components/ui/FormRow';
 import { SidePanel } from '@/components/ui/SidePanel';
@@ -29,8 +29,8 @@ export function VCAddPanel({ open, onClose, onSaved }: VCAddPanelProps) {
       </div>
       <div style={{ padding: '16px 24px', borderTop: '1px solid #eee' }}>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <Btn onClick={onClose}>취소</Btn>
-          <Btn
+          <Button onClick={onClose}>취소</Button>
+          <Button
             primary
             onClick={() => {
               if (!code || !name) {
@@ -41,7 +41,7 @@ export function VCAddPanel({ open, onClose, onSaved }: VCAddPanelProps) {
             }}
           >
             등록
-          </Btn>
+          </Button>
         </div>
       </div>
     </SidePanel>

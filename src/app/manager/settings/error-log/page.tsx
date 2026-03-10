@@ -2,12 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn } from '@/components/ui/Button';
-import { FInput, FSelect } from '@/components/ui/Input';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
+import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DateRangePicker } from '@/components/ui/DatePicker';
 import { C } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM, fInput, fSelect } from '@/lib/theme/styles';
@@ -75,22 +75,22 @@ const MgrErrorLog = () => {
 
   return (
     <div>
-      <PH title="에러로그" bc="홈 > 로그정보 > 에러로그" />
+      <PageHeader title="에러로그" bc="홈 > 로그정보 > 에러로그" />
       <div>
 
         {/* ── 검색 영역 (searchform) ── */}
-        <SB onSearch={search} onReset={reset}>
+        <SearchBar onSearch={search} onReset={reset}>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>오류유형</span>
-            <FSelect value={errType} onChange={e=>setErrType(e.target.value)} style={{...fSelect, width:"auto"}}>
+            <FormSelect value={errType} onChange={e=>setErrType(e.target.value)} style={{...fSelect, width:"auto"}}>
               {ERR_TYPES.map(v=><option key={v}>{v}</option>)}
-            </FSelect>
+            </FormSelect>
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>발생모듈</span>
-            <FSelect value={module} onChange={e=>setModule(e.target.value)} style={{...fSelect, width:"auto"}}>
+            <FormSelect value={module} onChange={e=>setModule(e.target.value)} style={{...fSelect, width:"auto"}}>
               {MODULES.map(v=><option key={v}>{v}</option>)}
-            </FSelect>
+            </FormSelect>
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>기간</span>
@@ -98,15 +98,15 @@ const MgrErrorLog = () => {
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>키워드</span>
-            <FInput value={keyword} onChange={e=>setKeyword(e.target.value)} onKeyDown={e=>e.key==="Enter"&&search()}
+            <FormInput value={keyword} onChange={e=>setKeyword(e.target.value)} onKeyDown={e=>e.key==="Enter"&&search()}
               placeholder="오류 메시지, 사용자, 모듈" style={{...fInput, minWidth:120}} />
           </div>
-        </SB>
+        </SearchBar>
 
-        <Tbl
+        <DataTable
           secTitle="에러 이력"
           secCount={filtered.length}
-          secButtons={<Btn onClick={()=>{}} style={{marginRight:4}}>📥 엑셀 다운로드</Btn>}
+          secButtons={<Button onClick={()=>{}} style={{marginRight:4}}>📥 엑셀 다운로드</Button>}
           data={filtered}
           cols={[
             { t:"No.",      k:"id",      w:60,  r:(_,l,i)=><span style={{color:C.txL}}>{filtered.length - i}</span> },

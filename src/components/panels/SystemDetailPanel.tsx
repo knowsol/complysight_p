@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FSelect, FTextarea } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 import { USERS } from '@/data/users';
 import type { System } from '@/types/system';
@@ -144,7 +144,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
           ) : null}
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="기본 정보" />
+            <SectionTitle label="기본 정보" />
             <FormRow label="사용상태">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.useYn === 'Y'} onClick={() => !ro && setField('useYn', form.useYn === 'Y' ? 'N' : 'Y')} disabled={ro} />
@@ -153,27 +153,27 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
             </FormRow>
 
             <FormRow label="정보시스템 명" required>
-              <FInput value={form.systemNm} onChange={(e) => setField('systemNm', e.target.value)} readOnly={ro} style={errors.systemNm ? { borderColor: C.red } : undefined} />
+              <FormInput value={form.systemNm} onChange={(e) => setField('systemNm', e.target.value)} readOnly={ro} style={errors.systemNm ? { borderColor: C.red } : undefined} />
               {errors.systemNm ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.systemNm}</div> : null}
             </FormRow>
 
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="시스템 ID" style={{ flex: 1 }}>
-                <FInput value={form.systemId} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+                <FormInput value={form.systemId} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
               </FormRow>
               <FormRow label="시스템 유형" required style={{ flex: 1 }}>
-                <FSelect value={form.systemType} onChange={(e) => setField('systemType', e.target.value)} disabled={ro}>
+                <FormSelect value={form.systemType} onChange={(e) => setField('systemType', e.target.value)} disabled={ro}>
                   <option value="">선택하세요</option>
                   {['업무', '서비스', '솔루션', '보안', '기타'].map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
                   ))}
-                </FSelect>
+                </FormSelect>
                 {errors.systemType ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.systemType}</div> : null}
               </FormRow>
               <FormRow label="관리주체" style={{ flex: 1 }}>
-                <FInput value={form.mgmtOrg} onChange={(e) => setField('mgmtOrg', e.target.value)} readOnly={ro} />
+                <FormInput value={form.mgmtOrg} onChange={(e) => setField('mgmtOrg', e.target.value)} readOnly={ro} />
               </FormRow>
             </div>
 
@@ -191,43 +191,43 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
           </div>
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="운영 담당" />
+            <SectionTitle label="운영 담당" />
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="담당자" style={{ flex: 1 }}>
-                <FInput value={form.managerNm} onChange={(e) => setField('managerNm', e.target.value)} readOnly={ro} />
+                <FormInput value={form.managerNm} onChange={(e) => setField('managerNm', e.target.value)} readOnly={ro} />
               </FormRow>
               <FormRow label="연락처" style={{ flex: 1 }}>
-                <FInput value={form.managerPhone} onChange={(e) => setField('managerPhone', e.target.value)} readOnly={ro} />
+                <FormInput value={form.managerPhone} onChange={(e) => setField('managerPhone', e.target.value)} readOnly={ro} />
               </FormRow>
               <FormRow label="계약정보" style={{ flex: 1 }}>
-                <FInput value={form.contractInfo} onChange={(e) => setField('contractInfo', e.target.value)} readOnly={ro} />
+                <FormInput value={form.contractInfo} onChange={(e) => setField('contractInfo', e.target.value)} readOnly={ro} />
               </FormRow>
             </div>
             <FormRow label="시스템 설명">
-              <FTextarea value={form.systemDesc} onChange={(e) => setField('systemDesc', e.target.value)} readOnly={ro} style={ro ? { resize: 'none', background: '#F9FAFC' } : undefined} />
+              <FormTextarea value={form.systemDesc} onChange={(e) => setField('systemDesc', e.target.value)} readOnly={ro} style={ro ? { resize: 'none', background: '#F9FAFC' } : undefined} />
             </FormRow>
           </div>
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="참조 정보" />
+            <SectionTitle label="참조 정보" />
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="참조값 1" style={{ flex: 1 }}>
-                <FInput value={form.ref1} onChange={(e) => setField('ref1', e.target.value)} readOnly={ro} />
+                <FormInput value={form.ref1} onChange={(e) => setField('ref1', e.target.value)} readOnly={ro} />
               </FormRow>
               <FormRow label="참조값 2" style={{ flex: 1 }}>
-                <FInput value={form.ref2} onChange={(e) => setField('ref2', e.target.value)} readOnly={ro} />
+                <FormInput value={form.ref2} onChange={(e) => setField('ref2', e.target.value)} readOnly={ro} />
               </FormRow>
               <FormRow label="참조값 3" style={{ flex: 1 }}>
-                <FInput value={form.ref3} onChange={(e) => setField('ref3', e.target.value)} readOnly={ro} />
+                <FormInput value={form.ref3} onChange={(e) => setField('ref3', e.target.value)} readOnly={ro} />
               </FormRow>
             </div>
             <FormRow label="비고">
-              <FTextarea value={form.memo} onChange={(e) => setField('memo', e.target.value)} readOnly={ro} style={ro ? { resize: 'none', background: '#F9FAFC' } : undefined} />
+              <FormTextarea value={form.memo} onChange={(e) => setField('memo', e.target.value)} readOnly={ro} style={ro ? { resize: 'none', background: '#F9FAFC' } : undefined} />
             </FormRow>
           </div>
 
           <div style={{ marginBottom: 18 }}>
-            <SecTitle label="구성원" />
+            <SectionTitle label="구성원" />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
               {form.members.length === 0 ? <span style={{ fontSize: 12, color: C.txL }}>구성원이 없습니다.</span> : null}
               {form.members.map((userId: string) => {
@@ -258,7 +258,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
               })}
             </div>
             {!ro ? (
-              <FSelect
+              <FormSelect
                 value=""
                 onChange={(e) => {
                   if (e.target.value && !form.members.includes(e.target.value)) {
@@ -272,7 +272,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
                     {user.userNm} ({user.userRole})
                   </option>
                 ))}
-              </FSelect>
+              </FormSelect>
             ) : null}
           </div>
         </div>
@@ -291,7 +291,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
                 border: '1px solid #FED7AA',
               }}
             >
-              <Ic n="alert" s={13} c="#EA580C" />
+              <Icon n="alert" s={13} c="#EA580C" />
               <span style={{ color: '#9A3412', fontSize: 12 }}>
                 {isFixed ? '공유자원 시스템은 삭제할 수 없습니다.' : '연결된 자원이 있어 삭제할 수 없습니다.'}
               </span>
@@ -300,18 +300,18 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {editMode ? (
               <>
-                <Btn onClick={requestClose}>취소</Btn>
+                <Button onClick={requestClose}>취소</Button>
                 <div style={{ flex: 1 }} />
-                <Btn primary onClick={savePanel}>저장</Btn>
+                <Button primary onClick={savePanel}>저장</Button>
               </>
             ) : (
               <>
-                <Btn onClick={onClose}>닫기</Btn>
+                <Button onClick={onClose}>닫기</Button>
                 <div style={{ flex: 1 }} />
-                <Btn danger disabled={!canDelete} onClick={() => canDelete && setDeleteConfirm(true)} style={{ marginRight: 8 }}>
+                <Button danger disabled={!canDelete} onClick={() => canDelete && setDeleteConfirm(true)} style={{ marginRight: 8 }}>
                   삭제
-                </Btn>
-                <Btn success onClick={() => setEditMode(true)}>수정</Btn>
+                </Button>
+                <Button success onClick={() => setEditMode(true)}>수정</Button>
               </>
             )}
           </div>

@@ -2,12 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn } from '@/components/ui/Button';
-import { FInput, FSelect } from '@/components/ui/Input';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
+import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DateRangePicker } from '@/components/ui/DatePicker';
 import { C } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM, fInput, fSelect } from '@/lib/theme/styles';
@@ -76,17 +76,17 @@ const MgrAccessLog = () => {
 
   return (
     <div>
-      <PH title="접속로그" bc="홈 > 로그정보 > 접속로그" />
+      <PageHeader title="접속로그" bc="홈 > 로그정보 > 접속로그" />
 
       <div>
 
         {/* ── 검색 영역 (searchform) ── */}
-        <SB onSearch={search} onReset={reset}>
+        <SearchBar onSearch={search} onReset={reset}>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>행동유형</span>
-            <FSelect value={actionFilter} onChange={e => setActionFilter(e.target.value)} style={{...fSelect, width:"auto"}}>
+            <FormSelect value={actionFilter} onChange={e => setActionFilter(e.target.value)} style={{...fSelect, width:"auto"}}>
               {["전체", "등록", "수정", "삭제", "다운로드", "로그인"].map(v => <option key={v}>{v}</option>)}
-            </FSelect>
+            </FormSelect>
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>기간</span>
@@ -94,19 +94,19 @@ const MgrAccessLog = () => {
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
             <span style={{ ...LABEL_STYLE_SM }}>사용자/IP</span>
-            <FInput value={keyword} onChange={e => setKeyword(e.target.value)}
+            <FormInput value={keyword} onChange={e => setKeyword(e.target.value)}
               onKeyDown={e => e.key === "Enter" && search()}
               placeholder="사용자 ID, 이름, IP"
               style={{...fInput, minWidth:120}} />
           </div>
-        </SB>
+        </SearchBar>
 
         {/* ── 그리드 ── */}
         <div>
-          <Tbl
+          <DataTable
             secTitle="접속 이력"
             secCount={filtered.length}
-            secButtons={<Btn onClick={()=>{}}>📥 엑셀 다운로드</Btn>}
+            secButtons={<Button onClick={()=>{}}>📥 엑셀 다운로드</Button>}
             data={filtered}
             cols={[
               { t:"No.",      k:"id",       w:60,  r:(_,l,i)=><span style={{color:C.txL}}>{filtered.length - i}</span> },

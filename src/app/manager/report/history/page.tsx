@@ -3,11 +3,11 @@
 
 import { useState } from 'react';
 import { useDI } from '@/contexts/DIContext';
-import { PH } from '@/components/ui/PageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Card } from '@/components/ui/Card';
-import { Tbl } from '@/components/ui/Table';
-import { Btn, SearchBtn, RefreshBtn } from '@/components/ui/Button';
-import { FInput, FSelect } from '@/components/ui/Input';
+import { DataTable } from '@/components/ui/DataTable';
+import { Button, SearchBtn, RefreshBtn } from '@/components/ui/Button';
+import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { InspFilter } from '@/components/ui/InspFilter';
 import { PageSidebarLayout } from '@/components/ui/PageSidebarLayout';
@@ -50,7 +50,7 @@ const MgrInspD = () => {
   const FC = { "상시":"#0891B2","매일":"#0C8CE9","매주":"#19973C","매월":"#F36D00","분기":"#7C3AED","반기":"#E24949","연간":"#333333" };
 
   return <div style={{ display:"flex", flexDirection:"column", flex:1, minHeight:0 }}>
-    <PH title="보고이력" bc="홈 > 점검현황 > 보고이력" />
+    <PageHeader title="보고이력" bc="홈 > 점검현황 > 보고이력" />
     <PageSidebarLayout
       sidebar={
         <Card title="점검종류" style={{ height:"100%", overflow:"hidden", display:"flex", flexDirection:"column" }}>
@@ -66,13 +66,13 @@ const MgrInspD = () => {
             {/* 정보시스템 */}
             <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
               <span style={{ ...LABEL_STYLE_SM }}>정보시스템</span>
-              <FSelect value={fSys} onChange={e=>setFSys(e.target.value)}
+              <FormSelect value={fSys} onChange={e=>setFSys(e.target.value)}
                 style={{ padding:"6px 12px", border:`1px solid ${C.brd}`, borderRadius:4,
                   fontSize:15, outline:"none", color:C.txt, background:"#fff",
                   fontFamily:"inherit", minWidth:120 }}>
                 <option value="">전체</option>
                 {SYS.map(s => <option key={s.id} value={s.id}>{s.nm}</option>)}
-              </FSelect>
+              </FormSelect>
             </div>
 
             {/* 제출일시 레인지 */}
@@ -88,7 +88,7 @@ const MgrInspD = () => {
             {/* 자원명/점검자 */}
             <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
               <span style={{ ...LABEL_STYLE_SM }}>자원명/점검자</span>
-              <FInput value={kw} onChange={e=>setKw(e.target.value)}
+              <FormInput value={kw} onChange={e=>setKw(e.target.value)}
                 onKeyDown={e=>e.key==="Enter"&&doSearch()}
                 placeholder="자원명 또는 점검자"
                 style={{ padding:"6px 12px", border:`1px solid ${C.brd}`, borderRadius:4,
@@ -102,17 +102,17 @@ const MgrInspD = () => {
           </div>
         </div>
 
-        <Tbl secTitle={title} secCount={filtered.length}
+        <DataTable secTitle={title} secCount={filtered.length}
           onRow={row => setSelItem(row)}
           secButtons={
-            <Btn sm primary={checkedIds.length > 0} disabled={checkedIds.length === 0}
+            <Button sm primary={checkedIds.length > 0} disabled={checkedIds.length === 0}
               onClick={()=>{ if(checkedIds.length>0) alert(`${checkedIds.length}건 보고서 일괄 다운로드`); }}
               style={{ display:"inline-flex", alignItems:"center", gap:6 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
               </svg>
               보고서 일괄다운로드{checkedIds.length > 0 ? ` (${checkedIds.length})` : ""}
-            </Btn>
+            </Button>
           }
           cols={[
           { t: <div onClick={e => { e.stopPropagation(); setCheckedIds(checkedIds.length === filtered.length && filtered.length > 0 ? [] : filtered.map(x=>x.id)); }}

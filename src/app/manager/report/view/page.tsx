@@ -2,9 +2,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn } from '@/components/ui/Button';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { C } from '@/lib/theme/colors';
@@ -137,10 +137,10 @@ const MgrInspReport = () => {
 
   return (
     <div>
-      <PH title="점검보고서" bc="홈 > 점검현황 > 점검보고서" />
+      <PageHeader title="점검보고서" bc="홈 > 점검현황 > 점검보고서" />
 
       {/* ── 검색폼 ── */}
-      <SB onSearch={search} onReset={reset}>
+      <SearchBar onSearch={search} onReset={reset}>
         <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
           <span style={{ ...LABEL_STYLE_SM }}>기준일</span>
           <DatePicker value={baseDate} onChange={setBaseDate} style={{ width: 130 }} />
@@ -161,7 +161,7 @@ const MgrInspReport = () => {
             })}
           </div>
         </div>
-      </SB>
+      </SearchBar>
 
       {/* ── 테이블 가이드 안내 ── */}
       <div style={{ display:"flex", alignItems:"center", gap:16, padding:"9px 16px",
@@ -302,10 +302,10 @@ const MgrInspReport = () => {
                             {cell.reported}<span style={{ fontWeight:400, fontSize:15, color:C.txL }}>/{cell.total}</span>
                           </span>
                           {cell.hasReport ? (
-                            <Btn xs onClick={e=>{e.stopPropagation();dlSingle(sys.nm,col);}}
+                            <Button xs onClick={e=>{e.stopPropagation();dlSingle(sys.nm,col);}}
                               style={{ padding:"3px 7px", gap:3, fontWeight:400 }}>
                               {dlIcon} PDF
-                            </Btn>
+                            </Button>
                           ) : (
                             <span style={{ fontSize:12, color:C.txX }}>미생성</span>
                           )}
@@ -315,9 +315,9 @@ const MgrInspReport = () => {
                   })}
 
                   <td style={{...TD({textAlign:"center"})}} >
-                    <Btn onClick={e=>{e.stopPropagation();dlSingle(sys.nm,"");}}>
+                    <Button onClick={e=>{e.stopPropagation();dlSingle(sys.nm,"");}}>
                       📥 전체
-                    </Btn>
+                    </Button>
                   </td>
                 </tr>
               );
@@ -373,10 +373,10 @@ const MgrInspReport = () => {
                 paddingBottom:8, marginBottom:0 }}>
                 <span style={{ fontSize:12, fontWeight:600, color:C.txH }}>자원 목록</span>
                 {cell.hasReport && (
-                  <Btn primary onClick={()=>dlSingle(sysNm,col)}
+                  <Button primary onClick={()=>dlSingle(sysNm,col)}
                     style={{ display:"inline-flex", alignItems:"center", gap:5 }}>
                     📥 전체 PDF 다운로드
-                  </Btn>
+                  </Button>
                 )}
               </div>
               <div style={{ overflowX:"auto", border:`1px solid ${C.brd}`, borderRadius:8, overflow:"hidden" }}>
@@ -444,10 +444,10 @@ const MgrInspReport = () => {
                       {/* PDF */}
                       <td style={tdC()}>
                         {r.reported ? (
-                          <Btn xs ghost onClick={()=>showToast(`${r.nm} 보고서 다운로드가 시작되었습니다.`)}
+                          <Button xs ghost onClick={()=>showToast(`${r.nm} 보고서 다운로드가 시작되었습니다.`)}
                             style={{ display:"inline-flex", alignItems:"center", gap:3 }}>
                             📥 PDF
-                          </Btn>
+                          </Button>
                         ) : (
                           <span style={{ fontSize:12, color:C.txX, background:"#F3F4F6",
                             padding:"3px 8px", borderRadius:4 }}>미보고</span>
@@ -465,7 +465,7 @@ const MgrInspReport = () => {
             {/* 푸터 */}
             <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <Btn onClick={()=>setPanelInfo(null)}>닫기</Btn>
+                <Button onClick={()=>setPanelInfo(null)}>닫기</Button>
               </div>
             </div>
           </SidePanel>

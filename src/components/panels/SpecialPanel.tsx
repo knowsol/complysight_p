@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FTextarea, RoSelect } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormTextarea, RoSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { C } from '@/lib/theme/colors';
 import { SC } from '@/lib/theme/status-colors';
@@ -312,10 +312,10 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
         noScroll
       >
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
-          <SecTitle label="점검계획" primary />
+          <SectionTitle label="점검계획" primary />
 
           <FormRow label="점검 제목" required>
-            <FInput value={form.title} onChange={(e) => setField('title', e.target.value)} placeholder="특별점검 제목을 입력하세요" readOnly={readOnly} style={errors.title ? { ...roStyle, borderColor: C.red } : roStyle} />
+            <FormInput value={form.title} onChange={(e) => setField('title', e.target.value)} placeholder="특별점검 제목을 입력하세요" readOnly={readOnly} style={errors.title ? { ...roStyle, borderColor: C.red } : roStyle} />
             {errors.title ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.title}</div> : null}
           </FormRow>
 
@@ -331,10 +331,10 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
               {errors.kind ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.kind}</div> : null}
             </FormRow>
             <FormRow label="등록자" style={{ flex: 1 }}>
-              <FInput value={form.registrant} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+              <FormInput value={form.registrant} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
             </FormRow>
             <FormRow label="등록일" style={{ flex: 1 }}>
-              <FInput value={form.regDt} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
+              <FormInput value={form.regDt} readOnly style={{ background: '#F9FAFC', pointerEvents: 'none' }} />
             </FormRow>
           </div>
 
@@ -345,10 +345,10 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
             </FormRow>
             <FormRow label="점검자" required style={{ flex: 2, position: 'relative' }}>
               {readOnly ? (
-                <FInput value={form.insp} readOnly style={roStyle} />
+                <FormInput value={form.insp} readOnly style={roStyle} />
               ) : (
                 <div style={{ position: 'relative' }}>
-                  <FInput
+                  <FormInput
                     value={inspSearch || form.insp}
                     onChange={(e) => {
                       setInspSearch(e.target.value);
@@ -419,7 +419,7 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
                 </svg>
                 <span style={{ fontSize: 12, color: C.txL }}>파일을 선택하거나 드래그하세요</span>
                 <span style={{ fontSize: 12, color: C.txL, marginLeft: 'auto' }}>최대 10MB</span>
-                <FInput type="file" style={{ display: 'none' }} onChange={(e) => { pickFile('planFile', e.target.files?.[0] || null); e.target.value = ''; }} />
+                <FormInput type="file" style={{ display: 'none' }} onChange={(e) => { pickFile('planFile', e.target.files?.[0] || null); e.target.value = ''; }} />
               </label>
             ) : (
               <div style={{ padding: '8px 12px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#F9FAFC', fontSize: 12, color: C.txL }}>첨부파일 없음</div>
@@ -427,11 +427,11 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
           </FormRow>
 
           <FormRow label="점검 목적">
-            <FTextarea value={form.purpose} onChange={(e) => setField('purpose', e.target.value)} placeholder="점검의 목적을 입력하세요" readOnly={readOnly} style={readOnly ? { ...roStyle, resize: 'none' } : undefined} maxLength={500} />
+            <FormTextarea value={form.purpose} onChange={(e) => setField('purpose', e.target.value)} placeholder="점검의 목적을 입력하세요" readOnly={readOnly} style={readOnly ? { ...roStyle, resize: 'none' } : undefined} maxLength={500} />
           </FormRow>
 
           <FormRow label="점검 내용">
-            <FTextarea value={form.content} onChange={(e) => setField('content', e.target.value)} placeholder="점검 내용을 입력하세요" readOnly={readOnly} style={readOnly ? { ...roStyle, resize: 'none' } : undefined} maxLength={500} />
+            <FormTextarea value={form.content} onChange={(e) => setField('content', e.target.value)} placeholder="점검 내용을 입력하세요" readOnly={readOnly} style={readOnly ? { ...roStyle, resize: 'none' } : undefined} maxLength={500} />
           </FormRow>
 
           {renderResultCard()}
@@ -451,7 +451,7 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isNew || editMode ? (
               <>
-                <Btn
+                <Button
                   onClick={() => {
                     resetForm(item);
                     handleSave();
@@ -459,22 +459,22 @@ export function SpecialPanel({ open, onClose, item, onSave, onDelete }: SpecialP
                   }}
                 >
                   취소
-                </Btn>
+                </Button>
                 <div style={{ flex: 1 }} />
-                <Btn primary onClick={saveCurrent}>
+                <Button primary onClick={saveCurrent}>
                   {isNew ? '등록' : '저장'}
-                </Btn>
+                </Button>
               </>
             ) : (
               <>
-                <Btn onClick={onClose}>닫기</Btn>
+                <Button onClick={onClose}>닫기</Button>
                 <div style={{ flex: 1 }} />
-                <Btn danger disabled={isCompleted} onClick={() => !isCompleted && setDeleteConfirm(true)} style={{ opacity: isCompleted ? 0.4 : 1, cursor: isCompleted ? 'not-allowed' : 'pointer' }}>
+                <Button danger disabled={isCompleted} onClick={() => !isCompleted && setDeleteConfirm(true)} style={{ opacity: isCompleted ? 0.4 : 1, cursor: isCompleted ? 'not-allowed' : 'pointer' }}>
                   삭제
-                </Btn>
-                <Btn success style={{ marginLeft: 8, opacity: isCompleted ? 0.4 : 1, cursor: isCompleted ? 'not-allowed' : 'pointer' }} onClick={() => !isCompleted && startEdit()}>
+                </Button>
+                <Button success style={{ marginLeft: 8, opacity: isCompleted ? 0.4 : 1, cursor: isCompleted ? 'not-allowed' : 'pointer' }} onClick={() => !isCompleted && startEdit()}>
                   수정
-                </Btn>
+                </Button>
               </>
             )}
           </div>

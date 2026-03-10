@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { C } from '@/lib/theme/colors';
 import { LABEL_STYLE } from '@/lib/theme/styles';
 
@@ -13,13 +13,15 @@ export interface FormRowProps {
   style?: React.CSSProperties;
 }
 
-export interface SecTitleProps {
+export interface SectionTitleProps {
   label: React.ReactNode;
   count?: number;
   primary?: boolean;
   buttons?: React.ReactNode;
   style?: React.CSSProperties;
 }
+
+export type SecTitleProps = SectionTitleProps;
 
 export interface PanelFooterProps {
   onCancel?: () => void;
@@ -28,9 +30,11 @@ export interface PanelFooterProps {
   extraLeft?: React.ReactNode;
 }
 
-export interface PanelDeleteBtnProps {
+export interface PanelDeleteButtonProps {
   onClick?: () => void;
 }
+
+export type PanelDeleteBtnProps = PanelDeleteButtonProps;
 
 export const FormRow = ({ label, required, children, half, style: sx }: FormRowProps) => (
   <div style={{ marginBottom: 14, display: half ? 'inline-flex' : 'flex', flexDirection: 'column', width: half ? 'calc(50% - 6px)' : '100%', marginRight: half ? 12 : 0, verticalAlign: 'top', ...sx }}>
@@ -42,8 +46,8 @@ export const FormRow = ({ label, required, children, half, style: sx }: FormRowP
   </div>
 );
 
-export const SecTitle = ({ label, count, buttons }: SecTitleProps) => (
-  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14 }}>
+export const SectionTitle = ({ label, count, buttons, style }: SectionTitleProps) => (
+  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14, ...style }}>
     <div style={{ display: 'inline-block', fontSize: 14, fontWeight: 700, color: '#111111', paddingBottom: 5, borderBottom: `2px solid ${C.pri}`, minWidth: 60 }}>
       {label}
       {count != null && (
@@ -54,11 +58,11 @@ export const SecTitle = ({ label, count, buttons }: SecTitleProps) => (
   </div>
 );
 
-export const PanelDeleteBtn = ({ onClick }: PanelDeleteBtnProps) => (
+export const PanelDeleteButton = ({ onClick }: PanelDeleteButtonProps) => (
   <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16, marginTop: -6 }}>
-    <Btn sm outlineDanger onClick={onClick}>
+    <Button size="sm" variant="outlineDanger" onClick={onClick}>
       삭제
-    </Btn>
+    </Button>
   </div>
 );
 
@@ -66,10 +70,13 @@ export const PanelFooter = ({ onCancel, onSave, saveLabel = '저장', extraLeft 
   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 16, marginTop: 8, borderTop: `1px solid ${C.brd}` }}>
     <div>{extraLeft}</div>
     <div style={{ display: 'flex', gap: 8 }}>
-      <Btn onClick={onCancel}>취소</Btn>
-      <Btn primary onClick={onSave}>
+      <Button onClick={onCancel}>취소</Button>
+      <Button variant="primary" onClick={onSave}>
         {saveLabel}
-      </Btn>
+      </Button>
     </div>
   </div>
 );
+
+export const SecTitle = SectionTitle;
+export const PanelDeleteBtn = PanelDeleteButton;

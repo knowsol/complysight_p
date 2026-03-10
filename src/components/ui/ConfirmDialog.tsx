@@ -1,7 +1,7 @@
 'use client';
 
 import { C } from '@/lib/theme/colors';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 export interface ConfirmDialogProps {
   open: boolean;
@@ -28,10 +28,10 @@ export function ConfirmDialog({ open, title, msg, onOk, onCancel, okLabel = '확
         <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: danger ? '#ef4444' : C.txH }}>{title}</div>
         <div style={{ fontSize: 15, color: C.txS, marginBottom: 24, lineHeight: 1.7 }}>{msg}</div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <Btn onClick={onCancel}>취소</Btn>
-          <Btn danger={danger} primary={!danger} onClick={onOk}>
+          <Button onClick={onCancel}>취소</Button>
+          <Button danger={danger} primary={!danger} onClick={onOk}>
             {okLabel}
-          </Btn>
+          </Button>
         </div>
       </div>
     </div>
@@ -49,10 +49,10 @@ export function UnsavedConfirmDialog({ open, onDiscard, onSave }: UnsavedConfirm
         <div style={{ fontSize: 15, fontWeight: 700, color: '#1e293b', marginBottom: 8 }}>수정 사항을 저장하겠습니까?</div>
         <div style={{ fontSize: 13, color: '#64748b', marginBottom: 22 }}>저장하지 않으면 변경 내용이 사라집니다.</div>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-          <Btn onClick={onDiscard}>저장 안함</Btn>
-          <Btn primary onClick={onSave}>
+          <Button onClick={onDiscard}>저장 안함</Button>
+          <Button primary onClick={onSave}>
             저장
-          </Btn>
+          </Button>
         </div>
       </div>
     </div>

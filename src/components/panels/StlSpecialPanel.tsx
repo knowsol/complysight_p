@@ -3,10 +3,10 @@
 
 import { useEffect, useState } from 'react';
 import { SidePanel } from '@/components/ui/SidePanel';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
-import { FInput, FTextarea, RoSelect } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
+import { FormInput, FormTextarea, RoSelect } from '@/components/ui/Input';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
 import { C } from '@/lib/theme/colors';
 import { fSelect } from '@/lib/theme/styles';
@@ -104,9 +104,9 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           {(isNew || editMode) ? (
             <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: '16px 18px', marginBottom: 18, background: '#fff' }}>
-              <SecTitle label="점검계획" primary style={{ marginBottom: 12 }} />
+              <SectionTitle label="점검계획" primary style={{ marginBottom: 12 }} />
               <FormRow label="점검 제목" required>
-                <FInput value={form.title} onChange={(e) => set('title', e.target.value)} placeholder="특별점검 제목을 입력하세요" maxLength={100} />
+                <FormInput value={form.title} onChange={(e) => set('title', e.target.value)} placeholder="특별점검 제목을 입력하세요" maxLength={100} />
               </FormRow>
               <div style={{ display: 'flex', gap: 12 }}>
                 <FormRow label="점검 종류" required style={{ flex: 1 }}>
@@ -115,16 +115,16 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
                   </RoSelect>
                 </FormRow>
                 <FormRow label="등록자" style={{ flex: 1 }}>
-                  <FInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.registrant} readOnly />
+                  <FormInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.registrant} readOnly />
                 </FormRow>
                 <FormRow label="등록일" style={{ flex: 1 }}>
-                  <FInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.regDt} readOnly />
+                  <FormInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.regDt} readOnly />
                 </FormRow>
               </div>
               <div style={{ display: 'flex', gap: 12 }}>
                 <FormRow label="점검자" required style={{ flex: 1, position: 'relative' }}>
                   <div style={{ position: 'relative' }}>
-                    <FInput value={inspSearch || form.insp} onChange={(e) => { setInspSearch(e.target.value); if (!e.target.value) set('insp', ''); }} onFocus={() => { if (form.insp) setInspSearch(form.insp); }} placeholder="이름 또는 아이디 검색" style={{ paddingRight: 28 }} />
+                    <FormInput value={inspSearch || form.insp} onChange={(e) => { setInspSearch(e.target.value); if (!e.target.value) set('insp', ''); }} onFocus={() => { if (form.insp) setInspSearch(form.insp); }} placeholder="이름 또는 아이디 검색" style={{ paddingRight: 28 }} />
                     {(inspSearch || form.insp) && <span onClick={() => { set('insp', ''); setInspSearch(''); }} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: C.txL, fontSize: 16, lineHeight: 1 }}>×</span>}
                     {inspSearch && (() => {
                       const q = inspSearch.trim().toLowerCase();
@@ -142,10 +142,10 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
                 <div style={{ flex: 1 }} />
               </div>
               <FormRow label="점검 목적">
-                <FTextarea value={form.purpose} onChange={(e) => set('purpose', e.target.value)} placeholder="점검의 목적을 입력하세요" maxLength={500} />
+                <FormTextarea value={form.purpose} onChange={(e) => set('purpose', e.target.value)} placeholder="점검의 목적을 입력하세요" maxLength={500} />
               </FormRow>
               <FormRow label="점검 내용">
-                <FTextarea value={form.content} onChange={(e) => set('content', e.target.value)} placeholder="점검 내용을 입력하세요" maxLength={500} />
+                <FormTextarea value={form.content} onChange={(e) => set('content', e.target.value)} placeholder="점검 내용을 입력하세요" maxLength={500} />
               </FormRow>
               <FormRow label="점검계획서 첨부">
                 {form.planFile ? (
@@ -159,7 +159,7 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
                     <span style={{ fontSize: 12, color: C.txL }}>파일을 선택하거나 드래그하세요</span>
                     <span style={{ fontSize: 12, color: C.txL, marginLeft: 'auto' }}>최대 10MB</span>
-                    <FInput type="file" style={{ display: 'none' }} onChange={handlePlanFile} />
+                    <FormInput type="file" style={{ display: 'none' }} onChange={handlePlanFile} />
                   </label>
                 )}
               </FormRow>
@@ -176,12 +176,12 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
           {!isNew && (
             <div style={{ marginTop: 20, borderRadius: 10, border: isComp ? '2px dashed #19973C' : `2px dashed ${C.sec}`, background: '#fff', padding: '16px 18px' }}>
               <div style={{ display: 'flex', gap: 12 }}>
-                <FormRow label="보고자" style={{ flex: 1 }}><FInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.insp || '—'} readOnly /></FormRow>
+                <FormRow label="보고자" style={{ flex: 1 }}><FormInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.insp || '—'} readOnly /></FormRow>
                 <FormRow label="수행일자" required={!isComp} style={{ flex: 1 }}><DatePicker value={form.execDt} onChange={(v) => set('execDt', v)} readOnly={isComp} /></FormRow>
-                <FormRow label="제출일시" style={{ flex: 1 }}><FInput value={isComp ? (form.submitDt || '—') : ''} readOnly style={{ background: '#F9FAFC', color: C.txL, pointerEvents: 'none' }} /></FormRow>
+                <FormRow label="제출일시" style={{ flex: 1 }}><FormInput value={isComp ? (form.submitDt || '—') : ''} readOnly style={{ background: '#F9FAFC', color: C.txL, pointerEvents: 'none' }} /></FormRow>
               </div>
               <FormRow label="결과요약">
-                <FTextarea style={{ background: '#fff', ...(isComp ? { color: C.txt, pointerEvents: 'none', resize: 'none' } : {}) }} value={form.resultContent} onChange={(e) => set('resultContent', e.target.value)} placeholder={isComp ? '' : '점검 결과를 요약하여 입력하세요'} readOnly={isComp} maxLength={1000} />
+                <FormTextarea style={{ background: '#fff', ...(isComp ? { color: C.txt, pointerEvents: 'none', resize: 'none' } : {}) }} value={form.resultContent} onChange={(e) => set('resultContent', e.target.value)} placeholder={isComp ? '' : '점검 결과를 요약하여 입력하세요'} readOnly={isComp} maxLength={1000} />
               </FormRow>
             </div>
           )}
@@ -189,16 +189,16 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
 
         <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Btn onClick={onClose}>닫기</Btn>
+            <Button onClick={onClose}>닫기</Button>
             <div style={{ flex: 1 }} />
-            {!isComp && <Btn primary onClick={() => {
+            {!isComp && <Button primary onClick={() => {
               const e = {};
               if (!form.execDt) e.execDt = '수행일자를 입력하세요.';
               if (!form.resultContent.trim()) e.resultContent = '결과요약을 입력하세요.';
               if (Object.keys(e).length > 0) { setErrors(e); return; }
               setErrors({});
               setSubmitConfirm(true);
-            }}>보고 제출</Btn>}
+            }}>보고 제출</Button>}
           </div>
         </div>
       </SidePanel>

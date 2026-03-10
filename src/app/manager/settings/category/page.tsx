@@ -2,10 +2,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Btn } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
-import { Ic } from '@/components/ui/Icon';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 
 
@@ -177,7 +177,7 @@ const MgrCategory = () => {
           </svg>
         )}
         {editId === item.id ? (
-          <FInput
+          <FormInput
             autoFocus
             value={editNm}
             onChange={e => setEditNm(e.target.value)}
@@ -191,7 +191,7 @@ const MgrCategory = () => {
         )}
         {!sortMode && item.children && <span style={{ fontSize: 12, color: C.txL, marginRight: 6 }}>{item.children.length}</span>}
         {!sortMode && editId !== item.id && <>
-          <span onClick={e => { e.stopPropagation(); startEdit(item.id, item.nm); }} style={{ cursor: "pointer", fontSize: 12, color: C.txL, marginRight: 6, padding: "0 2px" }} title="수정"><Ic n="edit" s={13} c={C.txL} /></span>
+          <span onClick={e => { e.stopPropagation(); startEdit(item.id, item.nm); }} style={{ cursor: "pointer", fontSize: 12, color: C.txL, marginRight: 6, padding: "0 2px" }} title="수정"><Icon n="edit" s={13} c={C.txL} /></span>
           <span onClick={e => { e.stopPropagation(); onDel(item.id); }} style={{ cursor: "pointer", fontSize: 15, color: C.red, fontWeight: 600 }} title="삭제">×</span>
         </>}
       </div>
@@ -200,7 +200,7 @@ const MgrCategory = () => {
 
   const addInputRow = (depth) => addDepth === depth && (
     <div style={{ display: "flex", alignItems: "center", padding: "6px 14px", borderBottom: `1px solid ${C.brd}`, background: "#f0fdf4" }}>
-      <FInput
+      <FormInput
         autoFocus
         value={addNm}
         onChange={e => setAddNm(e.target.value)}
@@ -215,7 +215,7 @@ const MgrCategory = () => {
 
   return (
     <div>
-      <PH title="카테고리 관리" bc="홈 > 환경설정 > 카테고리 관리" />
+      <PageHeader title="카테고리 관리" bc="홈 > 환경설정 > 카테고리 관리" />
       {/* 그리드 툴바 */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: 8, gap: 8 }}>
         {sortSaved && (
@@ -226,19 +226,19 @@ const MgrCategory = () => {
         )}
         {sortMode ? (
           <>
-            <Btn sm onClick={cancelSort}>취소</Btn>
-            <Btn sm primary onClick={saveSort} style={{ display:"flex", alignItems:"center", gap:4 }}>
+            <Button sm onClick={cancelSort}>취소</Button>
+            <Button sm primary onClick={saveSort} style={{ display:"flex", alignItems:"center", gap:4 }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
               저장
-            </Btn>
+            </Button>
           </>
         ) : (
-          <Btn sm onClick={() => { setSortMode(true); setSortSaved(false); }} style={{ display:"flex", alignItems:"center", gap:4 }}>
+          <Button sm onClick={() => { setSortMode(true); setSortSaved(false); }} style={{ display:"flex", alignItems:"center", gap:4 }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <line x1="3" y1="6"  x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
             순서변경
-          </Btn>
+          </Button>
         )}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr",

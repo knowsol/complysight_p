@@ -2,14 +2,14 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge, YnBadge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn } from '@/components/ui/Button';
-import { FInput, FSelect } from '@/components/ui/Input';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
+import { FormInput, FormSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
-import { FormRow, PanelDeleteBtn, SecTitle } from '@/components/ui/FormRow';
+import { FormRow, PanelDeleteButton, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
 import { C } from '@/lib/theme/colors';
 import { fInput } from '@/lib/theme/styles';
@@ -179,14 +179,14 @@ const MgrAgentAuth = () => {
         <div style={{display:"flex",gap:12}}>
           <div style={{flex:1}}>
             <FormRow label="호스트 (IP)" required>
-              <FInput value={panelForm.host} onChange={e=>spf("host",e.target.value)}
+              <FormInput value={panelForm.host} onChange={e=>spf("host",e.target.value)}
                 placeholder="예) 10.100.1.1" style={inp} />
               {err(panelErr.host)}
             </FormRow>
           </div>
           <div style={{width:90}}>
             <FormRow label="포트">
-              <FInput type="number" value={panelForm.port} onChange={e=>spf("port",parseInt(e.target.value)||0)}
+              <FormInput type="number" value={panelForm.port} onChange={e=>spf("port",parseInt(e.target.value)||0)}
                 style={inp} />
             </FormRow>
           </div>
@@ -196,13 +196,13 @@ const MgrAgentAuth = () => {
         {["SSH","DB","LOCAL"].includes(t) && (
           <>
             <FormRow label="접속 ID" required>
-              <FInput value={panelForm.authId} onChange={e=>spf("authId",e.target.value)}
+              <FormInput value={panelForm.authId} onChange={e=>spf("authId",e.target.value)}
                 placeholder="접속 계정 ID" style={inp} />
               {err(panelErr.authId)}
             </FormRow>
             <FormRow label="접속 PW">
               <div style={{position:"relative"}}>
-                <FInput type={showPw?"text":"password"} value={panelForm.authPw}
+                <FormInput type={showPw?"text":"password"} value={panelForm.authPw}
                   onChange={e=>spf("authPw",e.target.value)}
                   placeholder="접속 비밀번호"
                   style={{...inp,paddingRight:40}} />
@@ -220,12 +220,12 @@ const MgrAgentAuth = () => {
         {t==="SNMP" && (
           <>
             <FormRow label="SNMP 버전">
-              <FSelect value={panelForm.snmpVer} onChange={e=>spf("snmpVer",e.target.value)} style={inp}>
+              <FormSelect value={panelForm.snmpVer} onChange={e=>spf("snmpVer",e.target.value)} style={inp}>
                 {["v1","v2c","v3"].map(v=><option key={v}>{v}</option>)}
-              </FSelect>
+              </FormSelect>
             </FormRow>
             <FormRow label="Community">
-              <FInput value={panelForm.community} onChange={e=>spf("community",e.target.value)}
+              <FormInput value={panelForm.community} onChange={e=>spf("community",e.target.value)}
                 placeholder="예) public" style={inp} />
             </FormRow>
           </>
@@ -235,13 +235,13 @@ const MgrAgentAuth = () => {
         <div style={{display:"flex",gap:12}}>
           <div style={{flex:1}}>
             <FormRow label="타임아웃 (초)">
-              <FInput type="number" min={1} max={120} value={panelForm.timeout}
+              <FormInput type="number" min={1} max={120} value={panelForm.timeout}
                 onChange={e=>spf("timeout",parseInt(e.target.value)||10)} style={inp} />
             </FormRow>
           </div>
           <div style={{flex:1}}>
             <FormRow label="재시도 횟수">
-              <FInput type="number" min={0} max={10} value={panelForm.retryCount}
+              <FormInput type="number" min={0} max={10} value={panelForm.retryCount}
                 onChange={e=>spf("retryCount",parseInt(e.target.value)||0)} style={inp} />
             </FormRow>
           </div>
@@ -256,7 +256,7 @@ const MgrAgentAuth = () => {
 
   return (
     <div>
-      <PH title="AGENT 권한관리" bc="홈 > 보안 및 개발 > AGENT 권한관리" />
+      <PageHeader title="AGENT 권한관리" bc="홈 > 보안 및 개발 > AGENT 권한관리" />
 
       <div style={{display:"flex",gap:16,maxHeight:"calc(100vh - 170px)",boxSizing:"border-box"}}>
 
@@ -269,10 +269,10 @@ const MgrAgentAuth = () => {
           </div>
           <div style={{padding:"10px 12px",borderBottom:`1px solid ${C.brd}`,flexShrink:0,display:"flex",flexDirection:"column",gap:8}}>
             {/* 정보시스템 필터 */}
-            <FSelect value={selSys} onChange={e=>{setSelSys(e.target.value);setResPage(1);setSelRes(null);}}
+            <FormSelect value={selSys} onChange={e=>{setSelSys(e.target.value);setResPage(1);setSelRes(null);}}
               style={{...inp,fontSize:12,padding:"6px 10px",width:"100%",boxSizing:"border-box"}}>
               {SYS_LIST.map(s=><option key={s.id} value={s.id}>{s.nm}</option>)}
-            </FSelect>
+            </FormSelect>
             {/* 분류 필터 */}
             <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
               {MID_LIST.map(m=>(
@@ -284,7 +284,7 @@ const MgrAgentAuth = () => {
               ))}
             </div>
             {/* 검색 */}
-            <FInput value={resQ} onChange={e=>{setResQ(e.target.value);setResPage(1);}}
+            <FormInput value={resQ} onChange={e=>{setResQ(e.target.value);setResPage(1);}}
               placeholder="자원명 / IP 검색"
               style={{...inp,fontSize:12,padding:"6px 10px",width:"100%",boxSizing:"border-box"}} />
           </div>
@@ -359,17 +359,17 @@ const MgrAgentAuth = () => {
               <div style={{fontSize:12}}>왼쪽에서 자원을 선택하면 에이전트 접속 권한을 관리할 수 있습니다.</div>
             </div>
           ) : (<>
-            <SB ph="에이전트, 호스트 검색" />
-            <Tbl secTitle={`${selRes.nm} 에이전트 목록`} secCount={curAuth.length} secButtons={availableAgents.length > 0 && (
+            <SearchBar ph="에이전트, 호스트 검색" />
+            <DataTable secTitle={`${selRes.nm} 에이전트 목록`} secCount={curAuth.length} secButtons={availableAgents.length > 0 && (
               <div style={{position:"relative"}}>
-                <FSelect defaultValue=""
+                <FormSelect defaultValue=""
                   onChange={e=>{ if(e.target.value){ openPanel(null,true,e.target.value); e.target.value=""; }}}
                   style={{fontSize:12,padding:"6px 12px",color:C.pri,border:`1px solid ${C.pri}`,borderRadius:4,fontWeight:600,background:"#fff",cursor:"pointer",fontFamily:"inherit"}}>
                   <option value="" disabled>+ 에이전트 추가</option>
                   {availableAgents.map(a=>(
                     <option key={a.cd} value={a.cd}>{a.icon} {a.nm}</option>
                   ))}
-                </FSelect>
+                </FormSelect>
               </div>
             )} cols={[
               { t: "에이전트", k: "agentType", r: v => { const ag = AGENT_TYPES.find(a=>a.cd===v); return <Badge status={v} label={ag ? `${ag.icon} ${ag.nm}` : v} />; } },
@@ -398,9 +398,9 @@ const MgrAgentAuth = () => {
       <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
         {panelForm && (
           <>
-            {!panelIsNew && <PanelDeleteBtn onClick={()=>setDelTarget(panelForm.id)} />}
+            {!panelIsNew && <PanelDeleteButton onClick={()=>setDelTarget(panelForm.id)} />}
 
-            <SecTitle label="에이전트 정보" primary />
+            <SectionTitle label="에이전트 정보" primary />
             <div style={{marginBottom:16,padding:"12px 14px",background:"#f8fafc",border:`1px solid ${C.brd}`,borderRadius:8,display:"flex",alignItems:"center",gap:12}}>
               {(() => { const ag = AGENT_TYPES.find(a=>a.cd===panelForm.agentType); return <Badge status={panelForm.agentType} label={ag ? `${ag.icon} ${ag.nm}` : panelForm.agentType} />; })()}
               <div style={{fontSize:12,color:C.txS}}>
@@ -410,7 +410,7 @@ const MgrAgentAuth = () => {
               </div>
             </div>
 
-            <SecTitle label="접속 정보" primary />
+            <SectionTitle label="접속 정보" primary />
             {renderAuthFields()}
 
             {/* 연결 테스트 */}
@@ -420,9 +420,9 @@ const MgrAgentAuth = () => {
                   <span style={{fontSize:12,fontWeight:600,color:C.txt}}>연결 테스트</span>
                   <Badge status={panelForm.testResult||"미확인"} />
                 </div>
-                <Btn sm outline onClick={handleTest} disabled={testLoading}>
+                <Button sm outline onClick={handleTest} disabled={testLoading}>
                   {testLoading ? "테스트 중..." : "연결 테스트"}
-                </Btn>
+                </Button>
               </div>
               {panelForm.testDt && (
                 <div style={{color:C.txL,marginTop:6,fontFamily:"inherit"}}>마지막 테스트: {panelForm.testDt}</div>
@@ -434,9 +434,9 @@ const MgrAgentAuth = () => {
       </div>{/* /바디 */}
       <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <Btn onClick={()=>setPanel(false)}>취소</Btn>
+          <Button onClick={()=>setPanel(false)}>취소</Button>
           <div style={{ flex: 1 }} />
-          <Btn primary onClick={saveAuth}>{panelIsNew ? "등록" : "저장"}</Btn>
+          <Button primary onClick={saveAuth}>{panelIsNew ? "등록" : "저장"}</Button>
         </div>
       </div>
       </SidePanel>

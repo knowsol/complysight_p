@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { FormRow } from '@/components/ui/FormRow';
 import { Modal } from '@/components/ui/Modal';
 import { FormInput } from '@/components/ui/FormField';
@@ -40,8 +40,8 @@ export function AddSystemModal({ open, onClose, onSubmit }: AddSystemModalProps)
         <FormInput value={form.systemId} onChange={(e) => setForm((p) => ({ ...p, systemId: e.target.value }))} />
       </FormRow>
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 16 }}>
-        <Btn onClick={onClose}>취소</Btn>
-        <Btn primary onClick={() => onSubmit?.(form)}>등록</Btn>
+        <Button onClick={onClose}>취소</Button>
+        <Button primary onClick={() => onSubmit?.(form)}>등록</Button>
       </div>
     </Modal>
   );

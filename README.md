@@ -203,23 +203,23 @@ src/
 ### 5.1 버튼 — `Button.tsx` (290줄)
 
 ```tsx
-import { Btn, SearchBtn, RefreshBtn, SecBtnO, SecBtnP } from '@/components/ui/Button';
+import { Button, SearchBtn, RefreshBtn } from '@/components/ui/Button';
 
 // 기본 버튼 — primary, danger, success, outline 등의 variant
-<Btn primary onClick={handleClick}>저장</Btn>
-<Btn danger sm>삭제</Btn>
-<Btn outline>취소</Btn>
-<Btn outlineDanger small>거절</Btn>
-<Btn ghost xs>더보기</Btn>
-<Btn disabled>비활성</Btn>
+<Button primary onClick={handleClick}>저장</Button>
+<Button danger sm>삭제</Button>
+<Button outline>취소</Button>
+<Button outlineDanger small>거절</Button>
+<Button ghost xs>더보기</Button>
+<Button disabled>비활성</Button>
 
 // 검색/초기화 버튼 (아이콘 내장)
 <SearchBtn onClick={doSearch} />
 <RefreshBtn onClick={doReset} />
 
 // 섹션 버튼 (테이블 제목 옆에 사용)
-<SecBtnO onClick={fn}>텍스트 버튼</SecBtnO>
-<SecBtnP onClick={fn}>Primary 버튼</SecBtnP>
+<Button variant="outline" onClick={fn}>텍스트 버튼</Button>
+<Button variant="primary" onClick={fn}>Primary 버튼</Button>
 ```
 
 | Prop | 타입 | 기본값 | 설명 |
@@ -234,17 +234,20 @@ import { Btn, SearchBtn, RefreshBtn, SecBtnO, SecBtnP } from '@/components/ui/Bu
 | `xs` | `boolean` | `false` | 아주 작은 크기 |
 | `disabled` | `boolean` | `false` | 비활성 |
 
+> 신규 사용 시에는 `variant="primary" | "outline" | "danger"` 와 `size="sm" | "xs"` 형태를 우선 권장합니다.  
+> 기존 `primary`, `outline`, `sm` 등의 boolean prop도 호환을 위해 유지됩니다.
+
 ---
 
-### 5.2 테이블 — `Table.tsx` (192줄)
+### 5.2 테이블 — `DataTable.tsx` (192줄)
 
 ```tsx
-import { Tbl } from '@/components/ui/Table';
+import { DataTable } from '@/components/ui/DataTable';
 
-<Tbl
+<DataTable
   secTitle="자원 목록"               // 섹션 제목
   secCount={filteredData.length}      // 건수 표시
-  secButtons={<Btn>추가</Btn>}        // 제목 우측 버튼
+  secButtons={<Button>추가</Button>}        // 제목 우측 버튼
   cols={[
     { t: "No.",     k: "id",    w: 60 },                               // 기본 컬럼
     { t: "이름",    k: "name",  align: "left" },                       // 좌측 정렬
@@ -274,7 +277,7 @@ import { Tbl } from '@/components/ui/Table';
 ```tsx
 import { Card } from '@/components/ui/Card';
 
-<Card title="점검종류" extra={<Btn sm>편집</Btn>} style={{ maxHeight: 500 }}>
+<Card title="점검종류" extra={<Button sm>편집</Button>} style={{ maxHeight: 500 }}>
   {children}
 </Card>
 ```
@@ -308,20 +311,20 @@ import { Badge, YnBadge, RoleBadge } from '@/components/ui/Badge';
 ### 5.5 입력 필드 — `Input.tsx` (103줄)
 
 ```tsx
-import { FInput, FSelect, FTextarea, RoSelect } from '@/components/ui/Input';
+import { FormInput, FormSelect, FormTextarea, RoSelect } from '@/components/ui/Input';
 
 // 텍스트 입력
-<FInput value={kw} onChange={e => setKw(e.target.value)}
+<FormInput value={kw} onChange={e => setKw(e.target.value)}
   placeholder="검색어" style={{ minWidth: 120 }} />
 
 // 셀렉트 박스
-<FSelect value={sys} onChange={e => setSys(e.target.value)}>
+<FormSelect value={sys} onChange={e => setSys(e.target.value)}>
   <option value="">전체</option>
   {items.map(i => <option key={i.id} value={i.id}>{i.nm}</option>)}
-</FSelect>
+</FormSelect>
 
 // 텍스트 에어리어
-<FTextarea value={memo} onChange={e => setMemo(e.target.value)} rows={4} />
+<FormTextarea value={memo} onChange={e => setMemo(e.target.value)} rows={4} />
 
 // 읽기 전용 셀렉트 (readOnly 일 때 비활성 표시)
 <RoSelect readOnly={isReadOnly} value={val} onChange={e => setVal(e.target.value)}>
@@ -329,7 +332,7 @@ import { FInput, FSelect, FTextarea, RoSelect } from '@/components/ui/Input';
 </RoSelect>
 ```
 
-> `FInput`, `FSelect`, `FTextarea`는 HTML 기본 속성을 모두 지원합니다.  
+> `FormInput`, `FormSelect`, `FormTextarea`는 HTML 기본 속성을 모두 지원합니다.  
 > `style` prop으로 개별 스타일을 덮어쓸 수 있습니다.
 
 ---
@@ -365,20 +368,20 @@ import { DatePicker, DateRangePicker, TimePicker, DateTimePicker } from '@/compo
 ### 5.7 검색바 — `SearchBar.tsx` (165줄)
 
 ```tsx
-import { SB } from '@/components/ui/SearchBar';  // SB = SearchBar 별칭
+import { SearchBar } from '@/components/ui/SearchBar';  // SearchBar = 검색/초기화 버튼 래퍼
 
-<SB onSearch={doSearch} onReset={doReset}>
+<SearchBar onSearch={doSearch} onReset={doReset}>
   {/* children으로 필터 필드를 자유롭게 배치 */}
   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
     <span style={{ ...LABEL_STYLE_SM }}>정보시스템</span>
-    <FSelect value={sys} onChange={e => setSys(e.target.value)}>
+    <FormSelect value={sys} onChange={e => setSys(e.target.value)}>
       <option value="">전체</option>
-    </FSelect>
+    </FormSelect>
   </div>
-</SB>
+</SearchBar>
 ```
 
-> `SB`는 검색/초기화 버튼이 내장된 래퍼입니다.  
+> `SearchBar`는 검색/초기화 버튼이 내장된 래퍼입니다.  
 > 안에 원하는 필터 요소를 `children`으로 넣으면 됩니다.
 
 ---
@@ -386,9 +389,9 @@ import { SB } from '@/components/ui/SearchBar';  // SB = SearchBar 별칭
 ### 5.8 페이지 헤더 — `PageHeader.tsx`
 
 ```tsx
-import { PH } from '@/components/ui/PageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
 
-<PH title="자원관리" bc="홈 > 자원관리" extra={<Btn primary>추가</Btn>} />
+<PageHeader title="자원관리" bc="홈 > 자원관리" extra={<Button primary>추가</Button>} />
 ```
 
 | Prop | 타입 | 설명 |
@@ -407,7 +410,7 @@ import { SidePanel } from '@/components/ui/SidePanel';
 <SidePanel open={!!selected} onClose={() => setSelected(null)}
   title="자원 상세" width={580}>
   <FormRow label="자원명" required>
-    <FInput value={name} onChange={...} />
+    <FormInput value={name} onChange={...} />
   </FormRow>
   <PanelFooter onCancel={() => setSelected(null)} onSave={handleSave} />
 </SidePanel>
@@ -433,19 +436,19 @@ import { Modal } from '@/components/ui/Modal';
 ### 5.11 폼 행 — `FormRow.tsx` (75줄)
 
 ```tsx
-import { FormRow, SecTitle, PanelFooter, PanelDeleteBtn } from '@/components/ui/FormRow';
+import { FormRow, SectionTitle, PanelFooter, PanelDeleteButton } from '@/components/ui/FormRow';
 
 // 폼 필드 행 (라벨 + 입력)
 <FormRow label="시스템명" required half>
-  <FInput value={name} onChange={...} />
+  <FormInput value={name} onChange={...} />
 </FormRow>
 
 // 섹션 제목
-<SecTitle label="기본정보" count={5} buttons={<SecBtnO>추가</SecBtnO>} />
+<SectionTitle label="기본정보" count={5} buttons={<Button variant="outline">추가</Button>} />
 
 // 패널 하단 버튼
 <PanelFooter onCancel={close} onSave={save} saveLabel="등록"
-  extraLeft={<PanelDeleteBtn onClick={del} />} />
+  extraLeft={<PanelDeleteButton onClick={del} />} />
 ```
 
 ---
@@ -475,9 +478,9 @@ import { _dailyMenu } from '@/data/inspections';
 ### 5.13 아이콘 — `Icon.tsx` (43줄)
 
 ```tsx
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 
-<Ic n="check" s={16} c={C.sec} />
+<Icon n="check" s={16} c={C.sec} />
 ```
 
 | Prop | 타입 | 기본값 | 설명 |
@@ -492,15 +495,14 @@ import { Ic } from '@/components/ui/Icon';
 
 | 컴포넌트 | 파일 | 설명 | 주요 Props |
 |----------|------|------|-----------|
-| `Stat` | `Stat.tsx` | 통계 숫자 표시 | `label`, `value`, `color`, `icon`, `onClick` |
-| `StatCard` | `StatCard.tsx` | 통계 카드 (아이콘+숫자) | `label`, `value`, `color`, `icon` |
+| `StatCard` | `StatCard.tsx` | 통계 카드 (아이콘 + 숫자) | `label`, `value`, `color`, `icon`, `onClick` |
 | `TabNav` / `FilterTab` | `TabNav.tsx` / `FilterTab.tsx` | 탭 필터 | `options`, `value`, `onChange` |
 | `Radio` | `Radio.tsx` | 라디오 버튼 그룹 | `options`, `value`, `onChange`, `disabled` |
 | `Toggle` / `ToggleSwitch` | `Toggle.tsx` / `ToggleSwitch.tsx` | 토글 스위치 | `on`, `onClick`, `disabled` |
 | `Pagination` | `Pagination.tsx` | 페이지네이션 | `page`, `totalPages`, `setPage` |
 | `ConfirmDialog` | `ConfirmDialog.tsx` | 확인/취소 다이얼로그 | `open`, `title`, `msg`, `onOk`, `onCancel` |
 | `ConfirmModal` | `ConfirmModal.tsx` | 확인 모달 (별도 구현) | `open`, `title`, `msg`, `onOk`, `onCancel` |
-| `DataTable` | `DataTable.tsx` | 제네릭 데이터 테이블 | `Tbl`과 동일 인터페이스 |
+| `DataTable` | `DataTable.tsx` | 제네릭 데이터 테이블 | `cols`, `data`, `onRow`, `pageSize`, `secTitle` |
 | `FormField` | `FormField.tsx` | 폼 필드 (FormRow 대안) | `label`, `required`, `children`, `half` |
 | `SelectField` | `SelectField.tsx` | 스타일링된 Select | `style`, `children`, + HTML Select 속성 |
 | `TextArea` | `TextArea.tsx` | 스타일링된 Textarea | `style`, + HTML Textarea 속성 |
@@ -517,11 +519,9 @@ import { Ic } from '@/components/ui/Icon';
 | `Badge` (`Badge.tsx`) | `import { Badge } from '@/components/ui/Badge'` | 상태 배지 | `status` |
 | `YnBadge` (`Badge.tsx`) | `import { YnBadge } from '@/components/ui/Badge'` | Y/N 배지 | `v` |
 | `RoleBadge` (`Badge.tsx`) | `import { RoleBadge } from '@/components/ui/Badge'` | 역할 배지 | `v` |
-| `Btn` (`Button.tsx`) | `import { Btn } from '@/components/ui/Button'` | 범용 버튼 | `primary`, `danger`, `outline`, `sm`, `xs`, `disabled` |
-| `SearchBtn` (`Button.tsx`) | `import { SearchBtn } from '@/components/ui/Button'` | 검색 아이콘 버튼 | `onClick` |
-| `RefreshBtn` (`Button.tsx`) | `import { RefreshBtn } from '@/components/ui/Button'` | 초기화 아이콘 버튼 | `onClick` |
-| `SecBtnO` (`Button.tsx`) | `import { SecBtnO } from '@/components/ui/Button'` | 섹션 아웃라인 버튼 | `children`, `onClick` |
-| `SecBtnP` (`Button.tsx`) | `import { SecBtnP } from '@/components/ui/Button'` | 섹션 프라이머리 버튼 | `children`, `onClick`, `style` |
+| `Button` (`Button.tsx`) | `import { Button } from '@/components/ui/Button';` | 범용 버튼 | `primary`, `danger`, `outline`, `sm`, `xs`, `disabled` |
+| `SearchBtn` (`Button.tsx`) | `import { SearchBtn } from '@/components/ui/Button';` | 검색 아이콘 버튼 | `onClick` |
+| `RefreshBtn` (`Button.tsx`) | `import { RefreshBtn } from '@/components/ui/Button';` | 초기화 아이콘 버튼 | `onClick` |
 | `Card` (`Card.tsx`) | `import { Card } from '@/components/ui/Card'` | 박스 카드 레이아웃 | `title`, `extra`, `children`, `style` |
 | `ConfirmDialog` (`ConfirmDialog.tsx`) | `import { ConfirmDialog } from '@/components/ui/ConfirmDialog'` | 확인 다이얼로그 | `open`, `title`, `msg`, `onOk`, `onCancel`, `danger` |
 | `UnsavedConfirmDialog` (`ConfirmDialog.tsx`) | `import { UnsavedConfirmDialog } from '@/components/ui/ConfirmDialog'` | 이탈 확인 다이얼로그 | `open`, `onDiscard`, `onSave` |
@@ -537,32 +537,30 @@ import { Ic } from '@/components/ui/Icon';
 | `FilterTab` (`FilterTab.tsx`) | `import { FilterTab } from '@/components/ui/FilterTab'` | 필터 탭 | `options`, `value`, `onChange` |
 | `FormField` (`FormField.tsx`) | `import { FormField } from '@/components/ui/FormField'` | 라벨+컨텐츠 폼 라인 | `label`, `required`, `half`, `style` |
 | `FormInput` (`FormField.tsx`) | `import { FormInput } from '@/components/ui/FormField'` | FormField용 입력 필드 | `style` + HTML input props |
-| `FormRow` (`FormRow.tsx`) | `import { FormRow } from '@/components/ui/FormRow'` | 패널용 폼 행 | `label`, `required`, `half`, `style` |
-| `SecTitle` (`FormRow.tsx`) | `import { SecTitle } from '@/components/ui/FormRow'` | 섹션 제목줄 | `label`, `count`, `buttons`, `style` |
-| `PanelDeleteBtn` (`FormRow.tsx`) | `import { PanelDeleteBtn } from '@/components/ui/FormRow'` | 패널 삭제 버튼 | `onClick` |
-| `PanelFooter` (`FormRow.tsx`) | `import { PanelFooter } from '@/components/ui/FormRow'` | 패널 하단 저장/취소 | `onCancel`, `onSave`, `saveLabel`, `extraLeft` |
-| `Ic` (`Icon.tsx`) | `import { Ic } from '@/components/ui/Icon'` | SVG 아이콘 | `n`, `s`, `c` |
-| `FInput` (`Input.tsx`) | `import { FInput } from '@/components/ui/Input'` | 기본 텍스트 입력 | `style` + HTML input props |
-| `FSelect` (`Input.tsx`) | `import { FSelect } from '@/components/ui/Input'` | 기본 셀렉트 | `style` + HTML select props |
-| `FTextarea` (`Input.tsx`) | `import { FTextarea } from '@/components/ui/Input'` | 기본 텍스트에어리어 | `style` + HTML textarea props |
-| `RoSelect` (`Input.tsx`) | `import { RoSelect } from '@/components/ui/Input'` | readOnly 지원 셀렉트 | `readOnly`, `value`, `onChange`, `placeholder` |
+| `FormRow` (`FormRow.tsx`) | `import { FormRow } from '@/components/ui/FormRow';` | 패널용 폼 행 | `label`, `required`, `half`, `style` |
+| `SectionTitle` (`FormRow.tsx`) | `import { SectionTitle } from '@/components/ui/FormRow';` | 섹션 제목줄 | `label`, `count`, `buttons`, `style` |
+| `PanelDeleteButton` (`FormRow.tsx`) | `import { PanelDeleteButton } from '@/components/ui/FormRow';` | 패널 삭제 버튼 | `onClick` |
+| `PanelFooter` (`FormRow.tsx`) | `import { PanelFooter } from '@/components/ui/FormRow';` | 패널 하단 저장/취소 | `onCancel`, `onSave`, `saveLabel`, `extraLeft` |
+| `Icon` (`Icon.tsx`) | `import { Icon } from '@/components/ui/Icon';` | SVG 아이콘 | `n`, `s`, `c` |
+| `FormInput` (`Input.tsx`) | `import { FormInput } from '@/components/ui/Input';` | 기본 텍스트 입력 | `style` + HTML input props |
+| `FormSelect` (`Input.tsx`) | `import { FormSelect } from '@/components/ui/Input';` | 기본 셀렉트 | `style` + HTML select props |
+| `FormTextarea` (`Input.tsx`) | `import { FormTextarea } from '@/components/ui/Input';` | 기본 텍스트에어리어 | `style` + HTML textarea props |
+| `RoSelect` (`Input.tsx`) | `import { RoSelect } from '@/components/ui/Input';` | readOnly 지원 셀렉트 | `readOnly`, `value`, `onChange`, `placeholder` |
 | `InspFilter` (`InspFilter.tsx`) | `import { InspFilter } from '@/components/ui/InspFilter'` | 점검 종류 트리 필터 | `menus`, `sel`, `sub`, `onSelect`, `data`, `kindKey`, `midKey` |
 | `Modal` (`Modal.tsx`) | `import { Modal } from '@/components/ui/Modal'` | 중앙 모달 | `open`, `onClose`, `title`, `width`, `children` |
-| `PH` (`PageHeader.tsx`) | `import { PH } from '@/components/ui/PageHeader'` | 페이지 상단 헤더 | `title`, `bc`, `extra` |
+| `PageHeader` (`PageHeader.tsx`) | `import { PageHeader } from '@/components/ui/PageHeader';` | 페이지 상단 헤더 | `title`, `bc`, `extra` |
 | `Pagination` (`Pagination.tsx`) | `import { Pagination } from '@/components/ui/Pagination'` | 페이지네이션 | `page`, `totalPages`, `setPage` |
 | `Radio` (`Radio.tsx`) | `import { Radio } from '@/components/ui/Radio'` | 라디오 그룹 | `options`, `value`, `onChange`, `disabled` |
-| `SearchBar` (`SearchBar.tsx`) | `import { SearchBar } from '@/components/ui/SearchBar'` | 검색 바 래퍼 | `onSearch`, `onReset`, `children`, `fields` |
-| `SB` (`SearchBar.tsx`) | `import { SB } from '@/components/ui/SearchBar'` | SearchBar 별칭 | SearchBar와 동일 |
+| `SearchBar` (`SearchBar.tsx`) | `import { SearchBar } from '@/components/ui/SearchBar';` | 검색 바 래퍼 | `onSearch`, `onReset`, `children`, `fields` |
 | `SelectField` (`SelectField.tsx`) | `import { SelectField } from '@/components/ui/SelectField'` | 대체 셀렉트 컴포넌트 | `style` + HTML select props |
 | `ReadOnlySelect` (`SelectField.tsx`) | `import { ReadOnlySelect } from '@/components/ui/SelectField'` | readOnly 셀렉트 | `readOnly`, `value`, `onChange`, `placeholder` |
 | `SidePanel` (`SidePanel.tsx`) | `import { SidePanel } from '@/components/ui/SidePanel'` | 우측 슬라이드 패널 | `open`, `onClose`, `title`, `width`, `noScroll` |
-| `Stat` (`Stat.tsx`) | `import { Stat } from '@/components/ui/Stat'` | 숫자 통계 타일 | `label`, `value`, `color`, `icon`, `onClick` |
 | `StatCard` (`StatCard.tsx`) | `import { StatCard } from '@/components/ui/StatCard'` | 카드형 통계 위젯 | `label`, `value`, `color`, `icon`, `onClick` |
 | `StatusBadge` (`StatusBadge.tsx`) | `import { StatusBadge } from '@/components/ui/StatusBadge'` | 상태 배지 (대체 구현) | `status` |
 | `YnBadge` (`StatusBadge.tsx`) | `import { YnBadge } from '@/components/ui/StatusBadge'` | Y/N 배지 (대체 구현) | `v` |
 | `RoleBadge` (`StatusBadge.tsx`) | `import { RoleBadge } from '@/components/ui/StatusBadge'` | 역할 배지 (대체 구현) | `v` |
-| `Tbl` (`Table.tsx`) | `import { Tbl } from '@/components/ui/Table'` | 메인 테이블 컴포넌트 | `cols`, `data`, `onRow`, `pageSize`, `secTitle` |
-| `GuiPag` (`Table.tsx`) | `import { GuiPag } from '@/components/ui/Table'` | Table 전용 페이지네이션 | `page`, `totalPages`, `setPage` |
+| `DataTable` (`DataTable.tsx`) | `import { DataTable } from '@/components/ui/DataTable';` | 메인 테이블 컴포넌트 | `cols`, `data`, `onRow`, `pageSize`, `secTitle` |
+| `Pagination` (`Pagination.tsx`) | `import { Pagination } from '@/components/ui/Pagination';` | 독립 페이지네이션 | `page`, `totalPages`, `setPage` |
 | `TabNav` (`TabNav.tsx`) | `import { TabNav } from '@/components/ui/TabNav'` | 탭 네비게이션 | `options`, `value`, `onChange` |
 | `TextArea` (`TextArea.tsx`) | `import { TextArea } from '@/components/ui/TextArea'` | 대체 textarea 컴포넌트 | `style` + HTML textarea props |
 | `TimePicker` (`TimePicker.tsx`) | `import { TimePicker } from '@/components/ui/TimePicker'` | 단독 파일 시간 선택기 | `value`, `onChange`, `withSeconds`, `disabled` |
@@ -611,7 +609,7 @@ import { ResourcePanel } from '@/components/panels';
 // 행 선택 시 패널 열기
 const [selected, setSelected] = useState(null);
 
-<Tbl onRow={(row) => setSelected(row)} ... />
+<DataTable onRow={(row) => setSelected(row)} ... />
 <ResourcePanel item={selected} onClose={() => setSelected(null)} onSave={handleSave} />
 ```
 
@@ -811,11 +809,11 @@ import { LABEL_STYLE, LABEL_STYLE_SM, fInput, fSelect, fTextarea, TH, TD } from 
 |--------|------|--------|
 | `LABEL_STYLE` | 폼 라벨 기본 스타일 | 검색폼 위 라벨 |
 | `LABEL_STYLE_SM` | 폼 라벨 (작은 사이즈) | 검색폼 위 라벨 |
-| `fInput` | input 기본 스타일 | `FInput` 내부에서 사용 |
-| `fSelect` | select 기본 스타일 (커스텀 chevron 포함) | `FSelect` 내부에서 사용 |
-| `fTextarea` | textarea 기본 스타일 | `FTextarea` 내부에서 사용 |
-| `TH(sx?)` | 테이블 헤더 셀 스타일 팩토리 | `Tbl` 내부 |
-| `TD(sx?)` | 테이블 바디 셀 스타일 팩토리 | `Tbl` 내부 |
+| `fInput` | input 기본 스타일 | `FormInput` 내부에서 사용 |
+| `fSelect` | select 기본 스타일 (커스텀 chevron 포함) | `FormSelect` 내부에서 사용 |
+| `fTextarea` | textarea 기본 스타일 | `FormTextarea` 내부에서 사용 |
+| `TH(sx?)` | 테이블 헤더 셀 스타일 팩토리 | `DataTable` 내부 |
+| `TD(sx?)` | 테이블 바디 셀 스타일 팩토리 | `DataTable` 내부 |
 
 ### 10.3 상태 색상 (`src/lib/theme/status-colors.ts`)
 
@@ -877,12 +875,12 @@ src/app/manager/새기능/page.tsx
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Btn, SearchBtn, RefreshBtn } from '@/components/ui/Button';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Button, SearchBtn, RefreshBtn } from '@/components/ui/Button';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge } from '@/components/ui/Badge';
-import { FInput, FSelect } from '@/components/ui/Input';
-import { SB } from '@/components/ui/SearchBar';
+import { FormInput, FormSelect } from '@/components/ui/Input';
+import { SearchBar } from '@/components/ui/SearchBar';
 import { C } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM } from '@/lib/theme/styles';
 
@@ -901,18 +899,18 @@ export default function NewFeaturePage() {
 
   return (
     <div>
-      <PH title="새 기능" bc="홈 > 새 기능" />
+      <PageHeader title="새 기능" bc="홈 > 새 기능" />
 
       {/* 검색폼 */}
-      <SB onSearch={() => {}} onReset={() => setKw('')}>
+      <SearchBar onSearch={() => {}} onReset={() => setKw('')}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           <span style={{ ...LABEL_STYLE_SM }}>검색</span>
-          <FInput value={kw} onChange={e => setKw(e.target.value)} placeholder="검색어" />
+          <FormInput value={kw} onChange={e => setKw(e.target.value)} placeholder="검색어" />
         </div>
-      </SB>
+      </SearchBar>
 
       {/* 테이블 */}
-      <Tbl
+      <DataTable
         secTitle="목록"
         secCount={filtered.length}
         cols={[
@@ -1020,9 +1018,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 // 2. UI 컴포넌트 — 개별 파일에서 직접 import
-import { PH } from '@/components/ui/PageHeader';
-import { Btn } from '@/components/ui/Button';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Button } from '@/components/ui/Button';
+import { DataTable } from '@/components/ui/DataTable';
 
 // 3. 패널/모달 — index.ts에서 통합 import
 import { ResourcePanel, AddSystemModal } from '@/components/panels';
@@ -1130,10 +1128,10 @@ Import 경로 확인. `@/` 별칭은 `src/` 를 가리킵니다.
 
 ```tsx
 // ✗ 잘못된 경로
-import { Btn } from '../components/ui/Button';
+import { Button } from '../components/ui/Button';
 
 // ✓ 올바른 경로
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 ```
 
 ### 빌드 시 캐시 문제

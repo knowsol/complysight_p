@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { FInput } from '@/components/ui/Input';
+import { FormInput } from '@/components/ui/Input';
 import { useAuth, type AuthUser } from '@/contexts/AuthContext';
 import { ROUTES } from '@/lib/constants/routes';
 import { BASE, THEME } from '@/lib/theme/colors';
@@ -238,7 +238,7 @@ export default function LoginPage() {
               <span style={{ fontSize: 12, color: saveId ? t.brand : '#929292', fontWeight: saveId ? 600 : 400 }}>아이디 저장</span>
             </label>
           </div>
-          <FInput
+          <FormInput
             value={uid}
             onChange={handleUidChange}
             onKeyDown={(event) => {
@@ -257,7 +257,7 @@ export default function LoginPage() {
 
         <div style={{ marginBottom: 6, marginTop: 10 }}>
           <label style={{ fontSize: 12, fontWeight: 600, color: '#929292', display: 'block', marginBottom: 5 }}>비밀번호</label>
-          <FInput
+          <FormInput
             type="password"
             value={pw}
             onChange={(event) => {
@@ -416,7 +416,7 @@ export default function LoginPage() {
                 </div>
                 <div style={{ marginTop: 22, marginBottom: 4 }}>
                   <label style={{ fontSize: 12, fontWeight: 600, color: '#929292', display: 'block', marginBottom: 6 }}>이메일 주소</label>
-                  <FInput
+                  <FormInput
                     autoFocus
                     value={pwReset.email}
                     onChange={(event) => {

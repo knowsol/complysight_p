@@ -1,6 +1,6 @@
 'use client';
 
-import { Btn } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { SidePanel } from '@/components/ui/SidePanel';
 import type { Notice } from '@/types/notice';
 
@@ -18,7 +18,7 @@ export function LibViewPanel({ open, onClose, item }: LibViewPanelProps) {
         <div>{item?.content}</div>
       </div>
       <div style={{ padding: '16px 24px', borderTop: '1px solid #eee' }}>
-        <Btn onClick={onClose}>닫기</Btn>
+        <Button onClick={onClose}>닫기</Button>
       </div>
     </SidePanel>
   );

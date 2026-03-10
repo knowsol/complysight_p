@@ -9,7 +9,7 @@ export interface PageHeaderProps {
   extra?: React.ReactNode;
 }
 
-export const PH = ({ title, bc, extra }: PageHeaderProps) => (
+export const PageHeader = ({ title, bc, extra }: PageHeaderProps) => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, color: C.txH, lineHeight: '32px' }}>{title}</h1>
@@ -33,3 +33,5 @@ export const PH = ({ title, bc, extra }: PageHeaderProps) => (
     </div>
   </div>
 );
+
+export const PH = PageHeader;

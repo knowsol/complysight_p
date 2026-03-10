@@ -2,12 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Btn, SearchBtn, RefreshBtn, SecBtnO, SecBtnP } from '@/components/ui/Button';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Button, SearchBtn, RefreshBtn } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { Tbl } from '@/components/ui/Table';
+import { DataTable } from '@/components/ui/DataTable';
 import { Card } from '@/components/ui/Card';
-import { FInput, FSelect } from '@/components/ui/Input';
+import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { InspFilter } from '@/components/ui/InspFilter';
 import { PageSidebarLayout } from '@/components/ui/PageSidebarLayout';
@@ -58,7 +58,7 @@ export default function SentinelDailyInspectionPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
-      <PH title="일상점검" bc="홈 > 일상점검" />
+      <PageHeader title="일상점검" bc="홈 > 일상점검" />
       <PageSidebarLayout
         sidebar={(
           <Card title="점검종류" style={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -70,10 +70,10 @@ export default function SentinelDailyInspectionPage() {
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
                 <span style={{ ...LABEL_STYLE_SM }}>정보시스템</span>
-                <FSelect value={fSys} onChange={(e) => setFSys(e.target.value)} style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', fontFamily: 'inherit', minWidth: 120 }}>
+                <FormSelect value={fSys} onChange={(e) => setFSys(e.target.value)} style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', fontFamily: 'inherit', minWidth: 120 }}>
                   <option value="">전체</option>
                   {SYS.map((s) => <option key={s.id} value={s.id}>{s.nm}</option>)}
-                </FSelect>
+                </FormSelect>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
@@ -87,7 +87,7 @@ export default function SentinelDailyInspectionPage() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
                 <span style={{ ...LABEL_STYLE_SM }}>자원명/점검자</span>
-                <FInput value={kw} onChange={(e) => setKw(e.target.value)} placeholder="자원명 또는 점검자" style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', minWidth: 120, fontFamily: 'inherit' }} />
+                <FormInput value={kw} onChange={(e) => setKw(e.target.value)} placeholder="자원명 또는 점검자" style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', minWidth: 120, fontFamily: 'inherit' }} />
               </div>
             </div>
             <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', flexShrink: 0, alignSelf: 'stretch' }}>
@@ -96,18 +96,18 @@ export default function SentinelDailyInspectionPage() {
             </div>
           </div>
 
-          <Tbl
+          <DataTable
             secTitle={title}
             secCount={filtered.length}
             onRow={(row) => setSelItem(row)}
             secButtons={<div style={{ display: 'flex', gap: 6 }}>
-              <SecBtnO onClick={() => setShowBatch(true)}>
+              <Button variant="outline" onClick={() => setShowBatch(true)}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" style={{ flexShrink: 0 }}><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
                   일괄점검수행 <span style={{ color: C.txL, fontWeight: 400, fontSize: 12 }}>(추후 개발)</span>
                 </span>
-              </SecBtnO>
-              <SecBtnP onClick={() => setShowFree(true)}>+ 점검수행</SecBtnP>
+              </Button>
+              <Button variant="primary" onClick={() => setShowFree(true)}>+ 점검수행</Button>
             </div>}
             cols={[
               {

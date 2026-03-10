@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { FInput } from '@/components/ui/Input';
+import { FormInput } from '@/components/ui/Input';
 import { C } from '@/lib/theme/colors';
 import { fInput, LABEL_STYLE } from '@/lib/theme/styles';
 
@@ -104,7 +104,7 @@ export const TimePicker = ({ value = '', onChange, placeholder = 'HH:MM', disabl
   return (
     <div ref={ref} style={{ position: 'relative', width: sx?.width ?? '100%' }}>
       <div style={{ position: 'relative' }}>
-        <FInput readOnly value={value || ''} placeholder={placeholder} onClick={() => { if (!disabled && !readOnly) setOpen((o) => !o); }} disabled={disabled} style={inputStyle} />
+        <FormInput readOnly value={value || ''} placeholder={placeholder} onClick={() => { if (!disabled && !readOnly) setOpen((o) => !o); }} disabled={disabled} style={inputStyle} />
         <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', pointerEvents: 'none' }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <circle cx="8" cy="8" r="6.5" stroke={C.txL} strokeWidth="1.2" />

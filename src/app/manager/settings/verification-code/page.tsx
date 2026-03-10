@@ -2,14 +2,14 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Card } from '@/components/ui/Card';
-import { Tbl } from '@/components/ui/Table';
+import { DataTable } from '@/components/ui/DataTable';
 import { YnBadge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn, SecBtnP } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
-import { Ic } from '@/components/ui/Icon';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 import { VC } from '@/data/verification-codes';
 import { VCAddPanel } from '@/components/panels';
@@ -46,16 +46,16 @@ const MgrVC = () => {
   }[agent] || { bg:"#f3f4f6", color:"#374151" });
 
   return <div>
-    <PH title="검증코드" bc="홈 > 환경설정 > 점검표 > 검증코드" />
-    <SB ph="검증코드명으로 검색" />
-    <Tbl secTitle="검증코드 목록" secCount={vcData.length} noPaging
+    <PageHeader title="검증코드" bc="홈 > 환경설정 > 점검표 > 검증코드" />
+    <SearchBar ph="검증코드명으로 검색" />
+    <DataTable secTitle="검증코드 목록" secCount={vcData.length} noPaging
       secButtons={
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <span style={{ fontSize:12, color:C.txL, display:"flex", alignItems:"center", gap:3 }}>
-            <Ic n="info" s={11} c={C.txL} />
+            <Icon n="info" s={11} c={C.txL} />
             기준값 셀 클릭 후 Tab·Enter → 다음 행 &nbsp;|&nbsp; Shift+Tab → 이전 행
           </span>
-          <SecBtnP onClick={()=>setShowAdd(true)}>+ 검증코드 추가</SecBtnP>
+          <Button variant="primary" onClick={()=>setShowAdd(true)}>+ 검증코드 추가</Button>
         </div>
       }
       cols={[
@@ -71,7 +71,7 @@ const MgrVC = () => {
           const isEditing = editId === row.id;
           const isSaved   = savedId === row.id;
           if (isEditing) return (
-            <FInput autoFocus value={editVal} onChange={e=>setEditVal(e.target.value)}
+            <FormInput autoFocus value={editVal} onChange={e=>setEditVal(e.target.value)}
               onKeyDown={e=>{
                 if (e.key==="Tab")    { e.preventDefault(); saveEdit(row.id, getAdjacentId(row.id, e.shiftKey?-1:1)); }
                 else if (e.key==="Enter")  { saveEdit(row.id, getAdjacentId(row.id, 1)); }
@@ -102,8 +102,8 @@ const MgrVC = () => {
         }},
         { t:"",  k:"id", w:80, r: (v, row) => editId === row.id ? (
           <div style={{ display:"flex", gap:4, justifyContent:"center" }}>
-            <Btn xs primary onClick={()=>saveEdit(row.id, getAdjacentId(row.id, 1))}>저장</Btn>
-            <Btn xs onClick={cancelEdit}>취소</Btn>
+            <Button xs primary onClick={()=>saveEdit(row.id, getAdjacentId(row.id, 1))}>저장</Button>
+            <Button xs onClick={cancelEdit}>취소</Button>
           </div>
         ) : null },
       ]} data={vcData} />
@@ -113,8 +113,8 @@ const MgrVC = () => {
 };
 
 const Placeholder = ({ title, bc }) => <div>
-  <PH title={title} bc={bc} />
-  <Card><div style={{ padding: 36, textAlign: "center", color: C.txL }}><Ic n="gear" s={40} c={C.txL} /><div style={{ marginTop: 10, fontSize: 15 }}>{title}</div><div style={{ marginTop: 4, fontSize: 12 }}>이 페이지는 개발 중입니다.</div></div></Card>
+  <PageHeader title={title} bc={bc} />
+  <Card><div style={{ padding: 36, textAlign: "center", color: C.txL }}><Icon n="gear" s={40} c={C.txL} /><div style={{ marginTop: 10, fontSize: 15 }}>{title}</div><div style={{ marginTop: 4, fontSize: 12 }}>이 페이지는 개발 중입니다.</div></div></Card>
 </div>;
 
 /* ──── PAGES: SENTINEL ──── */

@@ -2,10 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Btn } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
-import { FormRow, SecTitle } from '@/components/ui/FormRow';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
+import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
 import { C } from '@/lib/theme/colors';
 import { fInput } from '@/lib/theme/styles';
@@ -28,39 +28,39 @@ const MgrSysProfile = () => {
 
 
   return <div>
-    <PH title="시스템 프로필" bc="홈 > 환경설정 > 시스템 프로필" />
+    <PageHeader title="시스템 프로필" bc="홈 > 환경설정 > 시스템 프로필" />
     <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 20, alignItems: "start" }}>
 
       {/* 왼쪽: 입력 폼 */}
       <div style={{ background: "#fff", border: `1px solid ${C.brd}`, borderRadius: 12, padding: "28px 32px" }}>
-        <SecTitle label="기관 정보" primary />
+        <SectionTitle label="기관 정보" primary />
         <FormRow label="기관명" required>
-          <FInput value={form.orgName} onChange={e => sf("orgName", e.target.value)} placeholder="기관명을 입력하세요" style={fInput} />
+          <FormInput value={form.orgName} onChange={e => sf("orgName", e.target.value)} placeholder="기관명을 입력하세요" style={fInput} />
         </FormRow>
         <FormRow label="전화번호">
-          <FInput value={form.phone} onChange={e => sf("phone", e.target.value)} placeholder="02-0000-0000" style={fInput} />
+          <FormInput value={form.phone} onChange={e => sf("phone", e.target.value)} placeholder="02-0000-0000" style={fInput} />
         </FormRow>
 
         <div style={{ borderTop: `1px solid ${C.brd}`, margin: "20px 0" }} />
-        <SecTitle label="사이트 정보" />
+        <SectionTitle label="사이트 정보" />
         <FormRow label="사이트 명" required>
-          <FInput value={form.siteName} onChange={e => sf("siteName", e.target.value)} placeholder="사이트 명칭" style={fInput} />
+          <FormInput value={form.siteName} onChange={e => sf("siteName", e.target.value)} placeholder="사이트 명칭" style={fInput} />
         </FormRow>
         <FormRow label="사이트 약칭명" desc="사이드바, 헤더 등에 노출되는 짧은 명칭입니다.">
-          <FInput value={form.siteShort} onChange={e => sf("siteShort", e.target.value)} placeholder="약칭 (최대 10자)" style={fInput} maxLength={10} />
+          <FormInput value={form.siteShort} onChange={e => sf("siteShort", e.target.value)} placeholder="약칭 (최대 10자)" style={fInput} maxLength={10} />
         </FormRow>
         <FormRow label="URL" desc="외부에서 접속 가능한 서비스 URL을 입력하세요.">
-          <FInput value={form.url} onChange={e => sf("url", e.target.value)} placeholder="https://" style={fInput} />
+          <FormInput value={form.url} onChange={e => sf("url", e.target.value)} placeholder="https://" style={fInput} />
         </FormRow>
 
         <div style={{ borderTop: `1px solid ${C.brd}`, margin: "20px 0" }} />
-        <SecTitle label="운영 설정" />
+        <SectionTitle label="운영 설정" />
         <FormRow label="추가인증 사용여부" desc="로그인 시 OTP 등 추가인증을 적용합니다.">
           <Radio value={form.mfaEnabled} onChange={v => sf("mfaEnabled", v)} />
         </FormRow>
 
         <div style={{ borderTop: `1px solid ${C.brd}`, margin: "20px 0" }} />
-        <SecTitle label="로고 설정" />
+        <SectionTitle label="로고 설정" />
         <FormRow label="로고 이미지">
           <div style={{ display:"flex", alignItems:"center", gap:16 }}>
             <div style={{ width:120, height:48, border:`2px dashed ${C.brd}`, borderRadius:8, display:"flex", alignItems:"center", justifyContent:"center", background:"#F9FAFC", flexShrink:0 }}>
@@ -69,14 +69,14 @@ const MgrSysProfile = () => {
             <div>
               <label style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"6px 14px", border:`1px solid ${C.brd}`, borderRadius:5, fontSize:12, color:C.txS, cursor:"pointer", background:"#fff" }}>
                 📎 파일 선택
-                <FInput type="file" accept="image/*" style={{ display:"none" }} />
+                <FormInput type="file" accept="image/*" style={{ display:"none" }} />
               </label>
               <div style={{ fontSize:12, color:C.txL, marginTop:4 }}>PNG, JPG, SVG (최대 2MB)</div>
             </div>
           </div>
         </FormRow>
         <FormRow label="로고 이미지 대체텍스트" desc="이미지 로딩 실패 시 표시되는 텍스트입니다.">
-          <FInput value={form.logoAlt} onChange={e => sf("logoAlt", e.target.value)} placeholder="로고 alt 텍스트" style={fInput} />
+          <FormInput value={form.logoAlt} onChange={e => sf("logoAlt", e.target.value)} placeholder="로고 alt 텍스트" style={fInput} />
         </FormRow>
 
         {saveOk && (
@@ -86,7 +86,7 @@ const MgrSysProfile = () => {
         )}
 
         <div style={{ display:"flex", justifyContent:"flex-end", paddingTop:12, borderTop:`1px solid ${C.brd}` }}>
-          <Btn primary onClick={handleSave}>저장</Btn>
+          <Button primary onClick={handleSave}>저장</Button>
         </div>
       </div>
 

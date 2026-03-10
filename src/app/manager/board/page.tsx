@@ -2,10 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
-import { SB } from '@/components/ui/SearchBar';
-import { SecBtnP } from '@/components/ui/Button';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
 import { C } from '@/lib/theme/colors';
 import { NT } from '@/data/notices';
 import { NoticePanel } from '@/components/panels';
@@ -67,10 +67,10 @@ const MgrNotice = ({ readOnly, onBannerOn, onBannerOff }) => {
       ];
 
   return <div>
-    <PH title="공지사항" bc="홈 > 게시판 > 공지사항" />
-    <SB ph="제목으로 검색" value={kw} onChange={setKw} onSearch={doSearch} onReset={doReset} />
-    <Tbl secTitle="공지사항 목록" secCount={filtered.length}
-      secButtons={!readOnly && <SecBtnP onClick={() => setShowAdd(true)}>+ 공지사항 등록</SecBtnP>}
+    <PageHeader title="공지사항" bc="홈 > 게시판 > 공지사항" />
+    <SearchBar ph="제목으로 검색" value={kw} onChange={setKw} onSearch={doSearch} onReset={doReset} />
+    <DataTable secTitle="공지사항 목록" secCount={filtered.length}
+      secButtons={!readOnly && <Button variant="primary" onClick={() => setShowAdd(true)}>+ 공지사항 등록</Button>}
       onRow={row => setSelItem(row)} cols={listCols} data={filtered} />
     {!readOnly && <NoticePanel open={showAdd} onClose={() => setShowAdd(false)} item={null} onSave={handleSaveNotice} onDelete={handleDeleteNotice} />}
     <NoticePanel open={!!selItem} onClose={() => setSelItem(null)} item={selItem} viewOnly={readOnly} onSave={handleSaveNotice} onDelete={handleDeleteNotice} />

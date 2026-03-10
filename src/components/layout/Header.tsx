@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 
 interface HeaderUser {
@@ -163,7 +163,7 @@ export default function Header({
                   event.currentTarget.style.opacity = '0.5';
                 }}
               >
-                <Ic n="gear" s={13} c={C.txS} />
+                <Icon n="gear" s={13} c={C.txS} />
               </span>
             </span>
 
@@ -180,7 +180,7 @@ export default function Header({
                 transition: 'all .3s',
               }}
             >
-              <Ic n="clock" s={12} c={isWarning ? '#ef4444' : C.txS} />
+              <Icon n="clock" s={12} c={isWarning ? '#ef4444' : C.txS} />
               <span
                 style={{
                   color: isWarning ? '#ef4444' : C.txS,
@@ -227,7 +227,7 @@ export default function Header({
               }}
               title="로그아웃"
             >
-              <Ic n="out" s={16} c={C.txS} />
+              <Icon n="out" s={16} c={C.txS} />
             </div>
           </div>
         </div>

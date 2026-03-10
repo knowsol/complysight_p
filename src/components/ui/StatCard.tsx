@@ -1,7 +1,7 @@
 'use client';
 
 import { C } from '@/lib/theme/colors';
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import type { ReactNode } from 'react';
 
 export interface StatCardProps {
@@ -30,7 +30,7 @@ export function StatCard({ label, value, color, icon, onClick }: StatCardProps) 
           <div style={{ fontSize: 28, fontWeight: 700, color: color || C.txH }}>{value}</div>
         </div>
         <div style={{ width: 46, height: 46, borderRadius: 10, background: `${color || C.pri}18`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Ic n={icon} s={22} c={color || C.pri} />
+          <Icon n={icon} s={22} c={color || C.pri} />
         </div>
       </div>
     </div>

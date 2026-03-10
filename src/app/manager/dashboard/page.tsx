@@ -3,10 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useDI } from '@/contexts/DIContext';
-import { PH } from '@/components/ui/PageHeader';
-import { Stat } from '@/components/ui/Stat';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { StatCard } from '@/components/ui/StatCard';
 import { Card } from '@/components/ui/Card';
-import { Tbl } from '@/components/ui/Table';
+import { DataTable } from '@/components/ui/DataTable';
 import { Badge, YnBadge } from '@/components/ui/Badge';
 import { C } from '@/lib/theme/colors';
 import { SC } from '@/lib/theme/status-colors';
@@ -50,12 +50,12 @@ const MgrDash = ({ nav }) => {
   })();
 
   return <div>
-    <PH title="대시보드" bc="홈 > 대시보드" />
+    <PageHeader title="대시보드" bc="홈 > 대시보드" />
     <div style={{ display: "flex", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
-      <Stat label="전체 정보시스템" value={SYS.length} color={C.pri} icon="server" onClick={()=>nav&&nav("mr")} />
-      <Stat label="전체 자원" value={RES.length} color={C.sec} icon="db" onClick={()=>nav&&nav("mr")} />
-      <Stat label="오늘 보고 예정" value={(cnt.s||0) + (cnt.p||0)} color="#F36D00" icon="cal" onClick={()=>nav&&nav("mis")} />
-      <Stat label="보고 지연" value={cnt.d} color={C.red} icon="alert" onClick={()=>nav&&nav("mis")} />
+      <StatCard label="전체 정보시스템" value={SYS.length} color={C.pri} icon="server" onClick={()=>nav&&nav("mr")} />
+      <StatCard label="전체 자원" value={RES.length} color={C.sec} icon="db" onClick={()=>nav&&nav("mr")} />
+      <StatCard label="오늘 보고 예정" value={(cnt.s||0) + (cnt.p||0)} color="#F36D00" icon="cal" onClick={()=>nav&&nav("mis")} />
+      <StatCard label="보고 지연" value={cnt.d} color={C.red} icon="alert" onClick={()=>nav&&nav("mis")} />
     </div>
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
       <Card title="오늘의 보고 현황">
@@ -296,7 +296,7 @@ const MgrDash = ({ nav }) => {
 
       {/* ── 정보시스템별 자원 현황 ── */}
       <Card title="정보시스템별 자원 현황" style={{ gridColumn: "span 2" }}>
-        <Tbl cols={[{ t: "시스템명", k: "nm" }, { t: "유형", k: "type" }, { t: "관리주체", k: "org" }, { t: "자원수", k: "res" }, { t: "구성원수", k: "mem" }, { t: "상태", k: "useYn", r: v => <YnBadge v={v} /> }]} data={SYS} noPaging />
+        <DataTable cols={[{ t: "시스템명", k: "nm" }, { t: "유형", k: "type" }, { t: "관리주체", k: "org" }, { t: "자원수", k: "res" }, { t: "구성원수", k: "mem" }, { t: "상태", k: "useYn", r: v => <YnBadge v={v} /> }]} data={SYS} noPaging />
       </Card>
     </div>
   </div>;

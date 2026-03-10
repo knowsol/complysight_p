@@ -4,7 +4,7 @@ import { PanelLeftClose } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { Ic } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { MENU_ITEMS } from '@/lib/constants/menu';
 import { ROUTES } from '@/lib/constants/routes';
 import { C } from '@/lib/theme/colors';
@@ -187,7 +187,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                   }
                 }}
               >
-                <Ic n={menu.i ?? 'info'} s={18} c={isActive || isOpen ? '#fff' : 'rgba(255,255,255,0.55)'} />
+                <Icon n={menu.i ?? 'info'} s={18} c={isActive || isOpen ? '#fff' : 'rgba(255,255,255,0.55)'} />
                 <span
                   style={{
                     fontSize: 9,

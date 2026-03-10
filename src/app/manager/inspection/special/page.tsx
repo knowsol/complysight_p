@@ -2,11 +2,11 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Card } from '@/components/ui/Card';
-import { Tbl } from '@/components/ui/Table';
-import { SearchBtn, RefreshBtn, SecBtnP } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
+import { DataTable } from '@/components/ui/DataTable';
+import { SearchBtn, RefreshBtn, Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
 import { InspFilter } from '@/components/ui/InspFilter';
 import { PageSidebarLayout } from '@/components/ui/PageSidebarLayout';
 import { C } from '@/lib/theme/colors';
@@ -57,7 +57,7 @@ const MgrInspSp = ({ toast }) => {
 
   return (
     <div style={{ display:"flex", flexDirection:"column", flex:1, minHeight:0 }}>
-      <PH title="특별점검" bc="홈 > 점검현황 > 특별점검" />
+      <PageHeader title="특별점검" bc="홈 > 점검현황 > 특별점검" />
       <PageSidebarLayout
         sidebar={
           <Card title="점검종류" style={{ height:"100%", overflow:"hidden", display:"flex", flexDirection:"column" }}>
@@ -71,7 +71,7 @@ const MgrInspSp = ({ toast }) => {
             <div style={{ display:"flex", gap:8, flexWrap:"wrap", alignItems:"flex-end" }}>
               <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
                 <span style={{ ...LABEL_STYLE_SM }}>제목/점검자</span>
-                <FInput value={kw} onChange={e => setKw(e.target.value)}
+                <FormInput value={kw} onChange={e => setKw(e.target.value)}
                   onKeyDown={e => e.key==="Enter" && doSearch()}
                   placeholder="제목, 점검자 검색"
                   style={{ padding:"6px 12px", border:`1px solid ${C.brd}`, borderRadius:4,
@@ -83,8 +83,8 @@ const MgrInspSp = ({ toast }) => {
               <RefreshBtn onClick={doReset} />
             </div>
           </div>
-          <Tbl secTitle={title} secCount={filtered.length}
-            secButtons={<SecBtnP onClick={() => setShowAdd(true)}>+ 특별점검 추가</SecBtnP>}
+          <DataTable secTitle={title} secCount={filtered.length}
+            secButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 특별점검 추가</Button>}
             onRow={row => setSelItem(row)}
             cols={[
               { t:"상태",         k:"st",      w:80,  r: v => <span style={{ display:"inline-block", padding:"2px 10px", borderRadius:10, fontSize:12, fontWeight:700, background:(ST_COLOR[v]||C.txS)+"1A", color:ST_COLOR[v]||C.txS }}>{v}</span> },

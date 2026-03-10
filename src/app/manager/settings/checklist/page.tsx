@@ -3,11 +3,11 @@
 
 import { useState } from 'react';
 import { useCL } from '@/contexts/CLContext';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { YnBadge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { SecBtnP } from '@/components/ui/Button';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
 import { C } from '@/lib/theme/colors';
 import { RES } from '@/data/resources';
 import { CL_INIT } from '@/data/checklists';
@@ -46,9 +46,9 @@ const MgrCL = () => {
   const activeItem = selItem || savedItem;
 
   return <div>
-  <PH title="점검표" bc="홈 > 환경설정 > 점검표" />
-  <SB ph="점검표명으로 검색" />
-  <Tbl secTitle="점검표 목록" secCount={cl.length} secButtons={<SecBtnP onClick={() => setShowAdd(true)}>+ 점검표 추가</SecBtnP>} cols={[
+  <PageHeader title="점검표" bc="홈 > 환경설정 > 점검표" />
+  <SearchBar ph="점검표명으로 검색" />
+  <DataTable secTitle="점검표 목록" secCount={cl.length} secButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 점검표 추가</Button>} cols={[
     { t: "상태", k: "useYn", w: 80, r: v => <YnBadge v={v} /> },
     { t: "점검표명", k: "nm", mw: 150, align: "left", r: (v, row) => <span style={{ fontWeight: 600, color: C.pri, cursor: "pointer" }} onClick={() => setSelItem(row)}>{v}</span> },
     { t: "점검상세분류", k: "kind", w: 120 },

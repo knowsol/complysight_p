@@ -2,13 +2,13 @@
 'use client';
 
 import { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { Tbl } from '@/components/ui/Table';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { DataTable } from '@/components/ui/DataTable';
 import { YnBadge } from '@/components/ui/Badge';
-import { SB } from '@/components/ui/SearchBar';
-import { SecBtnP } from '@/components/ui/Button';
-import { FInput } from '@/components/ui/Input';
-import { Ic } from '@/components/ui/Icon';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { Button } from '@/components/ui/Button';
+import { FormInput } from '@/components/ui/Input';
+import { Icon } from '@/components/ui/Icon';
 import { C } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM, fInput } from '@/lib/theme/styles';
 import { SYS } from '@/data/manager';
@@ -83,11 +83,11 @@ const MgrInspSch = ({ toast }) => {
     : schList;
 
   return <div>
-    <PH title="점검스케줄" bc="홈 > 점검현황 > 점검스케줄" />
-    <SB ph="스케줄명, 시스템명, 점검표명 검색" onSearch={doSearch} onReset={doReset}>
+    <PageHeader title="점검스케줄" bc="홈 > 점검현황 > 점검스케줄" />
+    <SearchBar ph="스케줄명, 시스템명, 점검표명 검색" onSearch={doSearch} onReset={doReset}>
       <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
         <span style={{ ...LABEL_STYLE_SM }}>키워드</span>
-        <FInput
+        <FormInput
           value={searchQ}
           onChange={e => setSearchQ(e.target.value)}
           onKeyDown={e => e.key === "Enter" && doSearch()}
@@ -95,7 +95,7 @@ const MgrInspSch = ({ toast }) => {
           style={{ ...fInput, minWidth: 200 }}
         />
       </div>
-    </SB>
+    </SearchBar>
 
     {/* ── 배치 현황 타임라인 ── */}
     {(() => {
@@ -112,7 +112,7 @@ const MgrInspSch = ({ toast }) => {
     return (
       <div style={{ marginBottom:20 }}>
         <div style={{ fontSize:11, fontWeight:600, color:C.txS, marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
-          <Ic n="clock" s={13} c={C.txS} />
+          <Icon n="clock" s={13} c={C.txS} />
           현재 등록된 배치 현황
           <span style={{ fontSize:11, fontWeight:400, color:C.txL }}>— 사용 중인 스케줄 {allSch.length}개</span>
         </div>
@@ -198,7 +198,7 @@ const MgrInspSch = ({ toast }) => {
         </button>
       </div>
     ) : (
-      <Tbl secTitle="점검스케줄 목록" secCount={filtered.length} secButtons={<SecBtnP onClick={() => setShowAdd(true)}>+ 스케줄 추가</SecBtnP>} onRow={row => setSelItem(row)} cols={[
+      <DataTable secTitle="점검스케줄 목록" secCount={filtered.length} secButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 스케줄 추가</Button>} onRow={row => setSelItem(row)} cols={[
         { t: "상태", k: "useYn", w: 80, r: v => <YnBadge v={v} /> },
         { t: "스케줄명", k: "nm", mw: 200, align: "left", r: v => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
         { t: "실행주기", k: "freq", w: 90, r: v => {
