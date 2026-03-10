@@ -1,12 +1,16 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # testing
 /coverage
+.nyc_output
 
 # next.js
 /.next/
@@ -15,22 +19,48 @@
 # production
 /build
 
+# turbo / turbopack
+.turbo
+
+# vercel
+.vercel
+
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# local env files
-.env*.local
+# env files (민감 정보)
 .env
-
-# vercel
-.vercel
+.env*.local
+!.env.example
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# eslint
+.eslintcache
+
+# IDE / editor
+.idea/
+*.swp
+*.swo
+*~
+
+# 로컬 에이전트·도구 디렉터리
+.claude/
+.omc/
+.omx/
+.paperclip/
+
+# 로컬 계획/세션 파일
+findings.md
+progress.md
+task_plan.md
