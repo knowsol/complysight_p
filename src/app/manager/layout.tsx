@@ -1,5 +1,7 @@
 'use client';
 
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -27,7 +29,7 @@ if (!isAuthenticated) {
 }
 
 return (
-  <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: C.bg, fontFamily: PRETENDARD_FONT }}>
+  <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', bgcolor: C.bg, fontFamily: PRETENDARD_FONT }}>
     <Header
       user={user}
       site="m"
@@ -44,7 +46,7 @@ return (
         return;
       }}
     />
-    <div style={{ display: 'flex', flex: 1, minHeight: 0, background: C.bg, paddingTop: 67 }}>
+    <Box sx={{ display: 'flex', flex: 1, minHeight: 0, bgcolor: C.bg, pt: '67px' }}>
       <Sidebar
         menuItems={MENU_ITEMS.m}
         site="m"
@@ -53,7 +55,9 @@ return (
           setCollapsed((prev) => !prev);
         }}
       />
-      <main
+      <Paper
+        component="main"
+        elevation={0}
         style={{
           flex: 1,
           display: 'flex',
@@ -69,7 +73,7 @@ return (
         }}
       >
         {children}
-      </main>
-    </div>
-  </div>
+      </Paper>
+    </Box>
+  </Box>
 ); }

@@ -1,493 +1,623 @@
 // @ts-nocheck
 'use client';
 
-import React, { useState } from 'react';
-import { PH } from '@/components/ui/PageHeader';
-import { SB } from '@/components/ui/SearchBar';
-import { Btn } from '@/components/ui/Button';
-import { SidePanel } from '@/components/ui/SidePanel';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Chip from '@mui/material/Chip';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Paper from '@mui/material/Paper';
+import Snackbar from '@mui/material/Snackbar';
+import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Typography from '@mui/material/Typography';
+import { useMemo, useState } from 'react';
+
 import { DatePicker } from '@/components/ui/DatePicker';
-import { C } from '@/lib/theme/colors';
-import { LABEL_STYLE_SM, TH, TD } from '@/lib/theme/styles';
-import { SYS } from '@/data/manager';
+import { PH } from '@/components/ui/PageHeader';
+import { SidePanel } from '@/components/ui/SidePanel';
 import { RES } from '@/data/resources';
+import { SYS } from '@/data/manager';
 import { USERS } from '@/data/users';
+import { C } from '@/lib/theme/colors';
 
+const FREQ_OPTS = ['전체', '상시', '매일', '매주', '매월', '분기', '반기', '연간'];
+const FREQ_COLOR = {
+  전체: '#555E6C',
+  상시: '#0891B2',
+  매일: '#0C8CE9',
+  매주: '#19973C',
+  매월: '#F36D00',
+  분기: '#7C3AED',
+  반기: '#E24949',
+  연간: '#333333',
+};
+const RES_COLS = ['서버', 'WEB', 'WAS', 'DBMS', '네트워크', '보안', '스토리지', '백업'];
 
-const MgrInspReport = () => {
-  const FREQ_OPTS  = ["전체","상시","매일","매주","매월","분기","반기","연간"];
-  const FREQ_COLOR = { "전체":"#555E6C","상시":"#0891B2","매일":"#0C8CE9","매주":"#19973C","매월":"#F36D00","분기":"#7C3AED","반기":"#E24949","연간":"#333333" };
-  const RES_COLS   = ["서버","WEB","WAS","DBMS","네트워크","보안","스토리지","백업"];
+const filterLabelSx = { fontSize: 12, fontWeight: 700, color: C.txS };
+const headCellSx = { fontSize: 13, fontWeight: 700, color: C.txS, bgcolor: '#F8FAFC', whiteSpace: 'nowrap' };
 
-  const todayStr = new Date().toISOString().slice(0,10);
+const rateColor = (rate: number) => (rate === 100 ? '#19973C' : rate >= 80 ? '#0C8CE9' : rate >= 50 ? '#F36D00' : rate >= 1 ? '#E24949' : '#7C3AED');
+const rateBg = (rate: number) => (rate === 100 ? '#E8F5EC' : rate >= 80 ? '#E6F3FA' : rate >= 50 ? '#FFF3E6' : rate >= 1 ? '#FDE8E8' : '#EDE9FE');
+
+const ReportViewScreen = () => {
+  const todayStr = new Date().toISOString().slice(0, 10);
   const [baseDate, setBaseDate] = useState(todayStr);
-  const [freq,     setFreq]     = useState("전체");
-  const [applied,  setApplied]  = useState({ baseDate: todayStr, freq: "전체" });
-  const [checked,  setChecked]  = useState({});
-  const [toastMsg, setToastMsg] = useState(null);
-  const [panelInfo, setPanelInfo] = useState(null); // { sysNm, col, resources }
+  const [freq, setFreq] = useState('전체');
+  const [applied, setApplied] = useState({ baseDate: todayStr, freq: '전체' });
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [panelInfo, setPanelInfo] = useState(null);
+  const [toastMsg, setToastMsg] = useState<{ msg: string; ok: boolean } | null>(null);
 
-  const showToast = (msg, ok=true) => { setToastMsg({msg,ok}); setTimeout(()=>setToastMsg(null),2600); };
-
-  const rows = SYS.map(sys => {
-    const cells = {};
-    const sysIdx = SYS.findIndex(s=>s.id===sys.id);
-    RES_COLS.forEach((col,ci) => {
-      const res = RES.filter(r => r.sysId===sys.id && r.mid===col);
-      if (!res.length) { cells[col]=null; return; }
-      /* 일부 셀은 미생성(reported=0) 예제를 위해 강제 처리
-         sysIdx+ci 합이 특정 패턴이면 전체 미보고 처리 */
-      const forceZero = (sysIdx * 3 + ci) % 7 === 0;
-      const reported = forceZero ? 0 : res.filter((r,i)=>(r.id*13+i*7)%100<74).length;
-      const hasReport = reported > 0;
-      /* 자원별 보고서 시뮬레이션 */
-      const resDetail = res.map((r,i) => {
-        const isReported = !forceZero && (r.id*13+i*7)%100 < 74;
-        const normalCnt  = isReported ? Math.floor((r.id*7+i*3)%10 + 3) : 0;
-        const abnCnt     = isReported ? Math.floor((r.id*3+i*11)%4)      : 0;
-        const freqList   = ["상시","매일","매주","매월","분기","반기","연간"];
-        const resFreq    = freqList[(r.id + ci) % freqList.length];
-        return {
-          ...r,
-          reported:    isReported,
-          inspDt:      isReported ? `2026-02-${String(((r.id*3+i)%11)+1).padStart(2,"0")}` : null,
-          reportDt:    isReported ? `2026-02-${String(((r.id*3+i)%11)+2).padStart(2,"0")}` : null,
-          inspector:   USERS[(r.id+i)%USERS.length]?.userNm || "—",
-          reportNm:    `${col} 상태점검표`,
-          normalCnt,
-          abnCnt,
-          resFreq,
-        };
-      });
-      cells[col] = { total:res.length, reported, rate:Math.round(reported/res.length*100), hasReport, resDetail };
-    });
-    const totalAll    = RES_COLS.reduce((s,c)=>s+(cells[c]?cells[c].total:0),0);
-    const reportedAll = RES_COLS.reduce((s,c)=>s+(cells[c]?cells[c].reported:0),0);
-    const overall     = totalAll>0 ? Math.round(reportedAll/totalAll*100) : 0;
-    return { sys, cells, overall, totalAll, reportedAll };
-  });
-
-  /* 전체자원 합계 행 */
-  const totalRow = (() => {
-    const cells = {};
-    RES_COLS.forEach(col => {
-      const allCells = rows.map(r=>r.cells[col]).filter(Boolean);
-      if (!allCells.length) { cells[col]=null; return; }
-      const total    = allCells.reduce((s,c)=>s+c.total,0);
-      const reported = allCells.reduce((s,c)=>s+c.reported,0);
-      cells[col] = { total, reported, rate:Math.round(reported/total*100) };
-    });
-    const totalAll    = rows.reduce((s,r)=>s+r.totalAll,0);
-    const reportedAll = rows.reduce((s,r)=>s+r.reportedAll,0);
-    const overall     = totalAll>0 ? Math.round(reportedAll/totalAll*100) : 0;
-    return { cells, overall, totalAll, reportedAll };
-  })();
-
-  const filteredRows = applied.freq === "전체"
-    ? rows
-    : rows.map(row => {
-        const cells = {};
-        Object.entries(row.cells).forEach(([col, cell]) => {
-          if (!cell) { cells[col] = null; return; }
-          const filtered = cell.resDetail.filter(r => r.resFreq === applied.freq);
-          if (!filtered.length) { cells[col] = null; return; }
-          const reported = filtered.filter(r => r.reported).length;
-          cells[col] = { ...cell, total: filtered.length, reported, rate: Math.round(reported / filtered.length * 100), resDetail: filtered };
-        });
-        const totalAll    = RES_COLS.reduce((s,c)=>s+(cells[c]?cells[c].total:0),0);
-        const reportedAll = RES_COLS.reduce((s,c)=>s+(cells[c]?cells[c].reported:0),0);
-        const overall     = totalAll>0 ? Math.round(reportedAll/totalAll*100) : 0;
-        return { ...row, cells, overall, totalAll, reportedAll };
-      });
-
-  const allIds    = SYS.map(s=>s.id);
-  const selIds    = allIds.filter(id=>checked[id]);
-  const allChk    = selIds.length===allIds.length;
-  const toggleAll = () => allChk ? setChecked({}) : setChecked(Object.fromEntries(allIds.map(id=>[id,true])));
-
-  const rColor = r => r===100?"#19973C":r>=80?"#0C8CE9":r>=50?"#F36D00":r>=1?"#E24949":"#7C3AED";
-  const rBg    = r => r===100?"#E8F5EC":r>=80?"#E6F3FA":r>=50?"#FFF3E6":r>=1?"#FDE8E8":"#EDE9FE";
-
-  const dlSingle = (sysNm,col) => showToast(`${sysNm}${col?` · ${col}`:""} 점검보고서 다운로드가 시작되었습니다.`);
-  const dlBulk   = () => {
-    if (!selIds.length){ showToast("다운로드할 정보시스템을 선택하세요.",false); return; }
-    showToast(`${selIds.length}개 점검보고서 일괄 다운로드가 시작되었습니다.`);
+  const showToast = (msg: string, ok = true) => {
+    setToastMsg({ msg, ok });
   };
 
-  const search = () => { setApplied({ baseDate, freq }); setChecked({}); };
-  const reset  = () => {
-    const d = new Date().toISOString().slice(0,10);
-    setBaseDate(d); setFreq("전체");
-    setApplied({ baseDate: d, freq: "전체" });
+  const rows = useMemo(
+    () =>
+      SYS.map((sys) => {
+        const cells = {};
+        const sysIdx = SYS.findIndex((item) => item.id === sys.id);
+
+        RES_COLS.forEach((col, colIndex) => {
+          const resources = RES.filter((resource) => resource.sysId === sys.id && resource.mid === col);
+          if (!resources.length) {
+            cells[col] = null;
+            return;
+          }
+
+          const forceZero = (sysIdx * 3 + colIndex) % 7 === 0;
+          const reported = forceZero ? 0 : resources.filter((resource, index) => (resource.id * 13 + index * 7) % 100 < 74).length;
+          const hasReport = reported > 0;
+          const detail = resources.map((resource, index) => {
+            const isReported = !forceZero && (resource.id * 13 + index * 7) % 100 < 74;
+            const normalCnt = isReported ? Math.floor((resource.id * 7 + index * 3) % 10 + 3) : 0;
+            const abnCnt = isReported ? Math.floor((resource.id * 3 + index * 11) % 4) : 0;
+            const freqList = ['상시', '매일', '매주', '매월', '분기', '반기', '연간'];
+            const resFreq = freqList[(resource.id + colIndex) % freqList.length];
+
+            return {
+              ...resource,
+              reported: isReported,
+              inspDt: isReported ? `2026-02-${String(((resource.id * 3 + index) % 11) + 1).padStart(2, '0')}` : null,
+              reportDt: isReported ? `2026-02-${String(((resource.id * 3 + index) % 11) + 2).padStart(2, '0')}` : null,
+              inspector: USERS[(resource.id + index) % USERS.length]?.userNm || '—',
+              reportNm: `${col} 상태점검표`,
+              normalCnt,
+              abnCnt,
+              resFreq,
+            };
+          });
+
+          cells[col] = {
+            total: resources.length,
+            reported,
+            rate: Math.round((reported / resources.length) * 100),
+            hasReport,
+            resDetail: detail,
+          };
+        });
+
+        const totalAll = RES_COLS.reduce((sum, col) => sum + (cells[col] ? cells[col].total : 0), 0);
+        const reportedAll = RES_COLS.reduce((sum, col) => sum + (cells[col] ? cells[col].reported : 0), 0);
+        const overall = totalAll > 0 ? Math.round((reportedAll / totalAll) * 100) : 0;
+
+        return { sys, cells, overall, totalAll, reportedAll };
+      }),
+    [],
+  );
+
+  const filteredRows = useMemo(() => {
+    if (applied.freq === '전체') return rows;
+
+    return rows.map((row) => {
+      const cells = {};
+
+      Object.entries(row.cells).forEach(([col, cell]) => {
+        if (!cell) {
+          cells[col] = null;
+          return;
+        }
+
+        const filtered = cell.resDetail.filter((resource) => resource.resFreq === applied.freq);
+        if (!filtered.length) {
+          cells[col] = null;
+          return;
+        }
+
+        const reported = filtered.filter((resource) => resource.reported).length;
+        cells[col] = {
+          ...cell,
+          total: filtered.length,
+          reported,
+          rate: Math.round((reported / filtered.length) * 100),
+          resDetail: filtered,
+        };
+      });
+
+      const totalAll = RES_COLS.reduce((sum, col) => sum + (cells[col] ? cells[col].total : 0), 0);
+      const reportedAll = RES_COLS.reduce((sum, col) => sum + (cells[col] ? cells[col].reported : 0), 0);
+      const overall = totalAll > 0 ? Math.round((reportedAll / totalAll) * 100) : 0;
+
+      return { ...row, cells, totalAll, reportedAll, overall };
+    });
+  }, [applied.freq, rows]);
+
+  const totalRow = useMemo(() => {
+    const cells = {};
+
+    RES_COLS.forEach((col) => {
+      const allCells = filteredRows.map((row) => row.cells[col]).filter(Boolean);
+      if (!allCells.length) {
+        cells[col] = null;
+        return;
+      }
+
+      const total = allCells.reduce((sum, cell) => sum + cell.total, 0);
+      const reported = allCells.reduce((sum, cell) => sum + cell.reported, 0);
+      const detail = filteredRows.flatMap((row) => row.cells[col]?.resDetail || []);
+      cells[col] = {
+        total,
+        reported,
+        rate: Math.round((reported / total) * 100),
+        hasReport: reported > 0,
+        resDetail: detail,
+      };
+    });
+
+    const totalAll = filteredRows.reduce((sum, row) => sum + row.totalAll, 0);
+    const reportedAll = filteredRows.reduce((sum, row) => sum + row.reportedAll, 0);
+    const overall = totalAll > 0 ? Math.round((reportedAll / totalAll) * 100) : 0;
+
+    return { cells, totalAll, reportedAll, overall };
+  }, [filteredRows]);
+
+  const allIds = SYS.map((sys) => sys.id);
+  const selectedIds = allIds.filter((id) => checked[id]);
+  const allChecked = selectedIds.length > 0 && selectedIds.length === allIds.length;
+
+  const toggleAll = () => {
+    setChecked(allChecked ? {} : Object.fromEntries(allIds.map((id) => [id, true])));
+  };
+
+  const toggleOne = (id: string) => {
+    setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const dlSingle = (sysNm: string, col?: string) => {
+    showToast(`${sysNm}${col ? ` · ${col}` : ''} 점검보고서 다운로드가 시작되었습니다.`);
+  };
+
+  const dlBulk = () => {
+    if (!selectedIds.length) {
+      showToast('다운로드할 정보시스템을 선택하세요.', false);
+      return;
+    }
+    showToast(`${selectedIds.length}개 점검보고서 일괄 다운로드가 시작되었습니다.`);
+  };
+
+  const search = () => {
+    setApplied({ baseDate, freq });
     setChecked({});
   };
 
-  const dlIcon = (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-    </svg>
-  );
-
-  /* ── 셀 클릭 핸들러 ── */
-  const openPanel = (sys, col, cell) => {
-    if (!cell) return;
-    setPanelInfo({ sysNm: sys.nm, sysType: sys.type, col, cell });
+  const reset = () => {
+    const resetDate = new Date().toISOString().slice(0, 10);
+    setBaseDate(resetDate);
+    setFreq('전체');
+    setApplied({ baseDate: resetDate, freq: '전체' });
+    setChecked({});
   };
 
+  const openPanel = (sys, col, cell) => {
+    if (!cell) return;
+    setPanelInfo({ sysNm: sys.nm, sysType: sys.type, org: sys.org, col, cell });
+  };
+
+  const detailCellSx = (align = 'center') => ({
+    fontSize: 12,
+    color: C.txt,
+    textAlign: align,
+    borderBottom: `1px solid ${C.brd}`,
+    whiteSpace: 'nowrap',
+  });
+
   return (
-    <div>
+    <Box>
       <PH title="점검보고서" bc="홈 > 점검현황 > 점검보고서" />
 
-      {/* ── 검색폼 ── */}
-      <SB onSearch={search} onReset={reset}>
-        <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
-          <span style={{ ...LABEL_STYLE_SM }}>기준일</span>
-          <DatePicker value={baseDate} onChange={setBaseDate} style={{ width: 130 }} />
-        </div>
-        <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
-          <span style={{ ...LABEL_STYLE_SM }}>보고주기</span>
-          <div style={{ display:"flex", gap:4, height:36, alignItems:"center" }}>
-            {FREQ_OPTS.map(f => {
-              const active=freq===f, color=FREQ_COLOR[f];
-              return (
-                <span key={f} onClick={()=>setFreq(f)} style={{
-                    padding:"5px 13px", borderRadius:4, fontSize:12, fontWeight:active?600:400,
-                  border:`1px solid ${active?color:C.brd}`, background:active?color+"1A":"#fff",
-                  color:active?color:C.txS, cursor:"pointer", transition:"all .12s", userSelect:"none", lineHeight:"22px" }}>
-                  {f}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </SB>
+      <Paper elevation={0} sx={{ border: `1px solid ${C.brd}`, borderRadius: 2, p: 2 }}>
+        <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2} alignItems={{ xs: 'stretch', lg: 'center' }} justifyContent="space-between">
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ flexWrap: 'wrap' }}>
+            <Box>
+              <Typography sx={filterLabelSx}>기준일</Typography>
+              <Box sx={{ mt: 0.75 }}>
+                <DatePicker value={baseDate} onChange={setBaseDate} style={{ width: 140 }} />
+              </Box>
+            </Box>
 
-      {/* ── 테이블 가이드 안내 ── */}
-      <div style={{ display:"flex", alignItems:"center", gap:16, padding:"9px 16px",
-        background:"#F0F5FF", border:`1px solid #C7D9F8`, borderRadius:8, margin:"12px 0 4px",
-        flexWrap:"wrap" }}>
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style={{ flexShrink:0 }}>
-          <circle cx="8" cy="8" r="7" stroke="#4C7EF3" strokeWidth="1.4"/>
-          <path d="M8 7v5" stroke="#4C7EF3" strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="8" cy="5" r="0.8" fill="#4C7EF3"/>
-        </svg>
-        {[
-          { icon:"📊", text:"보고된 자원수 / 전체 자원수" },
-          { icon:"🔍", text:"셀 클릭 시 자원별 보고서 상세 확인" },
-          { icon:"📄", text:"PDF: 분류별 개별 다운로드" },
-        ].map(({ icon, text }, i, arr) => (
-          <React.Fragment key={i}>
-            <div style={{ display:"flex", alignItems:"center", gap:5 }}>
-              <span style={{ fontSize:13 }}>{icon}</span>
-              <span style={{ fontSize:12, fontWeight:600, color:"#2D5BB9" }}>{text}</span>
-            </div>
-            {i < arr.length - 1 && (
-              <span style={{ width:1, height:14, background:"#C7D9F8", flexShrink:0 }} />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+            <Box>
+              <Typography sx={filterLabelSx}>보고주기</Typography>
+              <ToggleButtonGroup
+                size="small"
+                exclusive
+                value={freq}
+                onChange={(_event, value) => value && setFreq(value)}
+                sx={{
+                  mt: 0.75,
+                  flexWrap: 'wrap',
+                  gap: 0.75,
+                  '& .MuiToggleButton-root': {
+                    borderRadius: 1.25,
+                    border: `1px solid ${C.brd}`,
+                    px: 1.25,
+                    py: 0.5,
+                    fontSize: 12,
+                    color: C.txS,
+                  },
+                }}
+              >
+                {FREQ_OPTS.map((option) => (
+                  <ToggleButton
+                    key={option}
+                    value={option}
+                    sx={{
+                      '&.Mui-selected': {
+                        bgcolor: `${FREQ_COLOR[option]}1A`,
+                        color: FREQ_COLOR[option],
+                        borderColor: FREQ_COLOR[option],
+                      },
+                    }}
+                  >
+                    {option}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </Box>
+          </Stack>
 
-      {/* ── 섹션 타이틀 ── */}
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
-        height:52, borderBottom:`1px solid ${C.brdD}` }}>
-        <div style={{ display:"flex", alignItems:"baseline", gap:8 }}>
-          <span style={{ fontSize:18, fontWeight:600, color:C.txH }}>점검보고서 목록</span>
-          <span style={{ fontSize:12, color:C.txL }}>{filteredRows.length}건</span>
-        </div>
-      </div>
+          <Stack direction="row" spacing={1}>
+            <Button variant="outlined" onClick={reset}>
+              초기화
+            </Button>
+            <Button variant="contained" onClick={search} startIcon={<SearchRoundedIcon />}>
+              조회
+            </Button>
+          </Stack>
+        </Stack>
+      </Paper>
 
-      {/* ── 테이블 ── */}
-      <div style={{ overflowX:"auto" }}>
-        <table style={{ minWidth:"100%", width:"max-content", borderCollapse:"collapse", fontSize:15, borderBottom:`1px solid ${C.brd}` }}>
-          <thead>
-            <tr style={{ borderTop:`1px solid ${C.txH}` }}>
-              <th style={{...TH({textAlign:"left", width:200})}} >정보시스템</th>
-              <th style={{...TH({textAlign:"center", width:90})}} >종합</th>
-              {RES_COLS.map(col=>(
-                <th key={col} style={{...TH({textAlign:"center", width:100})}} >{col}</th>
-              ))}
-              <th style={{...TH({textAlign:"center", width:100})}} >다운로드</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* 전체자원 합계 행 */}
-            {(() => {
-              const ftotalRow = (() => {
-                const cells = {};
-                RES_COLS.forEach(col => {
-                  const allCells = filteredRows.map(r=>r.cells[col]).filter(Boolean);
-                  if (!allCells.length) { cells[col]=null; return; }
-                  const total    = allCells.reduce((s,c)=>s+c.total,0);
-                  const reported = allCells.reduce((s,c)=>s+c.reported,0);
-                  cells[col] = { total, reported, rate:Math.round(reported/total*100) };
-                });
-                const totalAll    = filteredRows.reduce((s,r)=>s+r.totalAll,0);
-                const reportedAll = filteredRows.reduce((s,r)=>s+r.reportedAll,0);
-                const overall     = totalAll>0 ? Math.round(reportedAll/totalAll*100) : 0;
-                return { cells, overall, totalAll, reportedAll };
-              })();
-              const { cells, overall, totalAll, reportedAll } = ftotalRow;
-              return (
-                <tr style={{ background:"#F0F5FF", fontWeight:700 }}>
-                  <td style={{...TD({textAlign:"left", borderBottom:`2px solid ${C.brdD}` })}}>
-                    <div style={{ fontWeight:700, color:C.pri, fontSize:15 }}>전체 자원</div>
-                    <div style={{ fontSize:12, color:C.txL, marginTop:1 }}>전체 {SYS.length}개 정보시스템</div>
-                  </td>
-                  <td style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}` })}}>
-                    <span style={{ fontSize:15, fontWeight:700, color:rColor(overall), background:rBg(overall), padding:"3px 8px", borderRadius:10, whiteSpace:"nowrap" }}>
-                      {reportedAll}<span style={{ fontWeight:400, fontSize:15 }}>/{totalAll}</span>
-                    </span>
-                  </td>
-                  {RES_COLS.map(col => {
-                    const cell = cells[col];
-                    if (!cell) return <td key={col} style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}` })}}><span style={{color:C.txX}}>—</span></td>;
-                    /* 전체자원 클릭용 합산 cell 구성 */
-                    const mergedCell = (() => {
-                      const allDetail = filteredRows.flatMap(r => r.cells[col]?.resDetail || []);
-                      return { ...cell, resDetail: allDetail, hasReport: cell.reported > 0 };
-                    })();
+      <Paper
+        elevation={0}
+        sx={{
+          mt: 1.5,
+          border: '1px solid #C7D9F8',
+          bgcolor: '#F0F5FF',
+          borderRadius: 2,
+          px: 2,
+          py: 1.25,
+        }}
+      >
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5} alignItems={{ xs: 'flex-start', md: 'center' }}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <InfoOutlinedIcon sx={{ fontSize: 18, color: '#4C7EF3' }} />
+            <Typography sx={{ fontSize: 12, fontWeight: 700, color: '#2D5BB9' }}>보고된 자원수 / 전체 자원수</Typography>
+          </Stack>
+          <Typography sx={{ fontSize: 12, color: '#2D5BB9' }}>셀 클릭 시 자원별 보고서 상세를 확인할 수 있습니다.</Typography>
+          <Typography sx={{ fontSize: 12, color: '#2D5BB9' }}>PDF 버튼으로 분류별 개별 다운로드가 가능합니다.</Typography>
+        </Stack>
+      </Paper>
+
+      <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} alignItems={{ xs: 'stretch', md: 'center' }} justifyContent="space-between" sx={{ mt: 2, mb: 1.5 }}>
+        <Stack direction="row" spacing={1} alignItems="baseline">
+          <Typography sx={{ fontSize: 18, fontWeight: 700, color: C.txH }}>점검보고서 목록</Typography>
+          <Typography sx={{ fontSize: 12, color: C.txL }}>{filteredRows.length}건</Typography>
+          <Typography sx={{ fontSize: 12, color: C.txL }}>기준일 {applied.baseDate}</Typography>
+        </Stack>
+
+        <Button variant="outlined" startIcon={<DownloadOutlinedIcon />} onClick={dlBulk}>
+          선택 항목 다운로드
+        </Button>
+      </Stack>
+
+      <Paper elevation={0} sx={{ border: `1px solid ${C.brd}`, borderRadius: 2, overflow: 'hidden' }}>
+        <TableContainer sx={{ overflowX: 'auto' }}>
+          <Table size="small" sx={{ minWidth: 1240 }}>
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox" sx={headCellSx}>
+                  <Checkbox checked={allChecked} indeterminate={selectedIds.length > 0 && !allChecked} onChange={toggleAll} size="small" />
+                </TableCell>
+                <TableCell sx={{ ...headCellSx, minWidth: 180 }}>정보시스템</TableCell>
+                <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 90 }}>종합</TableCell>
+                {RES_COLS.map((col) => (
+                  <TableCell key={col} sx={{ ...headCellSx, textAlign: 'center', minWidth: 104 }}>
+                    {col}
+                  </TableCell>
+                ))}
+                <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 110 }}>다운로드</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow sx={{ bgcolor: '#F0F5FF' }}>
+                <TableCell padding="checkbox" />
+                <TableCell sx={{ borderBottom: `2px solid ${C.brd}`, whiteSpace: 'nowrap' }}>
+                  <Typography sx={{ fontSize: 14, fontWeight: 700, color: C.pri }}>전체 자원</Typography>
+                  <Typography sx={{ mt: 0.25, fontSize: 12, color: C.txL }}>전체 {SYS.length}개 정보시스템</Typography>
+                </TableCell>
+                <TableCell sx={{ borderBottom: `2px solid ${C.brd}`, textAlign: 'center' }}>
+                  <Chip
+                    label={`${totalRow.reportedAll}/${totalRow.totalAll}`}
+                    size="small"
+                    sx={{ bgcolor: rateBg(totalRow.overall), color: rateColor(totalRow.overall), fontWeight: 700 }}
+                  />
+                </TableCell>
+                {RES_COLS.map((col) => {
+                  const cell = totalRow.cells[col];
+                  if (!cell) {
                     return (
-                      <td key={col} onClick={()=>openPanel({ nm:"전체 자원", type:"전체", org:`${SYS.length}개 시스템` }, col, mergedCell)}
-                        style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}`,
-                          cursor:"pointer", transition:"background .12s" })}}
-                        onMouseEnter={e=>e.currentTarget.style.background="#D8E8FF"}
-                        onMouseLeave={e=>e.currentTarget.style.background=""}>
-                        <span style={{ fontSize:15, fontWeight:700, color:rColor(cell.rate), whiteSpace:"nowrap" }}>
-                          {cell.reported}<span style={{ fontWeight:400, fontSize:15, color:C.txL }}>/{cell.total}</span>
-                        </span>
-                      </td>
+                      <TableCell key={col} sx={{ borderBottom: `2px solid ${C.brd}`, textAlign: 'center' }}>
+                        <Typography sx={{ fontSize: 12, color: C.txL }}>—</Typography>
+                      </TableCell>
                     );
-                  })}
-                  <td style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}` })}}>
-                    <span style={{ fontSize:12, color:C.txL }}>—</span>
-                  </td>
-                </tr>
-              );
-            })()}
+                  }
 
-            {/* 시스템별 행 */}
-            {filteredRows.map(({ sys, cells, overall, totalAll, reportedAll }, si) => {
-              const isChk = !!checked[sys.id];
-              return (
-                <tr key={sys.id} style={{ cursor:"pointer", background:isChk?C.priL+"88":"" }}
-                  onMouseEnter={e=>{ if(!isChk) e.currentTarget.style.background=C.secL; }}
-                  onMouseLeave={e=>{ e.currentTarget.style.background=isChk?C.priL+"88":""; }}>
+                  return (
+                    <TableCell
+                      key={col}
+                      onClick={() => openPanel({ nm: '전체 자원', type: '전체', org: `${SYS.length}개 시스템` }, col, cell)}
+                      sx={{
+                        borderBottom: `2px solid ${C.brd}`,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        '&:hover': { bgcolor: '#D8E8FF' },
+                      }}
+                    >
+                      <Typography sx={{ fontSize: 14, fontWeight: 700, color: rateColor(cell.rate) }}>
+                        {cell.reported}
+                        <Box component="span" sx={{ ml: 0.25, fontWeight: 400, color: C.txL }}>
+                          /{cell.total}
+                        </Box>
+                      </Typography>
+                    </TableCell>
+                  );
+                })}
+                <TableCell sx={{ borderBottom: `2px solid ${C.brd}`, textAlign: 'center' }}>
+                  <Typography sx={{ fontSize: 12, color: C.txL }}>—</Typography>
+                </TableCell>
+              </TableRow>
 
-                  <td style={{...TD({textAlign:"left"})}} >
-                    <div style={{ fontWeight:600, color:C.txH, fontSize:15 }}>{sys.nm}</div>
-                    <div style={{ fontSize:12, color:C.txL, marginTop:1 }}>{sys.type} · {sys.org}</div>
-                  </td>
+              {filteredRows.map(({ sys, cells, overall, totalAll, reportedAll }) => {
+                const isChecked = !!checked[sys.id];
 
-                  <td style={{...TD({textAlign:"center"})}} >
-                    <span style={{ fontSize:15, fontWeight:700, color:rColor(overall), background:rBg(overall), padding:"3px 8px", borderRadius:10, whiteSpace:"nowrap" }}>
-                      {reportedAll}<span style={{ fontWeight:400, fontSize:15 }}>/{totalAll}</span>
-                    </span>
-                  </td>
+                return (
+                  <TableRow key={sys.id} sx={{ bgcolor: isChecked ? '#eef4ff' : '#fff', '&:hover': { bgcolor: '#F8FAFC' } }}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isChecked}
+                        onChange={() => toggleOne(sys.id)}
+                        size="small"
+                        onClick={(event) => event.stopPropagation()}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 700, color: C.txH }}>{sys.nm}</Typography>
+                      <Typography sx={{ mt: 0.25, fontSize: 12, color: C.txL }}>
+                        {sys.type} · {sys.org}
+                      </Typography>
+                    </TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+                      <Chip label={`${reportedAll}/${totalAll}`} size="small" sx={{ bgcolor: rateBg(overall), color: rateColor(overall), fontWeight: 700 }} />
+                    </TableCell>
+                    {RES_COLS.map((col) => {
+                      const cell = cells[col];
+                      if (!cell) {
+                        return (
+                          <TableCell key={col} sx={{ textAlign: 'center' }}>
+                            <Typography sx={{ fontSize: 12, color: C.txL }}>—</Typography>
+                          </TableCell>
+                        );
+                      }
 
-                  {RES_COLS.map(col => {
-                    const cell = cells[col];
-                    if (!cell) return (
-                      <td key={col} style={{...TD({textAlign:"center"})}} >
-                        <span style={{ color:C.txX, fontSize:15 }}>—</span>
-                      </td>
-                    );
-                    return (
-                      <td key={col} onClick={()=>openPanel(sys,col,cell)}
-                        style={{...TD({textAlign:"center"})}} onMouseEnter={e=>e.currentTarget.style.background="#EEF4FF"}
-                        onMouseLeave={e=>e.currentTarget.style.background=""}>
-                        <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
-                          <span style={{ fontSize:15, fontWeight:700, color:rColor(cell.rate), whiteSpace:"nowrap" }}>
-                            {cell.reported}<span style={{ fontWeight:400, fontSize:15, color:C.txL }}>/{cell.total}</span>
-                          </span>
-                          {cell.hasReport ? (
-                            <Btn xs onClick={e=>{e.stopPropagation();dlSingle(sys.nm,col);}}
-                              style={{ padding:"3px 7px", gap:3, fontWeight:400 }}>
-                              {dlIcon} PDF
-                            </Btn>
-                          ) : (
-                            <span style={{ fontSize:12, color:C.txX }}>미생성</span>
-                          )}
-                        </div>
-                      </td>
-                    );
-                  })}
+                      return (
+                        <TableCell
+                          key={col}
+                          onClick={() => openPanel(sys, col, cell)}
+                          sx={{
+                            textAlign: 'center',
+                            cursor: 'pointer',
+                            '&:hover': { bgcolor: '#EEF4FF' },
+                          }}
+                        >
+                          <Stack spacing={0.5} alignItems="center">
+                            <Typography sx={{ fontSize: 14, fontWeight: 700, color: rateColor(cell.rate) }}>
+                              {cell.reported}
+                              <Box component="span" sx={{ ml: 0.25, fontWeight: 400, color: C.txL }}>
+                                /{cell.total}
+                              </Box>
+                            </Typography>
+                            {cell.hasReport ? (
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  dlSingle(sys.nm, col);
+                                }}
+                              >
+                                PDF
+                              </Button>
+                            ) : (
+                              <Typography sx={{ fontSize: 12, color: C.txL }}>미생성</Typography>
+                            )}
+                          </Stack>
+                        </TableCell>
+                      );
+                    })}
+                    <TableCell sx={{ textAlign: 'center' }}>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<DownloadOutlinedIcon />}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          dlSingle(sys.nm);
+                        }}
+                      >
+                        전체
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
 
-                  <td style={{...TD({textAlign:"center"})}} >
-                    <Btn onClick={e=>{e.stopPropagation();dlSingle(sys.nm,"");}}>
-                      📥 전체
-                    </Btn>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <div style={{ padding:"8px 0" }}>
-        <span style={{ fontSize:12, color:C.txL }}>보고된 자원수 / 전체 자원수 &nbsp;·&nbsp; 셀 클릭 시 자원별 보고서 상세 확인 &nbsp;·&nbsp; PDF: 분류별 개별 다운로드</span>
-      </div>
-
-      {/* ── 자원별 보고서 사이드패널 ── */}
       {panelInfo && (() => {
-        const { sysNm, col, cell } = panelInfo;
-        const isTotal     = sysNm === "전체 자원";
-        const reported    = cell.resDetail.filter(r=>r.reported);
-        const notReported = cell.resDetail.filter(r=>!r.reported);
-        const thC = { padding:"8px 10px", fontSize:12, fontWeight:600, color:C.txS,
-          borderBottom:`2px solid ${C.brdD}`, background:C.bg, textAlign:"center", whiteSpace:"nowrap" };
-        const tdC = (align="center") => ({ padding:"9px 10px", fontSize:12, color:C.txt,
-          borderBottom:`1px solid ${C.brd}`, textAlign:align, verticalAlign:"middle" });
+        const { sysNm, org, col, cell } = panelInfo;
+        const isTotal = sysNm === '전체 자원';
+        const reported = cell.resDetail.filter((resource) => resource.reported);
+        const notReported = cell.resDetail.filter((resource) => !resource.reported);
+        const detailRows = [...reported, ...notReported];
+
         return (
-          <SidePanel open={!!panelInfo} onClose={()=>setPanelInfo(null)}
-            title={`${col} 보고서 상세`} width={680} noScroll>
-            {/* 바디 */}
-            <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
-            {/* 요약 카드 */}
-            <div style={{ display:"flex", gap:10, marginBottom:18 }}>
-              <div style={{ flex:1, padding:"10px 14px", background:C.priL, borderRadius:8, textAlign:"center" }}>
-                <div style={{ fontSize:20, fontWeight:700, color:C.pri }}>{cell.reported}</div>
-                <div style={{ fontSize:12, color:C.txS, marginTop:1 }}>보고 완료</div>
-              </div>
-              <div style={{ flex:1, padding:"10px 14px", background:"#FEF2F2", borderRadius:8, textAlign:"center" }}>
-                <div style={{ fontSize:20, fontWeight:700, color:"#EF4444" }}>{cell.total-cell.reported}</div>
-                <div style={{ fontSize:12, color:C.txS, marginTop:1 }}>미보고</div>
-              </div>
-              <div style={{ flex:1, padding:"10px 14px", background:rBg(cell.rate), borderRadius:8, textAlign:"center" }}>
-                <div style={{ fontSize:20, fontWeight:700, color:rColor(cell.rate) }}>{cell.rate}%</div>
-                <div style={{ fontSize:12, color:C.txS, marginTop:1 }}>보고율</div>
-              </div>
-            </div>
+          <SidePanel open={!!panelInfo} onClose={() => setPanelInfo(null)} title={`${col} 보고서 상세`} width={720} noScroll>
+            <Box sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
+              <Box sx={{ flex: 1, overflowY: 'auto', px: 3, py: 2.5 }}>
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 1.25, mb: 2 }}>
+                  <Paper elevation={0} sx={{ borderRadius: 2, bgcolor: C.priL, px: 2, py: 1.75, textAlign: 'center' }}>
+                    <Typography sx={{ fontSize: 22, fontWeight: 700, color: C.pri }}>{cell.reported}</Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: 12, color: C.txS }}>보고 완료</Typography>
+                  </Paper>
+                  <Paper elevation={0} sx={{ borderRadius: 2, bgcolor: '#FEF2F2', px: 2, py: 1.75, textAlign: 'center' }}>
+                    <Typography sx={{ fontSize: 22, fontWeight: 700, color: C.red }}>{cell.total - cell.reported}</Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: 12, color: C.txS }}>미보고</Typography>
+                  </Paper>
+                  <Paper elevation={0} sx={{ borderRadius: 2, bgcolor: rateBg(cell.rate), px: 2, py: 1.75, textAlign: 'center' }}>
+                    <Typography sx={{ fontSize: 22, fontWeight: 700, color: rateColor(cell.rate) }}>{cell.rate}%</Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: 12, color: C.txS }}>보고율</Typography>
+                  </Paper>
+                </Box>
 
-            <div style={{ fontSize:12, color:C.txL, marginBottom:14 }}>
-              <span style={{ fontWeight:600, color: isTotal ? C.pri : C.txH }}>{sysNm}</span>
-              &nbsp;·&nbsp;{col}&nbsp;·&nbsp;기준일: {baseDate}
-            </div>
+                <Typography sx={{ mb: 1.75, fontSize: 13, color: C.txS }}>
+                  <Box component="span" sx={{ fontWeight: 700, color: isTotal ? C.pri : C.txH }}>
+                    {sysNm}
+                  </Box>
+                  {' · '}
+                  {col}
+                  {' · '}
+                  {org}
+                  {' · '}
+                  기준일 {applied.baseDate}
+                </Typography>
 
-            {/* 자원 목록 테이블 */}
-            <div style={{ marginBottom:0 }}>
-              {/* 테이블 헤더 행 */}
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
-                paddingBottom:8, marginBottom:0 }}>
-                <span style={{ fontSize:12, fontWeight:600, color:C.txH }}>자원 목록</span>
-                {cell.hasReport && (
-                  <Btn primary onClick={()=>dlSingle(sysNm,col)}
-                    style={{ display:"inline-flex", alignItems:"center", gap:5 }}>
-                    📥 전체 PDF 다운로드
-                  </Btn>
-                )}
-              </div>
-              <div style={{ overflowX:"auto", border:`1px solid ${C.brd}`, borderRadius:8, overflow:"hidden" }}>
-              <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12 }}>
-                <thead>
-                  <tr>
-                    <th style={{ ...thC, textAlign:"left", minWidth:120 }}>자원명</th>
-                    <th style={thC}>보고주기</th>
-                    <th style={thC}>점검일자</th>
-                    <th style={thC}>보고서제출일</th>
-                    <th style={thC}>점검자</th>
-                    <th style={{ ...thC, color:"#19973C" }}>정상</th>
-                    <th style={{ ...thC, color:"#E24949" }}>비정상</th>
-                    <th style={thC}>PDF</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...reported, ...notReported].map((r,i) => (
-                    <tr key={r.id||i}
-                      style={{ background: r.reported ? (i%2===0?"#fff":"#FAFBFC") : "#FAFBFC" }}
-                      onMouseEnter={e=>e.currentTarget.style.background=C.secL}
-                      onMouseLeave={e=>e.currentTarget.style.background=r.reported?(i%2===0?"#fff":"#FAFBFC"):"#FAFBFC"}>
-                      {/* 자원명 */}
-                      <td style={{ ...tdC("left"), fontWeight:600, color:C.txH }}>
-                        <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                          <div style={{ width:7, height:7, borderRadius:"50%", flexShrink:0,
-                            background: r.reported ? "#19973C" : C.brd }} />
-                          <div style={{ minWidth:0 }}>
-                            <div style={{ overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", maxWidth:110 }}>{r.nm}</div>
-                            {isTotal && <div style={{ fontSize:12, color:C.txL, fontWeight:400 }}>{r.sysNm}</div>}
-                          </div>
-                        </div>
-                      </td>
-                      {/* 보고주기 */}
-                      <td style={tdC()}>
-                        {(() => {
-                          const fv = r.resFreq || (freq==="전체" ? "매월" : freq);
-                          const fc = FREQ_COLOR[fv] || "#F36D00";
-                          return <span style={{ padding:"2px 8px", borderRadius:8, fontSize:12, fontWeight:600,
-                            background:fc+"1A", color:fc }}>{fv}</span>;
-                        })()}
-                      </td>
-                      {/* 점검일자 */}
-                      <td style={{ ...tdC(), color: r.inspDt ? C.txt : C.txX }}>
-                        {r.inspDt || "—"}
-                      </td>
-                      {/* 보고서제출일 */}
-                      <td style={{ ...tdC(), color: r.reportDt ? C.txt : C.txX }}>
-                        {r.reportDt || "—"}
-                      </td>
-                      {/* 점검자 */}
-                      <td style={tdC()}>{r.reported ? r.inspector : <span style={{color:C.txX}}>—</span>}</td>
-                      {/* 정상 */}
-                      <td style={tdC()}>
-                        {r.reported
-                          ? <span style={{ fontWeight:700, color:"#19973C" }}>{r.normalCnt}</span>
-                          : <span style={{color:C.txX}}>—</span>}
-                      </td>
-                      {/* 비정상 */}
-                      <td style={tdC()}>
-                        {r.reported
-                          ? <span style={{ fontWeight:700, color: r.abnCnt>0?"#E24949":C.txL }}>{r.abnCnt}</span>
-                          : <span style={{color:C.txX}}>—</span>}
-                      </td>
-                      {/* PDF */}
-                      <td style={tdC()}>
-                        {r.reported ? (
-                          <Btn xs ghost onClick={()=>showToast(`${r.nm} 보고서 다운로드가 시작되었습니다.`)}
-                            style={{ display:"inline-flex", alignItems:"center", gap:3 }}>
-                            📥 PDF
-                          </Btn>
-                        ) : (
-                          <span style={{ fontSize:12, color:C.txX, background:"#F3F4F6",
-                            padding:"3px 8px", borderRadius:4 }}>미보고</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </div>
+                <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} alignItems={{ xs: 'stretch', md: 'center' }} justifyContent="space-between" sx={{ mb: 1.25 }}>
+                  <Typography sx={{ fontSize: 15, fontWeight: 700, color: C.txH }}>자원 목록</Typography>
+                  {cell.hasReport && (
+                    <Button variant="contained" startIcon={<DownloadOutlinedIcon />} onClick={() => dlSingle(sysNm, col)}>
+                      전체 PDF 다운로드
+                    </Button>
+                  )}
+                </Stack>
 
-            </div>{/* /바디 */}
+                <Paper elevation={0} sx={{ border: `1px solid ${C.brd}`, borderRadius: 2, overflow: 'hidden' }}>
+                  <TableContainer sx={{ overflowX: 'auto' }}>
+                    <Table size="small" sx={{ minWidth: 860 }}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell sx={{ ...headCellSx, minWidth: 180 }}>자원명</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 96 }}>보고주기</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 96 }}>점검일자</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 116 }}>제출일</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 96 }}>점검자</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 72 }}>정상</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 72 }}>비정상</TableCell>
+                          <TableCell sx={{ ...headCellSx, textAlign: 'center', minWidth: 100 }}>PDF</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {detailRows.map((resource, index) => {
+                          const freqColor = FREQ_COLOR[resource.resFreq] || '#F36D00';
+                          return (
+                            <TableRow key={resource.id || index} sx={{ bgcolor: resource.reported ? (index % 2 === 0 ? '#fff' : '#FAFBFC') : '#F8FAFC' }}>
+                              <TableCell sx={{ ...detailCellSx('left'), minWidth: 180 }}>
+                                <Stack direction="row" spacing={1} alignItems="flex-start">
+                                  <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: resource.reported ? C.green : C.brd, mt: 0.75, flexShrink: 0 }} />
+                                  <Box sx={{ minWidth: 0 }}>
+                                    <Typography sx={{ fontSize: 13, fontWeight: 700, color: C.txH }} noWrap>
+                                      {resource.nm}
+                                    </Typography>
+                                    {isTotal && (
+                                      <Typography sx={{ mt: 0.25, fontSize: 12, color: C.txL }} noWrap>
+                                        {resource.sysNm}
+                                      </Typography>
+                                    )}
+                                  </Box>
+                                </Stack>
+                              </TableCell>
+                              <TableCell sx={detailCellSx()}>
+                                <Chip label={resource.resFreq} size="small" sx={{ bgcolor: `${freqColor}1A`, color: freqColor, fontWeight: 700 }} />
+                              </TableCell>
+                              <TableCell sx={detailCellSx()}>{resource.inspDt || '—'}</TableCell>
+                              <TableCell sx={detailCellSx()}>{resource.reportDt || '—'}</TableCell>
+                              <TableCell sx={detailCellSx()}>{resource.reported ? resource.inspector : '—'}</TableCell>
+                              <TableCell sx={detailCellSx()}>
+                                {resource.reported ? <Typography sx={{ fontSize: 12, fontWeight: 700, color: C.green }}>{resource.normalCnt}</Typography> : '—'}
+                              </TableCell>
+                              <TableCell sx={detailCellSx()}>
+                                {resource.reported ? <Typography sx={{ fontSize: 12, fontWeight: 700, color: resource.abnCnt > 0 ? C.red : C.txL }}>{resource.abnCnt}</Typography> : '—'}
+                              </TableCell>
+                              <TableCell sx={detailCellSx()}>
+                                {resource.reported ? (
+                                  <Button variant="outlined" size="small" onClick={() => showToast(`${resource.nm} 보고서 다운로드가 시작되었습니다.`)}>
+                                    PDF
+                                  </Button>
+                                ) : (
+                                  <Typography sx={{ fontSize: 12, color: C.txL }}>미보고</Typography>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Paper>
+              </Box>
 
-            {/* 푸터 */}
-            <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Btn onClick={()=>setPanelInfo(null)}>닫기</Btn>
-              </div>
-            </div>
+              <Box sx={{ px: 3, py: 2, borderTop: `1px solid ${C.brd}`, display: 'flex', justifyContent: 'flex-end' }}>
+                <Button variant="outlined" onClick={() => setPanelInfo(null)}>
+                  닫기
+                </Button>
+              </Box>
+            </Box>
           </SidePanel>
         );
       })()}
 
-      {toastMsg && (
-        <div style={{ position:"fixed", bottom:32, left:"50%", transform:"translateX(-50%)",
-          zIndex:99999, padding:"12px 28px", borderRadius:8, fontSize:15, fontWeight:600,
-          color:"#fff", background:toastMsg.ok?"#16a34a":"#dc2626",
-          boxShadow:"0 4px 20px rgba(0,0,0,.18)",
-          display:"flex", alignItems:"center", gap:8, animation:"toastIn .3s ease" }}>
-          <span>{toastMsg.ok?"✓":"✕"}</span>{toastMsg.msg}
-        </div>
-      )}
-    </div>
+      <Snackbar open={!!toastMsg} autoHideDuration={2600} onClose={() => setToastMsg(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert onClose={() => setToastMsg(null)} severity={toastMsg?.ok ? 'success' : 'error'} variant="filled" sx={{ width: '100%' }}>
+          {toastMsg?.msg}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
-
-/* ── 공지사항 ── */
-
-interface ManagerReportViewPageProps {}
-
-export default function ManagerReportViewPage() { return <MgrInspReport />; }
+export default function ManagerReportViewPage() {
+  return <ReportViewScreen />;
+}

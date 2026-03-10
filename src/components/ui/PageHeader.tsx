@@ -1,35 +1,38 @@
 'use client';
 
-import React from 'react';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import type { ReactNode } from 'react';
+
 import { C } from '@/lib/theme/colors';
 
 export interface PageHeaderProps {
-  title: React.ReactNode;
+  title: ReactNode;
   bc?: string;
-  extra?: React.ReactNode;
+  extra?: ReactNode;
 }
 
 export const PH = ({ title, bc, extra }: PageHeaderProps) => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, color: C.txH, lineHeight: '32px' }}>{title}</h1>
-    </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+    <Typography component="h1" sx={{ m: 0, fontSize: 24, fontWeight: 600, color: C.txH, lineHeight: '32px' }}>
+      {title}
+    </Typography>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
       {extra}
       {bc && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: C.txL }}>
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-            <path d="M2 6l6-4 6 4v7a1 1 0 01-1 1H3a1 1 0 01-1-1V6z" stroke="currentColor" strokeWidth="1.3" />
-            <path d="M6 14V9h4v5" stroke="currentColor" strokeWidth="1.3" />
-          </svg>
+        <Breadcrumbs separator="›" sx={{ fontSize: 12, color: C.txL }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: C.txL }}>
+            <HomeRoundedIcon sx={{ fontSize: 14 }} />
+          </Box>
           {bc.split(' > ').map((b, i, arr) => (
-            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {i > 0 && <span style={{ color: C.txX }}>›</span>}
-              <span style={{ color: i === arr.length - 1 ? C.txS : C.txL }}>{b}</span>
-            </span>
+            <Typography key={i} sx={{ fontSize: 12, color: i === arr.length - 1 ? C.txS : C.txL }}>
+              {b}
+            </Typography>
           ))}
-        </div>
+        </Breadcrumbs>
       )}
-    </div>
-  </div>
+    </Box>
+  </Box>
 );

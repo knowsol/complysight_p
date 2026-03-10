@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import Chip from '@mui/material/Chip';
+
 import { SC } from '@/lib/theme/status-colors';
 
 export interface BadgeProps {
@@ -16,48 +17,41 @@ export interface RoleBadgeProps {
   v: string;
 }
 
-export const Badge = ({ status }: BadgeProps) => {
+export const Badge = ({ status, label }: BadgeProps) => {
   const s = SC[status] || { b: 'rgba(140,147,157,0.12)', t: '#6B7280' };
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2px 10px',
-        borderRadius: 12,
+    <Chip
+      size="small"
+      label={label || status}
+      sx={{
+        height: 22,
+        borderRadius: 3,
         fontSize: 11,
         fontWeight: 500,
-        lineHeight: '18px',
-        whiteSpace: 'nowrap',
-        background: s.b,
+        bgcolor: s.b,
         color: s.t,
+        '.MuiChip-label': { px: 1.25 },
       }}
-    >
-      {status}
-    </span>
+    />
   );
 };
 
 export const YnBadge = ({ v }: YnBadgeProps) => {
   const isY = v === 'Y' || v === '사용';
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2px 10px',
-        borderRadius: 12,
+    <Chip
+      size="small"
+      label={isY ? '사용' : '미사용'}
+      sx={{
+        height: 22,
+        borderRadius: 3,
         fontSize: 11,
         fontWeight: 500,
-        lineHeight: '18px',
-        background: isY ? 'rgba(51,156,213,0.12)' : 'rgba(140,147,157,0.12)',
+        bgcolor: isY ? 'rgba(51,156,213,0.12)' : 'rgba(140,147,157,0.12)',
         color: isY ? '#339CD5' : '#6B7280',
+        '.MuiChip-label': { px: 1.25 },
       }}
-    >
-      {isY ? '사용' : '미사용'}
-    </span>
+    />
   );
 };
 
@@ -70,21 +64,18 @@ export const RoleBadge = ({ v }: RoleBadgeProps) => {
   };
   const s = rc[v] || { b: 'rgba(140,147,157,0.12)', t: '#6B7280' };
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2px 8px',
-        borderRadius: 12,
+    <Chip
+      size="small"
+      label={v}
+      sx={{
+        height: 22,
+        borderRadius: 3,
         fontSize: 12,
         fontWeight: 500,
-        lineHeight: '18px',
-        background: s.b,
+        bgcolor: s.b,
         color: s.t,
+        '.MuiChip-label': { px: 1 },
       }}
-    >
-      {v}
-    </span>
+    />
   );
 };

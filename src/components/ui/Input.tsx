@@ -1,6 +1,8 @@
 'use client';
 
+import Box from '@mui/material/Box';
 import React from 'react';
+
 import { C } from '@/lib/theme/colors';
 import { fInput, fSelect, fTextarea } from '@/lib/theme/styles';
 
@@ -26,47 +28,25 @@ export interface RoSelectProps {
   placeholder?: string;
 }
 
-const _chevron = 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWw0IDQgNC00IiBzdHJva2U9IiM5MjkyOTIiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=")';
+const fieldFocusSx = {
+  '&:focus': {
+    borderColor: C.sec,
+    outline: 'none',
+  },
+};
 
 export const FInput = ({ style, ...props }: FInputProps) => (
-  <input
-    style={{ ...fInput, ...style }}
-    onFocus={(e) => {
-      e.target.style.borderColor = C.sec;
-    }}
-    onBlur={(e) => {
-      e.target.style.borderColor = C.brd;
-    }}
-    {...props}
-  />
+  <Box component="input" {...props} style={{ ...fInput, ...style }} sx={fieldFocusSx} />
 );
 
 export const FSelect = ({ style, children, ...props }: FSelectProps) => (
-  <select
-    style={{ ...fSelect, ...style }}
-    onFocus={(e) => {
-      e.target.style.borderColor = C.sec;
-    }}
-    onBlur={(e) => {
-      e.target.style.borderColor = C.brd;
-    }}
-    {...props}
-  >
+  <Box component="select" {...props} style={{ ...fSelect, ...style }} sx={fieldFocusSx}>
     {children}
-  </select>
+  </Box>
 );
 
 export const FTextarea = ({ style, ...props }: FTextareaProps) => (
-  <textarea
-    style={{ ...fTextarea, ...style }}
-    onFocus={(e) => {
-      e.target.style.borderColor = C.sec;
-    }}
-    onBlur={(e) => {
-      e.target.style.borderColor = C.brd;
-    }}
-    {...props}
-  />
+  <Box component="textarea" {...props} style={{ ...fTextarea, ...style }} sx={fieldFocusSx} />
 );
 
 export const RoSelect = ({ readOnly, value, onChange, style, children, placeholder }: RoSelectProps) => {
@@ -92,12 +72,12 @@ export const RoSelect = ({ readOnly, value, onChange, style, children, placehold
       extract(children);
     } catch (_e: unknown) {}
 
-    return React.createElement('input', {
-      readOnly: true,
-      value: label,
-      style: { ...fInput, background: '#F9FAFC', color: C.txt, cursor: 'default' },
-    });
+    return <Box component="input" readOnly value={label} style={{ ...fInput, background: '#F9FAFC', color: C.txt, cursor: 'default', ...style }} />;
   }
 
-  return React.createElement('select', { style: { ...style, backgroundImage: _chevron }, value, onChange }, children);
+  return (
+    <Box component="select" value={value} onChange={onChange as React.ChangeEventHandler<HTMLSelectElement>} style={{ ...fSelect, ...style }} sx={fieldFocusSx}>
+      {children}
+    </Box>
+  );
 };

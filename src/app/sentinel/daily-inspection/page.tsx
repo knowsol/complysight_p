@@ -2,6 +2,9 @@
 'use client';
 
 import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { PH } from '@/components/ui/PageHeader';
 import { Btn, SearchBtn, RefreshBtn, SecBtnO, SecBtnP } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -57,7 +60,7 @@ export default function SentinelDailyInspectionPage() {
   const search = () => {};
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
       <PH title="일상점검" bc="홈 > 일상점검" />
       <PageSidebarLayout
         sidebar={(
@@ -66,64 +69,64 @@ export default function SentinelDailyInspectionPage() {
           </Card>
         )}
       >
-          <div style={{ width: '100%', border: `1px solid ${C.brd}`, background: C.bg, borderRadius: 6, padding: '16px 12px', display: 'flex', gap: 8, marginBottom: 16, alignItems: 'stretch' }}>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
-                <span style={{ ...LABEL_STYLE_SM }}>정보시스템</span>
+          <Box sx={{ width: '100%', border: `1px solid ${C.brd}`, background: C.bg, borderRadius: '6px', padding: '16px 12px', display: 'flex', gap: '8px', marginBottom: '16px', alignItems: 'stretch' }}>
+            <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              <Stack direction="column" gap="6px" sx={{ minWidth: 'fit-content' }}>
+                <Typography component="span" sx={{ ...LABEL_STYLE_SM }}>정보시스템</Typography>
                 <FSelect value={fSys} onChange={(e) => setFSys(e.target.value)} style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', fontFamily: 'inherit', minWidth: 120 }}>
                   <option value="">전체</option>
                   {SYS.map((s) => <option key={s.id} value={s.id}>{s.nm}</option>)}
                 </FSelect>
-              </div>
+              </Stack>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
-                <span style={{ ...LABEL_STYLE_SM }}>점검일시</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Stack direction="column" gap="6px" sx={{ minWidth: 'fit-content' }}>
+                <Typography component="span" sx={{ ...LABEL_STYLE_SM }}>점검일시</Typography>
+                <Stack direction="row" alignItems="center" gap="6px">
                   <DatePicker value={dtFrom} onChange={(v) => { setDtFrom(v); if (dtTo && v > dtTo) setDtTo(v); }} style={{ width: 130 }} />
-                  <span style={{ fontSize: 12, color: C.txL }}>~</span>
+                  <Typography component="span" sx={{ fontSize: 12, color: C.txL }}>~</Typography>
                   <DatePicker value={dtTo} onChange={(v) => { setDtTo(v); if (dtFrom && v < dtFrom) setDtFrom(v); }} style={{ width: 130 }} />
-                </div>
-              </div>
+                </Stack>
+              </Stack>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
-                <span style={{ ...LABEL_STYLE_SM }}>자원명/점검자</span>
+              <Stack direction="column" gap="6px" sx={{ minWidth: 'fit-content' }}>
+                <Typography component="span" sx={{ ...LABEL_STYLE_SM }}>자원명/점검자</Typography>
                 <FInput value={kw} onChange={(e) => setKw(e.target.value)} placeholder="자원명 또는 점검자" style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', minWidth: 120, fontFamily: 'inherit' }} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', flexShrink: 0, alignSelf: 'stretch' }}>
+              </Stack>
+            </Box>
+            <Stack direction="row" gap="6px" sx={{ marginLeft: 'auto', flexShrink: 0, alignSelf: 'stretch' }}>
               <SearchBtn onClick={search} />
               <RefreshBtn onClick={() => { setKw(''); setDtFrom(_daysAgo(30)); setDtTo(_today()); setFSys(''); }} />
-            </div>
-          </div>
+            </Stack>
+          </Box>
 
           <Tbl
             secTitle={title}
             secCount={filtered.length}
             onRow={(row) => setSelItem(row)}
-            secButtons={<div style={{ display: 'flex', gap: 6 }}>
+            secButtons={<Stack direction="row" gap="6px">
               <SecBtnO onClick={() => setShowBatch(true)}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
+                <Stack direction="row" component="span" alignItems="center" gap="4px" sx={{ whiteSpace: 'nowrap' }}>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" style={{ flexShrink: 0 }}><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
-                  일괄점검수행 <span style={{ color: C.txL, fontWeight: 400, fontSize: 12 }}>(추후 개발)</span>
-                </span>
+                  일괄점검수행 <Box component="span" sx={{ color: C.txL, fontWeight: 400, fontSize: 12 }}>(추후 개발)</Box>
+                </Stack>
               </SecBtnO>
               <SecBtnP onClick={() => setShowFree(true)}>+ 점검수행</SecBtnP>
-            </div>}
+            </Stack>}
             cols={[
               {
                 t: '보고서 유형', k: 'rptType', w: 90, r: (v) => {
                   const RPT_COLOR = { 일일: '#0C8CE9', 주간: '#19973C', 월간: '#F36D00', 분기: '#7C3AED', 반기: '#E24949', 연간: '#333333', 상시: '#0891B2' };
                   const col = RPT_COLOR[v] || C.txS;
-                  return v ? <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: 10, fontWeight: 700, background: col + '1A', color: col }}>{v}</span> : <span style={{ color: C.txL, fontSize: 12 }}>미제출</span>;
+                  return v ? <Box component="span" sx={{ display: 'inline-block', padding: '2px 10px', borderRadius: 10, fontWeight: 700, background: col + '1A', color: col }}>{v}</Box> : <Box component="span" sx={{ color: C.txL, fontSize: 12 }}>미제출</Box>;
                 },
               },
               { t: '정보시스템', k: 'sysNm', mw: 120, align: 'left' },
-              { t: '대상자원', k: 'resNm', mw: 140, align: 'left', r: (v) => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
+              { t: '대상자원', k: 'resNm', mw: 140, align: 'left', r: (v) => <Box component="span" sx={{ fontWeight: 600, color: C.pri }}>{v}</Box> },
               { t: '실행주기', k: 'freq', w: 80 },
               { t: '점검표', k: 'clNm', mw: 140, align: 'left' },
               { t: '점검자', k: 'insp', w: 80 },
               { t: '점검일시', k: 'execDt' },
-              { t: '제출일시', k: 'submitDt', r: (v) => <span style={{ color: v === '-' ? C.txL : C.txt }}>{v}</span> },
+              { t: '제출일시', k: 'submitDt', r: (v) => <Box component="span" sx={{ color: v === '-' ? C.txL : C.txt }}>{v}</Box> },
               {
                 t: '자동점검', k: 'autoRes', w: 70, align: 'center', r: (v) => {
                   const done = v && v !== '-';
@@ -136,13 +139,14 @@ export default function SentinelDailyInspectionPage() {
                   return done ? <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D1FAE5" /><polyline points="4.5,8.5 7,11 11.5,5.5" stroke="#15803d" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg> : <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#FEE2E2" /><line x1="5.5" y1="5.5" x2="10.5" y2="10.5" stroke="#dc2626" strokeWidth="1.8" strokeLinecap="round" /><line x1="10.5" y1="5.5" x2="5.5" y2="10.5" stroke="#dc2626" strokeWidth="1.8" strokeLinecap="round" /></svg>;
                 },
               },
-              { t: '정상', k: 'normalCnt', w: 60, r: (v) => <span style={{ fontWeight: 700, color: '#19973C' }}>{v}</span> },
-              { t: '비정상', k: 'abnCnt', w: 60, r: (v) => <span style={{ fontWeight: 700, color: v > 0 ? '#E24949' : C.txL }}>{v}</span> },
-              { t: '특이사항', k: 'note', mw: 160, align: 'left', r: (v) => v ? <span style={{ color: '#F36D00', fontWeight: 500 }}>{v}</span> : <span style={{ color: C.txL }}>-</span> },
+              { t: '정상', k: 'normalCnt', w: 60, r: (v) => <Box component="span" sx={{ fontWeight: 700, color: '#19973C' }}>{v}</Box> },
+              { t: '비정상', k: 'abnCnt', w: 60, r: (v) => <Box component="span" sx={{ fontWeight: 700, color: v > 0 ? '#E24949' : C.txL }}>{v}</Box> },
+              { t: '특이사항', k: 'note', mw: 160, align: 'left', r: (v) => v ? <Box component="span" sx={{ color: '#F36D00', fontWeight: 500 }}>{v}</Box> : <Box component="span" sx={{ color: C.txL }}>-</Box> },
             ]}
             data={filtered}
           />
       </PageSidebarLayout>
+
 
       <StlDailyPanel open={!!selItem} onClose={() => setSelItem(null)} item={selItem} currentUser={auth.user} />
       <StlDailyPanel open={showFree} onClose={() => setShowFree(false)} currentUser={auth.user} />
@@ -207,6 +211,6 @@ export default function SentinelDailyInspectionPage() {
           });
         });
       }} />
-    </div>
+    </Box>
   );
 }

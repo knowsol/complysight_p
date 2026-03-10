@@ -1,7 +1,10 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
+
+import { C } from '@/lib/theme/colors';
 
 export interface FormFieldProps {
   label: ReactNode;
@@ -30,50 +33,40 @@ export const fieldInputStyle: CSSProperties = {
   minHeight: 36,
 };
 
-const labelStyle: CSSProperties = {
-  fontSize: 11,
-  fontWeight: 600,
-  color: C.txS,
-  marginBottom: 4,
-  display: 'flex',
-  alignItems: 'center',
-  lineHeight: 1.4,
-  minHeight: 18,
-};
-
-export function FormField({ label, required, children, half, style: sx }: FormFieldProps) {
+export function FormField({ label, required, children, half, style }: FormFieldProps) {
   return (
-    <div
-      style={{
-        marginBottom: 14,
+    <Box
+      style={style}
+      sx={{
+        mb: 1.75,
         display: half ? 'inline-flex' : 'flex',
         flexDirection: 'column',
         width: half ? 'calc(50% - 6px)' : '100%',
-        marginRight: half ? 12 : 0,
+        mr: half ? 1.5 : 0,
         verticalAlign: 'top',
-        ...sx,
       }}
     >
-      <label style={{ ...labelStyle, gap: 3 }}>
+      <Typography component="label" sx={{ fontSize: 11, fontWeight: 600, color: C.txS, mb: 0.5, display: 'flex', alignItems: 'center', gap: 0.375, lineHeight: 1.4, minHeight: 18 }}>
         {label}
-        {required && <span style={{ color: C.red, fontSize: 12 }}>*</span>}
-      </label>
+        {required && <Box component="span" sx={{ color: C.red, fontSize: 12 }}>*</Box>}
+      </Typography>
       {children}
-    </div>
+    </Box>
   );
 }
 
 export function FormInput({ style, ...props }: FormInputProps) {
   return (
-    <input
-      style={{ ...fieldInputStyle, ...style }}
-      onFocus={(e) => {
-        e.target.style.borderColor = C.sec;
-      }}
-      onBlur={(e) => {
-        e.target.style.borderColor = C.brd;
-      }}
+    <Box
+      component="input"
       {...props}
+      style={{ ...fieldInputStyle, ...style }}
+      sx={{
+        '&:focus': {
+          borderColor: C.sec,
+          outline: 'none',
+        },
+      }}
     />
   );
 }

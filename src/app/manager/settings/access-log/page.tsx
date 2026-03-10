@@ -2,6 +2,9 @@
 'use client';
 
 import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { PH } from '@/components/ui/PageHeader';
 import { Tbl } from '@/components/ui/Table';
 import { Badge } from '@/components/ui/Badge';
@@ -75,57 +78,57 @@ const MgrAccessLog = () => {
 
 
   return (
-    <div>
+    <Box>
       <PH title="접속로그" bc="홈 > 로그정보 > 접속로그" />
 
-      <div>
+      <Box>
 
         {/* ── 검색 영역 (searchform) ── */}
         <SB onSearch={search} onReset={reset}>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
-            <span style={{ ...LABEL_STYLE_SM }}>행동유형</span>
+          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
+            <Typography sx={{ ...LABEL_STYLE_SM }}>행동유형</Typography>
             <FSelect value={actionFilter} onChange={e => setActionFilter(e.target.value)} style={{...fSelect, width:"auto"}}>
               {["전체", "등록", "수정", "삭제", "다운로드", "로그인"].map(v => <option key={v}>{v}</option>)}
             </FSelect>
-          </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
-            <span style={{ ...LABEL_STYLE_SM }}>기간</span>
+          </Stack>
+          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
+            <Typography sx={{ ...LABEL_STYLE_SM }}>기간</Typography>
             <DateRangePicker from={dateFrom} to={dateTo} onFromChange={setDateFrom} onToChange={setDateTo} />
-          </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
-            <span style={{ ...LABEL_STYLE_SM }}>사용자/IP</span>
+          </Stack>
+          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
+            <Typography sx={{ ...LABEL_STYLE_SM }}>사용자/IP</Typography>
             <FInput value={keyword} onChange={e => setKeyword(e.target.value)}
               onKeyDown={e => e.key === "Enter" && search()}
               placeholder="사용자 ID, 이름, IP"
               style={{...fInput, minWidth:120}} />
-          </div>
+          </Stack>
         </SB>
 
         {/* ── 그리드 ── */}
-        <div>
+        <Box>
           <Tbl
             secTitle="접속 이력"
             secCount={filtered.length}
             secButtons={<Btn onClick={()=>{}}>📥 엑셀 다운로드</Btn>}
             data={filtered}
             cols={[
-              { t:"No.",      k:"id",       w:60,  r:(_,l,i)=><span style={{color:C.txL}}>{filtered.length - i}</span> },
+              { t:"No.",      k:"id",       w:60,  r:(_,l,i)=><Typography component="span" sx={{color:C.txL}}>{filtered.length - i}</Typography> },
               { t:"행동유형",  k:"action",   w:70,  r:(v)=><Badge status={v}/> },
               { t:"이름",     k:"userNm",   w:90 },
-              { t:"아이디",   k:"userId",   w:110, r:(v)=><span style={{color:C.txS,fontFamily:"inherit"}}>{v}</span> },
-              { t:"IP",       k:"ip",       w:130, r:(v)=><span style={{fontFamily:"inherit"}}>{v}</span> },
+              { t:"아이디",   k:"userId",   w:110, r:(v)=><Typography component="span" sx={{color:C.txS,fontFamily:"inherit"}}>{v}</Typography> },
+              { t:"IP",       k:"ip",       w:130, r:(v)=><Typography component="span" sx={{fontFamily:"inherit"}}>{v}</Typography> },
               { t:"메뉴",     k:"menu",     w:110 },
-              { t:"URL",      k:"url",      w:180, align:"left", r:(v)=><span style={{color:C.txS,fontFamily:"inherit"}}>{v}</span> },
-              { t:"일시",     k:"dt",       w:155, r:(v)=><span style={{fontFamily:"inherit"}}>{v}</span> },
-              { t:"로그인일시", k:"loginDt", w:155, r:(v)=><span style={{color:C.txS,fontFamily:"inherit"}}>{v}</span> },
-              { t:"비고",     k:"note",     w:120, align:"left", r:(v)=><span style={{color:v?C.txt:C.txL}}>{v||"—"}</span> },
+              { t:"URL",      k:"url",      w:180, align:"left", r:(v)=><Typography component="span" sx={{color:C.txS,fontFamily:"inherit"}}>{v}</Typography> },
+              { t:"일시",     k:"dt",       w:155, r:(v)=><Typography component="span" sx={{fontFamily:"inherit"}}>{v}</Typography> },
+              { t:"로그인일시", k:"loginDt", w:155, r:(v)=><Typography component="span" sx={{color:C.txS,fontFamily:"inherit"}}>{v}</Typography> },
+              { t:"비고",     k:"note",     w:120, align:"left", r:(v)=><Typography component="span" sx={{color:v?C.txt:C.txL}}>{v||"—"}</Typography> },
             ]}
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {/* ══ 상세 패널 ══ */}
-    </div>
+    </Box>
   );
 };
 

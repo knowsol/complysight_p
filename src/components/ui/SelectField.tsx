@@ -1,9 +1,11 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
-import { fieldInputStyle } from '@/components/ui/FormField';
+import Box from '@mui/material/Box';
 import React from 'react';
 import type { CSSProperties, ChangeEventHandler, ReactNode, SelectHTMLAttributes } from 'react';
+
+import { fieldInputStyle } from '@/components/ui/FormField';
+import { C } from '@/lib/theme/colors';
 
 export interface SelectFieldProps extends SelectHTMLAttributes<HTMLSelectElement> {
   style?: CSSProperties;
@@ -34,46 +36,50 @@ export const selectFieldStyle: CSSProperties = {
   cursor: 'pointer',
 };
 
+const focusSx = {
+  '&:focus': {
+    borderColor: C.sec,
+    outline: 'none',
+  },
+};
+
 export function SelectField({ style, children, ...props }: SelectFieldProps) {
   return (
-    <select
-      style={{ ...selectFieldStyle, ...style }}
-      onFocus={(e) => {
-        e.target.style.borderColor = C.sec;
-      }}
-      onBlur={(e) => {
-        e.target.style.borderColor = C.brd;
-      }}
-      {...props}
-    >
+    <Box component="select" {...props} style={{ ...selectFieldStyle, ...style }} sx={focusSx}>
       {children}
-    </select>
+    </Box>
   );
 }
 
 export function ReadOnlySelect({ readOnly, value, onChange, style, children, placeholder }: ReadOnlySelectProps) {
   if (readOnly) {
     let label = String(value || placeholder || '');
+
     const extract = (ch: ReactNode) => {
       if (!ch) return;
       if (Array.isArray(ch)) {
         ch.forEach(extract);
         return;
       }
-      if (typeof ch === 'object' && 'props' in ch && ch.props) {
-        const option = ch as React.ReactElement<{ value?: unknown; children?: ReactNode }>;
-        if (option.props.value !== undefined && String(option.props.value) === String(value)) {
-          if (typeof option.props.children === 'string') label = option.props.children;
+      if (React.isValidElement(ch)) {
+        const props = ch.props as { value?: unknown; children?: ReactNode };
+        if (props.value !== undefined && String(props.value) === String(value) && typeof props.children === 'string') {
+          label = props.children;
         }
-        if (option.props.children) extract(option.props.children);
+        if (props.children) extract(props.children);
       }
     };
+
     try {
       extract(children);
     } catch (_e: unknown) {}
 
-    return <input readOnly value={label} style={{ ...fieldInputStyle, background: '#F9FAFC', color: C.txt, cursor: 'default' }} />;
+    return <Box component="input" readOnly value={label} style={{ ...fieldInputStyle, background: '#F9FAFC', color: C.txt, cursor: 'default', ...style }} />;
   }
 
-  return React.createElement('select', { style: { ...style, backgroundImage: chevron }, value, onChange }, children);
+  return (
+    <Box component="select" value={value} onChange={onChange as ChangeEventHandler<HTMLSelectElement>} style={{ ...selectFieldStyle, ...style }} sx={focusSx}>
+      {children}
+    </Box>
+  );
 }

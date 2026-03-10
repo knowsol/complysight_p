@@ -9,6 +9,8 @@ import { SecBtnP } from '@/components/ui/Button';
 import { C } from '@/lib/theme/colors';
 import { NT } from '@/data/notices';
 import { NoticePanel } from '@/components/panels';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 
 const MgrNotice = ({ readOnly, onBannerOn, onBannerOff }) => {
@@ -51,22 +53,22 @@ const MgrNotice = ({ readOnly, onBannerOn, onBannerOff }) => {
   const listCols = readOnly
     ? [
         { t: "No", k: "id", w: 60, r: (v, row) => filtered.length - filtered.indexOf(row) },
-        { t: "제목", k: "title", mw: 300, align: "left", r: v => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
+        { t: "제목", k: "title", mw: 300, align: "left", r: v => <Typography component="span" sx={{ fontWeight: 600, color: C.pri }}>{v}</Typography> },
         { t: "등록자", k: "user" },
         { t: "등록일", k: "dt" },
         { t: "조회수", k: "views" },
       ]
     : [
         { t: "No", k: "id", w: 70, r: (v, row) => filtered.length - filtered.indexOf(row) },
-        { t: "제목", k: "title", mw: 300, align: "left", r: v => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
+        { t: "제목", k: "title", mw: 300, align: "left", r: v => <Typography component="span" sx={{ fontWeight: 600, color: C.pri }}>{v}</Typography> },
         { t: "배너공지", k: "banner", w: 90, r: v => v === "Y"
-          ? <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 10, background: "#EEF4FF", color: C.pri, border: `1px solid ${C.pri}44` }}>ON</span>
-          : <span style={{ fontSize: 11, fontWeight: 500, padding: "2px 8px", borderRadius: 10, background: "#F3F4F6", color: C.txL }}>OFF</span>
+          ? <Typography component="span" sx={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 10, background: "#EEF4FF", color: C.pri, border: `1px solid ${C.pri}44` }}>ON</Typography>
+          : <Typography component="span" sx={{ fontSize: 11, fontWeight: 500, padding: "2px 8px", borderRadius: 10, background: "#F3F4F6", color: C.txL }}>OFF</Typography>
         },
         { t: "조회수", k: "views" }, { t: "작성자", k: "user" }, { t: "등록일", k: "dt" },
       ];
 
-  return <div>
+  return <Box>
     <PH title="공지사항" bc="홈 > 게시판 > 공지사항" />
     <SB ph="제목으로 검색" value={kw} onChange={setKw} onSearch={doSearch} onReset={doReset} />
     <Tbl secTitle="공지사항 목록" secCount={filtered.length}
@@ -74,7 +76,7 @@ const MgrNotice = ({ readOnly, onBannerOn, onBannerOff }) => {
       onRow={row => setSelItem(row)} cols={listCols} data={filtered} />
     {!readOnly && <NoticePanel open={showAdd} onClose={() => setShowAdd(false)} item={null} onSave={handleSaveNotice} onDelete={handleDeleteNotice} />}
     <NoticePanel open={!!selItem} onClose={() => setSelItem(null)} item={selItem} viewOnly={readOnly} onSave={handleSaveNotice} onDelete={handleDeleteNotice} />
-  </div>;
+  </Box>;
 };
 
 /* ── 자료실 ── */

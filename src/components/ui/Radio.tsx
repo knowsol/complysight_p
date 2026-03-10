@@ -1,6 +1,9 @@
 'use client';
 
-import React from 'react';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import MuiRadio from '@mui/material/Radio';
+
 import { C } from '@/lib/theme/colors';
 
 export interface RadioProps {
@@ -11,18 +14,16 @@ export interface RadioProps {
 }
 
 export const Radio = ({ options = [['Y', '사용'], ['N', '미사용']], value, onChange, disabled }: RadioProps) => (
-  <div style={{ display: 'flex', gap: 16 }}>
+  <RadioGroup row value={value} onChange={(event) => onChange(event.target.value)}>
     {options.map(([v, l]) => (
-      <label
+      <FormControlLabel
         key={v}
-        onClick={() => !disabled && onChange(v)}
-        style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 15, color: disabled ? C.txL : C.txH, cursor: disabled ? 'not-allowed' : 'pointer', userSelect: 'none' }}
-      >
-        <div style={{ width: 18, height: 18, borderRadius: '50%', flexShrink: 0, border: `2px solid ${value === v ? C.sec : C.brdD}`, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {value === v && <div style={{ width: 10, height: 10, borderRadius: '50%', background: C.sec }} />}
-        </div>
-        {l}
-      </label>
+        value={v}
+        disabled={disabled}
+        control={<MuiRadio size="small" sx={{ color: C.brdD, '&.Mui-checked': { color: C.sec } }} />}
+        label={l}
+        sx={{ mr: 2, '.MuiFormControlLabel-label': { fontSize: 15, color: disabled ? C.txL : C.txH } }}
+      />
     ))}
-  </div>
+  </RadioGroup>
 );

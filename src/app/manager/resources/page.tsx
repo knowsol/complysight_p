@@ -2,6 +2,10 @@
 'use client';
 
 import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import { PH } from '@/components/ui/PageHeader';
 import { Tbl } from '@/components/ui/Table';
 import { YnBadge } from '@/components/ui/Badge';
@@ -113,45 +117,42 @@ const MgrRes = ({ toast }) => {
   const selSysNm = sel ? (systems.find(s => s.id === sel)?.nm || "") : "";
 
   return (
-    <div>
+    <Box>
       <PH title="자원관리" bc="홈 > 자원관리" />
 
-      <div style={{ display: "flex", gap: 14, alignItems: "start" }}>
+      <Stack direction="row" gap="14px" alignItems="start">
 
         {/* ── 왼쪽: 정보시스템 패널 ── */}
-        <div style={{ width: 240, flexShrink: 0, background: "#fff", border: `1px solid ${C.brd}`, borderRadius: 6, overflow: "hidden", position: "sticky", top: 0, maxHeight: "calc(100vh - 170px)", display: "flex", flexDirection: "column" }}>
-          <div style={{ padding: "14px 16px", borderBottom: `1px solid ${C.brd}`,
-            display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 15, fontWeight: 600, color: C.txH }}>정보시스템</span>
-              <span style={{ fontSize: 11, color: canAddSystem ? C.txL : C.red, fontWeight: 500 }}>
+        <Box sx={{ width: 240, flexShrink: 0, background: "#fff", border: `1px solid ${C.brd}`, borderRadius: "6px", overflow: "hidden", position: "sticky", top: 0, maxHeight: "calc(100vh - 170px)", display: "flex", flexDirection: "column" }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ padding: "14px 16px", borderBottom: `1px solid ${C.brd}` }}>
+            <Stack direction="row" alignItems="center" gap="8px">
+              <Typography sx={{ fontSize: 15, fontWeight: 600, color: C.txH }}>정보시스템</Typography>
+              <Typography sx={{ fontSize: 11, color: canAddSystem ? C.txL : C.red, fontWeight: 500 }}>
                 {currentSysCount - 1}/{maxSystems - 1}
-              </span>
-            </div>
-            <div onClick={handleAddSystemClick}
-              style={{ width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center",
-                borderRadius: 4, cursor: "pointer", transition: "background .15s", border: "none", outline: "none" }}
-              onMouseEnter={e => e.currentTarget.style.background = C.priL}
-              onMouseLeave={e => e.currentTarget.style.background = ""}>
+              </Typography>
+            </Stack>
+            <Box onClick={handleAddSystemClick}
+              sx={{ width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center",
+                borderRadius: "4px", cursor: "pointer", transition: "background .15s", border: "none", outline: "none",
+                '&:hover': { background: C.priL } }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={canAddSystem ? C.txL : C.red} strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
-            </div>
-          </div>
+            </Box>
+          </Stack>
           {/* 시스템 수 제한 안내 토스트 */}
           {sysLimitToast && (
-            <div style={{ margin: "8px 10px 0", padding: "8px 12px", borderRadius: 6,
-              background: "#FEF2F2", border: "1px solid #FECACA", display: "flex", alignItems: "flex-start", gap: 6 }}>
+            <Stack direction="row" alignItems="flex-start" gap="6px" sx={{ margin: "8px 10px 0", padding: "8px 12px", borderRadius: "6px", background: "#FEF2F2", border: "1px solid #FECACA" }}>
               <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#DC2626" strokeWidth="1.8" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 1 }}>
                 <circle cx="10" cy="10" r="8"/><path d="M10 6v4M10 14h.01"/>
               </svg>
-              <span style={{ fontSize: 11, color: "#991B1B", lineHeight: 1.5 }}>
+              <Typography sx={{ fontSize: 11, color: "#991B1B", lineHeight: 1.5 }}>
                 현재 플랜(Standard)에서 정보시스템은 최대 <strong>{maxSystems - 1}개</strong>까지 등록 가능합니다. 추가 등록이 필요한 경우 라이선스를 업그레이드하세요.
-              </span>
-            </div>
+              </Typography>
+            </Stack>
           )}
-          <div style={{ padding: "6px 0", flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", minHeight: 0 }}>
+          <Box sx={{ padding: "6px 0", flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", minHeight: 0 }}>
             {/* 검색 */}
-            <div style={{ padding: "6px 10px 4px", flexShrink: 0 }}>
-              <div style={{ position: "relative" }}>
+            <Box sx={{ padding: "6px 10px 4px", flexShrink: 0 }}>
+              <Box sx={{ position: "relative" }}>
                 <svg style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
                   width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round">
                   <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
@@ -161,70 +162,67 @@ const MgrRes = ({ toast }) => {
                   style={{ width: "100%", padding: "6px 24px 6px 26px", fontSize: 12, border: `1px solid ${C.brd}`,
                     borderRadius: 6, outline: "none", boxSizing: "border-box", background: "#F8FAFC", color: C.txt, fontFamily: "inherit" }} />
                 {sysSearch && (
-                  <span onClick={() => setSysSearch("")}
-                    style={{ position: "absolute", right: 7, top: "50%", transform: "translateY(-50%)",
-                      cursor: "pointer", fontSize: 15, color: C.txL, lineHeight: 1 }}>×</span>
+                  <Box component="span" onClick={() => setSysSearch("")}
+                    sx={{ position: "absolute", right: 7, top: "50%", transform: "translateY(-50%)",
+                      cursor: "pointer", fontSize: 15, color: C.txL, lineHeight: 1 }}>×</Box>
                 )}
-              </div>
-            </div>
+              </Box>
+            </Box>
             {/* 전체 */}
             {(() => {
               const active = sel === null;
               return (
-                <div onClick={() => { setSel(null); setResPage(1); }}
-                  style={{ display: "flex", alignItems: "center",
-                    padding: "9px 14px", cursor: "pointer", borderRadius: 6, margin: "0 6px",
+                <Box onClick={() => { setSel(null); setResPage(1); }}
+                  sx={{ display: "flex", alignItems: "center",
+                    padding: "9px 14px", cursor: "pointer", borderRadius: "6px", margin: "0 6px",
                     background: active ? C.priL : "transparent",
-                    transition: "all .3s" }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = C.priL; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = active ? C.priL : "transparent"; }}>
-                  <span style={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt, flex: 1 }}>전체</span>
-                  <span style={{ fontSize: 12, fontWeight: 500,
+                    transition: "all .3s",
+                    '&:hover': { background: C.priL } }}>
+                  <Typography sx={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt, flex: 1 }}>전체</Typography>
+                  <Typography sx={{ fontSize: 12, fontWeight: 500,
                     background: "#EEEEEE", color: "#929292",
-                    borderRadius: 10, padding: "1px 7px", minWidth: 20, textAlign: "center" }}>{resources.length}</span>
-                </div>
+                    borderRadius: "10px", padding: "1px 7px", minWidth: 20, textAlign: "center" }}>{resources.length}</Typography>
+                </Box>
               );
             })()}
             {/* 시스템 목록 */}
             {systems.filter(s => !sysSearch || s.nm.toLowerCase().includes(sysSearch.toLowerCase())).map((s, idx) => {
               const active = sel === s.id;
               return (
-                <div key={s.id}
+                <Box key={s.id}
                   draggable
                   onDragStart={e => handleDragStart(e, idx)}
                   onDragOver={e => handleDragOver(e, idx)}
                   onDragEnd={handleDragEnd}
-                  style={{ display: "flex", alignItems: "center",
-                    padding: "8px 14px 8px 10px", cursor: "pointer", borderRadius: 6, margin: "0 6px",
+                  sx={{ display: "flex", alignItems: "center",
+                    padding: "8px 14px 8px 10px", cursor: "pointer", borderRadius: "6px", margin: "0 6px",
                     background: active ? C.priL : dragIdx === idx ? "#F0F9FF" : "transparent",
                     opacity: s.useYn === "N" ? 0.4 : 1,
-                    transition: "all .3s" }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = C.priL; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = active ? C.priL : "transparent"; }}>
-                  <div style={{ flex: 1, overflow: "hidden", minWidth: 0 }} onClick={() => { setSel(active ? null : s.id); setResPage(1); }}>
-                    <div style={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt,
-                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: "20px" }}>{s.nm}</div>
-                    <div style={{ fontSize: 12, color: C.txL, marginTop: 1 }}>자원 {s.res}개 · 구성원 {s.mem}명</div>
-                  </div>
+                    transition: "all .3s",
+                    '&:hover': { background: C.priL } }}>
+                  <Box sx={{ flex: 1, overflow: "hidden", minWidth: 0 }} onClick={() => { setSel(active ? null : s.id); setResPage(1); }}>
+                    <Typography sx={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt,
+                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: "20px" }}>{s.nm}</Typography>
+                    <Typography sx={{ fontSize: 12, color: C.txL, marginTop: "1px" }}>자원 {s.res}개 · 구성원 {s.mem}명</Typography>
+                  </Box>
                   {/* 상세 아이콘 버튼 (세로 점 3개) */}
-                  <button
+                  <IconButton
                     onClick={e => { e.stopPropagation(); setDetailSys(s); setShowSysDetail(true); }}
-                    style={{ flexShrink: 0, marginLeft: 4, width: 24, height: 24, border: "none", borderRadius: 4, background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.txL }}
-                    onMouseEnter={e => { e.currentTarget.style.background = C.priL; e.currentTarget.style.color = C.pri; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = C.txL; }}
+                    sx={{ flexShrink: 0, marginLeft: "4px", width: 24, height: 24, borderRadius: "4px", background: "#fff", color: C.txL,
+                      '&:hover': { background: C.priL, color: C.pri } }}
                     title="상세 보기">
                     <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
                       <circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/>
                     </svg>
-                  </button>
-                </div>
+                  </IconButton>
+                </Box>
               );
             })}
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         {/* ── 오른쪽: 자원 목록 ── */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
 
           <SB ph="자원명 또는 IP로 검색"
             fields={[{ key:"status", label:"상태", type:"select", options:["전체","사용","미사용"] }]}
@@ -243,15 +241,15 @@ const MgrRes = ({ toast }) => {
             cols={[
               { t:"상태",         k:"st",         w:80,   r:(v)=><YnBadge v={v}/> },
               { t:"자원명",       k:"nm",         w:180,  align:"left",
-                r:(v)=><span style={{fontWeight:600,color:C.pri}}>{v}</span> },
+                r:(v)=><Box component="span" sx={{fontWeight:600,color:C.pri}}>{v}</Box> },
               { t:"정보시스템",   k:"sysNm",      align:"left" },
               { t:"연결된 점검표", k:"clId",       align:"left",
                 r:(v,r)=>{ const cl=v?CL_INIT.find(c=>String(c.id)===String(v)):CL_INIT.find(c=>c.sub===r.mid);
                   return cl
-                    ?<span style={{display:"inline-flex",alignItems:"center",gap:5,padding:"2px 10px",borderRadius:10,fontSize:12,fontWeight:600,background:"#dcfce7",color:"#166534"}}>
+                    ?<Box component="span" sx={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"2px 10px",borderRadius:"10px",fontSize:12,fontWeight:600,background:"#dcfce7",color:"#166534"}}>
                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>{cl.nm}
-                     </span>
-                    :<span style={{fontSize:12,color:C.txL}}>—</span>;} },
+                     </Box>
+                    :<Box component="span" sx={{fontSize:12,color:C.txL}}>—</Box>;} },
               { t:"점검자",       k:"inspectors",
                 r:(v)=>(v&&v.length>0)?v.map(uid=>{const u=USERS.find(x=>x.userId===uid);return u?u.userNm:uid;}).join(", "):"—" },
               { t:"대분류",       k:"large" },
@@ -261,15 +259,15 @@ const MgrRes = ({ toast }) => {
               { t:"OS",           k:"os",          r:(v)=>v||"—" },
             ]}
           />
-        </div>
-      </div>
+        </Box>
+      </Stack>
 
       <AddSystemModal open={showAddSystem} onClose={() => setShowAddSystem(false)} onSubmit={handleAddSystem} systems={systems} />
       <ResourcePanel open={!!panelRes}  onClose={() => setPanelRes(null)}    resource={panelRes} onSubmit={handleResourceSubmit} onDelete={handleDeleteResource} systems={systems} hasLinkedCL={panelRes ? (panelRes.clId !== "none" && !!(panelRes.clId || CL_INIT.find(c => c.sub === panelRes.mid))) : false} />
       <ResourcePanel open={showAddRes}  onClose={() => setShowAddRes(false)} resource={null}     onSubmit={handleResourceSubmit} systems={systems} defaultSysId={sel || ""} />
       <SystemDetailPanel open={showSysDetail} onClose={() => setShowSysDetail(false)} system={detailSys} onUpdate={handleUpdateSystem} onDelete={handleDeleteSystem} resCount={detailSys ? resources.filter(r => r.sysId === detailSys.id).length : 0} />
       <ExcelUploadModal open={showExcelUpload} onClose={() => { setShowExcelUpload(false); if(toast) toast("엑셀 업로드가 완료되었습니다."); }} />
-    </div>
+    </Box>
   );
 };
 

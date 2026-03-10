@@ -1,16 +1,23 @@
 'use client';
 
-import React from 'react';
-import { Btn } from '@/components/ui/Button';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
+import type { ReactNode } from 'react';
+
 import { C } from '@/lib/theme/colors';
 
 export interface ConfirmModalProps {
   open: boolean;
-  title: React.ReactNode;
-  msg: React.ReactNode;
+  title: ReactNode;
+  msg: ReactNode;
   onOk?: () => void;
   onCancel?: () => void;
-  okLabel?: React.ReactNode;
+  okLabel?: ReactNode;
   danger?: boolean;
 }
 
@@ -20,40 +27,33 @@ export interface UnsavedConfirmProps {
   onSave?: () => void;
 }
 
-export const ConfirmModal = ({ open, title, msg, onOk, onCancel, okLabel = '확인', danger = true }: ConfirmModalProps) => {
-  if (!open) return null;
-  return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.45)', zIndex: 10001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ background: '#fff', borderRadius: 12, padding: 28, width: 360, boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
-        <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: danger ? '#ef4444' : C.txH }}>{title}</div>
-        <div style={{ fontSize: 15, color: C.txS, marginBottom: 24, lineHeight: 1.7 }}>{msg}</div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <Btn onClick={onCancel}>취소</Btn>
-          <Btn danger={danger} primary={!danger} onClick={onOk}>
-            {okLabel}
-          </Btn>
-        </div>
-      </div>
-    </div>
-  );
-};
+export const ConfirmModal = ({ open, title, msg, onOk, onCancel, okLabel = '확인', danger = true }: ConfirmModalProps) => (
+  <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth>
+    <DialogTitle sx={{ fontSize: 18, fontWeight: 600, color: danger ? C.red : C.txH }}>{title}</DialogTitle>
+    <DialogContent>
+      <Typography sx={{ fontSize: 15, color: C.txS, lineHeight: 1.7 }}>{msg}</Typography>
+    </DialogContent>
+    <DialogActions sx={{ px: 3, pb: 3 }}>
+      <Button variant="outlined" onClick={onCancel}>취소</Button>
+      <Button variant="contained" color={danger ? 'error' : 'primary'} onClick={onOk}>
+        {okLabel}
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
-export const UnsavedConfirm = ({ open, onDiscard, onSave }: UnsavedConfirmProps) => {
-  if (!open) return null;
-  return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.45)' }} />
-      <div style={{ position: 'relative', background: '#fff', borderRadius: 10, padding: '28px 28px 22px', width: 360, boxShadow: '0 20px 60px rgba(0,0,0,.2)', textAlign: 'center' }}>
-        <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#FEF3C7', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: 22 }}>⚠️</div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: '#1e293b', marginBottom: 8 }}>수정 사항을 저장하겠습니까?</div>
-        <div style={{ fontSize: 13, color: '#64748b', marginBottom: 22 }}>저장하지 않으면 변경 내용이 사라집니다.</div>
-        <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-          <Btn onClick={onDiscard}>저장 안함</Btn>
-          <Btn primary onClick={onSave}>
-            저장
-          </Btn>
-        </div>
-      </div>
-    </div>
-  );
-};
+export const UnsavedConfirm = ({ open, onDiscard, onSave }: UnsavedConfirmProps) => (
+  <Dialog open={open} onClose={onDiscard} maxWidth="xs" fullWidth>
+    <DialogContent sx={{ px: 3.5, py: 3.5, textAlign: 'center' }}>
+      <Box sx={{ width: 44, height: 44, borderRadius: '50%', bgcolor: '#FEF3C7', display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 1.75, fontSize: 22 }}>
+        ⚠️
+      </Box>
+      <Typography sx={{ fontSize: 15, fontWeight: 700, color: '#1e293b', mb: 1 }}>수정 사항을 저장하겠습니까?</Typography>
+      <Typography sx={{ fontSize: 13, color: '#64748b', mb: 2.75 }}>저장하지 않으면 변경 내용이 사라집니다.</Typography>
+      <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+        <Button variant="outlined" onClick={onDiscard}>저장 안함</Button>
+        <Button variant="contained" onClick={onSave}>저장</Button>
+      </Box>
+    </DialogContent>
+  </Dialog>
+);
