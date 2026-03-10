@@ -12,8 +12,6 @@ import { C } from '@/lib/theme/colors';
 import { RES } from '@/data/resources';
 import { CL_INIT } from '@/data/checklists';
 import { ChecklistPanel } from '@/components/panels';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
 
 const MgrCL = () => {
@@ -47,18 +45,18 @@ const MgrCL = () => {
 
   const activeItem = selItem || savedItem;
 
-  return <Box>
+  return <div>
   <PH title="점검표" bc="홈 > 환경설정 > 점검표" />
   <SB ph="점검표명으로 검색" />
   <Tbl secTitle="점검표 목록" secCount={cl.length} secButtons={<SecBtnP onClick={() => setShowAdd(true)}>+ 점검표 추가</SecBtnP>} cols={[
     { t: "상태", k: "useYn", w: 80, r: v => <YnBadge v={v} /> },
-    { t: "점검표명", k: "nm", mw: 150, align: "left", r: (v, row) => <Typography component="span" sx={{ fontWeight: 600, color: C.pri, cursor: "pointer" }} onClick={() => setSelItem(row)}>{v}</Typography> },
+    { t: "점검표명", k: "nm", mw: 150, align: "left", r: (v, row) => <span style={{ fontWeight: 600, color: C.pri, cursor: "pointer" }} onClick={() => setSelItem(row)}>{v}</span> },
     { t: "점검상세분류", k: "kind", w: 120 },
     { t: "항목수", k: "items", w: 70 },
     { t: "스케줄", k: "sch", w: 70 },
     { t: "연결자원", k: "id", w: 80, r: v => {
       const cnt = getLinkedResIds(v).length;
-      return <Typography component="span" sx={{ fontWeight:600, color: cnt>0 ? C.pri : C.txL }}>{cnt}개</Typography>;
+      return <span style={{ fontWeight:600, color: cnt>0 ? C.pri : C.txL }}>{cnt}개</span>;
     }},
     { t: "등록자", k: "registrant", w: 90 },
     { t: "등록일", k: "regDt", w: 140 },
@@ -71,7 +69,7 @@ const MgrCL = () => {
     resLinkMap={resLinkMap}
     linkedResIds={activeItem ? getLinkedResIds(activeItem.id) : []}
     onLinkChange={(resId, link) => handleLinkChange(resId, link, activeItem?.id)} />
-</Box>
+</div>
 };
 
 

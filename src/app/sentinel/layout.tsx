@@ -1,7 +1,5 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -29,7 +27,7 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', bgcolor: C.bg, fontFamily: PRETENDARD_FONT }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: C.bg, fontFamily: PRETENDARD_FONT }}>
       <Header
         user={user}
         site="s"
@@ -46,7 +44,7 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
           return;
         }}
       />
-      <Box sx={{ display: 'flex', flex: 1, minHeight: 0, bgcolor: C.bg, pt: '67px' }}>
+      <div style={{ display: 'flex', flex: 1, minHeight: 0, background: C.bg, paddingTop: 67 }}>
         <Sidebar
           menuItems={MENU_ITEMS.s}
           site="s"
@@ -55,9 +53,7 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
             setCollapsed((prev) => !prev);
           }}
         />
-        <Paper
-          component="main"
-          elevation={0}
+        <main
           style={{
             flex: 1,
             display: 'flex',
@@ -73,8 +69,8 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
           }}
         >
           {children}
-        </Paper>
-      </Box>
-    </Box>
+        </main>
+      </div>
+    </div>
   );
 }

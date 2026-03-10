@@ -1,10 +1,7 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
-
 import { C } from '@/lib/theme/colors';
+import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 
 export interface FormFieldProps {
   label: ReactNode;
@@ -33,40 +30,50 @@ export const fieldInputStyle: CSSProperties = {
   minHeight: 36,
 };
 
-export function FormField({ label, required, children, half, style }: FormFieldProps) {
+const labelStyle: CSSProperties = {
+  fontSize: 11,
+  fontWeight: 600,
+  color: C.txS,
+  marginBottom: 4,
+  display: 'flex',
+  alignItems: 'center',
+  lineHeight: 1.4,
+  minHeight: 18,
+};
+
+export function FormField({ label, required, children, half, style: sx }: FormFieldProps) {
   return (
-    <Box
-      style={style}
-      sx={{
-        mb: 1.75,
+    <div
+      style={{
+        marginBottom: 14,
         display: half ? 'inline-flex' : 'flex',
         flexDirection: 'column',
         width: half ? 'calc(50% - 6px)' : '100%',
-        mr: half ? 1.5 : 0,
+        marginRight: half ? 12 : 0,
         verticalAlign: 'top',
+        ...sx,
       }}
     >
-      <Typography component="label" sx={{ fontSize: 11, fontWeight: 600, color: C.txS, mb: 0.5, display: 'flex', alignItems: 'center', gap: 0.375, lineHeight: 1.4, minHeight: 18 }}>
+      <label style={{ ...labelStyle, gap: 3 }}>
         {label}
-        {required && <Box component="span" sx={{ color: C.red, fontSize: 12 }}>*</Box>}
-      </Typography>
+        {required && <span style={{ color: C.red, fontSize: 12 }}>*</span>}
+      </label>
       {children}
-    </Box>
+    </div>
   );
 }
 
 export function FormInput({ style, ...props }: FormInputProps) {
   return (
-    <Box
-      component="input"
-      {...props}
+    <input
       style={{ ...fieldInputStyle, ...style }}
-      sx={{
-        '&:focus': {
-          borderColor: C.sec,
-          outline: 'none',
-        },
+      onFocus={(e) => {
+        e.target.style.borderColor = C.sec;
       }}
+      onBlur={(e) => {
+        e.target.style.borderColor = C.brd;
+      }}
+      {...props}
     />
   );
 }

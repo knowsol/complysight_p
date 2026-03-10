@@ -7,13 +7,12 @@ import { Tbl } from '@/components/ui/Table';
 import { NT } from '@/data/notices';
 import { NoticePanel } from '@/components/panels';
 import type { Notice } from '@/types/notice';
-import Box from '@mui/material/Box';
 
 export default function SentinelBoardPage() {
   const [selected, setSelected] = useState<Notice | null>(null);
 
   return (
-    <Box>
+    <div>
       <PH title="게시판" bc="홈 > 게시판" />
       <SearchBar ph="제목으로 검색" />
       <Tbl
@@ -30,6 +29,6 @@ export default function SentinelBoardPage() {
         ]}
       />
       <NoticePanel open={Boolean(selected)} onClose={() => setSelected(null)} item={selected} viewOnly />
-    </Box>
+    </div>
   );
 }

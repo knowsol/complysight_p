@@ -2,9 +2,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { PH } from '@/components/ui/PageHeader';
 import { Tbl } from '@/components/ui/Table';
 import { RoleBadge, YnBadge } from '@/components/ui/Badge';
@@ -152,38 +149,54 @@ const MgrUsers = () => {
   };
 
   return (
-    <Box>
+    <div>
       <PH title="사용자" bc="홈 > 환경설정 > 사용자 관리 > 사용자" />
 
-      <Stack direction="row" gap="14px" alignItems="start">
-        <Box sx={{ width: 240, flexShrink: 0, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: '6px', overflow: 'hidden' }}>
-          <Stack direction="row" alignItems="center" sx={{ padding: '14px 16px', borderBottom: `1px solid ${C.brd}` }}>
-            <Typography sx={{ fontSize: 15, fontWeight: 600, color: C.txH }}>그룹</Typography>
-          </Stack>
-          <Box sx={{ padding: '6px 0' }}>
+      <div style={{ display: 'flex', gap: 14, alignItems: 'start' }}>
+        <div style={{ width: 240, flexShrink: 0, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: 6, overflow: 'hidden' }}>
+          <div style={{ padding: '14px 16px', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center' }}>
+            <span style={{ fontSize: 15, fontWeight: 600, color: C.txH }}>그룹</span>
+          </div>
+          <div style={{ padding: '6px 0' }}>
             {(() => {
               const active = selGroup === null;
               return (
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
+                <div
                   onClick={() => setSelGroup(null)}
-                  sx={{
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                     padding: '9px 14px',
                     cursor: 'pointer',
-                    borderRadius: '6px',
+                    borderRadius: 6,
                     margin: '0 6px',
                     background: active ? C.priL : 'transparent',
                     transition: 'all .3s',
-                    '&:hover': !active ? { background: C.secL } : {},
+                  }}
+                  onMouseEnter={(event) => {
+                    if (!active) event.currentTarget.style.background = C.secL;
+                  }}
+                  onMouseLeave={(event) => {
+                    if (!active) event.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <Typography sx={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt }}>전체</Typography>
-                  <Box component="span" sx={{ fontSize: 12, fontWeight: 500, background: '#EEEEEE', color: '#929292', borderRadius: 10, padding: '1px 7px', minWidth: 20, textAlign: 'center' }}>
+                  <span style={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt }}>전체</span>
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 500,
+                      background: '#EEEEEE',
+                      color: '#929292',
+                      borderRadius: 10,
+                      padding: '1px 7px',
+                      minWidth: 20,
+                      textAlign: 'center',
+                    }}
+                  >
                     {users.length}
-                  </Box>
-                </Stack>
+                  </span>
+                </div>
               );
             })()}
 
@@ -192,24 +205,29 @@ const MgrUsers = () => {
               const cnt = countByGroup(group.id);
 
               return (
-                <Stack
+                <div
                   key={group.id}
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
                   onClick={() => setSelGroup(group.id)}
-                  sx={{
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                     padding: '9px 14px',
                     cursor: 'pointer',
-                    borderRadius: '6px',
+                    borderRadius: 6,
                     margin: '1px 6px',
                     background: active ? C.priL : 'transparent',
                     transition: 'all .3s',
-                    '&:hover': !active ? { background: C.secL } : {},
+                  }}
+                  onMouseEnter={(event) => {
+                    if (!active) event.currentTarget.style.background = C.secL;
+                  }}
+                  onMouseLeave={(event) => {
+                    if (!active) event.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <Typography
-                    sx={{
+                  <span
+                    style={{
                       fontSize: 15,
                       fontWeight: active ? 600 : 500,
                       color: active ? C.sec : C.txt,
@@ -217,15 +235,27 @@ const MgrUsers = () => {
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
                       flex: 1,
-                      marginRight: '6px',
+                      marginRight: 6,
                     }}
                   >
                     {group.nm}
-                  </Typography>
-                  <Box component="span" sx={{ fontSize: 12, fontWeight: 500, background: '#EEEEEE', color: '#929292', borderRadius: 10, padding: '1px 7px', minWidth: 20, textAlign: 'center', flexShrink: 0 }}>
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 500,
+                      background: '#EEEEEE',
+                      color: '#929292',
+                      borderRadius: 10,
+                      padding: '1px 7px',
+                      minWidth: 20,
+                      textAlign: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
                     {cnt}
-                  </Box>
-                </Stack>
+                  </span>
+                </div>
               );
             })}
 
@@ -233,41 +263,57 @@ const MgrUsers = () => {
               ? (() => {
                   const active = selGroup === UNGROUPED_KEY;
                   return (
-                    <Stack
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="space-between"
+                    <div
                       onClick={() => setSelGroup(UNGROUPED_KEY)}
-                      sx={{
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
                         padding: '9px 14px',
                         cursor: 'pointer',
-                        borderRadius: '6px',
+                        borderRadius: 6,
                         margin: '1px 6px',
                         borderTop: `1px dashed ${C.brd}`,
-                        marginTop: '4px',
+                        marginTop: 4,
                         background: active ? C.priL : 'transparent',
                         transition: 'all .3s',
-                        '&:hover': !active ? { background: C.secL } : {},
+                      }}
+                      onMouseEnter={(event) => {
+                        if (!active) event.currentTarget.style.background = C.secL;
+                      }}
+                      onMouseLeave={(event) => {
+                        if (!active) event.currentTarget.style.background = 'transparent';
                       }}
                     >
-                      <Typography sx={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txL }}>미지정</Typography>
-                      <Box component="span" sx={{ fontSize: 12, fontWeight: 500, background: '#EEEEEE', color: '#929292', borderRadius: 10, padding: '1px 7px', minWidth: 20, textAlign: 'center' }}>
+                      <span style={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txL }}>미지정</span>
+                      <span
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 500,
+                          background: '#EEEEEE',
+                          color: '#929292',
+                          borderRadius: 10,
+                          padding: '1px 7px',
+                          minWidth: 20,
+                          textAlign: 'center',
+                        }}
+                      >
                         {ungrouped}
-                      </Box>
-                    </Stack>
+                      </span>
+                    </div>
                   );
                 })()
               : null}
-          </Box>
+          </div>
 
-          <Box sx={{ padding: '10px 12px', borderTop: `1px solid ${C.brd}` }}>
+          <div style={{ padding: '10px 12px', borderTop: `1px solid ${C.brd}` }}>
             <Btn ghost onClick={() => setShowGrpMgmt(true)} style={{ width: '100%' }}>
               사용자 그룹관리
             </Btn>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
-        <Box sx={{ flex: 1 }}>
+        <div style={{ flex: 1 }}>
           <SB
             ph="이름, ID, 이메일 검색"
             fields={[{ key: 'status', label: '상태', type: 'select', options: ['사용', '미사용'] }]}
@@ -289,8 +335,8 @@ const MgrUsers = () => {
             onRow={openDetailPanel}
             cols={[
               { t: '상태', k: 'useYn', w: 100, r: (value) => <YnBadge v={value} /> },
-              { t: '사용자 ID', k: 'userId', mw: 150, align: 'left', r: (value) => <Box component="span" sx={{ color: C.txS, fontFamily: 'inherit' }}>{value}</Box> },
-              { t: '이름', k: 'userNm', mw: 150, align: 'left', r: (value) => <Box component="span" sx={{ color: C.pri }}>{value}</Box> },
+              { t: '사용자 ID', k: 'userId', mw: 150, align: 'left', r: (value) => <span style={{ color: C.txS, fontFamily: 'inherit' }}>{value}</span> },
+              { t: '이름', k: 'userNm', mw: 150, align: 'left', r: (value) => <span style={{ color: C.pri }}>{value}</span> },
               { t: '이메일', k: 'email', r: (value) => value || '—' },
               {
                 t: '그룹',
@@ -299,20 +345,30 @@ const MgrUsers = () => {
                 r: (value) => {
                   const group = groups.find((entry) => entry.id === value);
                   return group ? (
-                    <Box component="span" sx={{ padding: '2px 9px', borderRadius: 10, fontSize: 12, fontWeight: 600, background: C.priL, color: C.pri, border: `1px solid ${C.priL}` }}>
+                    <span
+                      style={{
+                        padding: '2px 9px',
+                        borderRadius: 10,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        background: C.priL,
+                        color: C.pri,
+                        border: `1px solid ${C.priL}`,
+                      }}
+                    >
                       {group.nm}
-                    </Box>
+                    </span>
                   ) : (
-                    <Box component="span" sx={{ color: C.txL }}>—</Box>
+                    <span style={{ color: C.txL }}>—</span>
                   );
                 },
               },
               { t: '역할', k: 'userRole', w: 120, r: (value) => <RoleBadge v={value} /> },
-              { t: '마지막 로그인', k: 'lastLoginDt', w: 150, r: (value) => <Box component="span" sx={{ color: C.txL }}>{value || '—'}</Box> },
+              { t: '마지막 로그인', k: 'lastLoginDt', w: 150, r: (value) => <span style={{ color: C.txL }}>{value || '—'}</span> },
             ]}
           />
-        </Box>
-      </Stack>
+        </div>
+      </div>
 
       <GroupMgmtModal open={showGrpMgmt} onClose={() => setShowGrpMgmt(false)} groups={groups} setGroups={setGroups} users={users} />
 
@@ -334,7 +390,7 @@ const MgrUsers = () => {
         onSubmit={handleSaveUser}
         onDelete={handleDeleteUser}
       />
-    </Box>
+    </div>
   );
 };
 

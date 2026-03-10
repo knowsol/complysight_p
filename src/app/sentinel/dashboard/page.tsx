@@ -1,7 +1,5 @@
 'use client';
 
-import Box from '@mui/material/Box';
-
 import { PH } from '@/components/ui/PageHeader';
 import { Stat } from '@/components/ui/Stat';
 import { Tbl } from '@/components/ui/Table';
@@ -18,14 +16,14 @@ export default function SentinelDashboardPage() {
   };
 
   return (
-    <Box>
+    <div>
       <PH title="대시보드" bc="홈 > 대시보드" />
-      <Box sx={{ display: 'flex', gap: 1.75, mb: 2.25, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 14, marginBottom: 18, flexWrap: 'wrap' }}>
         <Stat label="오늘 점검" value={cnt.p + cnt.d + cnt.c} color={C.sec} icon="cal" />
         <Stat label="진행 중" value={cnt.p} color={C.pri} icon="check" />
         <Stat label="지연" value={cnt.d} color={C.red} icon="alert" />
         <Stat label="완료" value={cnt.c} color={C.purp} icon="check" />
-      </Box>
+      </div>
       <Tbl
         secTitle="나의 점검 현황"
         secCount={di.length}
@@ -37,6 +35,6 @@ export default function SentinelDashboardPage() {
           { t: '상태', k: 'st', r: (v) => <Badge status={String(v)} /> },
         ]}
       />
-    </Box>
+    </div>
   );
 }

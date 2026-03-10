@@ -1,17 +1,8 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import MuiPagination from '@mui/material/Pagination';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
-
 import { C } from '@/lib/theme/colors';
+import { TD, TH } from '@/lib/theme/styles';
 
 export interface TableColumn<T extends object> {
   t: React.ReactNode;
@@ -40,6 +31,16 @@ export interface GuiPagProps {
   setPage: (page: number) => void;
 }
 
+interface ArrowIconProps {
+  d: string;
+}
+
+const ArrowIcon = ({ d }: ArrowIconProps) => (
+  <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+    <path d={d} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 export const Tbl = <T extends object>({ cols, data, onRow, pageSize = 10, noPaging, secTitle, secCount, secButtons, rowStyle }: TblProps<T>) => {
   const [pg, setPg] = useState(1);
   const total = data.length;
@@ -51,113 +52,141 @@ export const Tbl = <T extends object>({ cols, data, onRow, pageSize = 10, noPagi
 
   const rows = noPaging ? data : data.slice((pg - 1) * pageSize, pg * pageSize);
 
-  return (
-    <Box>
-      {(secTitle || secButtons || secCount != null) && (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 52, borderBottom: `1px solid ${C.brdD}`, mb: 0 }}>
-          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-            {secTitle && <Typography sx={{ fontSize: 18, fontWeight: 600, color: C.txH }}>{secTitle}</Typography>}
-            {secCount != null && <Typography sx={{ fontSize: 12, color: C.txL }}>{secCount}건</Typography>}
-          </Box>
-          {secButtons && <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>{secButtons}</Box>}
-        </Box>
-      )}
+  const pBtn = (icon: React.ReactNode, disabled: boolean, onClick: () => void) => (
+    <button onClick={disabled ? undefined : onClick} disabled={disabled} style={{ width: 28, height: 28, background: 'none', border: 'none', cursor: disabled ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4, color: disabled ? C.txX : C.txS, padding: 0 }}>
+      {icon}
+    </button>
+  );
 
-      <TableContainer sx={{ overflowX: 'auto', borderBottom: `1px solid ${C.brd}` }}>
-        <Table size="small" sx={{ minWidth: '100%', width: 'max-content' }}>
-          <TableHead sx={{ borderTop: `1px solid ${C.txH}` }}>
-            <TableRow>
+  const pNum = (n: number) => (
+    <button key={n} onClick={() => setPg(n)} style={{ minWidth: 28, height: 28, padding: '0 6px', background: pg === n ? C.sec : 'none', border: 'none', cursor: 'pointer', borderRadius: 4, fontSize: 15, fontWeight: pg === n ? 600 : 400, color: pg === n ? C.white : C.txS, fontFamily: 'inherit' }}>
+      {n}
+    </button>
+  );
+
+  const pages = () => {
+    const ps: React.ReactNode[] = [];
+    let s = Math.max(1, pg - 2);
+    let e = Math.min(maxPg, pg + 2);
+    if (e - s < 4) {
+      s = Math.max(1, e - 4);
+      e = Math.min(maxPg, s + 4);
+    }
+    for (let i = s; i <= e; i += 1) ps.push(pNum(i));
+    return ps;
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 52, borderBottom: `1px solid ${C.brdD}`, marginBottom: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+          {secTitle && <span style={{ fontSize: 18, fontWeight: 600, color: C.txH }}>{secTitle}</span>}
+          {secCount != null && <span style={{ fontSize: 12, color: C.txL }}>{secCount}건</span>}
+        </div>
+        {secButtons && <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>{secButtons}</div>}
+      </div>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ minWidth: '100%', width: 'max-content', borderCollapse: 'collapse', borderBottom: `1px solid ${C.brd}` }}>
+          <thead style={{ borderTop: `1px solid ${C.txH}` }}>
+            <tr>
               {cols.map((c, i) => (
-                <TableCell
-                  key={i}
-                  align={c.align || 'center'}
-                  sx={{
-                    py: 1.125,
-                    px: 1.5,
-                    color: C.txL,
-                    fontSize: 14,
-                    fontWeight: 400,
-                    whiteSpace: 'nowrap',
-                    ...(c.w ? { width: c.w } : {}),
-                    ...(c.mw ? { minWidth: c.mw } : {}),
-                  }}
-                >
+                <th key={i} style={{ ...TH({ textAlign: c.align || 'center', background: C.white, ...(c.w ? { width: c.w } : {}), ...(c.mw ? { minWidth: c.mw } : {}) }) }}>
                   {c.t}
-                </TableCell>
+                </th>
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
+            </tr>
+          </thead>
+          <tbody>
             {rows.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={cols.length} sx={{ py: 7, textAlign: 'center' }}>
-                  <Box sx={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1.25 }}>
-                    <Box sx={{ fontSize: 44, lineHeight: 1 }}>🔍</Box>
-                    <Typography sx={{ fontSize: 15, fontWeight: 600, color: C.txH, mt: 0.25 }}>검색 결과가 없습니다</Typography>
-                    <Typography sx={{ fontSize: 13, color: C.txL }}>다른 검색어나 필터 조건을 사용해 보세요.</Typography>
-                  </Box>
-                </TableCell>
-              </TableRow>
+              <tr>
+                <td colSpan={cols.length} style={{ padding: '56px 0', textAlign: 'center' }}>
+                  <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+                    <div style={{ fontSize: 44, lineHeight: 1 }}>🔍</div>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: C.txH, marginTop: 2 }}>검색 결과가 없습니다</div>
+                    <div style={{ fontSize: 13, color: C.txL }}>다른 검색어나 필터 조건을 사용해 보세요.</div>
+                  </div>
+                </td>
+              </tr>
             ) : (
               rows.map((r, ri) => (
-                <TableRow
+                <tr
                   key={ri}
-                  hover={!!onRow}
                   onClick={() => onRow?.(r)}
-                  style={rowStyle ? rowStyle(r) : undefined}
-                  sx={{
-                    cursor: onRow ? 'pointer' : 'default',
-                    '&:hover': onRow ? { backgroundColor: 'rgba(69,124,225,0.08)' } : undefined,
+                  style={{ cursor: onRow ? 'pointer' : 'default', ...(rowStyle ? rowStyle(r) : {}) }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(69,124,225,0.08)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '';
                   }}
                 >
                   {cols.map((c, ci) => (
-                    <TableCell
-                      key={ci}
-                      align={c.align || 'center'}
-                      sx={{
-                        py: 1.375,
-                        px: 1.5,
-                        color: C.txt,
-                        fontSize: 14,
-                        verticalAlign: 'middle',
-                        whiteSpace: 'nowrap',
-                        lineHeight: '24px',
-                        ...(c.w ? { width: c.w } : {}),
-                        ...(c.mw ? { minWidth: c.mw } : {}),
-                      }}
-                    >
-                      {c.r ? c.r(r[c.k], r) : ((r[c.k] ?? '—') as React.ReactNode)}
-                    </TableCell>
+                    <td key={ci} style={{ ...TD({ textAlign: c.align || 'center', lineHeight: '24px', ...(c.w ? { width: c.w } : {}), ...(c.mw ? { minWidth: c.mw } : {}) }) }}>
+                      {c.r ? c.r(r[c.k], r) : (r[c.k] ?? '—') as React.ReactNode}
+                    </td>
                   ))}
-                </TableRow>
+                </tr>
               ))
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
       {!noPaging && total > pageSize && (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
-          <MuiPagination
-            count={maxPg}
-            page={pg}
-            color="primary"
-            size="small"
-            onChange={(_event, page) => setPg(page)}
-            showFirstButton
-            showLastButton
-          />
-        </Box>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ display: 'flex', gap: 2 }}>
+              {pBtn(<ArrowIcon d="M6.5 1L1.5 6L6.5 11" />, pg === 1, () => setPg(1))}
+              {pBtn(<ArrowIcon d="M6.5 1L1.5 6L6.5 11" />, pg === 1, () => setPg(pg - 1))}
+            </div>
+            <div style={{ display: 'flex', gap: 2 }}>{pages()}</div>
+            <div style={{ display: 'flex', gap: 2 }}>
+              {pBtn(<ArrowIcon d="M1.5 1L6.5 6L1.5 11" />, pg === maxPg, () => setPg(pg + 1))}
+              {pBtn(<ArrowIcon d="M1.5 1L6.5 6L1.5 11" />, pg === maxPg, () => setPg(maxPg))}
+            </div>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 
 export const GuiPag = ({ page, totalPages, setPage }: GuiPagProps) => {
   if (totalPages <= 1) return null;
 
+  const pb = (icon: React.ReactNode, disabled: boolean, onClick: () => void) => (
+    <button onClick={disabled ? undefined : onClick} disabled={disabled} style={{ width: 28, height: 28, background: 'none', border: 'none', cursor: disabled ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4, color: disabled ? C.txX : C.txS, padding: 0 }}>
+      {icon}
+    </button>
+  );
+
+  const ps: number[] = [];
+  let s = Math.max(1, page - 2);
+  let e = Math.min(totalPages, page + 2);
+  if (e - s < 4) {
+    s = Math.max(1, e - 4);
+    e = Math.min(totalPages, s + 4);
+  }
+  for (let i = s; i <= e; i += 1) ps.push(i);
+
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
-      <MuiPagination count={totalPages} page={page} color="primary" size="small" onChange={(_event, value) => setPage(value)} showFirstButton showLastButton />
-    </Box>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px 0' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div style={{ display: 'flex', gap: 2 }}>
+          {pb(<ArrowIcon d="M6.5 1L1.5 6L6.5 11" />, page === 1, () => setPage(1))}
+          {pb(<ArrowIcon d="M6.5 1L1.5 6L6.5 11" />, page === 1, () => setPage(page - 1))}
+        </div>
+        <div style={{ display: 'flex', gap: 2 }}>
+          {ps.map((n) => (
+            <button key={n} onClick={() => setPage(n)} style={{ minWidth: 28, height: 28, padding: '0 6px', background: page === n ? C.sec : 'none', border: 'none', cursor: 'pointer', borderRadius: 4, fontSize: 15, fontWeight: page === n ? 600 : 400, color: page === n ? '#fff' : C.txS, fontFamily: 'inherit' }}>
+              {n}
+            </button>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 2 }}>
+          {pb(<ArrowIcon d="M1.5 1L6.5 6L1.5 11" />, page === totalPages, () => setPage(page + 1))}
+          {pb(<ArrowIcon d="M1.5 1L6.5 6L1.5 11" />, page === totalPages, () => setPage(totalPages))}
+        </div>
+      </div>
+    </div>
   );
 };

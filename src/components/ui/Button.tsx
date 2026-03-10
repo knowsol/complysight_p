@@ -1,14 +1,10 @@
 'use client';
 
-import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import type { CSSProperties, ReactNode } from 'react';
-
+import React from 'react';
 import { C } from '@/lib/theme/colors';
 
 export interface BtnProps {
-  children?: ReactNode;
+  children?: React.ReactNode;
   primary?: boolean;
   danger?: boolean;
   success?: boolean;
@@ -19,7 +15,7 @@ export interface BtnProps {
   xs?: boolean;
   small?: boolean;
   onClick?: () => void;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
   disabled?: boolean;
 }
 
@@ -28,91 +24,257 @@ export interface SimpleButtonProps {
 }
 
 export interface SecBtnOProps {
-  children?: ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
 }
 
 export interface SecBtnPProps {
-  children?: ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
 }
 
-export const Btn = ({ children, primary, danger, success, outline, outlineDanger, ghost, sm, xs, small, onClick, style, disabled }: BtnProps) => {
-  const size = xs ? 'small' : sm || small ? 'small' : 'medium';
-  const variant = primary || success || danger ? 'contained' : 'outlined';
-  const sx = primary
-    ? { bgcolor: C.sec, color: '#fff', borderColor: C.sec, '&:hover': { bgcolor: '#3a6cc8', borderColor: '#3a6cc8' } }
-    : success
-      ? { bgcolor: C.green, color: '#fff', borderColor: C.green, '&:hover': { bgcolor: '#14813c', borderColor: '#14813c' } }
-      : danger
-        ? { bgcolor: C.red, color: '#fff', borderColor: C.red, '&:hover': { bgcolor: '#c93d3d', borderColor: '#c93d3d' } }
-        : outlineDanger
-          ? { bgcolor: '#fff', color: C.red, borderColor: C.red, '&:hover': { bgcolor: '#fff1f1', borderColor: C.red } }
-          : ghost
-            ? { bgcolor: 'transparent', color: C.pri, borderColor: C.pri, '&:hover': { bgcolor: C.priL, borderColor: C.pri } }
-            : outline
-              ? { bgcolor: '#fff', color: C.sec, borderColor: C.brdD, '&:hover': { bgcolor: '#eef3ff', borderColor: C.brdD } }
-              : { bgcolor: '#fff', color: '#64748b', borderColor: '#e2e8f0', '&:hover': { bgcolor: '#f1f5f9', borderColor: '#e2e8f0' } };
+export const Btn = ({ children, primary, danger, success, outline, outlineDanger, ghost, sm, xs, small, onClick, style: cs, disabled }: BtnProps) => {
+  const size = xs ? 'xs' : sm || small ? 'sm' : 'md';
+  const base: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    border: 'none',
+    borderRadius: 4,
+    lineHeight: 1,
+    fontFamily: 'inherit',
+    fontWeight: 600,
+    transition: 'all 0.15s ease',
+    opacity: disabled ? 0.45 : 1,
+    ...(size === 'md' ? { padding: '10px 20px', fontSize: 13 } : size === 'sm' ? { padding: '7px 14px', fontSize: 12 } : { padding: '5px 10px', fontSize: 12 }),
+    ...cs,
+  };
 
+  if (primary) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        style={{ ...base, background: C.sec, color: '#fff' }}
+        onMouseEnter={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#3a6cc8';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = C.sec;
+        }}
+        onFocus={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#3a6cc8';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.background = C.sec;
+        }}
+      >
+        {children}
+      </button>
+    );
+  }
+  if (success) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        style={{ ...base, background: C.green, color: '#fff' }}
+        onMouseEnter={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#148132';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = C.green;
+        }}
+        onFocus={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#14813c';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.background = C.green;
+        }}
+      >
+        {children}
+      </button>
+    );
+  }
+  if (danger) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        style={{ ...base, background: '#E24949', color: '#fff' }}
+        onMouseEnter={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#c93d3d';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = '#E24949';
+        }}
+        onFocus={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#c93d3d';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.background = '#E24949';
+        }}
+      >
+        {children}
+      </button>
+    );
+  }
+  if (outline) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        style={{ ...base, background: '#fff', color: C.sec, border: '1px solid rgb(215,215,215)' }}
+        onMouseEnter={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#eef3ff';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = '#fff';
+        }}
+        onFocus={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#eef3ff';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.background = '#fff';
+        }}
+      >
+        {children}
+      </button>
+    );
+  }
+  if (outlineDanger) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        style={{ ...base, background: '#fff', color: '#E24949', border: '1px solid #E24949' }}
+        onMouseEnter={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#fff1f1';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = '#fff';
+        }}
+        onFocus={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#fff1f1';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.background = '#fff';
+        }}
+      >
+        {children}
+      </button>
+    );
+  }
+  if (ghost) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        style={{ ...base, background: 'none', color: C.pri, border: `1px solid ${C.pri}` }}
+        onMouseEnter={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#eef3ff';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'none';
+        }}
+        onFocus={(e) => {
+          if (!disabled) e.currentTarget.style.background = '#eef3ff';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.background = 'none';
+        }}
+      >
+        {children}
+      </button>
+    );
+  }
   return (
-    <Button
-      size={size}
-      variant={variant}
-      onClick={onClick}
+    <button
       disabled={disabled}
-      style={style}
-      sx={{
-        minWidth: 0,
-        px: size === 'medium' ? 2.5 : xs ? 1.25 : 1.75,
-        py: size === 'medium' ? 1.2 : xs ? 0.65 : 0.85,
-        lineHeight: 1,
-        fontSize: size === 'medium' ? 13 : 12,
-        fontWeight: 600,
-        ...sx,
+      onClick={onClick}
+      style={{ ...base, background: '#fff', color: '#64748b', border: '1px solid #e2e8f0' }}
+      onMouseEnter={(e) => {
+        if (!disabled) e.currentTarget.style.background = '#f1f5f9';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = '#fff';
+      }}
+      onFocus={(e) => {
+        if (!disabled) e.currentTarget.style.background = '#f1f5f9';
+      }}
+      onBlur={(e) => {
+        e.currentTarget.style.background = '#fff';
       }}
     >
       {children}
-    </Button>
+    </button>
   );
 };
 
 export const SearchBtn = ({ onClick }: SimpleButtonProps) => (
-  <Button
+  <button
     onClick={onClick}
-    variant="outlined"
-    sx={{
-      minHeight: 36,
-      px: 2.5,
+    style={{
+      background: '#fff',
+      border: `1px solid ${C.sec}`,
       color: C.sec,
-      borderColor: C.sec,
+      borderRadius: 4,
+      padding: '0 20px',
+      fontSize: 15,
+      fontWeight: 500,
+      height: '100%',
+      minHeight: 36,
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      transition: 'all 0.15s ease',
       whiteSpace: 'nowrap',
-      '&:hover': {
-        bgcolor: C.sec,
-        color: '#fff',
-        borderColor: C.sec,
-      },
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = C.sec;
+      e.currentTarget.style.color = '#fff';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = '#fff';
+      e.currentTarget.style.color = C.sec;
     }}
   >
     검색
-  </Button>
+  </button>
 );
 
 export const RefreshBtn = ({ onClick }: SimpleButtonProps) => (
-  <IconButton
+  <button
     onClick={onClick}
     title="초기화"
-    sx={{
+    style={{
       width: 40,
-      height: 36,
+      height: '100%',
+      minHeight: 36,
       border: `1px solid ${C.pri}`,
-      borderRadius: 1,
-      color: C.pri,
-      '&:hover': { bgcolor: C.priL },
+      borderRadius: 4,
+      background: '#fff',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      flexShrink: 0,
+      transition: 'all 0.15s ease',
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = C.priL;
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = '#fff';
     }}
   >
-    <RefreshRoundedIcon fontSize="small" />
-  </IconButton>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M14 2v4h-4" stroke={C.pri} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.5 10a6 6 0 11-1.3-6.3L14 6" stroke={C.pri} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </button>
 );
 
 export const SecBtnO = ({ children, onClick }: SecBtnOProps) => (
@@ -121,8 +283,8 @@ export const SecBtnO = ({ children, onClick }: SecBtnOProps) => (
   </Btn>
 );
 
-export const SecBtnP = ({ children, onClick, style }: SecBtnPProps) => (
-  <Btn onClick={onClick} primary style={style}>
+export const SecBtnP = ({ children, onClick, style: sx }: SecBtnPProps) => (
+  <Btn onClick={onClick} primary style={sx}>
     {children}
   </Btn>
 );

@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+'use client';
 
-import { MuiProvider } from '@/components/providers/MuiProvider';
+import type { ReactNode } from 'react';
+
 import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.css';
 
@@ -15,11 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <AppRouterCacheProvider>
-          <AuthProvider>
-            <MuiProvider>{children}</MuiProvider>
-          </AuthProvider>
-        </AppRouterCacheProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

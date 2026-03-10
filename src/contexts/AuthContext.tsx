@@ -1,5 +1,3 @@
-'use client';
-
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 
 import { setTheme, type ThemeSite } from "@/lib/theme/colors";

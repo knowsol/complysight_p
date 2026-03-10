@@ -2,9 +2,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { PH } from '@/components/ui/PageHeader';
 import { Btn } from '@/components/ui/Button';
 import { FInput } from '@/components/ui/Input';
@@ -138,20 +135,20 @@ const MgrCategory = () => {
   };
 
   const colHeader = (label, count, onAdd) => (
-    <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ padding: "10px 14px", borderBottom: `2px solid ${C.brd}`, background: "#F9FAFC" }}>
-      <Typography sx={{ fontSize: 12, fontWeight: 700, color: C.txt }}>{label} <Box component="span" sx={{ fontWeight: 400, fontSize: 12, color: C.txL }}>({count})</Box></Typography>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", borderBottom: `2px solid ${C.brd}`, background: "#F9FAFC" }}>
+      <div style={{ fontSize: 12, fontWeight: 700, color: C.txt }}>{label} <span style={{ fontWeight: 400, fontSize: 12, color: C.txL }}>({count})</span></div>
       {sortMode
-        ? <Box component="span" sx={{ fontSize: 12, color: C.pri, background: "#EEF2FF", padding: "2px 8px", borderRadius: "8px", border: `1px solid ${C.priL}` }}>드래그로 순서 변경</Box>
-        : <Box component="span" onClick={onAdd} sx={{ cursor: "pointer", fontSize: 18, color: C.pri, fontWeight: 700, lineHeight: 1 }} title={`${label} 추가`}>+</Box>
+        ? <span style={{ fontSize: 12, color: C.pri, background: "#EEF2FF", padding: "2px 8px", borderRadius: 8, border: `1px solid ${C.priL}` }}>드래그로 순서 변경</span>
+        : <span onClick={onAdd} style={{ cursor: "pointer", fontSize: 18, color: C.pri, fontWeight: 700, lineHeight: 1 }} title={`${label} 추가`}>+</span>
       }
-    </Stack>
+    </div>
   );
 
   const catRow = (item, isActive, onSelect, onDel, depth) => {
     const isOver = sortMode && overItem?.depth === depth && overItem?.id === item.id;
     const isDrag = sortMode && dragRef.current?.depth === depth && dragRef.current?.id === item.id;
     return (
-      <Box
+      <div
         key={item.id}
         draggable={sortMode}
         onDragStart={sortMode ? () => onDragStart(depth, item.id) : undefined}
@@ -159,7 +156,7 @@ const MgrCategory = () => {
         onDrop={sortMode      ? (e) => onDrop(e, depth, item.id) : undefined}
         onDragEnd={sortMode   ? onDragEnd : undefined}
         onClick={() => !sortMode && editId !== item.id && onSelect(item.id)}
-        sx={{
+        style={{
           display: "flex", alignItems: "center", padding: "9px 14px",
           cursor: sortMode ? "grab" : "pointer",
           background: isOver ? "#EEF2FF" : isActive ? C.priL : "",
@@ -168,8 +165,9 @@ const MgrCategory = () => {
           opacity: isDrag ? 0.4 : 1,
           transition: "background .12s, opacity .12s",
           userSelect: "none",
-          ...(!isActive && !sortMode && { '&:hover': { background: "#F9FAFC" } }),
         }}
+        onMouseEnter={e => { if (!isActive && !sortMode) e.currentTarget.style.background = "#F9FAFC"; }}
+        onMouseLeave={e => { if (!isActive && !sortMode) e.currentTarget.style.background = ""; }}
       >
         {sortMode && (
           <svg width="12" height="12" viewBox="0 0 12 12" style={{ marginRight: 8, flexShrink: 0, opacity: 0.4 }}>
@@ -189,19 +187,19 @@ const MgrCategory = () => {
             style={{ flex: 1, padding: "2px 6px", border: `1px solid ${C.pri}`, borderRadius: 4, fontSize: 12, outline: "none" }}
           />
         ) : (
-          <Typography sx={{ flex: 1, fontSize: 12, fontWeight: isActive ? 600 : 400, color: isActive ? C.priD : C.txt }}>{item.nm}</Typography>
+          <span style={{ flex: 1, fontSize: 12, fontWeight: isActive ? 600 : 400, color: isActive ? C.priD : C.txt }}>{item.nm}</span>
         )}
-        {!sortMode && item.children && <Box component="span" sx={{ fontSize: 12, color: C.txL, marginRight: "6px" }}>{item.children.length}</Box>}
+        {!sortMode && item.children && <span style={{ fontSize: 12, color: C.txL, marginRight: 6 }}>{item.children.length}</span>}
         {!sortMode && editId !== item.id && <>
-          <Box component="span" onClick={e => { e.stopPropagation(); startEdit(item.id, item.nm); }} sx={{ cursor: "pointer", fontSize: 12, color: C.txL, marginRight: "6px", padding: "0 2px" }} title="수정"><Ic n="edit" s={13} c={C.txL} /></Box>
-          <Box component="span" onClick={e => { e.stopPropagation(); onDel(item.id); }} sx={{ cursor: "pointer", fontSize: 15, color: C.red, fontWeight: 600 }} title="삭제">×</Box>
+          <span onClick={e => { e.stopPropagation(); startEdit(item.id, item.nm); }} style={{ cursor: "pointer", fontSize: 12, color: C.txL, marginRight: 6, padding: "0 2px" }} title="수정"><Ic n="edit" s={13} c={C.txL} /></span>
+          <span onClick={e => { e.stopPropagation(); onDel(item.id); }} style={{ cursor: "pointer", fontSize: 15, color: C.red, fontWeight: 600 }} title="삭제">×</span>
         </>}
-      </Box>
+      </div>
     );
   };
 
   const addInputRow = (depth) => addDepth === depth && (
-    <Stack direction="row" alignItems="center" sx={{ padding: "6px 14px", borderBottom: `1px solid ${C.brd}`, background: "#f0fdf4" }}>
+    <div style={{ display: "flex", alignItems: "center", padding: "6px 14px", borderBottom: `1px solid ${C.brd}`, background: "#f0fdf4" }}>
       <FInput
         autoFocus
         value={addNm}
@@ -211,20 +209,20 @@ const MgrCategory = () => {
         placeholder="이름 입력 후 Enter"
         style={{ flex: 1, padding: "4px 8px", border: `1px solid ${C.pri}`, borderRadius: 4, fontSize: 12, outline: "none" }}
       />
-      <Box component="span" onClick={cancelAdd} sx={{ cursor: "pointer", marginLeft: "8px", fontSize: 12, color: C.txL }}>취소</Box>
-    </Stack>
+      <span onClick={cancelAdd} style={{ cursor: "pointer", marginLeft: 8, fontSize: 12, color: C.txL }}>취소</span>
+    </div>
   );
 
   return (
-    <Box>
+    <div>
       <PH title="카테고리 관리" bc="홈 > 환경설정 > 카테고리 관리" />
       {/* 그리드 툴바 */}
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ marginBottom: "8px", gap: "8px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: 8, gap: 8 }}>
         {sortSaved && (
-          <Stack direction="row" alignItems="center" gap="4px" component="span" sx={{ fontSize: 12, color: "#16a34a", fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "#16a34a", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             저장되었습니다
-          </Stack>
+          </span>
         )}
         {sortMode ? (
           <>
@@ -242,39 +240,39 @@ const MgrCategory = () => {
             순서변경
           </Btn>
         )}
-      </Stack>
-      <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
-        border: `1px solid ${sortMode ? C.pri : C.brd}`, borderRadius: "8px", overflow: "hidden", minHeight: 400,
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
+        border: `1px solid ${sortMode ? C.pri : C.brd}`, borderRadius: 8, overflow: "hidden", minHeight: 400,
         boxShadow: sortMode ? `0 0 0 3px ${C.priL}` : "none", transition: "box-shadow .2s, border-color .2s" }}>
         {/* 1Depth 대분류 */}
-        <Box sx={{ borderRight: `1px solid ${C.brd}` }}>
+        <div style={{ borderRight: `1px solid ${C.brd}` }}>
           {colHeader("1 Depth 대분류", tree.length, () => startAdd(1))}
-          <Box sx={{ maxHeight: 500, overflowY: "auto" }}>
+          <div style={{ maxHeight: 500, overflowY: "auto" }}>
             {tree.map(c => catRow(c, sel1 === c.id, (id) => { setSel1(id); setSel2(null); setSel3(null); }, delCat1, 1))}
             {!sortMode && addInputRow(1)}
-            {tree.length === 0 && addDepth !== 1 && <Box sx={{ padding: "20px", textAlign: "center", fontSize: 12, color: C.txL }}>대분류가 없습니다.<br/>+ 버튼으로 추가하세요.</Box>}
-          </Box>
-        </Box>
+            {tree.length === 0 && addDepth !== 1 && <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>대분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
+          </div>
+        </div>
         {/* 2Depth 중분류 */}
-        <Box sx={{ borderRight: `1px solid ${C.brd}` }}>
+        <div style={{ borderRight: `1px solid ${C.brd}` }}>
           {colHeader("2 Depth 중분류", depth2.length, () => sel1 && startAdd(2))}
-          <Box sx={{ maxHeight: 500, overflowY: "auto" }}>
-            {sel1 ? depth2.map(c => catRow(c, sel2 === c.id, (id) => { setSel2(id); setSel3(null); }, delCat2, 2)) : <Box sx={{ padding: "20px", textAlign: "center", fontSize: 12, color: C.txL }}>대분류를 선택하세요</Box>}
+          <div style={{ maxHeight: 500, overflowY: "auto" }}>
+            {sel1 ? depth2.map(c => catRow(c, sel2 === c.id, (id) => { setSel2(id); setSel3(null); }, delCat2, 2)) : <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>대분류를 선택하세요</div>}
             {!sortMode && sel1 && addInputRow(2)}
-            {sel1 && depth2.length === 0 && addDepth !== 2 && <Box sx={{ padding: "20px", textAlign: "center", fontSize: 12, color: C.txL }}>중분류가 없습니다.<br/>+ 버튼으로 추가하세요.</Box>}
-          </Box>
-        </Box>
+            {sel1 && depth2.length === 0 && addDepth !== 2 && <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>중분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
+          </div>
+        </div>
         {/* 3Depth 소분류 */}
-        <Box>
+        <div>
           {colHeader("3 Depth 소분류", depth3.length, () => sel2 && startAdd(3))}
-          <Box sx={{ maxHeight: 500, overflowY: "auto" }}>
-            {sel2 ? depth3.map(c => catRow(c, sel3 === c.id, setSel3, delCat3, 3)) : <Box sx={{ padding: "20px", textAlign: "center", fontSize: 12, color: C.txL }}>중분류를 선택하세요</Box>}
+          <div style={{ maxHeight: 500, overflowY: "auto" }}>
+            {sel2 ? depth3.map(c => catRow(c, sel3 === c.id, setSel3, delCat3, 3)) : <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>중분류를 선택하세요</div>}
             {!sortMode && sel2 && addInputRow(3)}
-            {sel2 && depth3.length === 0 && addDepth !== 3 && <Box sx={{ padding: "20px", textAlign: "center", fontSize: 12, color: C.txL }}>소분류가 없습니다.<br/>+ 버튼으로 추가하세요.</Box>}
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+            {sel2 && depth3.length === 0 && addDepth !== 3 && <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>소분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -13,9 +13,6 @@ import { C } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM } from '@/lib/theme/styles';
 import { SI, _specMenu } from '@/data/inspections';
 import { SpecialPanel } from '@/components/panels';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 
 const MgrInspSp = ({ toast }) => {
@@ -59,7 +56,7 @@ const MgrInspSp = ({ toast }) => {
   const ST_COLOR = { "요청":"#929292","중단":"#F36D00","완료":"#19973C","지연":"#E24949" };
 
   return (
-    <Box sx={{ display:"flex", flexDirection:"column", flex:1, minHeight:0 }}>
+    <div style={{ display:"flex", flexDirection:"column", flex:1, minHeight:0 }}>
       <PH title="특별점검" bc="홈 > 점검현황 > 특별점검" />
       <PageSidebarLayout
         sidebar={
@@ -69,45 +66,45 @@ const MgrInspSp = ({ toast }) => {
           </Card>
         }
       >
-          <Stack direction="row" sx={{ width:"100%", border:`1px solid ${C.brd}`, background:C.bg, borderRadius:6,
-            padding:"16px 12px", gap:1, marginBottom:2, alignItems:"stretch" }}>
-            <Stack direction="row" sx={{ gap:1, flexWrap:"wrap", alignItems:"flex-end" }}>
-              <Stack direction="column" sx={{ gap:"6px", minWidth:"fit-content" }}>
-                <Typography component="span" sx={{ ...LABEL_STYLE_SM }}>제목/점검자</Typography>
+          <div style={{ width:"100%", border:`1px solid ${C.brd}`, background:C.bg, borderRadius:6,
+            padding:"16px 12px", display:"flex", gap:8, marginBottom:16, alignItems:"stretch" }}>
+            <div style={{ display:"flex", gap:8, flexWrap:"wrap", alignItems:"flex-end" }}>
+              <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
+                <span style={{ ...LABEL_STYLE_SM }}>제목/점검자</span>
                 <FInput value={kw} onChange={e => setKw(e.target.value)}
                   onKeyDown={e => e.key==="Enter" && doSearch()}
                   placeholder="제목, 점검자 검색"
                   style={{ padding:"6px 12px", border:`1px solid ${C.brd}`, borderRadius:4,
                     fontSize:15, outline:"none", color:C.txt, background:"#fff", minWidth:200, fontFamily:"inherit" }} />
-              </Stack>
-            </Stack>
-            <Stack direction="row" sx={{ gap:"6px", marginLeft:"auto", flexShrink:0, alignSelf:"stretch" }}>
+              </div>
+            </div>
+            <div style={{ display:"flex", gap:6, marginLeft:"auto", flexShrink:0, alignSelf:"stretch" }}>
               <SearchBtn onClick={doSearch} />
               <RefreshBtn onClick={doReset} />
-            </Stack>
-          </Stack>
+            </div>
+          </div>
           <Tbl secTitle={title} secCount={filtered.length}
             secButtons={<SecBtnP onClick={() => setShowAdd(true)}>+ 특별점검 추가</SecBtnP>}
             onRow={row => setSelItem(row)}
             cols={[
-              { t:"상태",         k:"st",      w:80,  r: v => <Typography component="span" sx={{ display:"inline-block", padding:"2px 10px", borderRadius:10, fontSize:12, fontWeight:700, background:(ST_COLOR[v]||C.txS)+"1A", color:ST_COLOR[v]||C.txS }}>{v}</Typography> },
-              { t:"특별점검 제목", k:"title",  mw:220, align:"left", r: v => <Typography component="span" sx={{ fontWeight:600, color:C.pri }}>{v}</Typography> },
+              { t:"상태",         k:"st",      w:80,  r: v => <span style={{ display:"inline-block", padding:"2px 10px", borderRadius:10, fontSize:12, fontWeight:700, background:(ST_COLOR[v]||C.txS)+"1A", color:ST_COLOR[v]||C.txS }}>{v}</span> },
+              { t:"특별점검 제목", k:"title",  mw:220, align:"left", r: v => <span style={{ fontWeight:600, color:C.pri }}>{v}</span> },
               { t:"점검종류",     k:"kind",    w:120 },
               { t:"등록자",       k:"regUser", w:80  },
               { t:"등록일",       k:"reg",     w:100 },
-              { t:"점검계획서",   k:"planFile",w:90,  r: v => v ? <Typography component="span" sx={{ color:C.pri, cursor:"pointer" }}>📎</Typography> : <Typography component="span" sx={{ color:C.txL }}>-</Typography> },
+              { t:"점검계획서",   k:"planFile",w:90,  r: v => v ? <span style={{ color:C.pri, cursor:"pointer" }}>📎</span> : <span style={{ color:C.txL }}>-</span> },
               { t:"점검기한",     k:"due",     w:100 },
               { t:"점검자",       k:"insp",    w:80  },
               { t:"보고자",       k:"insp",    w:80  },
-              { t:"제출일시",     k:"submitDt",w:110, r: v => <Typography component="span" sx={{ color: (!v||v==="-")?C.txL:C.txt }}>{v||"-"}</Typography> },
-              { t:"점검보고서",   k:"reportFile",w:90, r: v => v ? <Typography component="span" sx={{ color:C.pri, cursor:"pointer" }}>📎</Typography> : <Typography component="span" sx={{ color:C.txL }}>-</Typography> },
+              { t:"제출일시",     k:"submitDt",w:110, r: v => <span style={{ color: (!v||v==="-")?C.txL:C.txt }}>{v||"-"}</span> },
+              { t:"점검보고서",   k:"reportFile",w:90, r: v => v ? <span style={{ color:C.pri, cursor:"pointer" }}>📎</span> : <span style={{ color:C.txL }}>-</span> },
             ]}
             data={filtered}
           />
       </PageSidebarLayout>
       <SpecialPanel open={!!selItem} onClose={() => setSelItem(null)} item={selItem} onSave={handleUpdate} onDelete={handleDelete} />
       <SpecialPanel open={showAdd} onClose={() => setShowAdd(false)} item={null} onSave={handleAdd} />
-    </Box>
+    </div>
   );
 };
 

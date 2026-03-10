@@ -1,6 +1,5 @@
 'use client';
 
-import Box from '@mui/material/Box';
 import type { CSSProperties, ReactNode } from 'react';
 
 interface PageSidebarLayoutProps {
@@ -21,24 +20,24 @@ export function PageSidebarLayout({
   style,
 }: PageSidebarLayoutProps) {
   return (
-    <Box
-      style={style}
-      sx={{
+    <div
+      style={{
         display: 'grid',
         gridTemplateColumns: `${sidebarWidth}px minmax(0, 1fr)`,
         gridTemplateRows: 'minmax(0, 1fr)',
-        gap: `${gap}px`,
+        gap,
         flex: 1,
         minHeight: 0,
         alignItems: 'stretch',
+        ...style,
       }}
     >
-      <Box sx={{ minHeight: 0 }}>
-        <Box sx={{ position: 'sticky', top: stickyTop, height: '100%', minHeight: 0 }}>
+      <div style={{ minHeight: 0 }}>
+        <div style={{ position: 'sticky', top: stickyTop, height: '100%', minHeight: 0 }}>
           {sidebar}
-        </Box>
-      </Box>
-      <Box sx={{ minWidth: 0, minHeight: 0 }}>{children}</Box>
-    </Box>
+        </div>
+      </div>
+      <div style={{ minWidth: 0, minHeight: 0 }}>{children}</div>
+    </div>
   );
 }

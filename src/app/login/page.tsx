@@ -1,18 +1,5 @@
 'use client';
 
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Typography from '@mui/material/Typography';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -79,7 +66,7 @@ export default function LoginPage() {
 
   const t = { ...BASE, ...(THEME[site] || THEME.m) };
 
-  const inputStyle = (err: string | boolean) => ({
+  const is = (err: string | boolean) => ({
     width: '100%',
     padding: '8px 12px',
     border: `1px solid ${err ? '#ef4444' : '#EEEEEE'}`,
@@ -119,7 +106,9 @@ export default function LoginPage() {
   };
 
   const handleLogin = () => {
-    if (locked) return;
+    if (locked) {
+      return;
+    }
 
     const id = uid.trim();
     if (!id) {
@@ -176,40 +165,79 @@ export default function LoginPage() {
   };
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         minHeight: '100vh',
         background: t.brandBg,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        p: 2,
         fontFamily: PRETENDARD_FONT,
       }}
     >
-      <Paper elevation={0} sx={{ width: 420, bgcolor: '#fff', borderRadius: 1.5, p: '44px 40px', boxShadow: '0 24px 64px rgba(0,0,0,.25)' }}>
-        <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Box sx={{ width: 56, height: 56, borderRadius: 1.5, bgcolor: t.brand, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-            <Typography sx={{ color: '#fff', fontSize: 18, fontWeight: 800 }}>C</Typography>
-          </Box>
-          <Typography component="h1" sx={{ m: '0 0 4px', fontSize: 22, fontWeight: 700, letterSpacing: -0.5 }}>
-            <Box component="span" sx={{ color: t.brand }}>COMPLY</Box>
-            <Box component="span" sx={{ color: '#111' }}>SIGHT</Box>
-          </Typography>
-          <Typography sx={{ m: 0, fontSize: 12, color: '#929292' }}>정보시스템 자원 점검 관리 플랫폼</Typography>
-        </Box>
+      <div style={{ width: 420, background: '#fff', borderRadius: 12, padding: '44px 40px', boxShadow: '0 24px 64px rgba(0,0,0,.25)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ width: 56, height: 56, borderRadius: 12, background: t.brand, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+            <span style={{ color: '#fff', fontSize: 18, fontWeight: 800 }}>C</span>
+          </div>
+          <h1 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, letterSpacing: -0.5 }}>
+            <span style={{ color: t.brand }}>COMPLY</span>
+            <span style={{ color: '#111' }}>SIGHT</span>
+          </h1>
+          <p style={{ margin: 0, fontSize: 12, color: '#929292' }}>정보시스템 자원 점검 관리 플랫폼</p>
+        </div>
 
-        {locked && <Alert severity="error" sx={{ mb: 2 }}>계정이 잠겼습니다. 관리자에게 잠금 해제를 요청하세요.</Alert>}
+        {locked && (
+          <div
+            style={{
+              marginBottom: 16,
+              padding: '12px 14px',
+              background: '#fef2f2',
+              border: '1px solid #fca5a5',
+              borderRadius: 6,
+              fontSize: 12,
+              color: '#b91c1c',
+              display: 'flex',
+              gap: 8,
+              alignItems: 'flex-start',
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0, marginTop: 1 }}>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            계정이 잠겼습니다. 관리자에게 잠금 해제를 요청하세요.
+          </div>
+        )}
 
-        <Box sx={{ mb: 0.75 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.625 }}>
-            <Typography component="label" sx={{ fontSize: 12, fontWeight: 600, color: '#929292' }}>아이디</Typography>
-            <FormControlLabel
-              control={<Checkbox checked={saveId} onChange={toggleSaveId} size="small" sx={{ color: '#CCCCCC', '&.Mui-checked': { color: t.brand } }} />}
-              label="아이디 저장"
-              sx={{ m: 0, '.MuiFormControlLabel-label': { fontSize: 12, color: saveId ? t.brand : '#929292', fontWeight: saveId ? 600 : 400 } }}
-            />
-          </Box>
+        <div style={{ marginBottom: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: '#929292' }}>아이디</label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', userSelect: 'none' }} onClick={toggleSaveId}>
+              <div
+                style={{
+                  width: 15,
+                  height: 15,
+                  borderRadius: 3,
+                  flexShrink: 0,
+                  border: `1.5px solid ${saveId ? t.brand : '#CCCCCC'}`,
+                  background: saveId ? t.brand : '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all .15s',
+                }}
+              >
+                {saveId && (
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                    <polyline points="1.5,5 4,7.5 8.5,2" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </div>
+              <span style={{ fontSize: 12, color: saveId ? t.brand : '#929292', fontWeight: saveId ? 600 : 400 }}>아이디 저장</span>
+            </label>
+          </div>
           <FInput
             value={uid}
             onChange={handleUidChange}
@@ -219,16 +247,16 @@ export default function LoginPage() {
                 handleLogin();
               }
             }}
-            style={{ ...inputStyle(errMsg && !pw), marginBottom: 0 }}
+            style={{ ...is(errMsg && !pw), marginBottom: 0 }}
             placeholder="아이디를 입력하세요"
             lang="en"
             autoComplete="username"
             disabled={locked}
           />
-        </Box>
+        </div>
 
-        <Box sx={{ mb: 0.75, mt: 1.25 }}>
-          <Typography component="label" sx={{ fontSize: 12, fontWeight: 600, color: '#929292', display: 'block', mb: 0.625 }}>비밀번호</Typography>
+        <div style={{ marginBottom: 6, marginTop: 10 }}>
+          <label style={{ fontSize: 12, fontWeight: 600, color: '#929292', display: 'block', marginBottom: 5 }}>비밀번호</label>
           <FInput
             type="password"
             value={pw}
@@ -237,192 +265,253 @@ export default function LoginPage() {
               setErrMsg('');
             }}
             onKeyDown={handleKeyDown}
-            style={{ ...inputStyle(!!errMsg), marginBottom: 0 }}
+            style={{ ...is(!!errMsg), marginBottom: 0 }}
             placeholder="비밀번호를 입력하세요"
             autoComplete="current-password"
             disabled={locked}
           />
-        </Box>
+        </div>
 
-        {errMsg && <Alert severity="error" sx={{ mb: 1.25, fontSize: 12 }}>{errMsg}</Alert>}
-
-        <ToggleButtonGroup
-          value={site}
-          exclusive
-          fullWidth
-          onChange={(_event, value) => {
-            if (value && !locked) {
-              setSite(value);
-            }
-          }}
-          sx={{ mb: 2.5, mt: errMsg ? 0.5 : 1.5, gap: 1, '& .MuiToggleButtonGroup-grouped': { borderRadius: '6px !important', border: `2px solid #EEEEEE !important` } }}
-        >
-          <ToggleButton
-            value="m"
-            disabled={locked}
-            sx={{
-              py: 1.25,
-              flexDirection: 'column',
-              alignItems: 'center',
-              bgcolor: site === 'm' ? t.priL : '#fff',
-              borderColor: site === 'm' ? `${t.brand} !important` : '#EEEEEE !important',
+        {errMsg && (
+          <div
+            style={{
+              marginBottom: 10,
+              padding: '9px 12px',
+              background: '#fef2f2',
+              border: '1px solid #fca5a5',
+              borderRadius: 6,
+              fontSize: 12,
+              color: '#b91c1c',
+              display: 'flex',
+              gap: 6,
+              marginLeft: 'auto',
+              flexShrink: 0,
+              alignSelf: 'stretch',
             }}
           >
-            <Typography sx={{ fontSize: 12, fontWeight: 600, color: site === 'm' ? t.brand : '#666' }}>Manager</Typography>
-            <Typography sx={{ fontSize: 12, color: '#929292', mt: 0.25 }}>관리자 사이트</Typography>
-          </ToggleButton>
-          <ToggleButton
-            value="s"
-            disabled={locked}
-            sx={{
-              py: 1.25,
-              flexDirection: 'column',
-              alignItems: 'center',
-              bgcolor: site === 's' ? t.priL : '#fff',
-              borderColor: site === 's' ? `${t.brand} !important` : '#EEEEEE !important',
-            }}
-          >
-            <Typography sx={{ fontSize: 12, fontWeight: 600, color: site === 's' ? t.brand : '#666' }}>Sentinel</Typography>
-            <Typography sx={{ fontSize: 12, color: '#929292', mt: 0.25 }}>점검자 사이트</Typography>
-          </ToggleButton>
-        </ToggleButtonGroup>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            {errMsg}
+          </div>
+        )}
 
-        <Button
-          fullWidth
-          variant="contained"
+        <div style={{ display: 'flex', gap: 8, marginBottom: 20, marginTop: errMsg ? 4 : 12 }}>
+          {[
+            ['m', 'Manager', '관리자 사이트'],
+            ['s', 'Sentinel', '점검자 사이트'],
+          ].map(([k, l, d]) => (
+            <div
+              key={k}
+              onClick={() => {
+                if (!locked) {
+                  setSite(k as SiteType);
+                }
+              }}
+              style={{
+                flex: 1,
+                padding: '10px 8px',
+                borderRadius: 6,
+                border: `2px solid ${site === k ? t.brand : '#EEEEEE'}`,
+                textAlign: 'center',
+                cursor: locked ? 'default' : 'pointer',
+                background: site === k ? t.priL : '#fff',
+                transition: 'all .3s',
+                opacity: locked ? 0.5 : 1,
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 600, color: site === k ? t.brand : '#666' }}>{l}</div>
+              <div style={{ fontSize: 12, color: '#929292', marginTop: 2 }}>{d}</div>
+            </div>
+          ))}
+        </div>
+
+        <button
           onClick={handleLogin}
           disabled={locked}
-          sx={{
-            py: 1.5,
-            bgcolor: locked ? '#94a3b8' : t.brand,
-            borderRadius: 1,
+          style={{
+            width: '100%',
+            padding: '13px',
+            background: locked ? '#94a3b8' : t.brand,
+            color: '#fff',
+            border: 'none',
+            borderRadius: 4,
             fontSize: 15,
             fontWeight: 600,
-            '&:hover': { bgcolor: locked ? '#94a3b8' : t.brandD },
+            cursor: locked ? 'not-allowed' : 'pointer',
+            transition: 'all .3s',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+          }}
+          onMouseEnter={(event) => {
+            if (!locked) {
+              event.currentTarget.style.background = t.brandD;
+            }
+          }}
+          onMouseLeave={(event) => {
+            if (!locked) {
+              event.currentTarget.style.background = t.brand;
+            }
           }}
         >
           로그인
-        </Button>
+        </button>
 
-        <Box sx={{ textAlign: 'center', mt: 1.75 }}>
-          <Button
-            variant="text"
+        <div style={{ textAlign: 'center', marginTop: 14 }}>
+          <span
             onClick={() => {
               if (!locked) {
                 setPwReset({ open: true, step: 'input', email: '', err: '', sending: false });
               }
             }}
-            sx={{
-              p: 0,
-              minWidth: 0,
+            style={{
               fontSize: 12,
               color: locked ? '#94a3b8' : t.brand,
+              cursor: locked ? 'default' : 'pointer',
               textDecoration: locked ? 'none' : 'underline',
-              textUnderlineOffset: '2px',
-              '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' },
+              textUnderlineOffset: 2,
             }}
           >
             비밀번호 재설정
-          </Button>
-        </Box>
-      </Paper>
+          </span>
+        </div>
+      </div>
 
-      <Dialog open={pwReset.open} onClose={() => setPwReset((prev) => ({ ...prev, open: false }))} maxWidth="xs" fullWidth>
-        <DialogContent sx={{ p: '36px 32px 32px', position: 'relative' }}>
-          <IconButton onClick={() => setPwReset((prev) => ({ ...prev, open: false }))} sx={{ position: 'absolute', top: 12, right: 14, color: '#aaa' }}>
-            <CloseRoundedIcon />
-          </IconButton>
+      {pwReset.open && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.55)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setPwReset((prev) => ({ ...prev, open: false }));
+            }
+          }}
+        >
+          <div style={{ width: 400, background: '#fff', borderRadius: 14, padding: '36px 32px 32px', boxShadow: '0 24px 64px rgba(0,0,0,.28)', position: 'relative' }}>
+            <button
+              onClick={() => setPwReset((prev) => ({ ...prev, open: false }))}
+              style={{ position: 'absolute', top: 16, right: 18, background: 'none', border: 'none', fontSize: 22, color: '#aaa', cursor: 'pointer', lineHeight: 1 }}
+            >
+              ×
+            </button>
 
-          {pwReset.step === 'input' && (
-            <>
-              <Box sx={{ width: 52, height: 52, borderRadius: '50%', bgcolor: t.priL, display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 2.25 }}>
-                <Typography sx={{ color: t.brand, fontSize: 24 }}>🔐</Typography>
-              </Box>
-              <Box sx={{ textAlign: 'center', mb: 0.75 }}>
-                <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#111', mb: 0.75 }}>비밀번호 재설정</Typography>
-                <Typography sx={{ fontSize: 12, color: '#666', lineHeight: 1.65 }}>
-                  가입 시 등록한 이메일 주소를 입력하시면
-                  <br />
-                  비밀번호 재설정 링크를 보내드립니다.
-                </Typography>
-              </Box>
-              <Box sx={{ mt: 2.75, mb: 0.5 }}>
-                <Typography component="label" sx={{ fontSize: 12, fontWeight: 600, color: '#929292', display: 'block', mb: 0.75 }}>이메일 주소</Typography>
-                <FInput
-                  autoFocus
-                  value={pwReset.email}
-                  onChange={(event) => {
-                    const value = event.target.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
-                    setPwReset((prev) => ({ ...prev, email: value, err: '' }));
-                  }}
-                  onKeyDown={(event) => {
-                    if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(event.key)) {
-                      event.preventDefault();
-                      return;
-                    }
-                    if (event.key === 'Enter') {
-                      handlePwResetSend();
-                    }
-                  }}
-                  placeholder="example@company.com"
-                  lang="en"
+            {pwReset.step === 'input' && (
+              <>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: t.priL, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={t.brand} strokeWidth="2" strokeLinecap="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </div>
+                <div style={{ textAlign: 'center', marginBottom: 6 }}>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#111', marginBottom: 6 }}>비밀번호 재설정</div>
+                  <div style={{ fontSize: 12, color: '#666', lineHeight: 1.65 }}>
+                    가입 시 등록한 이메일 주소를 입력하시면
+                    <br />
+                    비밀번호 재설정 링크를 보내드립니다.
+                  </div>
+                </div>
+                <div style={{ marginTop: 22, marginBottom: 4 }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#929292', display: 'block', marginBottom: 6 }}>이메일 주소</label>
+                  <FInput
+                    autoFocus
+                    value={pwReset.email}
+                    onChange={(event) => {
+                      const value = event.target.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
+                      setPwReset((prev) => ({ ...prev, email: value, err: '' }));
+                    }}
+                    onKeyDown={(event) => {
+                      if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(event.key)) {
+                        event.preventDefault();
+                        return;
+                      }
+                      if (event.key === 'Enter') {
+                        handlePwResetSend();
+                      }
+                    }}
+                    placeholder="example@company.com"
+                    lang="en"
+                    style={{
+                      width: '100%',
+                      padding: '6px 12px',
+                      border: `1px solid ${pwReset.err ? '#ef4444' : '#EEEEEE'}`,
+                      borderRadius: 6,
+                      fontSize: 15,
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                      color: '#333',
+                      transition: 'border-color .15s',
+                      minHeight: 36,
+                    }}
+                    onFocus={(event) => {
+                      event.target.style.borderColor = t.brand;
+                    }}
+                    onBlur={(event) => {
+                      if (!pwReset.err) {
+                        event.target.style.borderColor = '#EEEEEE';
+                      }
+                    }}
+                  />
+                  {pwReset.err && <div style={{ marginTop: 4, fontSize: 12, color: '#ef4444' }}>{pwReset.err}</div>}
+                </div>
+                <button
+                  onClick={handlePwResetSend}
+                  disabled={pwReset.sending}
                   style={{
                     width: '100%',
-                    padding: '6px 12px',
-                    border: `1px solid ${pwReset.err ? '#ef4444' : '#EEEEEE'}`,
+                    marginTop: 16,
+                    padding: '12px',
+                    background: pwReset.sending ? '#94a3b8' : t.brand,
+                    color: '#fff',
+                    border: 'none',
                     borderRadius: 6,
                     fontSize: 15,
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                    color: '#333',
-                    transition: 'border-color .15s',
-                    minHeight: 36,
+                    fontWeight: 700,
+                    cursor: pwReset.sending ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
                   }}
-                  onFocus={(event) => {
-                    event.target.style.borderColor = t.brand;
-                  }}
-                  onBlur={(event) => {
-                    if (!pwReset.err) {
-                      event.target.style.borderColor = '#EEEEEE';
-                    }
-                  }}
-                />
-                {pwReset.err && <Typography sx={{ mt: 0.5, fontSize: 12, color: '#ef4444' }}>{pwReset.err}</Typography>}
-              </Box>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={handlePwResetSend}
-                disabled={pwReset.sending}
-                sx={{ mt: 2, py: 1.5, bgcolor: pwReset.sending ? '#94a3b8' : t.brand, '&:hover': { bgcolor: pwReset.sending ? '#94a3b8' : t.brandD } }}
-              >
-                {pwReset.sending ? '발송 중...' : '재설정 링크 발송'}
-              </Button>
-            </>
-          )}
+                >
+                  {pwReset.sending ? '발송 중...' : '재설정 링크 발송'}
+                </button>
+              </>
+            )}
 
-          {pwReset.step === 'done' && (
-            <>
-              <Box sx={{ textAlign: 'center', mb: 2.5 }}>
-                <Box sx={{ width: 52, height: 52, borderRadius: '50%', bgcolor: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 2.25 }}>
-                  <Typography sx={{ color: '#16a34a', fontSize: 24 }}>✓</Typography>
-                </Box>
-                <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#111', mb: 1.25 }}>이메일을 확인하세요</Typography>
-                <Typography sx={{ fontSize: 12, color: '#555', lineHeight: 1.75 }}>
-                  <Box component="span" sx={{ fontWeight: 600, color: '#111' }}>{pwReset.email}</Box>으로
-                  <br />
-                  비밀번호 재설정 링크를 발송했습니다.
-                  <br />
-                  <Box component="span" sx={{ fontSize: 12, color: '#929292' }}>메일이 오지 않으면 스팸함을 확인해 주세요.</Box>
-                </Typography>
-              </Box>
-              <Button fullWidth variant="contained" onClick={() => setPwReset((prev) => ({ ...prev, open: false }))} sx={{ py: 1.5, bgcolor: t.brand, '&:hover': { bgcolor: t.brandD } }}>
-                확인
-              </Button>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </Box>
+            {pwReset.step === 'done' && (
+              <>
+                <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#111', marginBottom: 10 }}>이메일을 확인하세요</div>
+                  <div style={{ fontSize: 12, color: '#555', lineHeight: 1.75 }}>
+                    <span style={{ fontWeight: 600, color: '#111' }}>{pwReset.email}</span>으로
+                    <br />
+                    비밀번호 재설정 링크를 발송했습니다.
+                    <br />
+                    <span style={{ fontSize: 12, color: '#929292' }}>메일이 오지 않으면 스팸함을 확인해 주세요.</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setPwReset((prev) => ({ ...prev, open: false }))}
+                  style={{ width: '100%', padding: '12px', background: t.brand, color: '#fff', border: 'none', borderRadius: 6, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}
+                >
+                  확인
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      <style>{'@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }'}</style>
+    </div>
   );
 }

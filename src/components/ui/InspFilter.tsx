@@ -1,16 +1,9 @@
 // @ts-nocheck
 'use client';
 
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
 import { useState } from 'react';
-
 import { C } from '@/lib/theme/colors';
+import { Ic } from '@/components/ui/Icon';
 
 type InspFilterNode = string | { label: string; value?: string | null };
 
@@ -24,9 +17,8 @@ export interface InspFilterProps {
   midKey?: string;
 }
 
-export function InspFilter({ menus, sel, sub = null, onSelect, data, kindKey = 'kind', midKey = 'mid' }: InspFilterProps) {
+export function InspFilter({ menus, sel, sub = null, onSelect, data, kindKey = "kind", midKey = "mid" }: InspFilterProps) {
   const [openK, setOpenK] = useState<string | null>(null);
-
   const getNode = (node: InspFilterNode) => (
     typeof node === 'string'
       ? { label: node, value: node }
@@ -35,32 +27,42 @@ export function InspFilter({ menus, sel, sub = null, onSelect, data, kindKey = '
 
   const dCnt = (k: string | null, s: string | null) => {
     if (!data) return 0;
-    return data.filter((x) => {
+    return data.filter(x => {
       if (k && x[kindKey] !== k) return false;
       if (s && x[midKey] !== s) return false;
-      return x.st === '지연';
+      return x.st === "지연";
     }).length;
   };
 
   const badge = (cnt: number) => cnt > 0 ? (
-    <Chip
-      size="small"
-      label={cnt}
-      sx={{
-        minWidth: 18,
-        height: 18,
-        borderRadius: 2.25,
-        bgcolor: C.red,
-        color: '#fff',
-        fontSize: 12,
-        fontWeight: 700,
-        '.MuiChip-label': { px: 0.625 },
-      }}
-    />
+    <span style={{
+      minWidth: 18, height: 18, borderRadius: 9,
+      background: C.red, color: "#fff", fontSize: 12, fontWeight: 700,
+      display: "inline-flex", alignItems: "center", justifyContent: "center",
+      padding: "0 5px"
+    }}>{cnt}</span>
   ) : null;
 
+  const itemS = (active: boolean): React.CSSProperties => ({
+    padding: "9px 14px", borderRadius: 6, cursor: "pointer",
+    marginBottom: 2, margin: "1px 6px", fontSize: 15,
+    fontWeight: active ? 600 : 500,
+    background: active ? C.priL : "",
+    color: active ? C.sec : C.txt,
+    transition: "all .3s"
+  });
+
+  const subS = (active: boolean): React.CSSProperties => ({
+    padding: "6px 12px 6px 24px", borderRadius: 6, cursor: "pointer",
+    marginBottom: 1, margin: "0 6px", fontSize: 13,
+    fontWeight: active ? 600 : 400,
+    background: active ? C.priL : "",
+    color: active ? C.sec : C.txS,
+    transition: "all .3s"
+  });
+
   return (
-    <List sx={{ p: 0 }}>
+    <div>
       {menus.map((m, i) => {
         const parent = getNode(m);
         const hasC = m.sub && m.sub.length > 0;
@@ -69,8 +71,8 @@ export function InspFilter({ menus, sel, sub = null, onSelect, data, kindKey = '
         const isOpen = hasC ? true : (openK === String(parent.value) || childActive);
 
         return (
-          <Box key={i}>
-            <ListItemButton
+          <div key={i}>
+            <div
               onClick={() => {
                 if (hasC) {
                   onSelect(parent.value, null);
@@ -79,68 +81,47 @@ export function InspFilter({ menus, sel, sub = null, onSelect, data, kindKey = '
                   onSelect(parent.value, null);
                 }
               }}
-              sx={{
-                py: 1.125,
-                px: 1.75,
-                borderRadius: 1,
-                mb: 0.25,
-                mx: 0.75,
-                fontSize: 15,
-                fontWeight: parentActive || childActive ? 600 : 500,
-                bgcolor: parentActive || childActive ? C.priL : 'transparent',
-                color: parentActive || childActive ? C.sec : C.txt,
-                '&:hover': { bgcolor: C.secL },
-              }}
+              style={itemS(parentActive || childActive)}
+              onMouseEnter={e => { if (!parentActive && !childActive) e.currentTarget.style.background = C.secL; }}
+              onMouseLeave={e => { if (!parentActive && !childActive) e.currentTarget.style.background = ""; }}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                <Box component="span">{parent.label}</Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span>{parent.label}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   {badge(dCnt(parent.value, null))}
-                  {hasC && (isOpen ? <KeyboardArrowDownRoundedIcon sx={{ fontSize: 16, color: C.txL }} /> : <KeyboardArrowRightRoundedIcon sx={{ fontSize: 16, color: C.txL }} />)}
-                </Box>
-              </Box>
-            </ListItemButton>
-            {hasC && (
-              <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ mb: 0.25 }}>
-                  {m.sub.map((s) => {
-                    const child = getNode(s);
-                    const active = sel === parent.value && sub === child.value;
+                  {hasC && <Ic n={isOpen ? "down" : "right"} s={10} c={C.txL} />}
+                </div>
+              </div>
+            </div>
+            {hasC && isOpen && (
+              <div style={{ marginBottom: 2 }}>
+                {m.sub!.map((s) => {
+                  const child = getNode(s);
+                  const active = sel === parent.value && sub === child.value;
 
-                    return (
-                      <ListItemButton
-                        key={`${parent.label}-${child.value ?? child.label}`}
-                        onClick={() => onSelect(parent.value, child.value)}
-                        sx={{
-                          py: 0.75,
-                          px: 1.5,
-                          pl: 3,
-                          borderRadius: 1,
-                          mb: 0.125,
-                          mx: 0.75,
-                          fontSize: 13,
-                          fontWeight: active ? 600 : 400,
-                          bgcolor: active ? C.priL : 'transparent',
-                          color: active ? C.sec : C.txS,
-                          '&:hover': { bgcolor: C.secL },
-                        }}
-                      >
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                          <Box component="span" sx={{ display: 'flex', alignItems: 'center', gap: 0.625 }}>
-                            <Box component="span" sx={{ fontSize: 11, color: active ? C.sec : C.txX, lineHeight: 1 }}>─</Box>
-                            {child.label}
-                          </Box>
-                          {badge(dCnt(parent.value, child.value))}
-                        </Box>
-                      </ListItemButton>
-                    );
-                  })}
-                </Box>
-              </Collapse>
+                  return (
+                    <div
+                      key={`${parent.label}-${child.value ?? child.label}`}
+                      onClick={() => onSelect(parent.value, child.value)}
+                      style={subS(active)}
+                      onMouseEnter={e => { if (!active) e.currentTarget.style.background = C.secL; }}
+                      onMouseLeave={e => { if (!active) e.currentTarget.style.background = ""; }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                          <span style={{ fontSize: 11, color: active ? C.sec : C.txX, lineHeight: 1 }}>─</span>
+                          {child.label}
+                        </span>
+                        {badge(dCnt(parent.value, child.value))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
-          </Box>
+          </div>
         );
       })}
-    </List>
+    </div>
   );
 }

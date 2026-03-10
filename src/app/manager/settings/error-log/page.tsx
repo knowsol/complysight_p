@@ -2,9 +2,6 @@
 'use client';
 
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { PH } from '@/components/ui/PageHeader';
 import { Tbl } from '@/components/ui/Table';
 import { Badge } from '@/components/ui/Badge';
@@ -77,33 +74,33 @@ const MgrErrorLog = () => {
 
 
   return (
-    <Box>
+    <div>
       <PH title="에러로그" bc="홈 > 로그정보 > 에러로그" />
-      <Box>
+      <div>
 
         {/* ── 검색 영역 (searchform) ── */}
         <SB onSearch={search} onReset={reset}>
-          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
-            <Typography sx={{ ...LABEL_STYLE_SM }}>오류유형</Typography>
+          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+            <span style={{ ...LABEL_STYLE_SM }}>오류유형</span>
             <FSelect value={errType} onChange={e=>setErrType(e.target.value)} style={{...fSelect, width:"auto"}}>
               {ERR_TYPES.map(v=><option key={v}>{v}</option>)}
             </FSelect>
-          </Stack>
-          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
-            <Typography sx={{ ...LABEL_STYLE_SM }}>발생모듈</Typography>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+            <span style={{ ...LABEL_STYLE_SM }}>발생모듈</span>
             <FSelect value={module} onChange={e=>setModule(e.target.value)} style={{...fSelect, width:"auto"}}>
               {MODULES.map(v=><option key={v}>{v}</option>)}
             </FSelect>
-          </Stack>
-          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
-            <Typography sx={{ ...LABEL_STYLE_SM }}>기간</Typography>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+            <span style={{ ...LABEL_STYLE_SM }}>기간</span>
             <DateRangePicker from={dateFrom} to={dateTo} onFromChange={setDateFrom} onToChange={setDateTo} />
-          </Stack>
-          <Stack direction="column" sx={{ gap: 0.5, minWidth: "fit-content" }}>
-            <Typography sx={{ ...LABEL_STYLE_SM }}>키워드</Typography>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+            <span style={{ ...LABEL_STYLE_SM }}>키워드</span>
             <FInput value={keyword} onChange={e=>setKeyword(e.target.value)} onKeyDown={e=>e.key==="Enter"&&search()}
               placeholder="오류 메시지, 사용자, 모듈" style={{...fInput, minWidth:120}} />
-          </Stack>
+          </div>
         </SB>
 
         <Tbl
@@ -112,17 +109,17 @@ const MgrErrorLog = () => {
           secButtons={<Btn onClick={()=>{}} style={{marginRight:4}}>📥 엑셀 다운로드</Btn>}
           data={filtered}
           cols={[
-            { t:"No.",      k:"id",      w:60,  r:(_,l,i)=><Typography component="span" sx={{color:C.txL}}>{filtered.length - i}</Typography> },
+            { t:"No.",      k:"id",      w:60,  r:(_,l,i)=><span style={{color:C.txL}}>{filtered.length - i}</span> },
             { t:"오류유형",  k:"errType", w:70,  r:(v)=><Badge status={v}/> },
             { t:"발생모듈",  k:"module",  w:150, align:"left" },
             { t:"오류메시지", k:"msg",    align:"left",
-              r:(v)=><Box sx={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{v}</Box> },
+              r:(v)=><div style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{v}</div> },
             { t:"사용자",   k:"user",    w:80 },
             { t:"발생일시",  k:"dt",      w:150 },
           ]}
         />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

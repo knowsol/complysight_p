@@ -1,11 +1,6 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import { PanelLeftClose } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -138,8 +133,8 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
   };
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: 'flex',
         flexShrink: 0,
         height: `calc(100vh - ${67 + bannerH}px)`,
@@ -147,46 +142,54 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
         top: 67 + bannerH,
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', flexShrink: 0, width: 64, bgcolor: C.bg, position: 'relative' }}>
-        <Paper
-          square
-          elevation={0}
-          sx={{
+      <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0, width: 64, background: C.bg, position: 'relative' }}>
+        <div
+          style={{
             flex: 1,
             width: 64,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            py: 2,
-            gap: 0.5,
+            padding: '16px 0',
+            gap: 4,
             borderRadius: '0 24px 0 0',
-            bgcolor: C.brand,
+            background: C.brand,
           }}
         >
           {menus.map((menu) => {
             const isActive = menu.k === activeFirstDepth;
             const isOpen = shown === menu.k;
             return (
-              <ListItemButton
+              <div
                 key={menu.k}
                 onClick={() => handleFirstDepthClick(menu)}
-                sx={{
+                style={{
                   width: 56,
-                  py: 0.75,
-                  borderRadius: 1.5,
+                  padding: '6px 0',
+                  borderRadius: 6,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 0.5,
-                  bgcolor: isOpen ? 'rgba(17,17,17,0.3)' : isActive ? 'rgba(17,17,17,0.2)' : 'transparent',
-                  '&:hover': { bgcolor: 'rgba(17,17,17,0.2)' },
+                  gap: 4,
+                  cursor: 'pointer',
+                  transition: 'all .3s',
+                  background: isOpen ? 'rgba(17,17,17,0.3)' : isActive ? 'rgba(17,17,17,0.2)' : 'transparent',
+                }}
+                onMouseEnter={(event) => {
+                  if (!isActive && !isOpen) {
+                    event.currentTarget.style.background = 'rgba(17,17,17,0.2)';
+                  }
+                }}
+                onMouseLeave={(event) => {
+                  if (!isActive && !isOpen) {
+                    event.currentTarget.style.background = 'transparent';
+                  }
                 }}
               >
                 <Ic n={menu.i ?? 'info'} s={18} c={isActive || isOpen ? '#fff' : 'rgba(255,255,255,0.55)'} />
-                <Typography
-                  component="span"
-                  sx={{
+                <span
+                  style={{
                     fontSize: 9,
                     fontWeight: 500,
                     color: isActive || isOpen ? '#fff' : 'rgba(255,255,255,0.55)',
@@ -196,17 +199,34 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                   }}
                 >
                   {menu.l}
-                </Typography>
-              </ListItemButton>
+                </span>
+              </div>
             );
           })}
-        </Paper>
-      </Box>
+        </div>
+        {/* <button
+          onClick={onToggle}
+          style={{
+            height: 44,
+            border: 'none',
+            borderTop: '1px solid rgba(255,255,255,0.15)',
+            background: 'transparent',
+            color: 'rgba(255,255,255,0.9)',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          title={collapsed ? '사이드바 열기' : '사이드바 닫기'}
+        >
+          <PanelLeftClose size={16} style={{ transform: collapsed ? 'rotate(180deg)' : 'none', transition: 'transform .2s ease' }} />
+        </button> */}
+      </div>
 
-      <Box
-        sx={{
+      <div
+        style={{
           width: showDepth2 ? 190 : 0,
-          bgcolor: C.bg,
+          background: C.bg,
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -214,8 +234,8 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
           flexShrink: 0,
         }}
       >
-        <Box
-          sx={{
+        <div
+          style={{
             width: 190,
             opacity: showDepth2 ? 1 : 0,
             transition: 'opacity .2s ease .05s',
@@ -225,7 +245,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
             overflowY: 'auto',
           }}
         >
-          <List sx={{ flex: 1, px: 1.25, py: 1.5, overflowY: 'auto' }}>
+          <nav style={{ flex: 1, padding: '12px 10px', overflowY: 'auto' }}>
             {!hasGroupedItems &&
               depth2.map((item) => {
                 if (isMenuGroup(item)) {
@@ -233,28 +253,38 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                 }
                 const isActive = activeRouteKey === item.routeKey;
                 return (
-                  <ListItemButton
+                  <div
                     key={item.k}
                     onClick={() => navigateToRoute(item.routeKey)}
-                    sx={{
-                      px: 1,
-                      py: 0.5,
-                      mb: 0.5,
-                      borderRadius: 1,
+                    style={{
+                      padding: '4px 8px',
+                      cursor: 'pointer',
+                      marginBottom: 4,
+                      borderRadius: 4,
                       fontSize: 15,
                       fontWeight: 500,
-                      bgcolor: isActive ? C.priL : 'transparent',
+                      background: isActive ? C.priL : '',
                       color: isActive ? C.sec : C.txt,
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5,
+                      gap: 4,
                       minHeight: 36,
-                      '&:hover': { bgcolor: C.priL },
+                      transition: 'all .3s',
+                    }}
+                    onMouseEnter={(event) => {
+                      if (!isActive) {
+                        event.currentTarget.style.background = C.priL;
+                      }
+                    }}
+                    onMouseLeave={(event) => {
+                      if (!isActive) {
+                        event.currentTarget.style.background = '';
+                      }
                     }}
                   >
-                    <Box component="span" sx={{ color: '#BBBBBB', fontSize: 12, mr: 0.25 }}>└</Box>
+                    <span style={{ color: '#BBBBBB', fontSize: 12, marginRight: 2 }}>└</span>
                     {item.l}
-                  </ListItemButton>
+                  </div>
                 );
               })}
 
@@ -269,8 +299,8 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                 const isSingle = group.c.length === 1;
 
                 return (
-                  <Box key={group.k}>
-                    <ListItemButton
+                  <div key={group.k}>
+                    <div
                       onClick={() => {
                         if (isSingle) {
                           navigateToRoute(group.c[0].routeKey);
@@ -278,11 +308,11 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                           toggleGroup(group.k);
                         }
                       }}
-                      sx={{
-                        px: 1,
-                        py: 0.5,
-                        borderRadius: 1,
-                        mb: 0.5,
+                      style={{
+                        padding: '4px 8px',
+                        cursor: 'pointer',
+                        borderRadius: 4,
+                        marginBottom: 4,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
@@ -290,18 +320,22 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                         fontWeight: 500,
                         minHeight: 36,
                         color: hasActive || (isSingle && activeRouteKey === group.c[0].routeKey) ? C.sec : C.txt,
-                        bgcolor: isSingle && activeRouteKey === group.c[0].routeKey ? C.priL : 'transparent',
+                        background: isSingle && activeRouteKey === group.c[0].routeKey ? C.priL : '',
+                        transition: 'all .3s',
                         userSelect: 'none',
-                        '&:hover': { bgcolor: C.priL },
+                      }}
+                      onMouseEnter={(event) => {
+                        event.currentTarget.style.background = C.priL;
+                      }}
+                      onMouseLeave={(event) => {
+                        event.currentTarget.style.background =
+                          isSingle && activeRouteKey === group.c[0].routeKey ? C.priL : '';
                       }}
                     >
-                      <Typography component="span" sx={{ fontSize: 15, fontWeight: 500 }}>
-                        {group.l}
-                      </Typography>
+                      <span>{group.l}</span>
                       {!isSingle && (
-                        <Box
-                          component="span"
-                          sx={{
+                        <span
+                          style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -320,48 +354,55 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                               strokeLinejoin="round"
                             />
                           </svg>
-                        </Box>
+                        </span>
                       )}
-                    </ListItemButton>
+                    </div>
 
-                    {!isSingle && (
-                      <Collapse in={open} timeout="auto" unmountOnExit>
-                        {group.c.map((leaf) => {
-                          const isActive = activeRouteKey === leaf.routeKey;
-                          return (
-                            <ListItemButton
-                              key={leaf.k}
-                              onClick={() => navigateToRoute(leaf.routeKey)}
-                              sx={{
-                                pl: 2.5,
-                                pr: 1,
-                                py: 0.5,
-                                borderRadius: 1,
-                                mb: 0.5,
-                                fontSize: 15,
-                                fontWeight: isActive ? 500 : 400,
-                                minHeight: 36,
-                                bgcolor: isActive ? C.priL : 'transparent',
-                                color: isActive ? C.sec : C.txS,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 0.5,
-                                '&:hover': { bgcolor: C.priL },
-                              }}
-                            >
-                              <Box component="span" sx={{ color: '#BBBBBB', fontSize: 12, mr: 0.25 }}>└</Box>
-                              {leaf.l}
-                            </ListItemButton>
-                          );
-                        })}
-                      </Collapse>
-                    )}
-                  </Box>
+                    {!isSingle &&
+                      open &&
+                      group.c.map((leaf) => {
+                        const isActive = activeRouteKey === leaf.routeKey;
+                        return (
+                          <div
+                            key={leaf.k}
+                            onClick={() => navigateToRoute(leaf.routeKey)}
+                            style={{
+                              padding: '4px 8px 4px 20px',
+                              cursor: 'pointer',
+                              borderRadius: 4,
+                              marginBottom: 4,
+                              fontSize: 15,
+                              fontWeight: isActive ? 500 : 400,
+                              minHeight: 36,
+                              background: isActive ? C.priL : '',
+                              color: isActive ? C.sec : C.txS,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 4,
+                              transition: 'all .3s',
+                            }}
+                            onMouseEnter={(event) => {
+                              if (!isActive) {
+                                event.currentTarget.style.background = C.priL;
+                              }
+                            }}
+                            onMouseLeave={(event) => {
+                              if (!isActive) {
+                                event.currentTarget.style.background = '';
+                              }
+                            }}
+                          >
+                            <span style={{ color: '#BBBBBB', fontSize: 12, marginRight: 2 }}>└</span>
+                            {leaf.l}
+                          </div>
+                        );
+                      })}
+                  </div>
                 );
               })}
-          </List>
-        </Box>
-      </Box>
-    </Box>
+          </nav>
+        </div>
+      </div>
+    </div>
   );
 }
