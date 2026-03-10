@@ -44,7 +44,27 @@ const MgrRes = ({ toast }) => {
   };
 
   const handleAddSystem = (form) => { if(toast) toast("정보시스템이 등록되었습니다.");
-    const newSys = { id: form.systemId, nm: form.systemNm, type: form.systemType, org: form.mgmtOrg || "—", useYn: form.useYn, mem: form.members.length, res: 0 };
+    const newSys = {
+      id: form.systemId,
+      nm: form.systemNm,
+      type: form.systemType,
+      org: form.mgmtOrg || "—",
+      useYn: form.useYn,
+      mem: form.members.length,
+      res: 0,
+      maintEndDate: "",
+      ref1: "",
+      ref2: "",
+      ref3: "",
+      systemDesc: form.systemDesc || "",
+      operStartDt: form.operStartDt || "",
+      operEndDt: form.operEndDt || "",
+      managerNm: form.managerNm || "",
+      managerPhone: form.managerPhone || "",
+      contractInfo: form.contractInfo || "",
+      memo: form.memo || "",
+      members: [...(form.members || [])],
+    };
     setSystems(prev => [...prev, newSys]);
   };
 
