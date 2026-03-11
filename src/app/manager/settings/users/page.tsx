@@ -1,15 +1,16 @@
 // @ts-nocheck
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { DataTable } from '@/components/ui/DataTable';
 import { RoleBadge, YnBadge } from '@/components/ui/Badge';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Button } from '@/components/ui/Button';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { INIT_USER_GROUPS, USERS } from '@/data/users';
 import { GroupMgmtModal, UserPanel } from '@/components/panels';
+import css from './page.module.css';
 
 const UNGROUPED_KEY = '__NONE__';
 
@@ -89,6 +90,26 @@ const MgrUsers = () => {
 
   const selGroupNm = selGroup === UNGROUPED_KEY ? '미지정' : groups.find((group) => group.id === selGroup)?.nm || '전체';
 
+  const groupItemStyle = (active: boolean, extra?: CSSProperties): CSSProperties => ({
+    background: active ? colors.primaryLight : 'transparent',
+    ...extra,
+  });
+
+  const groupNameStyle = (active: boolean): CSSProperties => ({
+    fontWeight: active ? 600 : 500,
+    color: active ? colors.secondary : colors.text,
+  });
+
+  const groupNameSimpleStyle = (active: boolean): CSSProperties => ({
+    fontWeight: active ? 600 : 500,
+    color: active ? colors.secondary : colors.text,
+  });
+
+  const ungroupedNameStyle = (active: boolean): CSSProperties => ({
+    fontWeight: active ? 600 : 500,
+    color: active ? colors.secondary : colors.textLight,
+  });
+
   const openAddPanel = () => {
     setSelectedUserId(null);
     setShowAdd(true);
@@ -150,50 +171,30 @@ const MgrUsers = () => {
 
   return (
     <div>
-      <PageHeader title="사용자" bc="홈 > 환경설정 > 사용자 관리 > 사용자" />
+      <PageHeader title="사용자" breadcrumb="홈 > 환경설정 > 사용자 관리 > 사용자" />
 
-      <div style={{ display: 'flex', gap: 14, alignItems: 'start' }}>
-        <div style={{ width: 240, flexShrink: 0, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: 6, overflow: 'hidden' }}>
-          <div style={{ padding: '14px 16px', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center' }}>
-            <span style={{ fontSize: 15, fontWeight: 600, color: C.txH }}>그룹</span>
+      <div className={css.layout}>
+        <div className={css.leftPanel}>
+          <div className={css.leftHeader}>
+            <span className={css.leftTitle}>그룹</span>
           </div>
-          <div style={{ padding: '6px 0' }}>
+          <div className={css.listWrap}>
             {(() => {
               const active = selGroup === null;
               return (
                 <div
                   onClick={() => setSelGroup(null)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '9px 14px',
-                    cursor: 'pointer',
-                    borderRadius: 6,
-                    margin: '0 6px',
-                    background: active ? C.priL : 'transparent',
-                    transition: 'all .3s',
-                  }}
+                  className={css.groupItem}
+                  style={groupItemStyle(active, { margin: '0 6px' })}
                   onMouseEnter={(event) => {
-                    if (!active) event.currentTarget.style.background = C.secL;
+                    if (!active) event.currentTarget.style.background = colors.secondaryLight;
                   }}
                   onMouseLeave={(event) => {
                     if (!active) event.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <span style={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txt }}>전체</span>
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                      background: '#EEEEEE',
-                      color: '#929292',
-                      borderRadius: 10,
-                      padding: '1px 7px',
-                      minWidth: 20,
-                      textAlign: 'center',
-                    }}
-                  >
+                  <span className={css.groupNameSimple} style={groupNameSimpleStyle(active)}>전체</span>
+                  <span className={css.badge}>
                     {users.length}
                   </span>
                 </div>
@@ -208,51 +209,19 @@ const MgrUsers = () => {
                 <div
                   key={group.id}
                   onClick={() => setSelGroup(group.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '9px 14px',
-                    cursor: 'pointer',
-                    borderRadius: 6,
-                    margin: '1px 6px',
-                    background: active ? C.priL : 'transparent',
-                    transition: 'all .3s',
-                  }}
+                  className={css.groupItem}
+                  style={groupItemStyle(active)}
                   onMouseEnter={(event) => {
-                    if (!active) event.currentTarget.style.background = C.secL;
+                    if (!active) event.currentTarget.style.background = colors.secondaryLight;
                   }}
                   onMouseLeave={(event) => {
                     if (!active) event.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: 15,
-                      fontWeight: active ? 600 : 500,
-                      color: active ? C.sec : C.txt,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      flex: 1,
-                      marginRight: 6,
-                    }}
-                  >
+                  <span className={css.groupName} style={groupNameStyle(active)}>
                     {group.nm}
                   </span>
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                      background: '#EEEEEE',
-                      color: '#929292',
-                      borderRadius: 10,
-                      padding: '1px 7px',
-                      minWidth: 20,
-                      textAlign: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
+                  <span className={css.badgeFlex}>
                     {cnt}
                   </span>
                 </div>
@@ -265,39 +234,17 @@ const MgrUsers = () => {
                   return (
                     <div
                       onClick={() => setSelGroup(UNGROUPED_KEY)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '9px 14px',
-                        cursor: 'pointer',
-                        borderRadius: 6,
-                        margin: '1px 6px',
-                        borderTop: `1px dashed ${C.brd}`,
-                        marginTop: 4,
-                        background: active ? C.priL : 'transparent',
-                        transition: 'all .3s',
-                      }}
+                      className={css.groupItem}
+                      style={groupItemStyle(active, { borderTop: `1px dashed ${colors.border}`, marginTop: 4 })}
                       onMouseEnter={(event) => {
-                        if (!active) event.currentTarget.style.background = C.secL;
+                        if (!active) event.currentTarget.style.background = colors.secondaryLight;
                       }}
                       onMouseLeave={(event) => {
                         if (!active) event.currentTarget.style.background = 'transparent';
                       }}
                     >
-                      <span style={{ fontSize: 15, fontWeight: active ? 600 : 500, color: active ? C.sec : C.txL }}>미지정</span>
-                      <span
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 500,
-                          background: '#EEEEEE',
-                          color: '#929292',
-                          borderRadius: 10,
-                          padding: '1px 7px',
-                          minWidth: 20,
-                          textAlign: 'center',
-                        }}
-                      >
+                      <span className={css.ungroupedName} style={ungroupedNameStyle(active)}>미지정</span>
+                      <span className={css.badge}>
                         {ungrouped}
                       </span>
                     </div>
@@ -306,16 +253,16 @@ const MgrUsers = () => {
               : null}
           </div>
 
-          <div style={{ padding: '10px 12px', borderTop: `1px solid ${C.brd}` }}>
-            <Button ghost onClick={() => setShowGrpMgmt(true)} style={{ width: '100%' }}>
+          <div className={css.grpMgmtFooter}>
+            <Button ghost onClick={() => setShowGrpMgmt(true)} className={css.grpMgmtBtn}>
               사용자 그룹관리
             </Button>
           </div>
         </div>
 
-        <div style={{ flex: 1 }}>
+        <div className={css.rightPanel}>
           <SearchBar
-            ph="이름, ID, 이메일 검색"
+            placeholder="이름, ID, 이메일 검색"
             fields={[{ key: 'status', label: '상태', type: 'select', options: ['사용', '미사용'] }]}
             onSearch={(fields, kw) => {
               setKeyword(kw);
@@ -328,43 +275,33 @@ const MgrUsers = () => {
           />
 
           <DataTable
-            secTitle={`${selGroupNm} 사용자 목록`}
-            secCount={filtered.length}
-            secButtons={<Button variant="primary" onClick={openAddPanel}>+ 사용자 등록</Button>}
+            sectionTitle={`${selGroupNm} 사용자 목록`}
+            sectionCount={filtered.length}
+            sectionButtons={<Button variant="primary" onClick={openAddPanel}>+ 사용자 등록</Button>}
             data={filtered}
             onRow={openDetailPanel}
             cols={[
-              { t: '상태', k: 'useYn', w: 100, r: (value) => <YnBadge v={value} /> },
-              { t: '사용자 ID', k: 'userId', mw: 150, align: 'left', r: (value) => <span style={{ color: C.txS, fontFamily: 'inherit' }}>{value}</span> },
-              { t: '이름', k: 'userNm', mw: 150, align: 'left', r: (value) => <span style={{ color: C.pri }}>{value}</span> },
-              { t: '이메일', k: 'email', r: (value) => value || '—' },
+              { title: '상태', fieldKey: 'useYn', width: 100, renderCell: (value) => <YnBadge value={value} /> },
+              { title: '사용자 ID', fieldKey: 'userId', minWidth: 150, align: 'left', renderCell: (value) => <span className={css.userIdText}>{value}</span> },
+              { title: '이름', fieldKey: 'userNm', minWidth: 150, align: 'left', renderCell: (value) => <span className={css.userNameText}>{value}</span> },
+              { title: '이메일', fieldKey: 'email', renderCell: (value) => value || '—' },
               {
-                t: '그룹',
-                k: 'groupId',
-                w: 110,
-                r: (value) => {
+                title: '그룹',
+                fieldKey: 'groupId',
+                width: 110,
+                renderCell: (value) => {
                   const group = groups.find((entry) => entry.id === value);
                   return group ? (
-                    <span
-                      style={{
-                        padding: '2px 9px',
-                        borderRadius: 10,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        background: C.priL,
-                        color: C.pri,
-                        border: `1px solid ${C.priL}`,
-                      }}
-                    >
+                    <span className={css.groupBadge}>
                       {group.nm}
                     </span>
                   ) : (
-                    <span style={{ color: C.txL }}>—</span>
+                    <span className={css.emptyGroup}>—</span>
                   );
                 },
               },
-              { t: '역할', k: 'userRole', w: 120, r: (value) => <RoleBadge v={value} /> },
-              { t: '마지막 로그인', k: 'lastLoginDt', w: 150, r: (value) => <span style={{ color: C.txL }}>{value || '—'}</span> },
+              { title: '역할', fieldKey: 'userRole', width: 120, renderCell: (value) => <RoleBadge value={value} /> },
+              { title: '마지막 로그인', fieldKey: 'lastLoginDt', width: 150, renderCell: (value) => <span className={css.lastLoginText}>{value || '—'}</span> },
             ]}
           />
         </div>

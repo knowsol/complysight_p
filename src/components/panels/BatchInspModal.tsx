@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { FormInput, FormSelect } from '@/components/ui/Input';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { RES, CL_INIT } from '@/data';
 import { SYS } from '@/data/systems';
 
@@ -79,12 +79,12 @@ export function BatchInspModal({ open, onClose, currentUser, onSubmit }) {
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} style={{ background: '#fff', borderRadius: 14, width: 620, maxHeight: '85vh', display: 'flex', flexDirection: 'column', boxShadow: '0 16px 48px rgba(0,0,0,.22)', overflow: 'hidden' }}>
-        <div style={{ padding: '18px 24px 14px', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+        <div style={{ padding: '18px 24px 14px', borderBottom: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
           <div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: C.txH }}>일괄 자동점검 요청</div>
-            <div style={{ fontSize: 12, color: C.txL, marginTop: 2 }}>최대 {BATCH_MAX}개 · 자원별 2분 쿨다운</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading }}>일괄 자동점검 요청</div>
+            <div style={{ fontSize: 12, color: colors.textLight, marginTop: 2 }}>최대 {BATCH_MAX}개 · 자원별 2분 쿨다운</div>
           </div>
-          <span onClick={onClose} style={{ cursor: 'pointer', color: C.txL, fontSize: 20, lineHeight: 1 }}>×</span>
+          <span onClick={onClose} style={{ cursor: 'pointer', color: colors.textLight, fontSize: 20, lineHeight: 1 }}>×</span>
         </div>
 
         {done ? (
@@ -93,43 +93,43 @@ export function BatchInspModal({ open, onClose, currentUser, onSubmit }) {
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
             <div style={{ fontSize: 18, fontWeight: 800, color: '#16A34A', marginBottom: 8 }}>요청 완료</div>
-            <div style={{ fontSize: 15, color: C.txS, lineHeight: 1.8, marginBottom: 28 }}><span style={{ fontWeight: 700, color: C.txt }}>{resultCnt}개</span> 자원에 대한<br />자동점검 결과가 목록에 반영되었습니다.</div>
+            <div style={{ fontSize: 15, color: colors.textSecondary, lineHeight: 1.8, marginBottom: 28 }}><span style={{ fontWeight: 700, color: colors.text }}>{resultCnt}개</span> 자원에 대한<br />자동점검 결과가 목록에 반영되었습니다.</div>
             <Button primary onClick={onClose}>확인</Button>
           </div>
         ) : submitting ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px 24px', textAlign: 'center' }}>
-            <div style={{ width: 56, height: 56, borderRadius: '50%', border: `5px solid ${C.priL}`, borderTopColor: C.pri, animation: 'spin 0.8s linear infinite', marginBottom: 20 }} />
+            <div style={{ width: 56, height: 56, borderRadius: '50%', border: `5px solid ${colors.primaryLight}`, borderTopColor: colors.primary, animation: 'spin 0.8s linear infinite', marginBottom: 20 }} />
             <style>{'@keyframes spin { to { transform:rotate(360deg); } }'}</style>
-            <div style={{ fontSize: 18, fontWeight: 700, color: C.txH, marginBottom: 6 }}>자동점검 요청 중</div>
-            <div style={{ fontSize: 12, color: C.txS }}><span style={{ fontWeight: 700, color: C.pri }}>{sel.length}개</span> 자원에 점검을 요청하고 있습니다...</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading, marginBottom: 6 }}>자동점검 요청 중</div>
+            <div style={{ fontSize: 12, color: colors.textSecondary }}><span style={{ fontWeight: 700, color: colors.primary }}>{sel.length}개</span> 자원에 점검을 요청하고 있습니다...</div>
           </div>
         ) : (
           <>
-            <div style={{ padding: '12px 20px 8px', borderBottom: `1px solid ${C.brd}`, flexShrink: 0 }}>
+            <div style={{ padding: '12px 20px 8px', borderBottom: `1px solid ${colors.border}`, flexShrink: 0 }}>
               <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                <FormSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+                <FormSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
                   <option value="">전체 시스템</option>
                   {SYS.filter((s) => myRes.some((r) => r.sysId === s.id)).map((s) => <option key={s.id} value={s.id}>{s.nm}</option>)}
                 </FormSelect>
-                <FormSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+                <FormSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
                   <option value="">전체 분류</option>
                   {cats.map((c) => <option key={c} value={c}>{c}</option>)}
                 </FormSelect>
                 <div style={{ position: 'relative', flex: 1, minWidth: 140 }}>
-                  <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
-                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}><Icon n="search" s={12} c={C.txL} /></span>
-                  {resSearch && <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL }}>×</span>}
+                  <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
+                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}><Icon name="search" size={12} color={colors.textLight} /></span>
+                  {resSearch && <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: colors.textLight }}>×</span>}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 20, background: sel.length >= BATCH_MAX ? '#FEF3C7' : C.priL, border: `1px solid ${sel.length >= BATCH_MAX ? '#F59E0B' : C.pri + '44'}` }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: sel.length >= BATCH_MAX ? '#92400E' : C.pri }}>{sel.length} / {BATCH_MAX}</span>
-                  {sel.length > 0 && <span onClick={() => setSel([])} style={{ fontSize: 12, color: C.txL, cursor: 'pointer' }}>초기화</span>}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 20, background: sel.length >= BATCH_MAX ? '#FEF3C7' : colors.primaryLight, border: `1px solid ${sel.length >= BATCH_MAX ? '#F59E0B' : colors.primary + '44'}` }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: sel.length >= BATCH_MAX ? '#92400E' : colors.primary }}>{sel.length} / {BATCH_MAX}</span>
+                  {sel.length > 0 && <span onClick={() => setSel([])} style={{ fontSize: 12, color: colors.textLight, cursor: 'pointer' }}>초기화</span>}
                 </div>
               </div>
               {sel.length >= BATCH_MAX && <div style={{ fontSize: 12, color: '#92400E', background: '#FEF3C7', padding: '4px 10px', borderRadius: 4, marginBottom: 4 }}>최대 {BATCH_MAX}개 선택됩니다. 일부 선택을 해제 후 추가 선택하세요.</div>}
             </div>
 
             <div style={{ overflowY: 'auto', flex: 1 }}>
-              {visRes.length === 0 ? <div style={{ padding: 32, textAlign: 'center', fontSize: 12, color: C.txL }}>조건에 맞는 자원이 없습니다.</div> : [...visRes].sort((a, b) => {
+              {visRes.length === 0 ? <div style={{ padding: 32, textAlign: 'center', fontSize: 12, color: colors.textLight }}>조건에 맞는 자원이 없습니다.</div> : [...visRes].sort((a, b) => {
                 const aOk = !CL_INIT.find((c) => c.sub === a.mid) ? 1 : 0;
                 const bOk = !CL_INIT.find((c) => c.sub === b.mid) ? 1 : 0;
                 if (aOk !== bOk) return aOk - bOk;
@@ -142,20 +142,20 @@ export function BatchInspModal({ open, onClose, currentUser, onSubmit }) {
                 const noCl = !CL_INIT.find((c) => c.sub === r.mid);
                 const disabled = noCl || cdLeft > 0 || (!isSel && sel.length >= BATCH_MAX);
                 return (
-                  <div key={r.id} onClick={() => toggle(r)} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '11px 20px', borderBottom: `1px solid ${C.brd}`, cursor: disabled ? 'not-allowed' : 'pointer', opacity: cdLeft > 0 ? 0.5 : 1, background: isSel ? C.priL + '55' : '#fff', borderLeft: isSel ? `3px solid ${C.pri}` : '3px solid transparent', transition: 'background .1s' }} onMouseEnter={(e) => { if (!disabled && !isSel) e.currentTarget.style.background = '#F5F7FF'; }} onMouseLeave={(e) => { if (!disabled && !isSel) e.currentTarget.style.background = '#fff'; }}>
-                    <div style={{ width: 18, height: 18, borderRadius: 4, flexShrink: 0, border: `2px solid ${isSel ? C.pri : C.brd}`, background: isSel ? C.pri : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{isSel && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}</div>
+                  <div key={r.id} onClick={() => toggle(r)} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '11px 20px', borderBottom: `1px solid ${colors.border}`, cursor: disabled ? 'not-allowed' : 'pointer', opacity: cdLeft > 0 ? 0.5 : 1, background: isSel ? colors.primaryLight + '55' : '#fff', borderLeft: isSel ? `3px solid ${colors.primary}` : '3px solid transparent', transition: 'background .1s' }} onMouseEnter={(e) => { if (!disabled && !isSel) e.currentTarget.style.background = '#F5F7FF'; }} onMouseLeave={(e) => { if (!disabled && !isSel) e.currentTarget.style.background = '#fff'; }}>
+                    <div style={{ width: 18, height: 18, borderRadius: 4, flexShrink: 0, border: `2px solid ${isSel ? colors.primary : colors.border}`, background: isSel ? colors.primary : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{isSel && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: 12, color: disabled ? C.txL : C.txt, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nm}</div>
-                      <div style={{ fontSize: 12, color: C.txL, marginTop: 1 }}>{r.mid} · {r.ip || '—'} · {r.sysNm || SYS.find((s) => s.id === r.sysId)?.nm}</div>
+                      <div style={{ fontWeight: 600, fontSize: 12, color: disabled ? colors.textLight : colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nm}</div>
+                      <div style={{ fontSize: 12, color: colors.textLight, marginTop: 1 }}>{r.mid} · {r.ip || '—'} · {r.sysNm || SYS.find((s) => s.id === r.sysId)?.nm}</div>
                     </div>
-                    {cdLeft > 0 ? <span style={{ fontSize: 12, color: '#92400E', background: '#FEF3C7', padding: '2px 8px', borderRadius: 8, fontWeight: 600, flexShrink: 0 }}>{fmtLeft(cdLeft)} 가능</span> : <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 8, fontWeight: 600, flexShrink: 0, background: CL_INIT.find((c) => c.sub === r.mid) ? '#dcfce7' : '#F3F4F6', color: CL_INIT.find((c) => c.sub === r.mid) ? '#166534' : C.txL }}>{CL_INIT.find((c) => c.sub === r.mid)?.nm || '점검표 없음'}</span>}
+                    {cdLeft > 0 ? <span style={{ fontSize: 12, color: '#92400E', background: '#FEF3C7', padding: '2px 8px', borderRadius: 8, fontWeight: 600, flexShrink: 0 }}>{fmtLeft(cdLeft)} 가능</span> : <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 8, fontWeight: 600, flexShrink: 0, background: CL_INIT.find((c) => c.sub === r.mid) ? '#dcfce7' : '#F3F4F6', color: CL_INIT.find((c) => c.sub === r.mid) ? '#166534' : colors.textLight }}>{CL_INIT.find((c) => c.sub === r.mid)?.nm || '점검표 없음'}</span>}
                   </div>
                 );
               })}
             </div>
 
-            <div style={{ padding: '14px 20px', borderTop: `1px solid ${C.brd}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-              <div style={{ fontSize: 12, color: C.txL }}>{sel.length > 0 ? <><span style={{ fontWeight: 700, color: C.pri }}>{sel.length}개</span> 자원 선택됨</> : '점검할 자원을 선택하세요'}</div>
+            <div style={{ padding: '14px 20px', borderTop: `1px solid ${colors.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+              <div style={{ fontSize: 12, color: colors.textLight }}>{sel.length > 0 ? <><span style={{ fontWeight: 700, color: colors.primary }}>{sel.length}개</span> 자원 선택됨</> : '점검할 자원을 선택하세요'}</div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <Button onClick={onClose}>취소</Button>
                 <Button primary disabled={sel.length === 0} onClick={handleSubmit} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

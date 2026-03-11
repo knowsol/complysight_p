@@ -8,7 +8,7 @@ import { Header, Sidebar } from '@/components/layout';
 import { useAuth } from '@/contexts/AuthContext';
 import { MENU_ITEMS } from '@/lib/constants/menu';
 import { ROUTES } from '@/lib/constants/routes';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { PRETENDARD_FONT } from '@/lib/theme/styles';
 
 export default function SentinelLayout({ children }: { children: ReactNode }) {
@@ -27,7 +27,7 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: C.bg, fontFamily: PRETENDARD_FONT }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: colors.background, fontFamily: PRETENDARD_FONT }}>
       <Header
         user={user}
         site="s"
@@ -44,7 +44,7 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
           return;
         }}
       />
-      <div style={{ display: 'flex', flex: 1, minHeight: 0, background: C.bg, paddingTop: 67 }}>
+      <div style={{ display: 'flex', flex: 1, minHeight: 0, background: colors.background, paddingTop: 67 }}>
         <Sidebar
           menuItems={MENU_ITEMS.s}
           site="s"
@@ -58,7 +58,7 @@ export default function SentinelLayout({ children }: { children: ReactNode }) {
             flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            background: C.white,
+            background: colors.white,
             borderRadius: '20px 0 0 0',
             padding: '38px 40px 0 40px',
             overflowY: 'auto',

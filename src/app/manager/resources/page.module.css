@@ -1,0 +1,189 @@
+.layout {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.leftPanel {
+  width: 240px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  max-height: calc(100vh - 170px);
+  display: flex;
+  flex-direction: column;
+}
+
+.leftHeader {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.leftTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+.addSysBtn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  outline: none;
+}
+
+.limitToast {
+  margin: 8px 10px 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.limitText {
+  font-size: 11px;
+  color: #991B1B;
+  line-height: 1.5;
+}
+
+.sysListWrap {
+  padding: 6px 0;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.searchWrap {
+  padding: 6px 10px 4px;
+  flex-shrink: 0;
+}
+
+.searchInner {
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 6px 24px 6px 26px;
+  font-size: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+  background: #F8FAFC;
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.clearBtn {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--color-text-light);
+  line-height: 1;
+}
+
+.sysSub {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 1px;
+}
+
+.sysBadge {
+  font-size: 12px;
+  font-weight: 500;
+  background: #EEEEEE;
+  color: #929292;
+  border-radius: 10px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.detailBtn {
+  flex-shrink: 0;
+  margin-left: 4px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+}
+
+.rightPanel {
+  flex: 1;
+  min-width: 0;
+}
+
+.warningIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.sysItemContent {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.linkText {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.checklistTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.checklistEmpty {
+  font-size: 12px;
+  color: var(--color-text-light);
+}

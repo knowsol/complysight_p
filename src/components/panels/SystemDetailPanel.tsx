@@ -9,7 +9,7 @@ import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { USERS } from '@/data/users';
 import type { System } from '@/types/system';
 
@@ -132,13 +132,13 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           {system ? (
             <div style={{ display: 'flex', gap: 12, marginBottom: 18 }}>
-              <div style={{ flex: 1, padding: '14px 16px', background: C.priL, borderRadius: 8, textAlign: 'center' }}>
-                <div style={{ fontSize: 22, fontWeight: 700, color: C.pri }}>{resCount}</div>
-                <div style={{ fontSize: 12, color: C.txS, marginTop: 2 }}>등록 자원</div>
+              <div style={{ flex: 1, padding: '14px 16px', background: colors.primaryLight, borderRadius: 8, textAlign: 'center' }}>
+                <div style={{ fontSize: 22, fontWeight: 700, color: colors.primary }}>{resCount}</div>
+                <div style={{ fontSize: 12, color: colors.textSecondary, marginTop: 2 }}>등록 자원</div>
               </div>
               <div style={{ flex: 1, padding: '14px 16px', background: '#F0FDF4', borderRadius: 8, textAlign: 'center' }}>
                 <div style={{ fontSize: 22, fontWeight: 700, color: '#16A34A' }}>{form.members.length || system.mem || 0}</div>
-                <div style={{ fontSize: 12, color: C.txS, marginTop: 2 }}>구성원</div>
+                <div style={{ fontSize: 12, color: colors.textSecondary, marginTop: 2 }}>구성원</div>
               </div>
             </div>
           ) : null}
@@ -148,13 +148,13 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
             <FormRow label="사용상태">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.useYn === 'Y'} onClick={() => !ro && setField('useYn', form.useYn === 'Y' ? 'N' : 'Y')} disabled={ro} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: form.useYn === 'Y' ? C.pri : C.txL }}>{form.useYn === 'Y' ? '사용' : '미사용'}</span>
+                <span style={{ fontSize: 13, fontWeight: 500, color: form.useYn === 'Y' ? colors.primary : colors.textLight }}>{form.useYn === 'Y' ? '사용' : '미사용'}</span>
               </div>
             </FormRow>
 
             <FormRow label="정보시스템 명" required>
-              <FormInput value={form.systemNm} onChange={(e) => setField('systemNm', e.target.value)} readOnly={ro} style={errors.systemNm ? { borderColor: C.red } : undefined} />
-              {errors.systemNm ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.systemNm}</div> : null}
+              <FormInput value={form.systemNm} onChange={(e) => setField('systemNm', e.target.value)} readOnly={ro} style={errors.systemNm ? { borderColor: colors.red } : undefined} />
+              {errors.systemNm ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.systemNm}</div> : null}
             </FormRow>
 
             <div style={{ display: 'flex', gap: 12 }}>
@@ -170,7 +170,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
                     </option>
                   ))}
                 </FormSelect>
-                {errors.systemType ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.systemType}</div> : null}
+                {errors.systemType ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.systemType}</div> : null}
               </FormRow>
               <FormRow label="관리주체" style={{ flex: 1 }}>
                 <FormInput value={form.mgmtOrg} onChange={(e) => setField('mgmtOrg', e.target.value)} readOnly={ro} />
@@ -229,7 +229,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
           <div style={{ marginBottom: 18 }}>
             <SectionTitle label="구성원" />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-              {form.members.length === 0 ? <span style={{ fontSize: 12, color: C.txL }}>구성원이 없습니다.</span> : null}
+              {form.members.length === 0 ? <span style={{ fontSize: 12, color: colors.textLight }}>구성원이 없습니다.</span> : null}
               {form.members.map((userId: string) => {
                 const user = USERS.find((entry) => entry.userId === userId);
                 if (!user) return null;
@@ -242,8 +242,8 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
                       gap: 4,
                       padding: '4px 10px',
                       borderRadius: 14,
-                      background: C.priL,
-                      color: C.priD,
+                      background: colors.primaryLight,
+                      color: colors.primaryDark,
                       fontSize: 12,
                     }}
                   >
@@ -277,7 +277,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
           </div>
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           {!canDelete ? (
             <div
               style={{
@@ -291,7 +291,7 @@ export function SystemDetailPanel({ open, onClose, system, resCount = 0, onUpdat
                 border: '1px solid #FED7AA',
               }}
             >
-              <Icon n="alert" s={13} c="#EA580C" />
+              <Icon name="alert" size={13} color="#EA580C" />
               <span style={{ color: '#9A3412', fontSize: 12 }}>
                 {isFixed ? '공유자원 시스템은 삭제할 수 없습니다.' : '연결된 자원이 있어 삭제할 수 없습니다.'}
               </span>

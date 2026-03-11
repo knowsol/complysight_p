@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export interface TabNavProps {
   options?: string[];
@@ -19,10 +19,10 @@ export function TabNav({ options = ['전체', '사용', '미사용'], value, onC
             padding: '4px 12px',
             fontSize: 15,
             fontWeight: value === v ? 600 : 400,
-            border: `1px solid ${value === v ? C.sec : C.brd}`,
+            border: `1px solid ${value === v ? colors.secondary : colors.border}`,
             borderRadius: 5,
-            background: value === v ? C.sec : '#fff',
-            color: value === v ? '#fff' : C.txS,
+            background: value === v ? colors.secondary : '#fff',
+            color: value === v ? '#fff' : colors.textSecondary,
             cursor: 'pointer',
             fontFamily: 'inherit',
             transition: 'all .15s',

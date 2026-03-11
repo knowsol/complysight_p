@@ -11,9 +11,11 @@ import { FormInput, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { FormRow, PanelDeleteButton, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
-import { C } from '@/lib/theme/colors';
-import { fInput } from '@/lib/theme/styles';
+import { EmptyState } from '@/components/ui/StyleUtils';
+import { colors } from '@/lib/theme/colors';
+import { fInput, panelBody, panelFooterBar, errorText, hoverBg } from '@/lib/theme/styles';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
+import css from './page.module.css';
 
 
 const MgrCode = () => {
@@ -149,101 +151,83 @@ const MgrCode = () => {
   };
 
   const inp = {...fInput};
-  const ro  = {background:"#f0f1f3", color:C.txS, pointerEvents:"none"};
-  const err = (msg) => msg ? <div style={{fontSize:12,color:"#ef4444",marginTop:3}}>{msg}</div> : null;
-
-
-
-
-
-
+  const ro  = {background:"#f0f1f3", color:colors.textSecondary, pointerEvents:"none"};
+  const err = (msg) => msg ? <div style={errorText}>{msg}</div> : null;
 
   return (
     <div>
-      <PageHeader title="공통코드" bc="홈 > 환경설정 > 공통코드" />
+      <PageHeader title="공통코드" breadcrumb="홈 > 환경설정 > 공통코드" />
 
-      <div style={{ display: "flex", gap: 14, alignItems: "start" }}>
+      <div className={css.splitLayout}>
 
         {/* ── 좌: 코드 그룹 ── */}
-        <div style={{ width: 240, flexShrink: 0, background: "#fff", border: `1px solid ${C.brd}`, borderRadius: 6, overflow: "hidden", position: "sticky", top: 0, maxHeight: "calc(100vh - 170px)", display: "flex", flexDirection: "column" }}>
-          <div style={{ padding: "14px 16px", borderBottom: `1px solid ${C.brd}`,
-            display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 15, fontWeight: 600, color: C.txH }}>코드 그룹</span>
+        <div className={css.treePanel}>
+          <div className={css.treeHeader}>
+            <span className={css.treeTitle}>코드 그룹</span>
             <div onClick={() => openGrpPanel(null, true)}
-              style={{ width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center",
-                borderRadius: 4, cursor: "pointer", transition: "background .15s", border: "none", outline: "none" }}
-              onMouseEnter={e => e.currentTarget.style.background = C.priL}
-              onMouseLeave={e => e.currentTarget.style.background = ""}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              className={css.addButton}
+              {...hoverBg('', colors.primaryLight)}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={colors.textLight} strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </div>
           </div>
-          <div style={{ padding: "6px 0", flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", minHeight: 0 }}>
-            <div style={{ padding: "6px 10px 4px", flexShrink: 0 }}>
-              <div style={{ position: "relative" }}>
-                <svg style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
-                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round">
+          <div className={css.treeBody}>
+            <div className={css.groupSearchWrap}>
+              <div className={css.groupSearchField}>
+                <svg className={css.groupSearchIcon}
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={colors.textLight} strokeWidth="2" strokeLinecap="round">
                   <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
                 </svg>
                 <FormInput value={grpQ} onChange={e => setGrpQ(e.target.value)}
                   placeholder="그룹 검색"
-                  style={{ width: "100%", padding: "6px 24px 6px 26px", fontSize: 12, border: `1px solid ${C.brd}`,
-                    borderRadius: 6, outline: "none", boxSizing: "border-box", background: "#F8FAFC", color: C.txt, fontFamily: "inherit" }} />
+                  className={css.groupSearchInput} />
                 {grpQ && (
                   <span onClick={() => setGrpQ("")}
-                    style={{ position: "absolute", right: 7, top: "50%", transform: "translateY(-50%)",
-                      cursor: "pointer", color: C.txL, fontSize: 14, lineHeight: 1 }}>×</span>
+                    className={css.clearSearch}>×</span>
                 )}
               </div>
             </div>
-            <div style={{ flex: 1, overflowY: "auto", paddingTop: 4 }}>
+            <div className={css.groupListWrap}>
               {filteredGroups.map(g => {
                 const isSel = selGrp?.id === g.id;
                 return (
                   <div key={g.id}
                     onClick={() => { setSelGrp(g); setCodeQ(""); setCodePanel(false); }}
                     onDoubleClick={() => openGrpPanel(g, false)}
-                    style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
-                      cursor: "pointer", borderRadius: 6, margin: "1px 6px",
-                      background: isSel ? C.priL : "transparent", transition: "background .15s" }}
-                    onMouseEnter={e => { if (!isSel) e.currentTarget.style.background = C.bgSec; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = isSel ? C.priL : "transparent"; }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: isSel ? 600 : 400, color: isSel ? C.pri : C.txt,
-                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{g.nm}</div>
-                      <div style={{ fontSize: 11, color: C.txL, marginTop: 1 }}>{g.id}</div>
+                    className={`${css.groupItem} ${isSel ? css.groupItemActive : ''}`.trim()}
+                    {...hoverBg(isSel ? colors.primaryLight : 'transparent', isSel ? colors.primaryLight : colors.backgroundSecondary)}>
+                    <div className={css.groupItemMain}>
+                      <div className={`${css.groupItemName} ${isSel ? css.groupItemNameActive : ''}`.trim()}>{g.nm}</div>
+                      <div className={css.groupItemId}>{g.id}</div>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
-                      {g.useYn === "N" && <span style={{ fontSize: 10, padding: "1px 5px", borderRadius: 3, background: "#F9FAFC", color: C.txL }}>미사용</span>}
-                      <span style={{ fontSize: 11, color: C.txL, background: C.bgSec, borderRadius: 10, padding: "1px 7px", minWidth: 18, textAlign: "center" }}>{g.cnt}</span>
+                    <div className={css.groupItemMeta}>
+                      {g.useYn === 'N' && <span className={css.disabledTag}>미사용</span>}
+                      <span className={css.countTag}>{g.cnt}</span>
                     </div>
                   </div>
                 );
               })}
-              {!filteredGroups.length && <div style={{ padding: 30, textAlign: "center", color: C.txL, fontSize: 12 }}>검색 결과 없음</div>}
+              {!filteredGroups.length && <EmptyState icon="" desc="검색 결과 없음" style={{ padding: 30, gap: 0 }} />}
             </div>
           </div>
         </div>
 
         {/* ── 우: 코드 목록 ── */}
-        <div style={{flex:1, minWidth:0}}>
+        <div className={css.listPanel}>
           {!selGrp ? (
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100%",color:C.txL}}>
-              <div style={{fontSize:36,marginBottom:10}}>☰</div>
-              <div style={{fontSize:12}}>왼쪽에서 코드 그룹을 선택하세요.</div>
-            </div>
+            <EmptyState icon="☰" desc="왼쪽에서 코드 그룹을 선택하세요." style={{ height: '100%', padding: 0, gap: 10 }} />
           ) : (<>
-            <SearchBar ph="코드값 또는 코드명 검색" />
-            <DataTable secTitle={`${selGrp.nm} 코드 목록`} secCount={curCodes.length} secButtons={<div style={{display:"flex",gap:4}}>
+            <SearchBar placeholder="코드값 또는 코드명 검색" />
+            <DataTable sectionTitle={`${selGrp.nm} 코드 목록`} sectionCount={curCodes.length} sectionButtons={<div className={css.tableButtons}>
               <Button small onClick={()=>setShowUpload(true)}>📤 엑셀 업로드</Button>
               <Button small>📥 엑셀 다운로드</Button>
               <Button variant="primary" onClick={()=>openCodePanel(null, true)}>+ 코드 추가</Button>
             </div>} onRow={row => openCodePanel(row, false)} cols={[
-              { t: "순서", k: "sort" },
-              { t: "코드값", k: "cd", r: v => <span style={{fontFamily:"inherit",padding:"2px 8px",background:C.priL,borderRadius:4,color:C.pri,fontWeight:700}}>{v}</span> },
-              { t: "항목", k: "nm", r: v => <span style={{fontWeight:600,color:C.pri}}>{v}</span> },
-              { t: "설명", k: "desc", r: v => v || "—" },
-              { t: "사용여부", k: "useYn", r: v => <YnBadge v={v} /> },
-              { t: "등록일", k: "regDt" },
+              { title: "순서", fieldKey: "sort" },
+              { title: "코드값", fieldKey: "cd", renderCell: v => <span className={css.codeBadge}>{v}</span> },
+              { title: "항목", fieldKey: "nm", renderCell: v => <span className={css.codeName}>{v}</span> },
+              { title: "설명", fieldKey: "desc", renderCell: v => v || "—" },
+              { title: "사용여부", fieldKey: "useYn", renderCell: v => <YnBadge value={v} /> },
+              { title: "등록일", fieldKey: "regDt" },
             ]} data={curCodes} />
           </>)}
         </div>
@@ -253,7 +237,7 @@ const MgrCode = () => {
       <SidePanel open={grpPanel} onClose={()=>setGrpPanel(false)}
         title={grpIsNew ? "코드 그룹 추가" : "코드 그룹 수정"} width={480} noScroll>
       {/* 바디 */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+      <div style={panelBody}>
         {!grpIsNew && <PanelDeleteButton onClick={()=>setGrpDel(grpForm.id)} />}
         <SectionTitle label="그룹 정보" primary />
         <FormRow label="그룹 ID" required>
@@ -276,10 +260,10 @@ const MgrCode = () => {
           <Radio value={grpForm.useYn} onChange={v=>sgf("useYn",v)} />
         </FormRow>
       </div>{/* /바디 */}
-      <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={panelFooterBar}>
+        <div className={css.panelFooterInner}>
           <Button onClick={()=>setGrpPanel(false)}>취소</Button>
-          <div style={{ flex: 1 }} />
+          <div className={css.panelFooterSpacer} />
           <Button primary onClick={saveGroup}>{grpIsNew ? "등록" : "저장"}</Button>
         </div>
       </div>
@@ -289,11 +273,11 @@ const MgrCode = () => {
       <SidePanel open={codePanel} onClose={()=>setCodePanel(false)}
         title={codeIsNew ? "코드 추가" : "코드 수정"} width={480} noScroll>
       {/* 바디 */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+      <div style={panelBody}>
         {!codeIsNew && <PanelDeleteButton onClick={()=>setCodeDel(codeForm.id)} />}
         <SectionTitle label="코드 정보" primary />
-        <div style={{display:"flex",gap:12}}>
-          <div style={{flex:1}}>
+        <div className={css.codeTopRow}>
+          <div className={css.codeTopLeft}>
             <FormRow label="코드값" required>
               <FormInput value={codeForm.cd} onChange={e=>scf("cd",e.target.value.toUpperCase())}
                 placeholder="예) HW" maxLength={30}
@@ -301,7 +285,7 @@ const MgrCode = () => {
               {err(codeErrors.cd)}
             </FormRow>
           </div>
-          <div style={{width:80}}>
+          <div className={css.codeTopRight}>
             <FormRow label="순서">
               <FormInput type="number" min={1} value={codeForm.sort}
                 onChange={e=>scf("sort",parseInt(e.target.value)||1)} style={inp} />
@@ -322,10 +306,10 @@ const MgrCode = () => {
           <Radio value={codeForm.useYn} onChange={v=>scf("useYn",v)} />
         </FormRow>
       </div>{/* /바디 */}
-      <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={panelFooterBar}>
+        <div className={css.panelFooterInner}>
           <Button onClick={()=>setCodePanel(false)}>취소</Button>
-          <div style={{ flex: 1 }} />
+          <div className={css.panelFooterSpacer} />
           <Button primary onClick={saveCode}>{codeIsNew ? "등록" : "저장"}</Button>
         </div>
       </div>
@@ -333,17 +317,17 @@ const MgrCode = () => {
 
       {/* ── 엑셀 업로드 모달 ── */}
       {showUpload && (
-        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.45)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <div style={{background:"#fff",borderRadius:12,padding:32,width:440,boxShadow:"0 12px 40px rgba(0,0,0,.18)"}}>
-            <div style={{fontSize:15,fontWeight:700,marginBottom:4}}>엑셀 업로드</div>
-            <div style={{fontSize:12,color:C.txS,marginBottom:20}}>엑셀 파일을 업로드하면 코드 그룹 및 코드가 일괄 등록됩니다.</div>
-            <div style={{border:`2px dashed ${C.brd}`,borderRadius:8,padding:"30px 0",textAlign:"center",marginBottom:16,color:C.txL,cursor:"pointer",background:"#f8fafc"}}>
-              <div style={{fontSize:28,marginBottom:8}}>📂</div>
-              <div style={{fontSize:12}}>파일을 드래그하거나 클릭하여 선택</div>
-              <div style={{fontSize:12,marginTop:4}}>.xlsx, .xls 형식 지원 / 최대 5MB</div>
+        <div className={css.uploadBackdrop}>
+          <div className={css.uploadModal}>
+            <div className={css.uploadTitle}>엑셀 업로드</div>
+            <div className={css.uploadDesc}>엑셀 파일을 업로드하면 코드 그룹 및 코드가 일괄 등록됩니다.</div>
+            <div className={css.uploadDropzone}>
+              <div className={css.uploadIcon}>📂</div>
+              <div className={css.uploadText}>파일을 드래그하거나 클릭하여 선택</div>
+              <div className={css.uploadHint}>.xlsx, .xls 형식 지원 / 최대 5MB</div>
             </div>
-            <div style={{fontSize:12,color:C.pri,marginBottom:20,cursor:"pointer"}}>▼ 업로드 양식 다운로드</div>
-            <div style={{display:"flex",justifyContent:"flex-end",gap:8}}>
+            <div className={css.uploadTemplateLink}>▼ 업로드 양식 다운로드</div>
+            <div className={css.uploadActions}>
               <Button onClick={()=>setShowUpload(false)}>취소</Button>
               <Button primary onClick={()=>setShowUpload(false)}>업로드</Button>
             </div>

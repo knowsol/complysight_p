@@ -7,7 +7,7 @@ import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { USERS } from '@/data/users';
 import type { System } from '@/types/system';
 
@@ -142,7 +142,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                   height: 24,
                   borderRadius: 12,
                   cursor: 'pointer',
-                  background: form.useYn === 'Y' ? C.pri : '#D1D5DB',
+                  background: form.useYn === 'Y' ? colors.primary : '#D1D5DB',
                   transition: 'background .2s',
                 }}
               >
@@ -160,7 +160,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                   }}
                 />
               </div>
-              <span style={{ fontSize: 13, color: form.useYn === 'Y' ? C.pri : C.txL, fontWeight: 500 }}>
+              <span style={{ fontSize: 13, color: form.useYn === 'Y' ? colors.primary : colors.textLight, fontWeight: 500 }}>
                 {form.useYn === 'Y' ? '사용' : '미사용'}
               </span>
             </div>
@@ -172,9 +172,9 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
               onChange={(event) => setField('systemNm', event.target.value)}
               placeholder="정보시스템 명을 입력하세요"
               maxLength={100}
-              style={errors.systemNm ? { borderColor: C.red } : undefined}
+              style={errors.systemNm ? { borderColor: colors.red } : undefined}
             />
-            {errors.systemNm ? <span style={{ fontSize: 12, color: C.red, marginTop: 2 }}>{errors.systemNm}</span> : null}
+            {errors.systemNm ? <span style={{ fontSize: 12, color: colors.red, marginTop: 2 }}>{errors.systemNm}</span> : null}
           </FormRow>
 
           <div style={{ display: 'flex', gap: 12 }}>
@@ -183,7 +183,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                 <FormInput
                   value={form.systemId}
                   readOnly
-                  style={{ background: '#F9FAFC', color: C.txS, pointerEvents: 'none', paddingRight: 64 }}
+                  style={{ background: '#F9FAFC', color: colors.textSecondary, pointerEvents: 'none', paddingRight: 64 }}
                 />
                 <span
                   style={{
@@ -192,9 +192,9 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                     top: '50%',
                     transform: 'translateY(-50%)',
                     fontSize: 11,
-                    color: C.txS,
+                    color: colors.textSecondary,
                     fontWeight: 600,
-                    background: C.bgSec,
+                    background: colors.backgroundSecondary,
                     padding: '2px 7px',
                     borderRadius: 3,
                     pointerEvents: 'none',
@@ -208,7 +208,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
               <FormSelect
                 value={form.systemType}
                 onChange={(event) => setField('systemType', event.target.value)}
-                style={errors.systemType ? { borderColor: C.red } : undefined}
+                style={errors.systemType ? { borderColor: colors.red } : undefined}
               >
                 <option value="">선택하세요</option>
                 {SYSTEM_TYPE_OPTIONS.map((option) => (
@@ -217,7 +217,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                   </option>
                 ))}
               </FormSelect>
-              {errors.systemType ? <span style={{ fontSize: 12, color: C.red, marginTop: 2 }}>{errors.systemType}</span> : null}
+              {errors.systemType ? <span style={{ fontSize: 12, color: colors.red, marginTop: 2 }}>{errors.systemType}</span> : null}
             </FormRow>
             <FormRow label="관리주체" style={{ flex: 1 }}>
               <FormSelect value={form.mgmtOrg} onChange={(event) => setField('mgmtOrg', event.target.value)}>
@@ -304,17 +304,17 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                     gap: 4,
                     padding: '4px 10px',
                     borderRadius: 14,
-                    background: C.priL,
-                    color: C.priD,
+                    background: colors.primaryLight,
+                    color: colors.primaryDark,
                     fontSize: 12,
                     fontWeight: 500,
                   }}
                 >
                   {user.userNm}
-                  <span style={{ fontSize: 12, color: C.txL }}>({user.userRole})</span>
+                  <span style={{ fontSize: 12, color: colors.textLight }}>({user.userRole})</span>
                   <span
                     onClick={() => toggleMember(userId)}
-                    style={{ cursor: 'pointer', marginLeft: 2, fontSize: 15, lineHeight: 1, color: C.txL }}
+                    style={{ cursor: 'pointer', marginLeft: 2, fontSize: 15, lineHeight: 1, color: colors.textLight }}
                   >
                     ×
                   </span>
@@ -322,7 +322,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
               );
             })}
             {form.members.length === 0 ? (
-              <span style={{ fontSize: 12, color: C.txL, lineHeight: '32px' }}>구성원이 없습니다. 아래에서 추가하세요.</span>
+              <span style={{ fontSize: 12, color: colors.textLight, lineHeight: '32px' }}>구성원이 없습니다. 아래에서 추가하세요.</span>
             ) : null}
           </div>
 
@@ -342,7 +342,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                 pointerEvents: 'none',
               }}
             >
-              <Icon n="search" s={14} c={C.txL} />
+              <Icon name="search" size={14} color={colors.textLight} />
             </span>
             {memberSearch ? (
               <span
@@ -353,7 +353,7 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                   top: '50%',
                   transform: 'translateY(-50%)',
                   cursor: 'pointer',
-                  color: C.txL,
+                  color: colors.textLight,
                   fontSize: 15,
                   lineHeight: 1,
                 }}
@@ -363,9 +363,9 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
             ) : null}
           </div>
 
-          <div style={{ border: `1px solid ${C.brd}`, borderRadius: 6, maxHeight: 180, overflowY: 'auto' }}>
+          <div style={{ border: `1px solid ${colors.border}`, borderRadius: 6, maxHeight: 180, overflowY: 'auto' }}>
             {filteredUsers.length === 0 ? (
-              <div style={{ padding: '14px', textAlign: 'center', fontSize: 12, color: C.txL }}>
+              <div style={{ padding: '14px', textAlign: 'center', fontSize: 12, color: colors.textLight }}>
                 {memberSearch.trim() ? `"${memberSearch}" 검색 결과가 없습니다.` : '사용자가 없습니다.'}
               </div>
             ) : (
@@ -381,14 +381,14 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                       gap: 10,
                       padding: '8px 12px',
                       cursor: 'pointer',
-                      background: checked ? C.priL : '#fff',
-                      borderBottom: `1px solid ${C.brd}`,
+                      background: checked ? colors.primaryLight : '#fff',
+                      borderBottom: `1px solid ${colors.border}`,
                     }}
                     onMouseEnter={(event) => {
                       if (!checked) event.currentTarget.style.background = '#F9FAFC';
                     }}
                     onMouseLeave={(event) => {
-                      event.currentTarget.style.background = checked ? C.priL : '#fff';
+                      event.currentTarget.style.background = checked ? colors.primaryLight : '#fff';
                     }}
                   >
                     <div
@@ -396,8 +396,8 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                         width: 16,
                         height: 16,
                         borderRadius: 3,
-                        border: `2px solid ${checked ? C.pri : C.brd}`,
-                        background: checked ? C.pri : '#fff',
+                        border: `2px solid ${checked ? colors.primary : colors.border}`,
+                        background: checked ? colors.primary : '#fff',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -410,14 +410,14 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
                         </svg>
                       ) : null}
                     </div>
-                    <span style={{ fontSize: 13, color: checked ? C.pri : C.txt, fontWeight: checked ? 600 : 400, flex: 1 }}>
+                    <span style={{ fontSize: 13, color: checked ? colors.primary : colors.text, fontWeight: checked ? 600 : 400, flex: 1 }}>
                       {user.userNm}
                     </span>
-                    <span style={{ fontSize: 12, color: C.txL }}>{user.userId}</span>
+                    <span style={{ fontSize: 12, color: colors.textLight }}>{user.userId}</span>
                     <span
                       style={{
                         fontSize: 12,
-                        color: C.txS,
+                        color: colors.textSecondary,
                         background: '#F0F0F0',
                         padding: '1px 6px',
                         borderRadius: 8,
@@ -430,11 +430,11 @@ export function AddSystemModal({ open, onClose, onSubmit, systems = [] }: AddSys
               })
             )}
           </div>
-          <div style={{ fontSize: 12, color: C.txL, marginTop: 6 }}>{form.members.length}명 선택됨</div>
+          <div style={{ fontSize: 12, color: colors.textLight, marginTop: 6 }}>{form.members.length}명 선택됨</div>
         </div>
       </div>
 
-      <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+      <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
         <Button onClick={onClose}>취소</Button>
         <div style={{ flex: 1 }} />
         <Button variant="primary" onClick={handleSubmit}>

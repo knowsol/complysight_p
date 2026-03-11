@@ -1,0 +1,159 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.savedMsg {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.sortBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 400px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.colPanel {
+  border-right: 1px solid var(--color-border);
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--color-border);
+  background: #f9fafc;
+}
+
+.colTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.colCount {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.sortHint {
+  font-size: 12px;
+  color: var(--color-primary);
+  background: #eef2ff;
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--color-primary-light);
+}
+
+.addBtn {
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--color-primary);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.scrollBox {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.emptyCol {
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.catRow {
+  display: flex;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.12s, opacity 0.12s;
+  user-select: none;
+}
+
+.dragHandle {
+  margin-right: 8px;
+  flex-shrink: 0;
+  opacity: 0.4;
+}
+
+.catName {
+  flex: 1;
+  font-size: 12px;
+}
+
+.childCount {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-right: 6px;
+}
+
+.editBtn {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-right: 6px;
+  padding: 0 2px;
+}
+
+.delBtn {
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--color-red);
+  font-weight: 600;
+}
+
+.editInput {
+  flex: 1;
+  padding: 2px 6px;
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  outline: none;
+}
+
+.addRow {
+  display: flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: #f0fdf4;
+}
+
+.addInput {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  outline: none;
+}
+
+.addCancel {
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 12px;
+  color: var(--color-text-light);
+}

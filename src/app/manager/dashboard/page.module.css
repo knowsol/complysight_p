@@ -1,0 +1,316 @@
+.topCardsRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.reportSummaryRow {
+  display: flex;
+  gap: 14px;
+}
+
+.reportStatusItem {
+  text-align: center;
+  flex: 1;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.noticeRow {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.noticeTitle {
+  font-size: 14px;
+}
+
+.noticeDate {
+  font-size: 14px;
+  color: var(--color-text-light);
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.span2 {
+  grid-column: span 2;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.tableBase {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.tableHeaderRow {
+  background: var(--color-background);
+}
+
+.thCell {
+  padding: 8px 12px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+  min-width: 64px;
+}
+
+.thCellLeft {
+  text-align: left;
+}
+
+.thCellTight {
+  padding: 8px 8px;
+}
+
+.tdCell {
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.tdCellPadded {
+  padding: 8px 8px;
+}
+
+.sysName {
+  padding: 8px 12px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+  white-space: nowrap;
+}
+
+.sysNameMain {
+  font-size: 12px;
+}
+
+.sysNameMeta {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 1px;
+}
+
+.emptyCellText {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.rateWrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.threeColGrid {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.typeChartCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.typeChartRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.typeName {
+  width: 52px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.typeBar {
+  flex: 1;
+  display: flex;
+  height: 18px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #f9fafc;
+}
+
+.typeCount {
+  font-size: 12px;
+  color: var(--color-text-light);
+  width: 22px;
+  flex-shrink: 0;
+}
+
+.typeLegend {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  padding-left: 60px;
+}
+
+.donutWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.donutLegendRow {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.donutLegendItem {
+  text-align: center;
+}
+
+.donutLegendHead {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+  justify-content: center;
+}
+
+.timelineWrap {
+  position: relative;
+  padding-left: 16px;
+}
+
+.timelineRail {
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 14px;
+}
+
+.timelineMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.timelineTime {
+  font-size: 12px;
+  color: var(--color-text-light);
+  min-width: 50px;
+}
+
+.timelineResource {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.timelineChecklist {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 1px;
+}
+
+.adminGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.recent24 {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.adminOnlyBadge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.licenseExpiry {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 4px;
+}
+
+.coreStatusRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.coreStatusText {
+  font-size: 12px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.coreMetaText {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.runCountStrong {
+  font-weight: 700;
+}
+
+.successCountStrong {
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.failCountStrong {
+  font-weight: 700;
+  color: var(--color-red);
+}
+
+.resultItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.resultTime {
+  color: var(--color-text-light);
+  min-width: 36px;
+}
+
+.resultName {
+  color: var(--color-text-secondary);
+}

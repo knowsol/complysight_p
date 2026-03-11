@@ -1,3 +1,34 @@
+:root {
+  /* ── Base Colors ── */
+  --color-white: #fff;
+  --color-background: #F9FAFC;
+  --color-background-secondary: #E9ECF3;
+  --color-background-disabled: #F7F7F7;
+  --color-border: #EEEEEE;
+  --color-border-dark: #D7D7D7;
+  --color-border-extra: #BBBBBB;
+  --color-text-heading: #111111;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-text-light: #929292;
+  --color-text-muted: #BBBBBB;
+  --color-red: #E24949;
+  --color-green: #19973C;
+  --color-purple: #9333EA;
+
+  /* ── Theme Colors (Manager default) ── */
+  --color-primary: #339CD5;
+  --color-primary-light: #E6F3FA;
+  --color-primary-dark: #2580AF;
+  --color-secondary: #457CE1;
+  --color-secondary-light: #457CE11A;
+  --color-brand: #005CB9;
+  --color-brand-dark: #004A94;
+  --color-brand-gradient: linear-gradient(135deg, #005cb9 0%, #339cd5 100%);
+  --color-brand-background: linear-gradient(160deg, #003e82 0%, #005CB9 60%, #0a2a5e 100%);
+  --color-accent: #0C8CE9;
+}
+
 body {
   margin: 0;
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;

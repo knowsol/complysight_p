@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export interface ToggleSwitchProps {
   on: boolean;
@@ -16,7 +16,7 @@ export function ToggleSwitch({ on, onClick, disabled }: ToggleSwitchProps) {
         width: 44,
         height: 24,
         borderRadius: 12,
-        background: on ? C.sec : C.brdD,
+        background: on ? colors.secondary : colors.borderDark,
         position: 'relative',
         cursor: disabled ? 'not-allowed' : 'pointer',
         flexShrink: 0,

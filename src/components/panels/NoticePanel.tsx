@@ -8,7 +8,7 @@ import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { FormInput, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { useEditPanel } from '@/lib/hooks/use-edit-panel';
 import type { Notice } from '@/types/notice';
 
@@ -112,7 +112,7 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
     return (
       <SidePanel open={open} onClose={onClose} title="공지사항 상세" width={580} noScroll>
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
-          <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: '14px 16px', background: '#fff', position: 'relative' }}>
+          <div style={{ border: `1px solid ${colors.border}`, borderRadius: 10, padding: '14px 16px', background: '#fff', position: 'relative' }}>
             <span
               style={{
                 position: 'absolute',
@@ -123,35 +123,35 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
                 padding: '2px 10px',
                 borderRadius: 10,
                 background: 'rgba(59,130,246,0.10)',
-                color: C.pri,
+                color: colors.primary,
                 border: '1px solid rgba(59,130,246,0.22)',
               }}
             >
               {item.scope || '전체'}
             </span>
-            <div style={{ fontSize: 12, color: C.txL, marginBottom: 4 }}>공지사항</div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: C.txH, paddingRight: 96, lineHeight: 1.4 }}>{item.title}</div>
-            <div style={{ fontSize: 12, color: C.txL, marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 4 }}>공지사항</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading, paddingRight: 96, lineHeight: 1.4 }}>{item.title}</div>
+            <div style={{ fontSize: 12, color: colors.textLight, marginTop: 4 }}>
               {[item.user, item.dt].filter(Boolean).join(' · ')}
             </div>
-            <div style={{ marginTop: 14, paddingTop: 12, borderTop: `1px solid ${C.brd}` }}>
-              <div style={{ fontSize: 11, color: C.txL, marginBottom: 6 }}>내용</div>
-              <div style={{ fontSize: 13, color: C.txt, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{item.content || '—'}</div>
+            <div style={{ marginTop: 14, paddingTop: 12, borderTop: `1px solid ${colors.border}` }}>
+              <div style={{ fontSize: 11, color: colors.textLight, marginBottom: 6 }}>내용</div>
+              <div style={{ fontSize: 13, color: colors.text, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{item.content || '—'}</div>
             </div>
-            <div style={{ marginTop: 14, paddingTop: 12, borderTop: `1px solid ${C.brd}` }}>
-              <div style={{ fontSize: 11, color: C.txL, marginBottom: 6 }}>첨부파일</div>
+            <div style={{ marginTop: 14, paddingTop: 12, borderTop: `1px solid ${colors.border}` }}>
+              <div style={{ fontSize: 11, color: colors.textLight, marginBottom: 6 }}>첨부파일</div>
               {item.file ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#F9FAFC' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', border: `1px solid ${colors.border}`, borderRadius: 6, background: '#F9FAFC' }}>
                   <span style={{ flex: 1, fontSize: 12, fontWeight: 500 }}>{item.file}</span>
-                  <span style={{ fontSize: 12, color: C.pri, fontWeight: 600 }}>다운로드</span>
+                  <span style={{ fontSize: 12, color: colors.primary, fontWeight: 600 }}>다운로드</span>
                 </div>
               ) : (
-                <div style={{ fontSize: 12, color: C.txL }}>첨부파일 없음</div>
+                <div style={{ fontSize: 12, color: colors.textLight }}>첨부파일 없음</div>
               )}
             </div>
           </div>
         </div>
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           <Button onClick={onClose}>닫기</Button>
         </div>
       </SidePanel>
@@ -179,7 +179,7 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
             <FormRow label="사용유무">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.st === '사용'} onClick={() => !ro && setField('st', form.st === '사용' ? '미사용' : '사용')} disabled={ro} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === '사용' ? C.pri : C.txL }}>{form.st}</span>
+                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === '사용' ? colors.primary : colors.textLight }}>{form.st}</span>
               </div>
             </FormRow>
 
@@ -198,18 +198,18 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
 
             <FormRow label="첨부파일">
               {form.attachFile ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#F9FAFC' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: `1px solid ${colors.border}`, borderRadius: 6, background: '#F9FAFC' }}>
                   <span style={{ flex: 1, fontSize: 12, fontWeight: 500 }}>{form.attachFile.name}</span>
                   {!ro ? (
-                    <span onClick={() => setField('attachFile', null)} style={{ cursor: 'pointer', color: C.txL, fontSize: 18, lineHeight: 1 }}>
+                    <span onClick={() => setField('attachFile', null)} style={{ cursor: 'pointer', color: colors.textLight, fontSize: 18, lineHeight: 1 }}>
                       ×
                     </span>
                   ) : (
-                    <span style={{ fontSize: 12, color: C.pri, fontWeight: 600 }}>다운로드</span>
+                    <span style={{ fontSize: 12, color: colors.primary, fontWeight: 600 }}>다운로드</span>
                   )}
                 </div>
               ) : ro ? (
-                <div style={{ padding: '8px 12px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#F9FAFC', fontSize: 12, color: C.txL }}>첨부파일 없음</div>
+                <div style={{ padding: '8px 12px', border: `1px solid ${colors.border}`, borderRadius: 6, background: '#F9FAFC', fontSize: 12, color: colors.textLight }}>첨부파일 없음</div>
               ) : (
                 <label
                   style={{
@@ -217,14 +217,14 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
                     alignItems: 'center',
                     gap: 8,
                     padding: '10px 14px',
-                    border: `2px dashed ${C.brd}`,
+                    border: `2px dashed ${colors.border}`,
                     borderRadius: 6,
                     cursor: 'pointer',
                     background: '#fff',
                   }}
                 >
-                  <span style={{ fontSize: 12, color: C.txL }}>파일을 선택하거나 드래그하세요</span>
-                  <span style={{ fontSize: 12, color: C.txL, marginLeft: 'auto' }}>PDF, DOCX, XLSX, HWP</span>
+                  <span style={{ fontSize: 12, color: colors.textLight }}>파일을 선택하거나 드래그하세요</span>
+                  <span style={{ fontSize: 12, color: colors.textLight, marginLeft: 'auto' }}>PDF, DOCX, XLSX, HWP</span>
                   <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.hwp" style={{ display: 'none' }} onChange={attachFile} />
                 </label>
               )}
@@ -242,7 +242,7 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
             <FormRow label="배너공지">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.banner === 'Y'} onClick={() => !ro && setField('banner', form.banner === 'Y' ? 'N' : 'Y')} disabled={ro} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: form.banner === 'Y' ? C.pri : C.txL }}>{form.banner === 'Y' ? '사용' : '미사용'}</span>
+                <span style={{ fontSize: 13, fontWeight: 500, color: form.banner === 'Y' ? colors.primary : colors.textLight }}>{form.banner === 'Y' ? '사용' : '미사용'}</span>
               </div>
             </FormRow>
 
@@ -260,7 +260,7 @@ export function NoticePanel({ open, onClose, item, viewOnly = false, onSave, onD
           </div>
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isNew || editMode ? (
               <>

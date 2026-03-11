@@ -1,0 +1,50 @@
+.secBtnRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hintText {
+  font-size: 12px;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.codeText {
+  color: var(--color-text-secondary);
+}
+
+.nameText {
+  font-weight: 600;
+}
+
+.descText {
+  color: var(--color-text-secondary);
+}
+
+.editInput {
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 5px;
+  outline: none;
+  text-align: left;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 3px rgba(51, 156, 213, 0.13);
+}
+
+.savedText {
+  font-size: 12px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.actionBtns {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}

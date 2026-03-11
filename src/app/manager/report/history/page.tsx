@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import type { CSSProperties } from 'react';
 import { useDI } from '@/contexts/DIContext';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Card } from '@/components/ui/Card';
@@ -11,11 +12,13 @@ import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { InspFilter } from '@/components/ui/InspFilter';
 import { PageSidebarLayout } from '@/components/ui/PageSidebarLayout';
-import { C } from '@/lib/theme/colors';
-import { LABEL_STYLE_SM } from '@/lib/theme/styles';
+import { colors } from '@/lib/theme/colors';
+import { FREQ_COLORS } from '@/lib/theme/status-colors';
+import { FreqBadge } from '@/components/ui/StyleUtils';
 import { SYS } from '@/data/manager';
 import { _dailyMenu } from '@/data/inspections';
 import { DailyReportPanel } from '@/components/panels';
+import css from './page.module.css';
 
 
 const MgrInspD = () => {
@@ -47,67 +50,75 @@ const MgrInspD = () => {
     return true;
   });
   const title = fSub ? `${fKind} > ${fSub}` : fKind || "전체현황";
-  const FC = { "상시":"#0891B2","매일":"#0C8CE9","매주":"#19973C","매월":"#F36D00","분기":"#7C3AED","반기":"#E24949","연간":"#333333" };
+  const styles = {
+    checkbox: (checked: boolean) => ({
+      width: 16, height: 16, borderRadius: 3, margin: "0 auto", cursor: "pointer",
+      border: `2px solid ${checked ? colors.primary : colors.border}`,
+      background: checked ? colors.primary : "#fff",
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }) as CSSProperties,
+    abnCount: (v: number) => ({ fontWeight: 700, color: v > 0 ? "#E24949" : colors.textLight }) as CSSProperties,
+    noteText: (v: string) => (v ? { color: "#F36D00", fontWeight: 500 } : { color: colors.textLight }) as CSSProperties,
+  };
 
-  return <div style={{ display:"flex", flexDirection:"column", flex:1, minHeight:0 }}>
-    <PageHeader title="보고이력" bc="홈 > 점검현황 > 보고이력" />
+  return <div className={css.wrapper}>
+    <PageHeader title="보고이력" breadcrumb="홈 > 점검현황 > 보고이력" />
     <PageSidebarLayout
       sidebar={
-        <Card title="점검종류" style={{ height:"100%", overflow:"hidden", display:"flex", flexDirection:"column" }}>
-          <InspFilter menus={_dailyMenu} sel={fKind} sub={fSub} onSelect={(k,s)=>{ setFKind(k); setFSub(s); setApplied(p=>({...p, fKind:k, fSub:s})); }} data={di} />
-        </Card>
+        <div className={css.sidebarCard}>
+          <Card title="점검종류" style={{ display: 'flex', flexDirection: 'column' }}>
+            <InspFilter menus={_dailyMenu} sel={fKind} sub={fSub} onSelect={(k,s)=>{ setFKind(k); setFSub(s); setApplied(p=>({...p, fKind:k, fSub:s})); }} data={di} />
+          </Card>
+        </div>
       }
     >
 
         {/* 검색폼 */}
-        <div style={{ width: "100%", border: `1px solid ${C.brd}`, background: C.bg, borderRadius: 6, padding: "16px 12px", display: "flex", gap: 8, marginBottom: 16, alignItems: "stretch" }}>
-          <div style={{ display:"flex", gap:8, flexWrap:"wrap", alignItems:"flex-end" }}>
+        <div className={css.searchForm}>
+          <div className={css.filterGroup}>
 
             {/* 정보시스템 */}
-            <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
-              <span style={{ ...LABEL_STYLE_SM }}>정보시스템</span>
+            <div className={css.filterCol}>
+              <span className={css.labelSm}>정보시스템</span>
               <FormSelect value={fSys} onChange={e=>setFSys(e.target.value)}
-                style={{ padding:"6px 12px", border:`1px solid ${C.brd}`, borderRadius:4,
-                  fontSize:15, outline:"none", color:C.txt, background:"#fff",
-                  fontFamily:"inherit", minWidth:120 }}>
+                className={css.selectStyle}>
                 <option value="">전체</option>
                 {SYS.map(s => <option key={s.id} value={s.id}>{s.nm}</option>)}
               </FormSelect>
             </div>
 
             {/* 제출일시 레인지 */}
-            <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
-              <span style={{ ...LABEL_STYLE_SM }}>제출일시</span>
-              <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                <DatePicker value={dtFrom} onChange={v => { setDtFrom(v); if (dtTo && v > dtTo) setDtTo(v); }} style={{ width: 130 }} />
-                <span style={{ fontSize:12, color:C.txL }}>~</span>
-                <DatePicker value={dtTo} onChange={v => { setDtTo(v); if (dtFrom && v < dtFrom) setDtFrom(v); }} style={{ width: 130 }} />
+            <div className={css.filterCol}>
+              <span className={css.labelSm}>제출일시</span>
+              <div className={css.dateRow}>
+                <DatePicker value={dtFrom} onChange={v => { setDtFrom(v); if (dtTo && v > dtTo) setDtTo(v); }} className={css.datePicker} />
+                <span className={css.dateSep}>~</span>
+                <DatePicker value={dtTo} onChange={v => { setDtTo(v); if (dtFrom && v < dtFrom) setDtFrom(v); }} className={css.datePicker} />
               </div>
             </div>
 
             {/* 자원명/점검자 */}
-            <div style={{ display:"flex", flexDirection:"column", gap:6, minWidth:"fit-content" }}>
-              <span style={{ ...LABEL_STYLE_SM }}>자원명/점검자</span>
+            <div className={css.filterCol}>
+              <span className={css.labelSm}>자원명/점검자</span>
               <FormInput value={kw} onChange={e=>setKw(e.target.value)}
                 onKeyDown={e=>e.key==="Enter"&&doSearch()}
                 placeholder="자원명 또는 점검자"
-                style={{ padding:"6px 12px", border:`1px solid ${C.brd}`, borderRadius:4,
-                  fontSize:15, outline:"none", color:C.txt, background:"#fff", minWidth:120, fontFamily:"inherit" }} />
+                className={css.inputStyle} />
             </div>
           </div>
 
-          <div style={{ display:"flex", gap:6, marginLeft:"auto", flexShrink:0, alignSelf:"stretch" }}>
+          <div className={css.searchBtnGroup}>
             <SearchBtn onClick={doSearch} />
             <RefreshBtn onClick={doReset} />
           </div>
         </div>
 
-        <DataTable secTitle={title} secCount={filtered.length}
+        <DataTable sectionTitle={title} sectionCount={filtered.length}
           onRow={row => setSelItem(row)}
-          secButtons={
+          sectionButtons={
             <Button sm primary={checkedIds.length > 0} disabled={checkedIds.length === 0}
               onClick={()=>{ if(checkedIds.length>0) alert(`${checkedIds.length}건 보고서 일괄 다운로드`); }}
-              style={{ display:"inline-flex", alignItems:"center", gap:6 }}>
+              className={css.dlBtn}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
               </svg>
@@ -115,39 +126,35 @@ const MgrInspD = () => {
             </Button>
           }
           cols={[
-          { t: <div onClick={e => { e.stopPropagation(); setCheckedIds(checkedIds.length === filtered.length && filtered.length > 0 ? [] : filtered.map(x=>x.id)); }}
-                style={{ width:16, height:16, borderRadius:3, margin:"0 auto", cursor:"pointer",
-                  border:`2px solid ${checkedIds.length===filtered.length&&filtered.length>0 ? C.pri : C.brd}`,
-                  background: checkedIds.length===filtered.length&&filtered.length>0 ? C.pri : "#fff",
-                  display:"flex", alignItems:"center", justifyContent:"center" }}>
+          { title: <div onClick={e => { e.stopPropagation(); setCheckedIds(checkedIds.length === filtered.length && filtered.length > 0 ? [] : filtered.map(x=>x.id)); }}
+                className={css.checkbox}
+                style={styles.checkbox(checkedIds.length===filtered.length&&filtered.length>0)}>
                 {checkedIds.length===filtered.length&&filtered.length>0
                   ? <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  : checkedIds.length>0 && <div style={{width:8,height:2,background:C.pri,borderRadius:1}}/>}
+                  : checkedIds.length>0 && <div className={css.indeterminate}/>} 
               </div>,
-            k: "id", w: 44,
-            r: (v, row) => <div onClick={e => { e.stopPropagation(); setCheckedIds(p => checkedIds.includes(v) ? p.filter(x=>x!==v) : [...p, v]); }}
-              style={{ width:16, height:16, borderRadius:3, margin:"0 auto", cursor:"pointer",
-                border:`2px solid ${checkedIds.includes(v) ? C.pri : C.brd}`,
-                background: checkedIds.includes(v) ? C.pri : "#fff",
-                display:"flex", alignItems:"center", justifyContent:"center" }}>
+            fieldKey: "id", width: 44,
+            renderCell: (v, row) => <div onClick={e => { e.stopPropagation(); setCheckedIds(p => checkedIds.includes(v) ? p.filter(x=>x!==v) : [...p, v]); }}
+              className={css.checkbox}
+              style={styles.checkbox(checkedIds.includes(v))}>
               {checkedIds.includes(v) && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
             </div> },
-          { t: "보고서 유형", k: "freq",     w: 90,
-            r: v => <span style={{ display:"inline-block", padding:"2px 10px", borderRadius:10, fontWeight:700, background:(FC[v]||C.txS)+"1A", color:FC[v]||C.txS }}>{v}</span> },
-          { t: "정보시스템", k: "sysNm",     mw: 120, align: "left" },
-          { t: "대상자원",   k: "resNm",     mw: 150, align: "left",
-            r: v => <span style={{ fontWeight:600, color:C.pri }}>{v}</span> },
-          { t: "점검표",     k: "clNm",      mw: 150, align: "left" },
-          { t: "점검자",     k: "insp" },
-          { t: "점검일시",   k: "execDt" },
-          { t: "제출일시",   k: "submitDt" },
-          { t: "정상",       k: "normalCnt", w: 70,
-            r: v => <span style={{ fontWeight:700, color:"#19973C" }}>{v}</span> },
-          { t: "비정상",     k: "abnCnt",    w: 70,
-            r: v => <span style={{ fontWeight:700, color: v > 0 ? "#E24949" : C.txL }}>{v}</span> },
-          { t: "특이사항",   k: "note",      mw: 160, align: "left",
-            r: v => v ? <span style={{ color:"#F36D00", fontWeight:500 }}>{v}</span>
-                      : <span style={{ color:C.txL }}>-</span> },
+          { title: "보고서 유형", fieldKey: "freq",     width: 90,
+            renderCell: v => <FreqBadge key={FREQ_COLORS[v] || v} freq={v} /> },
+          { title: "정보시스템", fieldKey: "sysNm",     minWidth: 120, align: "left" },
+          { title: "대상자원",   fieldKey: "resNm",     minWidth: 150, align: "left",
+            renderCell: v => <span className={css.linkText}>{v}</span> },
+          { title: "점검표",     fieldKey: "clNm",      minWidth: 150, align: "left" },
+          { title: "점검자",     fieldKey: "insp" },
+          { title: "점검일시",   fieldKey: "execDt" },
+          { title: "제출일시",   fieldKey: "submitDt" },
+          { title: "정상",       fieldKey: "normalCnt", width: 70,
+            renderCell: v => <span className={css.normalCount}>{v}</span> },
+          { title: "비정상",     fieldKey: "abnCnt",    width: 70,
+            renderCell: v => <span className={css.abnCount} style={styles.abnCount(v)}>{v}</span> },
+          { title: "특이사항",   fieldKey: "note",      minWidth: 160, align: "left",
+            renderCell: v => v ? <span style={styles.noteText(v)}>{v}</span>
+                      : <span style={styles.noteText(v)}>-</span> },
         ]} data={filtered} />
     </PageSidebarLayout>
     <DailyReportPanel open={!!selItem} onClose={()=>setSelItem(null)} item={selItem} />

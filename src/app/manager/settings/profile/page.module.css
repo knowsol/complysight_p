@@ -1,0 +1,113 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.formCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 28px 32px;
+}
+
+.divider {
+  border-top: 1px solid var(--color-border);
+  margin: 20px 0;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoPreview {
+  width: 120px;
+  height: 48px;
+  border: 2px dashed var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafc;
+  flex-shrink: 0;
+}
+
+.logoPreviewText {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.fileLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  background: #fff;
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
+.fileHint {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 4px;
+}
+
+.successMsg {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  font-size: 12px;
+  color: #16a34a;
+  margin-bottom: 12px;
+}
+
+.footerBar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.summaryCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 22px 22px;
+}
+
+.summaryTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 16px;
+}
+
+.kvRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.kvLabel {
+  color: var(--color-text-secondary);
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.kvValue {
+  color: var(--color-text);
+  word-break: break-all;
+}

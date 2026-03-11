@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 interface HeaderUser {
   userNm: string;
@@ -79,11 +79,11 @@ export default function Header({
 
   return (
     <>
-      <div style={{ background: C.brand, position: 'fixed', top: bannerH, left: 0, width: '100%', zIndex: 200 }}>
+      <div style={{ background: colors.brand, position: 'fixed', top: bannerH, left: 0, width: '100%', zIndex: 200 }}>
         <div
           style={{
             height: 67,
-            background: C.bg,
+            background: colors.background,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -99,7 +99,7 @@ export default function Header({
                 width: 34,
                 height: 34,
                 borderRadius: 8,
-                background: C.brandG,
+                background: colors.brandGradient,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -110,8 +110,8 @@ export default function Header({
             >
               C
             </div>
-            <span style={{ fontSize: 18, fontWeight: 600, color: C.txH }}>
-              <span style={{ color: C.brand }}>COMPLY</span>
+            <span style={{ fontSize: 18, fontWeight: 600, color: colors.textHeading }}>
+              <span style={{ color: colors.brand }}>COMPLY</span>
               SIGHT
               <span
                 onClick={user?.userRole !== '사용자' ? onSiteSwitch : undefined}
@@ -119,7 +119,7 @@ export default function Header({
                   paddingLeft: 12,
                   fontSize: 18,
                   fontWeight: 600,
-                  color: C.brand,
+                  color: colors.brand,
                   cursor: user?.userRole !== '사용자' ? 'pointer' : 'default',
                   transition: 'opacity .2s',
                 }}
@@ -139,9 +139,9 @@ export default function Header({
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <span style={{ color: C.txt, fontSize: 12 }}>고객행복센터</span>
-            <div style={{ width: 1, height: 12, background: C.brdD }} />
-            <span style={{ color: C.txt, fontSize: 12 }}>
+            <span style={{ color: colors.text, fontSize: 12 }}>고객행복센터</span>
+            <div style={{ width: 1, height: 12, background: colors.borderDark }} />
+            <span style={{ color: colors.text, fontSize: 12 }}>
               업무담당자 : <span style={{ fontWeight: 700 }}>{user?.userNm}</span>
               <span
                 onClick={onPwChange}
@@ -163,7 +163,7 @@ export default function Header({
                   event.currentTarget.style.opacity = '0.5';
                 }}
               >
-                <Icon n="gear" s={13} c={C.txS} />
+                <Icon name="gear" size={13} color={colors.textSecondary} />
               </span>
             </span>
 
@@ -180,10 +180,10 @@ export default function Header({
                 transition: 'all .3s',
               }}
             >
-              <Icon n="clock" s={12} c={isWarning ? '#ef4444' : C.txS} />
+              <Icon name="clock" size={12} color={isWarning ? '#ef4444' : colors.textSecondary} />
               <span
                 style={{
-                  color: isWarning ? '#ef4444' : C.txS,
+                  color: isWarning ? '#ef4444' : colors.textSecondary,
                   fontWeight: isWarning ? 700 : 400,
                   fontVariantNumeric: 'tabular-nums',
                   minWidth: 34,
@@ -194,11 +194,11 @@ export default function Header({
               <span
                 onClick={extendSession}
                 style={{
-                  color: isWarning ? '#ef4444' : C.accent,
+                  color: isWarning ? '#ef4444' : colors.accent,
                   fontWeight: 600,
                   cursor: 'pointer',
                   paddingLeft: 4,
-                  borderLeft: `1px solid ${isWarning ? '#fca5a5' : C.brdD}`,
+                  borderLeft: `1px solid ${isWarning ? '#fca5a5' : colors.borderDark}`,
                   marginLeft: 2,
                   transition: 'opacity .2s',
                 }}
@@ -223,11 +223,11 @@ export default function Header({
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 4,
-                border: `1px solid ${C.brd}`,
+                border: `1px solid ${colors.border}`,
               }}
               title="로그아웃"
             >
-              <Icon n="out" s={16} c={C.txS} />
+              <Icon name="out" size={16} color={colors.textSecondary} />
             </div>
           </div>
         </div>
@@ -273,8 +273,8 @@ export default function Header({
                 <circle cx="12" cy="16" r="1" fill="#ef4444" />
               </svg>
             </div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: C.txH, marginBottom: 8 }}>세션이 만료되었습니다</div>
-            <div style={{ fontSize: 12, color: C.txS, lineHeight: 1.6, marginBottom: 28 }}>
+            <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading, marginBottom: 8 }}>세션이 만료되었습니다</div>
+            <div style={{ fontSize: 12, color: colors.textSecondary, lineHeight: 1.6, marginBottom: 28 }}>
               장시간 미사용으로 로그인 세션이 만료되었습니다.
               <br />
               보안을 위해 자동으로 로그아웃됩니다.
@@ -287,7 +287,7 @@ export default function Header({
                 minHeight: 38,
                 borderRadius: 6,
                 border: 'none',
-                background: C.brand,
+                background: colors.brand,
                 color: '#fff',
                 fontSize: 14,
                 fontWeight: 600,

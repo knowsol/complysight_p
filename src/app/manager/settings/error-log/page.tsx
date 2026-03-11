@@ -9,9 +9,10 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { Button } from '@/components/ui/Button';
 import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DateRangePicker } from '@/components/ui/DatePicker';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM, fInput, fSelect } from '@/lib/theme/styles';
 import { SCH } from '@/data/inspections';
+import css from './page.module.css';
 
 
 const MgrErrorLog = () => {
@@ -53,6 +54,8 @@ const MgrErrorLog = () => {
   const [applied,  setApplied]  = useState({ keyword:"", errType:"전체", module:"전체", dateFrom:"2026-02-22", dateTo:"2026-02-24" });
   const [selLog,   setSelLog]   = useState(null);
 
+
+
   const filtered = logs.filter(l => {
     const kw = applied.keyword.trim().toLowerCase();
     if (kw && !l.msg.toLowerCase().includes(kw) && !l.user.toLowerCase().includes(kw) && !l.module.toLowerCase().includes(kw)) return false;
@@ -75,28 +78,28 @@ const MgrErrorLog = () => {
 
   return (
     <div>
-      <PageHeader title="에러로그" bc="홈 > 로그정보 > 에러로그" />
+      <PageHeader title="에러로그" breadcrumb="홈 > 로그정보 > 에러로그" />
       <div>
 
         {/* ── 검색 영역 (searchform) ── */}
         <SearchBar onSearch={search} onReset={reset}>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>오류유형</span>
             <FormSelect value={errType} onChange={e=>setErrType(e.target.value)} style={{...fSelect, width:"auto"}}>
               {ERR_TYPES.map(v=><option key={v}>{v}</option>)}
             </FormSelect>
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>발생모듈</span>
             <FormSelect value={module} onChange={e=>setModule(e.target.value)} style={{...fSelect, width:"auto"}}>
               {MODULES.map(v=><option key={v}>{v}</option>)}
             </FormSelect>
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>기간</span>
             <DateRangePicker from={dateFrom} to={dateTo} onFromChange={setDateFrom} onToChange={setDateTo} />
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>키워드</span>
             <FormInput value={keyword} onChange={e=>setKeyword(e.target.value)} onKeyDown={e=>e.key==="Enter"&&search()}
               placeholder="오류 메시지, 사용자, 모듈" style={{...fInput, minWidth:120}} />
@@ -104,18 +107,18 @@ const MgrErrorLog = () => {
         </SearchBar>
 
         <DataTable
-          secTitle="에러 이력"
-          secCount={filtered.length}
-          secButtons={<Button onClick={()=>{}} style={{marginRight:4}}>📥 엑셀 다운로드</Button>}
+          sectionTitle="에러 이력"
+          sectionCount={filtered.length}
+          sectionButtons={<Button onClick={()=>{}} style={{marginRight:4}}>📥 엑셀 다운로드</Button>}
           data={filtered}
           cols={[
-            { t:"No.",      k:"id",      w:60,  r:(_,l,i)=><span style={{color:C.txL}}>{filtered.length - i}</span> },
-            { t:"오류유형",  k:"errType", w:70,  r:(v)=><Badge status={v}/> },
-            { t:"발생모듈",  k:"module",  w:150, align:"left" },
-            { t:"오류메시지", k:"msg",    align:"left",
-              r:(v)=><div style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{v}</div> },
-            { t:"사용자",   k:"user",    w:80 },
-            { t:"발생일시",  k:"dt",      w:150 },
+            { title:"No.",      fieldKey:"id",      width:60,  renderCell:(_,l,i)=><span className={css.rowNum}>{String(filtered.length - i)}</span> },
+            { title:"오류유형",  fieldKey:"errType", width:70,  renderCell:(v)=><Badge status={v}/> },
+            { title:"발생모듈",  fieldKey:"module",  width:150, align:"left" },
+            { title:"오류메시지", fieldKey:"msg",    align:"left",
+              renderCell:(v)=><div className={css.msgOverflow}>{v}</div> },
+            { title:"사용자",   fieldKey:"user",    width:80 },
+            { title:"발생일시",  fieldKey:"dt",      width:150 },
           ]}
         />
       </div>

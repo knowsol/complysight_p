@@ -1,0 +1,66 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.searchForm {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  border-radius: 6px;
+  padding: 16px 12px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: stretch;
+}
+
+.filterGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: fit-content;
+}
+
+.searchBtnGroup {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.inputStyle {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 15px;
+  outline: none;
+  color: var(--color-text);
+  background: #fff;
+  min-width: 200px;
+  font-family: inherit;
+}
+
+.linkText {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.fileLink {
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.noFile {
+  color: var(--color-text-light);
+}

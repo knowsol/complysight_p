@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export interface RadioProps {
   options?: [string, string][];
@@ -16,10 +16,10 @@ export const Radio = ({ options = [['Y', '사용'], ['N', '미사용']], value, 
       <label
         key={v}
         onClick={() => !disabled && onChange(v)}
-        style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 15, color: disabled ? C.txL : C.txH, cursor: disabled ? 'not-allowed' : 'pointer', userSelect: 'none' }}
+        style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 15, color: disabled ? colors.textLight : colors.textHeading, cursor: disabled ? 'not-allowed' : 'pointer', userSelect: 'none' }}
       >
-        <div style={{ width: 18, height: 18, borderRadius: '50%', flexShrink: 0, border: `2px solid ${value === v ? C.sec : C.brdD}`, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {value === v && <div style={{ width: 10, height: 10, borderRadius: '50%', background: C.sec }} />}
+        <div style={{ width: 18, height: 18, borderRadius: '50%', flexShrink: 0, border: `2px solid ${value === v ? colors.secondary : colors.borderDark}`, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {value === v && <div style={{ width: 10, height: 10, borderRadius: '50%', background: colors.secondary }} />}
         </div>
         {l}
       </label>

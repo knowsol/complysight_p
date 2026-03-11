@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ArrowUpLeftFromSquare, PanelLeftClose } from 'lucide-react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export type ViewMode = 'panel' | 'modal';
 
@@ -19,8 +19,8 @@ export interface SidePanelProps {
 let _viewMode: ViewMode = 'panel';
 
 export const getViewMode = (): ViewMode => _viewMode;
-export const setViewMode = (m: ViewMode) => {
-  _viewMode = m;
+export const setViewMode = (newMode: ViewMode) => {
+  _viewMode = newMode;
 };
 
 export const SidePanel = ({ open, onClose, onOverlayClick, title, width = 520, children, noScroll = false }: SidePanelProps) => {
@@ -71,15 +71,15 @@ export const SidePanel = ({ open, onClose, onOverlayClick, title, width = 520, c
       <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div onClick={handleOverlayClick} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.5)', animation: closing ? 'fadeOut .22s ease forwards' : 'fadeIn .2s ease' }} />
         <div style={{ position: 'relative', background: '#fff', borderRadius: 8, width, maxWidth: '92vw', maxHeight: '88vh', height: noScroll ? '88vh' : undefined, display: 'flex', flexDirection: 'column', boxShadow: '0 20px 60px rgba(0,0,0,.2)', animation: closing ? 'modalOut .22s ease forwards' : 'modalIn .2s ease', transition: 'width .25s ease' }}>
-          <div style={{ padding: '18px 24px', borderBottom: `1px solid ${C.brd}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-            <span style={{ fontSize: 18, fontWeight: 600, color: C.txH }}>{title}</span>
+          <div style={{ padding: '18px 24px', borderBottom: `1px solid ${colors.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+            <span style={{ fontSize: 18, fontWeight: 600, color: colors.textHeading }}>{title}</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <div
                 onClick={toggleMode}
                 title="사이드 패널로 전환"
-                style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: C.txL }}
+                style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: colors.textLight }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = C.bg;
+                  e.currentTarget.style.background = colors.background;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = '';
@@ -89,9 +89,9 @@ export const SidePanel = ({ open, onClose, onOverlayClick, title, width = 520, c
               </div>
               <div
                 onClick={handleOverlayClick}
-                style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: C.txL, fontSize: 18 }}
+                style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: colors.textLight, fontSize: 18 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = C.bg;
+                  e.currentTarget.style.background = colors.background;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = '';
@@ -112,15 +112,15 @@ export const SidePanel = ({ open, onClose, onOverlayClick, title, width = 520, c
     <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', justifyContent: 'flex-end' }}>
       <div onClick={handleOverlayClick} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.35)', animation: closing ? 'fadeOut .22s ease forwards' : 'fadeIn .2s ease' }} />
       <div style={{ position: 'relative', width, maxWidth: '94vw', height: '100vh', background: '#fff', display: 'flex', flexDirection: 'column', boxShadow: '-8px 0 30px rgba(0,0,0,.12)', animation: closing ? 'slideOut .22s ease forwards' : 'slideIn .25s ease' }}>
-        <div style={{ padding: '18px 24px', borderBottom: `1px solid ${C.brd}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-          <span style={{ fontSize: 18, fontWeight: 600, color: C.txH }}>{title}</span>
+        <div style={{ padding: '18px 24px', borderBottom: `1px solid ${colors.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+          <span style={{ fontSize: 18, fontWeight: 600, color: colors.textHeading }}>{title}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <div
               onClick={toggleMode}
               title="레이어 팝업으로 전환"
-              style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: C.txL }}
+              style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: colors.textLight }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = C.bg;
+                e.currentTarget.style.background = colors.background;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = '';
@@ -130,7 +130,7 @@ export const SidePanel = ({ open, onClose, onOverlayClick, title, width = 520, c
             </div>
             <div
               onClick={handleOverlayClick}
-              style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: C.txL, fontSize: 18 }}
+              style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: colors.textLight, fontSize: 18 }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = '#F9FAFC';
               }}

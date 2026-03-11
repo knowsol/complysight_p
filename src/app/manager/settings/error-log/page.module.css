@@ -1,0 +1,16 @@
+.filterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.rowNum {
+  color: var(--color-text-light);
+}
+
+.msgOverflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

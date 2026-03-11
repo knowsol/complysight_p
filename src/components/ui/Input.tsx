@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { fInput, fSelect, fTextarea } from '@/lib/theme/styles';
 
 export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -40,10 +40,10 @@ export const FormInput = ({ style, ...props }: FormInputProps) => (
   <input
     style={{ ...fInput, ...style }}
     onFocus={(e) => {
-      e.target.style.borderColor = C.sec;
+      e.target.style.borderColor = colors.secondary;
     }}
     onBlur={(e) => {
-      e.target.style.borderColor = C.brd;
+      e.target.style.borderColor = colors.border;
     }}
     {...props}
   />
@@ -53,10 +53,10 @@ export const FormSelect = ({ style, children, ...props }: FormSelectProps) => (
   <select
     style={{ ...fSelect, ...style }}
     onFocus={(e) => {
-      e.target.style.borderColor = C.sec;
+      e.target.style.borderColor = colors.secondary;
     }}
     onBlur={(e) => {
-      e.target.style.borderColor = C.brd;
+      e.target.style.borderColor = colors.border;
     }}
     {...props}
   >
@@ -68,10 +68,10 @@ export const FormTextarea = ({ style, ...props }: FormTextareaProps) => (
   <textarea
     style={{ ...fTextarea, ...style }}
     onFocus={(e) => {
-      e.target.style.borderColor = C.sec;
+      e.target.style.borderColor = colors.secondary;
     }}
     onBlur={(e) => {
-      e.target.style.borderColor = C.brd;
+      e.target.style.borderColor = colors.border;
     }}
     {...props}
   />
@@ -103,7 +103,7 @@ export const ReadOnlySelect = ({ readOnly, value, onChange, style, children, pla
     return React.createElement('input', {
       readOnly: true,
       value: label,
-      style: { ...fInput, background: '#F9FAFC', color: C.txt, cursor: 'default' },
+      style: { ...fInput, background: '#F9FAFC', color: colors.text, cursor: 'default' },
     });
   }
 

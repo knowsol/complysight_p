@@ -12,7 +12,7 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { Icon } from '@/components/ui/Icon';
 import { RES, CL_INIT } from '@/data';
 import { SYS } from '@/data/systems';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { PRETENDARD_FONT } from '@/lib/theme/styles';
 
 const setCookie = (name, value, days = 365) => {
@@ -374,13 +374,13 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
           const secH = (ex = {}) => ({ padding: '5px 10px', border: '1px solid #333', background: '#2d5a8e', color: '#fff', fontSize: 12, fontWeight: 700, textAlign: 'center', letterSpacing: 2, ...ex });
 
           return (
-            <div style={{ flex: 1, minWidth: 0, borderRight: `1px solid ${C.brd}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ padding: '14px 20px 12px', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, background: '#FAFBFC' }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: C.txH }}>보고서 미리보기</span>
-                <span style={{ fontSize: 12, color: C.txL, background: '#F0F5FF', padding: '2px 8px', borderRadius: 10, border: `1px solid ${C.priL}` }}>점검 결과 기준</span>
+            <div style={{ flex: 1, minWidth: 0, borderRight: `1px solid ${colors.border}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              <div style={{ padding: '14px 20px 12px', borderBottom: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, background: '#FAFBFC' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: colors.textHeading }}>보고서 미리보기</span>
+                <span style={{ fontSize: 12, color: colors.textLight, background: '#F0F5FF', padding: '2px 8px', borderRadius: 10, border: `1px solid ${colors.primaryLight}` }}>점검 결과 기준</span>
               </div>
               <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
-                <div style={{ border: `1px solid ${C.brd}`, borderRadius: 6, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)', fontFamily: PRETENDARD_FONT, background: '#fff', padding: '20px 24px', color: '#111' }}>
+                <div style={{ border: `1px solid ${colors.border}`, borderRadius: 6, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)', fontFamily: PRETENDARD_FONT, background: '#fff', padding: '20px 24px', color: '#111' }}>
                   <div style={{ textAlign: 'center', marginBottom: 16 }}>
                     <div style={{ fontSize: 18, fontWeight: 900, letterSpacing: 10, color: '#1a3a5c', borderBottom: '3px solid #1a3a5c', paddingBottom: 8, marginBottom: 4 }}>일 상 점 검 보 고 서</div>
                     <div style={{ fontSize: 12, color: '#444', marginTop: 6 }}>{item?.clNm} &nbsp;|&nbsp; {item?.execDt?.slice(0, 10)}</div>
@@ -448,12 +448,12 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                 const isLast = i === STEPS.length - 1;
                 const filled = curStep > i;
                 const comp = active && isLast;
-                const col = active || done ? (comp ? '#19973C' : C.pri) : C.txL;
+                const col = active || done ? (comp ? '#19973C' : colors.primary) : colors.textLight;
                 return (
                   <React.Fragment key={n}>
-                    {i > 0 && <div style={{ flex: 1, height: 2, minWidth: 8, background: filled ? (comp ? '#19973C' : C.pri) : C.brd, transition: 'background .3s' }} />}
+                    {i > 0 && <div style={{ flex: 1, height: 2, minWidth: 8, background: filled ? (comp ? '#19973C' : colors.primary) : colors.border, transition: 'background .3s' }} />}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                      <div style={{ width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, transition: 'all .3s', background: comp ? '#19973C' : active ? C.pri : done ? C.pri : '#F3F4F6', color: active || done ? '#fff' : C.txL, boxShadow: active ? `0 0 0 3px ${comp ? '#19973C' : C.pri}33` : 'none' }}>
+                      <div style={{ width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, transition: 'all .3s', background: comp ? '#19973C' : active ? colors.primary : done ? colors.primary : '#F3F4F6', color: active || done ? '#fff' : colors.textLight, boxShadow: active ? `0 0 0 3px ${comp ? '#19973C' : colors.primary}33` : 'none' }}>
                         {done ? '✓' : n}
                       </div>
                       <span style={{ fontSize: 12, fontWeight: 600, color: col, whiteSpace: 'nowrap' }}>{l}</span>
@@ -466,40 +466,40 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
             {freeMode && step === 1 && (
               <>
                 <SectionTitle label="대상 자원 선택" />
-                <div style={{ fontSize: 12, color: C.txL, marginBottom: 10 }}>
-                  점검할 자원을 1개 선택하세요. <span style={{ color: C.pri, fontWeight: 600 }}>{myRes.length}개</span>의 자원이 등록되어 있습니다.
+                <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 10 }}>
+                  점검할 자원을 1개 선택하세요. <span style={{ color: colors.primary, fontWeight: 600 }}>{myRes.length}개</span>의 자원이 등록되어 있습니다.
                 </div>
                 <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-                  <FormSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', minWidth: 120, outline: 'none' }}>
+                  <FormSelect value={resSys} onChange={(e) => { setResSys(e.target.value); setResCat(''); }} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', minWidth: 120, outline: 'none' }}>
                     <option value="">전체 시스템</option>
                     {SYS.filter((s) => myRes.some((r) => r.sysId === s.id)).map((s) => <option key={s.id} value={s.id}>{s.nm}</option>)}
                   </FormSelect>
-                  <FormSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', minWidth: 90, outline: 'none' }}>
+                  <FormSelect value={resCat} onChange={(e) => setResCat(e.target.value)} style={{ padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', minWidth: 90, outline: 'none' }}>
                     <option value="">전체 분류</option>
                     {cats.map((c) => <option key={c} value={c}>{c}</option>)}
                   </FormSelect>
                   <div style={{ position: 'relative', flex: 1, minWidth: 140 }}>
-                    <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
+                    <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
                     <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                      <Icon n="search" s={12} c={C.txL} />
+                      <Icon name="search" size={12} color={colors.textLight} />
                     </span>
-                    {resSearch && <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL }}>×</span>}
+                    {resSearch && <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: colors.textLight }}>×</span>}
                   </div>
                 </div>
 
                 {selRes && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', marginBottom: 10, borderRadius: 8, border: `1.5px solid ${C.pri}`, background: C.priL + '44' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.pri} strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', marginBottom: 10, borderRadius: 8, border: `1.5px solid ${colors.primary}`, background: colors.primaryLight + '44' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={colors.primary} strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: C.pri }}>{selRes.nm}</div>
-                      <div style={{ fontSize: 12, color: C.txL }}>{selRes.mid} · {selRes.ip || '—'}</div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: colors.primary }}>{selRes.nm}</div>
+                      <div style={{ fontSize: 12, color: colors.textLight }}>{selRes.mid} · {selRes.ip || '—'}</div>
                     </div>
-                    <span onClick={() => setSelRes(null)} style={{ cursor: 'pointer', color: C.txL, fontSize: 18 }}>×</span>
+                    <span onClick={() => setSelRes(null)} style={{ cursor: 'pointer', color: colors.textLight, fontSize: 18 }}>×</span>
                   </div>
                 )}
 
-                <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden', maxHeight: 320, overflowY: 'auto' }}>
-                  {visRes.length === 0 ? <div style={{ padding: 24, textAlign: 'center', fontSize: 12, color: C.txL }}>조건에 맞는 자원이 없습니다.</div> : [...visRes].sort((a, b) => {
+                <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, overflow: 'hidden', maxHeight: 320, overflowY: 'auto' }}>
+                  {visRes.length === 0 ? <div style={{ padding: 24, textAlign: 'center', fontSize: 12, color: colors.textLight }}>조건에 맞는 자원이 없습니다.</div> : [...visRes].sort((a, b) => {
                     const aCl = CL_INIT.find((c) => c.sub === a.mid) ? 1 : 0;
                     const bCl = CL_INIT.find((c) => c.sub === b.mid) ? 1 : 0;
                     return bCl - aCl;
@@ -511,21 +511,21 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                       <div
                         key={r.id}
                         onClick={() => { if (!disabled) setSelRes(r); }}
-                        style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderBottom: `1px solid ${C.brd}`, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.45 : 1, background: isSel ? C.priL + '44' : '#fff', borderLeft: isSel ? `3px solid ${C.pri}` : '3px solid transparent', transition: 'background .12s' }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderBottom: `1px solid ${colors.border}`, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.45 : 1, background: isSel ? colors.primaryLight + '44' : '#fff', borderLeft: isSel ? `3px solid ${colors.primary}` : '3px solid transparent', transition: 'background .12s' }}
                         onMouseEnter={(e) => { if (!disabled && !isSel) e.currentTarget.style.background = '#F5F7FF'; }}
                         onMouseLeave={(e) => { if (!disabled && !isSel) e.currentTarget.style.background = '#fff'; }}
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontWeight: 600, fontSize: 12, color: disabled ? C.txL : isSel ? C.pri : C.txt, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nm}</div>
-                          <div style={{ fontSize: 12, color: C.txL, marginTop: 2 }}>{r.mid} · {r.ip || '—'}</div>
+                          <div style={{ fontWeight: 600, fontSize: 12, color: disabled ? colors.textLight : isSel ? colors.primary : colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nm}</div>
+                          <div style={{ fontSize: 12, color: colors.textLight, marginTop: 2 }}>{r.mid} · {r.ip || '—'}</div>
                         </div>
-                        <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 8, fontWeight: 600, flexShrink: 0, background: cl ? '#dcfce7' : '#F3F4F6', color: cl ? '#166534' : C.txL }}>{cl ? cl.nm : '점검표 없음'}</span>
-                        {isSel && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.pri} strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                        <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 8, fontWeight: 600, flexShrink: 0, background: cl ? '#dcfce7' : '#F3F4F6', color: cl ? '#166534' : colors.textLight }}>{cl ? cl.nm : '점검표 없음'}</span>
+                        {isSel && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={colors.primary} strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
                       </div>
                     );
                   })}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, paddingTop: 16, marginTop: 16, borderTop: `1px solid ${C.brd}` }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, paddingTop: 16, marginTop: 16, borderTop: `1px solid ${colors.border}` }}>
                   <Button onClick={onClose}>취소</Button>
                   <Button primary onClick={() => selRes && handleFreeCreate()} style={{ opacity: selRes ? 1 : 0.4, cursor: selRes ? 'pointer' : 'not-allowed' }}>점검 시작 →</Button>
                 </div>
@@ -533,21 +533,21 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
             )}
 
             {(!freeMode || step >= 2) && (
-              <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: '14px 16px', marginBottom: 18, background: '#fff', position: 'relative' }}>
+              <div style={{ border: `1px solid ${colors.border}`, borderRadius: 10, padding: '14px 16px', marginBottom: 18, background: '#fff', position: 'relative' }}>
                 {isComp && rptType && (() => {
                   const RPT_COLOR = { 일일: '#0C8CE9', 주간: '#19973C', 월간: '#F36D00', 분기: '#7C3AED', 반기: '#E24949', 연간: '#333333', 상시: '#0891B2' };
                   const col = RPT_COLOR[rptType] || '#333';
                   return <span style={{ position: 'absolute', top: 12, right: 14, display: 'inline-block', padding: '2px 10px', borderRadius: 10, fontWeight: 700, background: col + '1A', color: col, border: `1px solid ${col}33` }}>{rptType}</span>;
                 })()}
-                <div style={{ fontSize: 12, color: C.txL, marginBottom: 4 }}>대상 자원</div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: C.txH, marginBottom: 4 }}>{freeMode ? selRes?.nm : activeItem?.resNm}</div>
-                <div style={{ fontSize: 12, color: C.txL }}>{[freeMode ? selRes?.mid : activeItem?.mid, freeMode ? selRes?.ip : activeItem?.ip, freeMode ? selRes?.sysNm : activeItem?.sysNm].filter(Boolean).join(' · ')}</div>
+                <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 4 }}>대상 자원</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading, marginBottom: 4 }}>{freeMode ? selRes?.nm : activeItem?.resNm}</div>
+                <div style={{ fontSize: 12, color: colors.textLight }}>{[freeMode ? selRes?.mid : activeItem?.mid, freeMode ? selRes?.ip : activeItem?.ip, freeMode ? selRes?.sysNm : activeItem?.sysNm].filter(Boolean).join(' · ')}</div>
                 {activeItem?.clNm && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 20px', marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.brd}` }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 20px', marginTop: 12, paddingTop: 10, borderTop: `1px solid ${colors.border}` }}>
                     {[[ '점검표', activeItem.clNm ], [ '점검자', activeItem.insp ], [ '수행일시', activeItem.execDt ], ...(!freeMode ? [[ '제출일시', activeItem.submitDt && activeItem.submitDt !== '-' ? activeItem.submitDt : '-' ]] : [])].map(([l, v]) => (
                       <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <span style={{ fontSize: 12, color: C.txL }}>{l}</span>
-                        <span style={{ fontSize: 12, fontWeight: 600, color: C.txt }}>{v || '—'}</span>
+                        <span style={{ fontSize: 12, color: colors.textLight }}>{l}</span>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{v || '—'}</span>
                       </div>
                     ))}
                   </div>
@@ -580,20 +580,20 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                   {(() => {
                     const sel = autoHistory[0];
                     if (!sel) {
-                      return <div style={{ padding: '28px 16px', borderRadius: 8, border: `1.5px dashed ${C.brd}`, textAlign: 'center', color: C.txL, background: '#FAFBFC' }}><div style={{ fontSize: 12, marginBottom: 4 }}>자동점검 수행 버튼을 눌러 점검을 시작하세요.</div></div>;
+                      return <div style={{ padding: '28px 16px', borderRadius: 8, border: `1.5px dashed ${colors.border}`, textAlign: 'center', color: colors.textLight, background: '#FAFBFC' }}><div style={{ fontSize: 12, marginBottom: 4 }}>자동점검 수행 버튼을 눌러 점검을 시작하세요.</div></div>;
                     }
                     const { items, norm, abn, dt } = sel;
                     return (
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                           <div style={{ display: 'flex', gap: 5 }}>
-                            {[[`정상 ${norm}건`, '#D1FAE5', '#15803d'], [`비정상 ${abn}건`, abn > 0 ? '#FEE2E2' : '#F3F4F6', abn > 0 ? '#dc2626' : C.txL], [`전체 ${items.length}건`, C.priL, C.pri]].map(([l, bg, tc]) => <span key={l} style={{ fontSize: 12, padding: '3px 9px', borderRadius: 8, background: bg, color: tc, fontWeight: 700 }}>{l}</span>)}
+                            {[[`정상 ${norm}건`, '#D1FAE5', '#15803d'], [`비정상 ${abn}건`, abn > 0 ? '#FEE2E2' : '#F3F4F6', abn > 0 ? '#dc2626' : colors.textLight], [`전체 ${items.length}건`, colors.primaryLight, colors.primary]].map(([l, bg, tc]) => <span key={l} style={{ fontSize: 12, padding: '3px 9px', borderRadius: 8, background: bg, color: tc, fontWeight: 700 }}>{l}</span>)}
                           </div>
-                          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}><span style={{ fontSize: 9, color: C.txL, fontWeight: 500 }}>수행일시</span><span style={{ fontSize: 11, color: C.txS, fontFamily: 'inherit' }}>{dt}</span></span>
+                          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}><span style={{ fontSize: 9, color: colors.textLight, fontWeight: 500 }}>수행일시</span><span style={{ fontSize: 11, color: colors.textSecondary, fontFamily: 'inherit' }}>{dt}</span></span>
                         </div>
-                        <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden', marginBottom: isComp ? 0 : 8 }}>
+                        <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, overflow: 'hidden', marginBottom: isComp ? 0 : 8 }}>
                           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-                            <thead><tr style={{ background: '#F8FAFC' }}>{['점검항목', '기준', '결과값', '판정'].map((h, i) => <th key={i} style={{ padding: '7px 9px', fontWeight: 600, color: C.txS, textAlign: i === 0 ? 'left' : 'center', borderBottom: `1px solid ${C.brd}`, fontSize: 12 }}>{h}</th>)}</tr></thead>
+                            <thead><tr style={{ background: '#F8FAFC' }}>{['점검항목', '기준', '결과값', '판정'].map((h, i) => <th key={i} style={{ padding: '7px 9px', fontWeight: 600, color: colors.textSecondary, textAlign: i === 0 ? 'left' : 'center', borderBottom: `1px solid ${colors.border}`, fontSize: 12 }}>{h}</th>)}</tr></thead>
                             <tbody>
                               {items.map((r, i) => {
                                 const isAbn = r.result === '비정상';
@@ -602,21 +602,21 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                                 const [lc, lbg] = LEVEL_STYLE[errDet?.level] || ['#dc2626', '#FFF8F8'];
                                 return (
                                   <React.Fragment key={r.id}>
-                                    <tr style={{ borderBottom: isAbn && errDet ? 'none' : `1px solid ${C.brd}`, background: isAbn ? '#FFF8F8' : i % 2 === 0 ? '#fff' : '#FAFBFC' }}>
-                                      <td style={{ padding: '7px 9px', fontWeight: 600, color: C.txH }}>{r.nm}</td>
-                                      <td style={{ padding: '7px 9px', textAlign: 'center', color: C.txS, fontFamily: 'inherit' }}>{r.std}</td>
+                                    <tr style={{ borderBottom: isAbn && errDet ? 'none' : `1px solid ${colors.border}`, background: isAbn ? '#FFF8F8' : i % 2 === 0 ? '#fff' : '#FAFBFC' }}>
+                                      <td style={{ padding: '7px 9px', fontWeight: 600, color: colors.textHeading }}>{r.nm}</td>
+                                      <td style={{ padding: '7px 9px', textAlign: 'center', color: colors.textSecondary, fontFamily: 'inherit' }}>{r.std}</td>
                                       <td style={{ padding: '7px 9px', textAlign: 'center', fontFamily: 'inherit', fontWeight: 700, fontSize: 12, color: isAbn ? '#dc2626' : '#15803d' }}>{r.val}</td>
                                       <td style={{ padding: '7px 9px', textAlign: 'center' }}><span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 8, background: isAbn ? '#FEE2E2' : '#D1FAE5', color: isAbn ? '#dc2626' : '#15803d' }}>{r.result}</span></td>
                                     </tr>
                                     {isAbn && errDet && (
-                                      <tr style={{ borderBottom: `1px solid ${C.brd}` }}>
+                                      <tr style={{ borderBottom: `1px solid ${colors.border}` }}>
                                         <td colSpan={4} style={{ padding: '0 9px 10px 9px', background: '#FFF8F8' }}>
                                           <div style={{ borderRadius: 6, border: '1px solid #FECACA', background: lbg, padding: '10px 12px' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}><span style={{ fontSize: 12, fontWeight: 700, padding: '2px 7px', borderRadius: 4, background: lc + '22', color: lc, border: `1px solid ${lc}44`, letterSpacing: 0.5 }}>{errDet.level}</span><span style={{ fontFamily: 'inherit', fontWeight: 700, color: lc, letterSpacing: 0.5 }}>{errDet.code}</span></div>
                                             <div style={{ fontFamily: 'inherit', color: '#374151', background: 'rgba(0,0,0,.04)', borderRadius: 4, padding: '6px 8px', marginBottom: 8, wordBreak: 'break-all', lineHeight: 1.5 }}>{errDet.msg}</div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                              <div style={{ display: 'flex', gap: 6 }}><span style={{ fontWeight: 700, color: C.txS, flexShrink: 0, width: 32 }}>원인</span><span style={{ color: C.txS }}>{errDet.cause}</span></div>
-                                              <div style={{ display: 'flex', gap: 6 }}><span style={{ fontWeight: 700, color: lc, flexShrink: 0, width: 32 }}>조치</span><span style={{ color: C.txH, fontWeight: 500 }}>{errDet.action}</span></div>
+                                              <div style={{ display: 'flex', gap: 6 }}><span style={{ fontWeight: 700, color: colors.textSecondary, flexShrink: 0, width: 32 }}>원인</span><span style={{ color: colors.textSecondary }}>{errDet.cause}</span></div>
+                                              <div style={{ display: 'flex', gap: 6 }}><span style={{ fontWeight: 700, color: lc, flexShrink: 0, width: 32 }}>조치</span><span style={{ color: colors.textHeading, fontWeight: 500 }}>{errDet.action}</span></div>
                                             </div>
                                           </div>
                                         </td>
@@ -666,19 +666,19 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                         const itemPhotos = eyeItemPhotos[e.id] || [];
                         const isAbn = val === '비정상';
                         return (
-                          <div key={e.id} style={{ borderRadius: 8, marginBottom: 8, border: `1px solid ${isAbn ? '#fecaca' : val === '정상' ? '#bbf7d0' : C.brd}`, background: isAbn ? '#FFF8F8' : val === '정상' ? '#F0FDF4' : '#fff', overflow: 'hidden' }}>
+                          <div key={e.id} style={{ borderRadius: 8, marginBottom: 8, border: `1px solid ${isAbn ? '#fecaca' : val === '정상' ? '#bbf7d0' : colors.border}`, background: isAbn ? '#FFF8F8' : val === '정상' ? '#F0FDF4' : '#fff', overflow: 'hidden' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px' }}>
-                              <div><div style={{ fontSize: 12, fontWeight: 500, color: C.txt }}>{e.nm}</div><div style={{ fontSize: 12, color: C.txL, marginTop: 2 }}>기준: {e.std}</div></div>
+                              <div><div style={{ fontSize: 12, fontWeight: 500, color: colors.text }}>{e.nm}</div><div style={{ fontSize: 12, color: colors.textLight, marginTop: 2 }}>기준: {e.std}</div></div>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <div style={{ display: 'flex', gap: 6 }}>
                                   {['정상', '비정상'].map((r) => {
                                     const active = val === r;
                                     const col = r === '정상' ? '#19973C' : '#dc2626';
-                                    return <button key={r} onClick={() => !isComp && setEyeRes((p) => ({ ...p, [e.id]: r }))} style={{ padding: '4px 14px', fontSize: 12, fontWeight: 600, borderRadius: 4, border: `1.5px solid ${active ? col : C.brd}`, background: active ? col + '1A' : '#fff', color: active ? col : C.txS, cursor: isComp ? 'default' : 'pointer', transition: 'all .15s' }}>{r}</button>;
+                                    return <button key={r} onClick={() => !isComp && setEyeRes((p) => ({ ...p, [e.id]: r }))} style={{ padding: '4px 14px', fontSize: 12, fontWeight: 600, borderRadius: 4, border: `1.5px solid ${active ? col : colors.border}`, background: active ? col + '1A' : '#fff', color: active ? col : colors.textSecondary, cursor: isComp ? 'default' : 'pointer', transition: 'all .15s' }}>{r}</button>;
                                   })}
                                 </div>
                                 {!isComp && (
-                                  <label style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 14px', borderRadius: 4, border: `1.5px solid ${itemPhotos.length > 0 ? C.pri : C.brd}`, background: itemPhotos.length > 0 ? C.priL : '#fff', color: itemPhotos.length > 0 ? C.pri : C.txS, fontWeight: 600, fontSize: 12, cursor: 'pointer', transition: 'all .15s', flexShrink: 0 }} onMouseEnter={(ev) => { ev.currentTarget.style.borderColor = C.pri; ev.currentTarget.style.color = C.pri; ev.currentTarget.style.background = C.priL; }} onMouseLeave={(ev) => { if (!itemPhotos.length) { ev.currentTarget.style.borderColor = C.brd; ev.currentTarget.style.color = C.txS; ev.currentTarget.style.background = '#fff'; } }}>
+                                  <label style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 14px', borderRadius: 4, border: `1.5px solid ${itemPhotos.length > 0 ? colors.primary : colors.border}`, background: itemPhotos.length > 0 ? colors.primaryLight : '#fff', color: itemPhotos.length > 0 ? colors.primary : colors.textSecondary, fontWeight: 600, fontSize: 12, cursor: 'pointer', transition: 'all .15s', flexShrink: 0 }} onMouseEnter={(ev) => { ev.currentTarget.style.borderColor = colors.primary; ev.currentTarget.style.color = colors.primary; ev.currentTarget.style.background = colors.primaryLight; }} onMouseLeave={(ev) => { if (!itemPhotos.length) { ev.currentTarget.style.borderColor = colors.border; ev.currentTarget.style.color = colors.textSecondary; ev.currentTarget.style.background = '#fff'; } }}>
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="12" cy="12" r="3.5" /><path d="M9 5l1.5-2h3L15 5" /></svg>
                                     {itemPhotos.length > 0 ? `${itemPhotos.length}장` : '사진'}
                                     <FormInput type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={(ev) => {
@@ -694,12 +694,12 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                             </div>
                             {itemPhotos.length > 0 && (
                               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: '0 14px 12px', borderTop: `1px dashed ${isAbn ? '#fecaca' : '#bbf7d0'}` }}>
-                                <div style={{ width: '100%', fontSize: 12, color: C.txL, paddingTop: 8, marginBottom: 2 }}>첨부사진</div>
+                                <div style={{ width: '100%', fontSize: 12, color: colors.textLight, paddingTop: 8, marginBottom: 2 }}>첨부사진</div>
                                 {itemPhotos.map((p) => (
-                                  <div key={p.id} style={{ width: 80, height: 64, borderRadius: 6, border: `1px solid ${C.brd}`, background: p.color, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, position: 'relative', flexShrink: 0 }}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="1.5"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="12" cy="12" r="3.5" /><path d="M9 5l1.5-2h3L15 5" /></svg>
-                                    <span style={{ fontSize: 12, color: C.txS, maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', padding: '0 4px', textAlign: 'center' }}>{p.label}</span>
-                                    {!isComp && <span onClick={() => setEyeItemPhotos((prev) => ({ ...prev, [e.id]: (prev[e.id] || []).filter((x) => x.id !== p.id) }))} style={{ position: 'absolute', top: 2, right: 5, fontSize: 12, color: C.txL, cursor: 'pointer', lineHeight: 1 }}>×</span>}
+                                  <div key={p.id} style={{ width: 80, height: 64, borderRadius: 6, border: `1px solid ${colors.border}`, background: p.color, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, position: 'relative', flexShrink: 0 }}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={colors.textLight} strokeWidth="1.5"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="12" cy="12" r="3.5" /><path d="M9 5l1.5-2h3L15 5" /></svg>
+                                    <span style={{ fontSize: 12, color: colors.textSecondary, maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', padding: '0 4px', textAlign: 'center' }}>{p.label}</span>
+                                    {!isComp && <span onClick={() => setEyeItemPhotos((prev) => ({ ...prev, [e.id]: (prev[e.id] || []).filter((x) => x.id !== p.id) }))} style={{ position: 'absolute', top: 2, right: 5, fontSize: 12, color: colors.textLight, cursor: 'pointer', lineHeight: 1 }}>×</span>}
                                   </div>
                                 ))}
                               </div>
@@ -722,12 +722,12 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                   <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 </div>
                 <div style={{ fontSize: 20, fontWeight: 800, color: '#16A34A', marginBottom: 8 }}>점검 완료</div>
-                <div style={{ fontSize: 15, color: C.txS, lineHeight: 1.8, marginBottom: 28 }}><span style={{ fontWeight: 600, color: C.txt }}>{selRes?.nm}</span> 점검이 완료되었습니다.<br />보고서가 성공적으로 제출되었습니다.</div>
-                <div style={{ width: '100%', background: '#F9FAFC', border: `1px solid ${C.brd}`, borderRadius: 10, padding: '16px 20px', textAlign: 'left', marginBottom: 28 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: C.txS, marginBottom: 12 }}>점검 요약</div>
+                <div style={{ fontSize: 15, color: colors.textSecondary, lineHeight: 1.8, marginBottom: 28 }}><span style={{ fontWeight: 600, color: colors.text }}>{selRes?.nm}</span> 점검이 완료되었습니다.<br />보고서가 성공적으로 제출되었습니다.</div>
+                <div style={{ width: '100%', background: '#F9FAFC', border: `1px solid ${colors.border}`, borderRadius: 10, padding: '16px 20px', textAlign: 'left', marginBottom: 28 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: colors.textSecondary, marginBottom: 12 }}>점검 요약</div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 20px' }}>
                     {[[ '대상 자원', selRes?.nm ], [ '점검자', currentUser?.userNm ], [ '보고서 유형', rptType ], [ '육안점검', EYE_ITEMS.every((e) => eyeRes[e.id] === '정상') ? '전체 정상' : '일부 비정상' ], [ '특이사항', note || '없음' ]].map(([l, v]) => (
-                      <div key={l}><div style={{ fontSize: 12, color: C.txL, marginBottom: 2 }}>{l}</div><div style={{ fontSize: 12, fontWeight: 600, color: C.txt }}>{v}</div></div>
+                      <div key={l}><div style={{ fontSize: 12, color: colors.textLight, marginBottom: 2 }}>{l}</div><div style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{v}</div></div>
                     ))}
                   </div>
                 </div>
@@ -736,7 +736,7 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
           </div>
 
           {freeMode && step === 1 && (
-            <div style={{ flexShrink: 0, borderTop: `1px solid ${C.brd}`, padding: '14px 24px', background: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ flexShrink: 0, borderTop: `1px solid ${colors.border}`, padding: '14px 24px', background: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Button onClick={onClose}>취소</Button>
               <div style={{ flex: 1 }} />
               <Button primary onClick={() => selRes && handleFreeCreate()} style={{ opacity: selRes ? 1 : 0.4, cursor: selRes ? 'pointer' : 'not-allowed' }}>점검 시작 →</Button>
@@ -744,7 +744,7 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
           )}
 
           {(!freeMode || step === 2) && (
-            <div style={{ flexShrink: 0, borderTop: `1px solid ${C.brd}`, padding: '14px 24px', background: '#fff', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ flexShrink: 0, borderTop: `1px solid ${colors.border}`, padding: '14px 24px', background: '#fff', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {!isComp && (!autoHistory.length || !eyeDone || !rptType) && (
                 <div style={{ fontSize: 12, color: '#ea580c', display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', borderRadius: 6, background: '#FFF7ED', border: '1px solid #FED7AA' }}>
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}><path d="M7 1.5A5.5 5.5 0 1 0 7 12.5 5.5 5.5 0 0 0 7 1.5zm.5 8H6.5V6.5h1V9.5zm0-4H6.5v-1h1v1z" fill="#ea580c" /></svg>
@@ -752,12 +752,12 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
                 </div>
               )}
               {!isComp && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', borderRadius: 8, border: `1.5px solid ${!rptType ? '#fca5a5' : C.brd}`, background: !rptType ? '#fff8f8' : C.bg, transition: 'all .2s' }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: !rptType ? '#dc2626' : C.txS, flexShrink: 0 }}>보고 유형<span style={{ color: '#dc2626', marginLeft: 3 }}>*</span></span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', borderRadius: 8, border: `1.5px solid ${!rptType ? '#fca5a5' : colors.border}`, background: !rptType ? '#fff8f8' : colors.background, transition: 'all .2s' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: !rptType ? '#dc2626' : colors.textSecondary, flexShrink: 0 }}>보고 유형<span style={{ color: '#dc2626', marginLeft: 3 }}>*</span></span>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, flex: 1 }}>
                     {RPT_TYPES.map((t) => {
                       const active = rptType === t.value;
-                      return <button key={t.value} onClick={() => setRptType(t.value)} style={{ padding: '3px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, border: `1.5px solid ${active ? t.color : C.brd}`, background: active ? t.color + '1A' : '#fff', color: active ? t.color : C.txS, cursor: 'pointer', transition: 'all .15s' }}>{t.value}</button>;
+                      return <button key={t.value} onClick={() => setRptType(t.value)} style={{ padding: '3px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, border: `1.5px solid ${active ? t.color : colors.border}`, background: active ? t.color + '1A' : '#fff', color: active ? t.color : colors.textSecondary, cursor: 'pointer', transition: 'all .15s' }}>{t.value}</button>;
                     })}
                   </div>
                 </div>
@@ -775,7 +775,7 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
           )}
 
           {freeMode && step === 3 && (
-            <div style={{ flexShrink: 0, borderTop: `1px solid ${C.brd}`, padding: '14px 24px', background: '#fff', display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ flexShrink: 0, borderTop: `1px solid ${colors.border}`, padding: '14px 24px', background: '#fff', display: 'flex', justifyContent: 'flex-end' }}>
               <Button primary onClick={onClose} style={{ minWidth: 120, justifyContent: 'center' }}>확인</Button>
             </div>
           )}
@@ -783,19 +783,19 @@ export function StlDailyPanel({ open, onClose, item, currentUser, toast }) {
           {submitConfirm && (
             <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.45)', zIndex: 10001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ background: '#fff', borderRadius: 12, padding: 28, width: 380, boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
-                <div style={{ fontSize: 18, fontWeight: 600, color: C.txH, marginBottom: 8 }}>보고서 제출 확인</div>
-                <div style={{ marginBottom: 14, fontSize: 15, color: C.txS }}>점검 보고서를 제출하시겠습니까?</div>
-                <div style={{ background: '#F9FAFC', border: `1px solid ${C.brd}`, borderRadius: 8, padding: '12px 16px', fontSize: 13, lineHeight: 1.9, marginBottom: 12 }}>
-                  <div style={{ display: 'flex', gap: 8 }}><span style={{ color: C.txL, minWidth: 64 }}>보고 유형</span><span style={{ fontWeight: 700, color: C.txH }}>{rptType}</span></div>
-                  <div style={{ display: 'flex', gap: 8 }}><span style={{ color: C.txL, minWidth: 64 }}>육안점검</span><span style={{ fontWeight: 600, color: C.txH }}>{EYE_ITEMS.every((e) => eyeRes[e.id] === '정상') ? '전체 정상' : '일부 비정상'}</span></div>
-                  <div style={{ display: 'flex', gap: 8 }}><span style={{ color: C.txL, minWidth: 64 }}>특이사항</span><span style={{ color: C.txS }}>{note || '없음'}</span></div>
+                <div style={{ fontSize: 18, fontWeight: 600, color: colors.textHeading, marginBottom: 8 }}>보고서 제출 확인</div>
+                <div style={{ marginBottom: 14, fontSize: 15, color: colors.textSecondary }}>점검 보고서를 제출하시겠습니까?</div>
+                <div style={{ background: '#F9FAFC', border: `1px solid ${colors.border}`, borderRadius: 8, padding: '12px 16px', fontSize: 13, lineHeight: 1.9, marginBottom: 12 }}>
+                  <div style={{ display: 'flex', gap: 8 }}><span style={{ color: colors.textLight, minWidth: 64 }}>보고 유형</span><span style={{ fontWeight: 700, color: colors.textHeading }}>{rptType}</span></div>
+                  <div style={{ display: 'flex', gap: 8 }}><span style={{ color: colors.textLight, minWidth: 64 }}>육안점검</span><span style={{ fontWeight: 600, color: colors.textHeading }}>{EYE_ITEMS.every((e) => eyeRes[e.id] === '정상') ? '전체 정상' : '일부 비정상'}</span></div>
+                  <div style={{ display: 'flex', gap: 8 }}><span style={{ color: colors.textLight, minWidth: 64 }}>특이사항</span><span style={{ color: colors.textSecondary }}>{note || '없음'}</span></div>
                 </div>
                 <div style={{ fontSize: 12, color: '#ea580c', marginBottom: 18 }}>제출 후에는 수정이 불가합니다.</div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20, cursor: 'pointer', userSelect: 'none' }} onClick={() => setSkipCheck((p) => !p)}>
-                  <div style={{ width: 16, height: 16, borderRadius: 3, border: `1.5px solid ${skipCheck ? C.sec : C.brdD}`, background: skipCheck ? C.sec : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all .15s' }}>
+                  <div style={{ width: 16, height: 16, borderRadius: 3, border: `1.5px solid ${skipCheck ? colors.secondary : colors.borderDark}`, background: skipCheck ? colors.secondary : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all .15s' }}>
                     {skipCheck && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
                   </div>
-                  <span style={{ fontSize: 13, color: C.txS }}>다음부터 확인하지 않기</span>
+                  <span style={{ fontSize: 13, color: colors.textSecondary }}>다음부터 확인하지 않기</span>
                 </label>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
                   <Button onClick={() => setSubmitConfirm(false)}>취소</Button>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export interface DateRangePickerProps {
   from?: string;
@@ -26,7 +26,7 @@ export const DateRangePicker = ({ from = '', to = '', onFromChange, onToChange, 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <DatePicker value={from} onChange={handleFromChange} placeholder="시작일" disabled={disabled} style={{ width: 130 }} />
-      <span style={{ color: C.txL, fontSize: 15, flexShrink: 0 }}>~</span>
+      <span style={{ color: colors.textLight, fontSize: 15, flexShrink: 0 }}>~</span>
       <DatePicker value={to} onChange={handleToChange} placeholder="종료일" disabled={disabled} style={{ width: 130 }} />
     </div>
   );

@@ -1,0 +1,135 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebarCard {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchForm {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  border-radius: 6px;
+  padding: 16px 12px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: stretch;
+}
+
+.filterGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: fit-content;
+}
+
+.labelSm {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+  min-height: 18px;
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dateSep {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.datePicker {
+  width: 130px;
+}
+
+.searchBtnGroup {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.dlBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  margin: 0 auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indeterminate {
+  width: 8px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+}
+
+.linkText {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.normalCount {
+  font-weight: 700;
+  color: #19973c;
+}
+
+.abnCount {
+  font-weight: 700;
+}
+
+.selectStyle {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 15px;
+  outline: none;
+  color: var(--color-text);
+  background: #fff;
+  font-family: inherit;
+  min-width: 120px;
+}
+
+.inputStyle {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 15px;
+  outline: none;
+  color: var(--color-text);
+  background: #fff;
+  min-width: 120px;
+  font-family: inherit;
+}

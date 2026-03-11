@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { FormInput } from '@/components/ui/Input';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { fInput, LABEL_STYLE } from '@/lib/theme/styles';
 
 export interface TimePickerProps {
@@ -34,7 +34,7 @@ export const TimePicker = ({ value = '', onChange, placeholder = 'HH:MM', disabl
     return { h: +p[0] || 0, m: +p[1] || 0, s: +p[2] || 0 };
   };
 
-  const fmt = (h: number, m: number, s: number) => (withSeconds ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
+  const formatTime = (h: number, m: number, s: number) => (withSeconds ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
 
   const { h: selH, m: selM, s: selS } = parse(value);
 
@@ -63,22 +63,22 @@ export const TimePicker = ({ value = '', onChange, placeholder = 'HH:MM', disabl
     ...fInput,
     paddingRight: 36,
     cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'pointer',
-    background: disabled || readOnly ? C.bgDis : '#fff',
-    color: value ? C.txt : C.txL,
+    background: disabled || readOnly ? colors.backgroundDisabled : '#fff',
+    color: value ? colors.text : colors.textLight,
     ...sx,
   };
 
   const ColScroll = ({ label, items, selected, onSelect }: ColScrollProps) => (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
       <div style={{ ...LABEL_STYLE }}>{label}</div>
-      <div style={{ height: 180, overflowY: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: `${C.brd} transparent` }}>
+      <div style={{ height: 180, overflowY: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: `${colors.border} transparent` }}>
         {items.map((v) => (
           <div
             key={v}
             onClick={() => onSelect(v)}
-            style={{ padding: '6px 0', textAlign: 'center', cursor: 'pointer', fontSize: 15, fontFamily: 'inherit', borderRadius: 4, background: v === selected ? C.sec : 'none', color: v === selected ? '#fff' : C.txt, fontWeight: v === selected ? 600 : 400, transition: 'background .1s' }}
+            style={{ padding: '6px 0', textAlign: 'center', cursor: 'pointer', fontSize: 15, fontFamily: 'inherit', borderRadius: 4, background: v === selected ? colors.secondary : 'none', color: v === selected ? '#fff' : colors.text, fontWeight: v === selected ? 600 : 400, transition: 'background .1s' }}
             onMouseEnter={(e) => {
-              if (v !== selected) e.currentTarget.style.background = C.secL;
+              if (v !== selected) e.currentTarget.style.background = colors.secondaryLight;
             }}
             onMouseLeave={(e) => {
               if (v !== selected) e.currentTarget.style.background = 'none';
@@ -97,7 +97,7 @@ export const TimePicker = ({ value = '', onChange, placeholder = 'HH:MM', disabl
 
   const now = new Date();
   const setNow = () => {
-    onChange?.(fmt(now.getHours(), now.getMinutes(), withSeconds ? now.getSeconds() : 0));
+    onChange?.(formatTime(now.getHours(), now.getMinutes(), withSeconds ? now.getSeconds() : 0));
     setOpen(false);
   };
 
@@ -107,30 +107,30 @@ export const TimePicker = ({ value = '', onChange, placeholder = 'HH:MM', disabl
         <FormInput readOnly value={value || ''} placeholder={placeholder} onClick={() => { if (!disabled && !readOnly) setOpen((o) => !o); }} disabled={disabled} style={inputStyle} />
         <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', pointerEvents: 'none' }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="6.5" stroke={C.txL} strokeWidth="1.2" />
-            <path d="M8 4.5v4l2.5 2" stroke={C.txL} strokeWidth="1.2" strokeLinecap="round" />
+            <circle cx="8" cy="8" r="6.5" stroke={colors.textLight} strokeWidth="1.2" />
+            <path d="M8 4.5v4l2.5 2" stroke={colors.textLight} strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </span>
       </div>
 
       {open && (
-        <div style={{ position: 'absolute', ...(dropUp ? { bottom: 'calc(100% + 4px)', top: 'auto' } : { top: 'calc(100% + 4px)', bottom: 'auto' }), ...(dropLeft ? { right: 0, left: 'auto' } : { left: 0, right: 'auto' }), zIndex: 1200, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,.12)', padding: '12px 8px', minWidth: withSeconds ? 220 : 160, userSelect: 'none' }}>
-          <div style={{ display: 'flex', gap: 4, alignItems: 'flex-start', borderBottom: `1px solid ${C.brd}`, paddingBottom: 8, marginBottom: 8 }}>
-            <ColScroll label="시" items={hours} selected={selH} onSelect={(h) => onChange?.(fmt(h, selM, selS))} />
-            <div style={{ width: 1, background: C.brd, alignSelf: 'stretch', margin: '20px 0 0' }} />
-            <ColScroll label="분" items={minutes} selected={selM} onSelect={(m) => onChange?.(fmt(selH, m, selS))} />
+        <div style={{ position: 'absolute', ...(dropUp ? { bottom: 'calc(100% + 4px)', top: 'auto' } : { top: 'calc(100% + 4px)', bottom: 'auto' }), ...(dropLeft ? { right: 0, left: 'auto' } : { left: 0, right: 'auto' }), zIndex: 1200, background: '#fff', border: `1px solid ${colors.border}`, borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,.12)', padding: '12px 8px', minWidth: withSeconds ? 220 : 160, userSelect: 'none' }}>
+          <div style={{ display: 'flex', gap: 4, alignItems: 'flex-start', borderBottom: `1px solid ${colors.border}`, paddingBottom: 8, marginBottom: 8 }}>
+            <ColScroll label="시" items={hours} selected={selH} onSelect={(h) => onChange?.(formatTime(h, selM, selS))} />
+            <div style={{ width: 1, background: colors.border, alignSelf: 'stretch', margin: '20px 0 0' }} />
+            <ColScroll label="분" items={minutes} selected={selM} onSelect={(m) => onChange?.(formatTime(selH, m, selS))} />
             {withSeconds && (
               <>
-                <div style={{ width: 1, background: C.brd, alignSelf: 'stretch', margin: '20px 0 0' }} />
-                <ColScroll label="초" items={seconds} selected={selS} onSelect={(s) => onChange?.(fmt(selH, selM, s))} />
+                <div style={{ width: 1, background: colors.border, alignSelf: 'stretch', margin: '20px 0 0' }} />
+                <ColScroll label="초" items={seconds} selected={selS} onSelect={(s) => onChange?.(formatTime(selH, selM, s))} />
               </>
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
-            <button onClick={setNow} style={{ fontSize: 12, color: C.sec, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}>
+            <button onClick={setNow} style={{ fontSize: 12, color: colors.secondary, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}>
               현재 시각
             </button>
-            <button onClick={() => setOpen(false)} style={{ fontSize: 12, color: '#fff', background: C.sec, border: 'none', borderRadius: 4, padding: '4px 12px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}>
+            <button onClick={() => setOpen(false)} style={{ fontSize: 12, color: '#fff', background: colors.secondary, border: 'none', borderRadius: 4, padding: '4px 12px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}>
               확인
             </button>
           </div>

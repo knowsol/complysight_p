@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import type { ReactNode } from 'react';
 
 export interface ModalProps {
@@ -17,14 +17,14 @@ export function Modal({ open, onClose, title, width = 580, children }: ModalProp
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.5)' }} />
-      <div style={{ position: 'relative', background: C.white, borderRadius: 8, width, maxWidth: '92vw', maxHeight: '88vh', display: 'flex', flexDirection: 'column', boxShadow: '0 20px 60px rgba(0,0,0,.2)', animation: 'modalIn .2s ease' }}>
-        <div style={{ padding: '18px 24px', borderBottom: `1px solid ${C.brd}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-          <span style={{ fontSize: 18, fontWeight: 600, color: C.txH }}>{title}</span>
+      <div style={{ position: 'relative', background: colors.white, borderRadius: 8, width, maxWidth: '92vw', maxHeight: '88vh', display: 'flex', flexDirection: 'column', boxShadow: '0 20px 60px rgba(0,0,0,.2)', animation: 'modalIn .2s ease' }}>
+        <div style={{ padding: '18px 24px', borderBottom: `1px solid ${colors.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+          <span style={{ fontSize: 18, fontWeight: 600, color: colors.textHeading }}>{title}</span>
           <div
             onClick={onClose}
-            style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: C.txL, fontSize: 18 }}
+            style={{ width: 32, height: 32, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: colors.textLight, fontSize: 18 }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = C.bg;
+              e.currentTarget.style.background = colors.background;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = '';

@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { DataTable } from '@/components/ui/DataTable';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Button } from '@/components/ui/Button';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { NT } from '@/data/notices';
 import { NoticePanel } from '@/components/panels';
 
@@ -50,27 +50,27 @@ const MgrNotice = ({ readOnly, onBannerOn, onBannerOff }) => {
 
   const listCols = readOnly
     ? [
-        { t: "No", k: "id", w: 60, r: (v, row) => filtered.length - filtered.indexOf(row) },
-        { t: "제목", k: "title", mw: 300, align: "left", r: v => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
-        { t: "등록자", k: "user" },
-        { t: "등록일", k: "dt" },
-        { t: "조회수", k: "views" },
+        { title: "No", fieldKey: "id", width: 60, renderCell: (v, row) => filtered.length - filtered.indexOf(row) },
+        { title: "제목", fieldKey: "title", minWidth: 300, align: "left", renderCell: v => <span style={{ fontWeight: 600, color: colors.primary }}>{v}</span> },
+        { title: "등록자", fieldKey: "user" },
+        { title: "등록일", fieldKey: "dt" },
+        { title: "조회수", fieldKey: "views" },
       ]
     : [
-        { t: "No", k: "id", w: 70, r: (v, row) => filtered.length - filtered.indexOf(row) },
-        { t: "제목", k: "title", mw: 300, align: "left", r: v => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
-        { t: "배너공지", k: "banner", w: 90, r: v => v === "Y"
-          ? <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 10, background: "#EEF4FF", color: C.pri, border: `1px solid ${C.pri}44` }}>ON</span>
-          : <span style={{ fontSize: 11, fontWeight: 500, padding: "2px 8px", borderRadius: 10, background: "#F3F4F6", color: C.txL }}>OFF</span>
+        { title: "No", fieldKey: "id", width: 70, renderCell: (v, row) => filtered.length - filtered.indexOf(row) },
+        { title: "제목", fieldKey: "title", minWidth: 300, align: "left", renderCell: v => <span style={{ fontWeight: 600, color: colors.primary }}>{v}</span> },
+        { title: "배너공지", fieldKey: "banner", width: 90, renderCell: v => v === "Y"
+          ? <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 10, background: "#EEF4FF", color: colors.primary, border: `1px solid ${colors.primary}44` }}>ON</span>
+          : <span style={{ fontSize: 11, fontWeight: 500, padding: "2px 8px", borderRadius: 10, background: "#F3F4F6", color: colors.textLight }}>OFF</span>
         },
-        { t: "조회수", k: "views" }, { t: "작성자", k: "user" }, { t: "등록일", k: "dt" },
+        { title: "조회수", fieldKey: "views" }, { title: "작성자", fieldKey: "user" }, { title: "등록일", fieldKey: "dt" },
       ];
 
   return <div>
-    <PageHeader title="공지사항" bc="홈 > 게시판 > 공지사항" />
-    <SearchBar ph="제목으로 검색" value={kw} onChange={setKw} onSearch={doSearch} onReset={doReset} />
-    <DataTable secTitle="공지사항 목록" secCount={filtered.length}
-      secButtons={!readOnly && <Button variant="primary" onClick={() => setShowAdd(true)}>+ 공지사항 등록</Button>}
+    <PageHeader title="공지사항" breadcrumb="홈 > 게시판 > 공지사항" />
+    <SearchBar placeholder="제목으로 검색" value={kw} onChange={setKw} onSearch={doSearch} onReset={doReset} />
+    <DataTable sectionTitle="공지사항 목록" sectionCount={filtered.length}
+      sectionButtons={!readOnly && <Button variant="primary" onClick={() => setShowAdd(true)}>+ 공지사항 등록</Button>}
       onRow={row => setSelItem(row)} cols={listCols} data={filtered} />
     {!readOnly && <NoticePanel open={showAdd} onClose={() => setShowAdd(false)} item={null} onSave={handleSaveNotice} onDelete={handleDeleteNotice} />}
     <NoticePanel open={!!selItem} onClose={() => setSelItem(null)} item={selItem} viewOnly={readOnly} onSave={handleSaveNotice} onDelete={handleDeleteNotice} />

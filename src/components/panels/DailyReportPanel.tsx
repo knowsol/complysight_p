@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { SectionTitle } from '@/components/ui/FormRow';
 import { SidePanel } from '@/components/ui/SidePanel';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { PRETENDARD_FONT } from '@/lib/theme/styles';
 import type { DailyInspection } from '@/types/inspection';
 
@@ -302,13 +302,13 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
     <SidePanel open={open} onClose={onClose} title="점검 상세" width={showPreview ? 1120 : 560} noScroll>
       <div style={{ display: 'flex', height: '100%' }}>
         {showPreview ? (
-          <div style={{ flex: 1, minWidth: 0, borderRight: `1px solid ${C.brd}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <div style={{ padding: '14px 20px 12px', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, background: '#FAFBFC' }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: C.txH }}>보고서 미리보기</span>
-              <span style={{ fontSize: 12, color: C.txL, background: '#F0F5FF', padding: '2px 8px', borderRadius: 10, border: `1px solid ${C.priL}` }}>실시간 반영</span>
+          <div style={{ flex: 1, minWidth: 0, borderRight: `1px solid ${colors.border}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <div style={{ padding: '14px 20px 12px', borderBottom: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, background: '#FAFBFC' }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: colors.textHeading }}>보고서 미리보기</span>
+              <span style={{ fontSize: 12, color: colors.textLight, background: '#F0F5FF', padding: '2px 8px', borderRadius: 10, border: `1px solid ${colors.primaryLight}` }}>실시간 반영</span>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
-              <div id="report-preview-content" style={{ border: `1px solid ${C.brd}`, borderRadius: 6, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
+              <div id="report-preview-content" style={{ border: `1px solid ${colors.border}`, borderRadius: 6, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
                 <ReportPreview />
               </div>
             </div>
@@ -317,16 +317,16 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
 
         <div style={{ flex: '0 0 560px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
-            <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: '14px 16px', marginBottom: 18, background: '#fff', position: 'relative' }}>
+            <div style={{ border: `1px solid ${colors.border}`, borderRadius: 10, padding: '14px 16px', marginBottom: 18, background: '#fff', position: 'relative' }}>
               <span style={{ position: 'absolute', top: 12, right: 14, display: 'inline-block', padding: '2px 10px', borderRadius: 10, fontSize: 12, fontWeight: 700, background: `${rptColor}1A`, color: rptColor, border: `1px solid ${rptColor}33` }}>
                 {rptType}
               </span>
-              <div style={{ fontSize: 12, color: C.txL, marginBottom: 4 }}>대상 자원</div>
-              <div style={{ fontSize: 18, fontWeight: 700, color: C.txH, marginBottom: 4 }}>{item.resNm}</div>
-              <div style={{ fontSize: 12, color: C.txL }}>
+              <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 4 }}>대상 자원</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading, marginBottom: 4 }}>{item.resNm}</div>
+              <div style={{ fontSize: 12, color: colors.textLight }}>
                 {[item.mid, String((item as Record<string, unknown>).ip || ''), item.sysNm].filter(Boolean).join(' · ')}
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 20px', marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.brd}` }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 20px', marginTop: 12, paddingTop: 10, borderTop: `1px solid ${colors.border}` }}>
                 {[
                   ['점검표', item.clNm],
                   ['점검자', item.insp],
@@ -334,8 +334,8 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
                   ['제출일시', item.submitDt && item.submitDt !== '-' ? item.submitDt : '-'],
                 ].map(([label, value]) => (
                   <div key={String(label)} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <span style={{ fontSize: 12, color: C.txL }}>{label}</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: C.txt }}>{value || '—'}</span>
+                    <span style={{ fontSize: 12, color: colors.textLight }}>{label}</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{value || '—'}</span>
                   </div>
                 ))}
               </div>
@@ -347,23 +347,23 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
             <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
               {[
                 ['정상', normalCnt, '#E8F5EC', '#19973C'],
-                ['비정상', abnCnt, abnCnt > 0 ? '#FEF2F2' : '#F3F4F6', abnCnt > 0 ? '#E24949' : C.txL],
-                ['전체', inspItems.length, C.priL, C.pri],
+                ['비정상', abnCnt, abnCnt > 0 ? '#FEF2F2' : '#F3F4F6', abnCnt > 0 ? '#E24949' : colors.textLight],
+                ['전체', inspItems.length, colors.primaryLight, colors.primary],
               ].map(([label, value, bg, color]) => (
                 <div key={String(label)} style={{ flex: 1, padding: '12px 16px', background: String(bg), borderRadius: 8, textAlign: 'center' }}>
                   <div style={{ fontSize: 18, fontWeight: 700, color: String(color) }}>{value}</div>
-                  <div style={{ fontSize: 12, color: C.txS, marginTop: 2 }}>{label}</div>
+                  <div style={{ fontSize: 12, color: colors.textSecondary, marginTop: 2 }}>{label}</div>
                 </div>
               ))}
             </div>
 
             <SectionTitle label="자동점검" />
-            <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden', marginBottom: 18 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 10px', background: '#F8FAFC', borderBottom: `1px solid ${C.brd}` }}>
+            <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, overflow: 'hidden', marginBottom: 18 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 10px', background: '#F8FAFC', borderBottom: `1px solid ${colors.border}` }}>
                 {[
                   [`정상 ${autoItems.filter((row) => row.result === '정상').length}건`, '#D1FAE5', '#15803d'],
-                  [`비정상 ${autoItems.filter((row) => row.result === '비정상').length}건`, autoItems.some((row) => row.result === '비정상') ? '#FEE2E2' : '#F3F4F6', autoItems.some((row) => row.result === '비정상') ? '#dc2626' : C.txL],
-                  [`전체 ${autoItems.length}건`, C.priL, C.pri],
+                  [`비정상 ${autoItems.filter((row) => row.result === '비정상').length}건`, autoItems.some((row) => row.result === '비정상') ? '#FEE2E2' : '#F3F4F6', autoItems.some((row) => row.result === '비정상') ? '#dc2626' : colors.textLight],
+                  [`전체 ${autoItems.length}건`, colors.primaryLight, colors.primary],
                 ].map(([label, bg, color]) => (
                   <span key={String(label)} style={{ fontSize: 12, padding: '3px 9px', borderRadius: 8, background: String(bg), color: String(color), fontWeight: 700 }}>
                     {label}
@@ -374,7 +374,7 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
                 <thead>
                   <tr style={{ background: '#F8FAFC' }}>
                     {['점검항목', '기준', '결과값', '판정'].map((label, index) => (
-                      <th key={label} style={{ padding: '7px 9px', fontWeight: 600, color: C.txS, textAlign: index === 0 ? 'left' : 'center', borderBottom: `1px solid ${C.brd}` }}>
+                      <th key={label} style={{ padding: '7px 9px', fontWeight: 600, color: colors.textSecondary, textAlign: index === 0 ? 'left' : 'center', borderBottom: `1px solid ${colors.border}` }}>
                         {label}
                       </th>
                     ))}
@@ -387,16 +387,16 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
                     const [levelColor, levelBg] = LEVEL_STYLE[errDetail?.level || 'ERROR'] || ['#dc2626', '#FFF8F8'];
                     return (
                       <React.Fragment key={row.id}>
-                        <tr style={{ borderBottom: isAbn && errDetail ? 'none' : `1px solid ${C.brd}`, background: isAbn ? '#FFF8F8' : index % 2 === 0 ? '#fff' : '#FAFBFC' }}>
-                          <td style={{ padding: '7px 9px', fontWeight: 600, color: C.txH }}>{row.nm}</td>
-                          <td style={{ padding: '7px 9px', textAlign: 'center', color: C.txS, fontFamily: 'inherit' }}>{row.std}</td>
+                        <tr style={{ borderBottom: isAbn && errDetail ? 'none' : `1px solid ${colors.border}`, background: isAbn ? '#FFF8F8' : index % 2 === 0 ? '#fff' : '#FAFBFC' }}>
+                          <td style={{ padding: '7px 9px', fontWeight: 600, color: colors.textHeading }}>{row.nm}</td>
+                          <td style={{ padding: '7px 9px', textAlign: 'center', color: colors.textSecondary, fontFamily: 'inherit' }}>{row.std}</td>
                           <td style={{ padding: '7px 9px', textAlign: 'center', fontFamily: 'inherit', fontWeight: 700, color: isAbn ? '#dc2626' : '#15803d' }}>{row.val}</td>
                           <td style={{ padding: '7px 9px', textAlign: 'center' }}>
                             <span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 8, background: isAbn ? '#FEE2E2' : '#D1FAE5', color: isAbn ? '#dc2626' : '#15803d' }}>{row.result}</span>
                           </td>
                         </tr>
                         {isAbn && errDetail ? (
-                          <tr style={{ borderBottom: `1px solid ${C.brd}` }}>
+                          <tr style={{ borderBottom: `1px solid ${colors.border}` }}>
                             <td colSpan={4} style={{ padding: '0 9px 10px 9px', background: '#FFF8F8' }}>
                               <div style={{ borderRadius: 6, border: '1px solid #FECACA', background: levelBg, padding: '10px 12px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
@@ -406,12 +406,12 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
                                 <div style={{ fontFamily: 'inherit', color: '#374151', background: 'rgba(0,0,0,.04)', borderRadius: 4, padding: '6px 8px', marginBottom: 8, wordBreak: 'break-all', lineHeight: 1.5 }}>{errDetail.msg}</div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                                   <div style={{ display: 'flex', gap: 6, fontSize: 12 }}>
-                                    <span style={{ fontWeight: 700, color: C.txS, flexShrink: 0, width: 32 }}>원인</span>
-                                    <span style={{ color: C.txS }}>{errDetail.cause}</span>
+                                    <span style={{ fontWeight: 700, color: colors.textSecondary, flexShrink: 0, width: 32 }}>원인</span>
+                                    <span style={{ color: colors.textSecondary }}>{errDetail.cause}</span>
                                   </div>
                                   <div style={{ display: 'flex', gap: 6, fontSize: 12 }}>
                                     <span style={{ fontWeight: 700, color: levelColor, flexShrink: 0, width: 32 }}>조치</span>
-                                    <span style={{ color: C.txH, fontWeight: 500 }}>{errDetail.action}</span>
+                                    <span style={{ color: colors.textHeading, fontWeight: 500 }}>{errDetail.action}</span>
                                   </div>
                                 </div>
                               </div>
@@ -431,25 +431,25 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
                 const isAbn = row.result === '비정상';
                 const photos = eyeItemPhotos[`e${row.id - 6}`] || [];
                 return (
-                  <div key={row.id} style={{ borderRadius: 8, marginBottom: 8, border: `1px solid ${isAbn ? '#fecaca' : row.result === '정상' ? '#bbf7d0' : C.brd}`, background: isAbn ? '#FFF8F8' : row.result === '정상' ? '#F0FDF4' : '#fff', overflow: 'hidden' }}>
+                  <div key={row.id} style={{ borderRadius: 8, marginBottom: 8, border: `1px solid ${isAbn ? '#fecaca' : row.result === '정상' ? '#bbf7d0' : colors.border}`, background: isAbn ? '#FFF8F8' : row.result === '정상' ? '#F0FDF4' : '#fff', overflow: 'hidden' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px' }}>
                       <div>
-                        <div style={{ fontSize: 12, fontWeight: 500, color: C.txt }}>{row.nm}</div>
-                        <div style={{ fontSize: 12, color: C.txL, marginTop: 2 }}>기준: {row.std}</div>
+                        <div style={{ fontSize: 12, fontWeight: 500, color: colors.text }}>{row.nm}</div>
+                        <div style={{ fontSize: 12, color: colors.textLight, marginTop: 2 }}>기준: {row.std}</div>
                       </div>
                       <span style={{ fontSize: 12, fontWeight: 700, padding: '3px 12px', borderRadius: 8, background: isAbn ? '#FEE2E2' : '#D1FAE5', color: isAbn ? '#dc2626' : '#15803d' }}>{row.result}</span>
                     </div>
                     {photos.length > 0 ? (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: '0 14px 12px', borderTop: `1px dashed ${isAbn ? '#fecaca' : '#bbf7d0'}` }}>
-                        <div style={{ width: '100%', fontSize: 12, color: C.txL, paddingTop: 8, marginBottom: 2 }}>첨부사진</div>
+                        <div style={{ width: '100%', fontSize: 12, color: colors.textLight, paddingTop: 8, marginBottom: 2 }}>첨부사진</div>
                         {photos.map((photo) => (
-                          <div key={photo.id} style={{ width: 80, height: 64, borderRadius: 6, border: `1px solid ${C.brd}`, background: photo.color, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, flexShrink: 0 }}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="1.5">
+                          <div key={photo.id} style={{ width: 80, height: 64, borderRadius: 6, border: `1px solid ${colors.border}`, background: photo.color, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, flexShrink: 0 }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={colors.textLight} strokeWidth="1.5">
                               <rect x="3" y="5" width="18" height="14" rx="2" />
                               <circle cx="12" cy="12" r="3.5" />
                               <path d="M9 5l1.5-2h3L15 5" />
                             </svg>
-                            <span style={{ fontSize: 12, color: C.txS, maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', padding: '0 4px', textAlign: 'center' }}>{photo.label}</span>
+                            <span style={{ fontSize: 12, color: colors.textSecondary, maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', padding: '0 4px', textAlign: 'center' }}>{photo.label}</span>
                           </div>
                         ))}
                       </div>
@@ -460,12 +460,12 @@ export function DailyReportPanel({ open, onClose, item }: DailyReportPanelProps)
             </div>
 
             <SectionTitle label="특이사항" />
-            <div style={{ padding: '10px 12px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#FAFBFC', fontSize: 12, color: item.note ? '#F36D00' : C.txL, minHeight: 56, marginBottom: 20, lineHeight: 1.6 }}>
+            <div style={{ padding: '10px 12px', border: `1px solid ${colors.border}`, borderRadius: 6, background: '#FAFBFC', fontSize: 12, color: item.note ? '#F36D00' : colors.textLight, minHeight: 56, marginBottom: 20, lineHeight: 1.6 }}>
               {item.note || '특이사항 없음'}
             </div>
           </div>
 
-          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', padding: '12px 24px', borderTop: `1px solid ${C.brd}`, background: '#fff', gap: 6 }}>
+          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', padding: '12px 24px', borderTop: `1px solid ${colors.border}`, background: '#fff', gap: 6 }}>
             <Button onClick={onClose}>닫기</Button>
             <Button outline onClick={() => setShowPreview((prev) => !prev)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

@@ -7,7 +7,7 @@ import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { FormInput, FormSelect, FormTextarea, RoSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { PRETENDARD_FONT, fSelect } from '@/lib/theme/styles';
 import { RES } from '@/data/resources';
 import { SYS } from '@/data/manager';
@@ -200,8 +200,8 @@ export function ChecklistPanel({
   }, [linkedResIds.length]);
 
   const readOnly = !!item && !editMode;
-  const roStyle: React.CSSProperties = readOnly ? { background: '#F9FAFC', color: C.txt, pointerEvents: 'none' } : {};
-  const roSelectStyle: React.CSSProperties = readOnly ? { background: '#F9FAFC', color: C.txt, pointerEvents: 'none', appearance: 'none', backgroundImage: 'none', cursor: 'default' } : {};
+  const roStyle: React.CSSProperties = readOnly ? { background: '#F9FAFC', color: colors.text, pointerEvents: 'none' } : {};
+  const roSelectStyle: React.CSSProperties = readOnly ? { background: '#F9FAFC', color: colors.text, pointerEvents: 'none', appearance: 'none', backgroundImage: 'none', cursor: 'default' } : {};
   const kindOptions = Array.from(new Set(VC_POOL.map((entry) => entry.cat1)));
 
   const setField = (key: string, value: unknown) => {
@@ -432,11 +432,11 @@ export function ChecklistPanel({
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div
             onClick={() => !readOnly && setField('st', form.st === 'Y' ? 'N' : 'Y')}
-            style={{ position: 'relative', width: 44, height: 24, borderRadius: 12, cursor: readOnly ? 'default' : 'pointer', opacity: readOnly ? 0.6 : 1, background: form.st === 'Y' ? C.pri : '#D1D5DB', transition: 'background .2s' }}
+            style={{ position: 'relative', width: 44, height: 24, borderRadius: 12, cursor: readOnly ? 'default' : 'pointer', opacity: readOnly ? 0.6 : 1, background: form.st === 'Y' ? colors.primary : '#D1D5DB', transition: 'background .2s' }}
           >
             <div style={{ position: 'absolute', top: 2, left: form.st === 'Y' ? 22 : 2, width: 20, height: 20, borderRadius: '50%', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,.2)', transition: 'left .2s' }} />
           </div>
-          <span style={{ fontSize: 13, color: form.st === 'Y' ? C.pri : C.txL, fontWeight: 500, opacity: readOnly ? 0.6 : 1 }}>{form.st === 'Y' ? '사용' : '미사용'}</span>
+          <span style={{ fontSize: 13, color: form.st === 'Y' ? colors.primary : colors.textLight, fontWeight: 500, opacity: readOnly ? 0.6 : 1 }}>{form.st === 'Y' ? '사용' : '미사용'}</span>
         </div>
       </FormRow>
 
@@ -483,7 +483,7 @@ export function ChecklistPanel({
                 <span
                   key={option}
                   onClick={() => !readOnly && setField('exposedRes', selected ? form.exposedRes.filter((entry) => entry !== option) : [...form.exposedRes, option])}
-                  style={{ padding: '3px 10px', borderRadius: 12, fontSize: 12, border: `1px solid ${selected ? C.pri : C.brd}`, background: selected ? C.priL : '', color: selected ? C.pri : C.txS, cursor: readOnly ? 'default' : 'pointer' }}
+                  style={{ padding: '3px 10px', borderRadius: 12, fontSize: 12, border: `1px solid ${selected ? colors.primary : colors.border}`, background: selected ? colors.primaryLight : '', color: selected ? colors.primary : colors.textSecondary, cursor: readOnly ? 'default' : 'pointer' }}
                 >
                   {option}
                 </span>
@@ -495,7 +495,7 @@ export function ChecklistPanel({
 
       <div style={{ marginBottom: 18 }}>
         <SectionTitle label="점검항목" />
-        {!form.inspKind ? <div style={{ padding: 16, textAlign: 'center', color: C.txL, fontSize: 12, background: '#F9FAFC', borderRadius: 6, marginBottom: 8 }}>점검세부분류를 먼저 선택하세요.</div> : null}
+        {!form.inspKind ? <div style={{ padding: 16, textAlign: 'center', color: colors.textLight, fontSize: 12, background: '#F9FAFC', borderRadius: 6, marginBottom: 8 }}>점검세부분류를 먼저 선택하세요.</div> : null}
 
         {form.inspKind ? (
           <>
@@ -504,22 +504,22 @@ export function ChecklistPanel({
                 <div style={{ position: 'relative', marginBottom: 6 }}>
                   <FormInput value={itemFilter} onChange={(e) => setItemFilter(e.target.value)} placeholder="항목명 또는 검증코드로 검색..." style={{ paddingLeft: 28, fontSize: 14, height: 32 }} />
                   <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                    <Icon n="search" s={13} c={C.txL} />
+                    <Icon name="search" size={13} color={colors.textLight} />
                   </span>
                   {itemFilter ? (
-                    <span onClick={() => setItemFilter('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL, lineHeight: 1 }}>
+                    <span onClick={() => setItemFilter('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: colors.textLight, lineHeight: 1 }}>
                       ×
                     </span>
                   ) : null}
                 </div>
 
-                <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, maxHeight: 200, overflowY: 'auto' }}>
-                  {filteredAvailableItems.length === 0 ? <div style={{ padding: 14, textAlign: 'center', fontSize: 12, color: C.txL }}>{availableItems.length === 0 ? '모든 항목이 추가되었습니다.' : `"${itemFilter}" 검색 결과가 없습니다.`}</div> : null}
+                <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, maxHeight: 200, overflowY: 'auto' }}>
+                  {filteredAvailableItems.length === 0 ? <div style={{ padding: 14, textAlign: 'center', fontSize: 12, color: colors.textLight }}>{availableItems.length === 0 ? '모든 항목이 추가되었습니다.' : `"${itemFilter}" 검색 결과가 없습니다.`}</div> : null}
                   {filteredAvailableItems.map((entry) => (
                     <div
                       key={entry.code}
                       onClick={() => addItem(entry.code)}
-                      style={{ padding: '7px 12px', cursor: 'pointer', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}
+                      style={{ padding: '7px 12px', cursor: 'pointer', borderBottom: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = '#f0fdf4';
                       }}
@@ -529,8 +529,8 @@ export function ChecklistPanel({
                     >
                       <span style={{ padding: '1px 6px', borderRadius: 3, fontSize: 12, background: entry.method === '자동' ? '#dbeafe' : '#fff7ed', color: entry.method === '자동' ? '#1e40af' : '#c2410c', flexShrink: 0 }}>{entry.method}</span>
                       <span style={{ fontWeight: 500, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.nm}</span>
-                      <span style={{ fontSize: 12, color: C.txL, flexShrink: 0 }}>{entry.code}</span>
-                      <span style={{ fontSize: 12, color: C.txS, background: '#F9FAFC', padding: '1px 5px', borderRadius: 8, flexShrink: 0 }}>
+                      <span style={{ fontSize: 12, color: colors.textLight, flexShrink: 0 }}>{entry.code}</span>
+                      <span style={{ fontSize: 12, color: colors.textSecondary, background: '#F9FAFC', padding: '1px 5px', borderRadius: 8, flexShrink: 0 }}>
                         {entry.cat2}›{entry.cat3}
                       </span>
                     </div>
@@ -539,15 +539,15 @@ export function ChecklistPanel({
               </div>
             ) : null}
 
-            <div style={{ fontSize: 12, fontWeight: 600, color: C.txS, marginBottom: 6 }}>
-              선택된 항목 <span style={{ fontWeight: 400, color: C.txL }}>({inspItems.length}개)</span>
+            <div style={{ fontSize: 12, fontWeight: 600, color: colors.textSecondary, marginBottom: 6 }}>
+              선택된 항목 <span style={{ fontWeight: 400, color: colors.textLight }}>({inspItems.length}개)</span>
             </div>
 
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, marginBottom: 8 }}>
               <thead>
                 <tr style={{ background: '#F9FAFC' }}>
                   {['항목명', '검증코드', '방식', '기준값', '단위', ...(readOnly ? [] : [''])].map((header) => (
-                    <th key={header} style={{ padding: '8px 6px', borderBottom: `2px solid ${C.brd}`, textAlign: 'left', fontWeight: 600, color: C.txS }}>
+                    <th key={header} style={{ padding: '8px 6px', borderBottom: `2px solid ${colors.border}`, textAlign: 'left', fontWeight: 600, color: colors.textSecondary }}>
                       {header}
                     </th>
                   ))}
@@ -555,17 +555,17 @@ export function ChecklistPanel({
               </thead>
               <tbody>
                 {inspItems.map((entry) => (
-                  <tr key={entry.id} style={{ borderBottom: `1px solid ${C.brd}` }}>
+                  <tr key={entry.id} style={{ borderBottom: `1px solid ${colors.border}` }}>
                     <td style={{ padding: '8px 6px' }}>{entry.nm}</td>
-                    <td style={{ color: C.pri }}>{entry.code}</td>
+                    <td style={{ color: colors.primary }}>{entry.code}</td>
                     <td>
                       <span style={{ padding: '1px 6px', borderRadius: 3, background: entry.method === '자동' ? '#dbeafe' : '#fff7ed', color: entry.method === '자동' ? '#1e40af' : '#c2410c' }}>{entry.method}</span>
                     </td>
-                    <td>{readOnly ? <span style={{ color: C.txS }}>{entry.std}</span> : <FormInput value={entry.std} onChange={(e) => updateItemStd(entry.id, e.target.value)} style={{ width: 80, padding: '3px 6px', border: `1px solid ${C.brd}`, borderRadius: 4 }} />}</td>
-                    <td style={{ color: C.txS }}>{entry.unit}</td>
+                    <td>{readOnly ? <span style={{ color: colors.textSecondary }}>{entry.std}</span> : <FormInput value={entry.std} onChange={(e) => updateItemStd(entry.id, e.target.value)} style={{ width: 80, padding: '3px 6px', border: `1px solid ${colors.border}`, borderRadius: 4 }} />}</td>
+                    <td style={{ color: colors.textSecondary }}>{entry.unit}</td>
                     {!readOnly ? (
                       <td style={{ textAlign: 'center' }}>
-                        <span onClick={() => removeItem(entry.id)} style={{ cursor: 'pointer', color: C.red, fontSize: 15, fontWeight: 600 }}>
+                        <span onClick={() => removeItem(entry.id)} style={{ cursor: 'pointer', color: colors.red, fontSize: 15, fontWeight: 600 }}>
                           ×
                         </span>
                       </td>
@@ -575,7 +575,7 @@ export function ChecklistPanel({
               </tbody>
             </table>
 
-            {inspItems.length === 0 ? <div style={{ padding: 16, textAlign: 'center', color: C.txL, fontSize: 12, background: '#F9FAFC', borderRadius: 6 }}>점검항목이 없습니다. 위에서 검색하여 추가하세요.</div> : null}
+            {inspItems.length === 0 ? <div style={{ padding: 16, textAlign: 'center', color: colors.textLight, fontSize: 12, background: '#F9FAFC', borderRadius: 6 }}>점검항목이 없습니다. 위에서 검색하여 추가하세요.</div> : null}
           </>
         ) : null}
       </div>
@@ -663,16 +663,16 @@ export function ChecklistPanel({
         ) : null}
 
         <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12, color: C.txL }}>
+          <div style={{ fontSize: 12, color: colors.textLight }}>
             이 점검표에 연결할 자원을 선택하세요.
-            <span style={{ color: C.pri, fontWeight: 600 }}> 현재 {linkedResIds.length}개</span> 연결됨
-            {clSub ? <span style={{ color: C.txS }}> · {clSub} 자원 권장</span> : null}
+            <span style={{ color: colors.primary, fontWeight: 600 }}> 현재 {linkedResIds.length}개</span> 연결됨
+            {clSub ? <span style={{ color: colors.textSecondary }}> · {clSub} 자원 권장</span> : null}
           </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
           <div style={{ display: 'flex', gap: 6 }}>
-            <FormSelect value={resSys} onChange={(e) => setResSys(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+            <FormSelect value={resSys} onChange={(e) => setResSys(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
               <option value="">전체 시스템</option>
               {SYS.map((sys) => (
                 <option key={sys.id} value={sys.id}>
@@ -680,7 +680,7 @@ export function ChecklistPanel({
                 </option>
               ))}
             </FormSelect>
-            <FormSelect value={resMid} onChange={(e) => setResMid(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+            <FormSelect value={resMid} onChange={(e) => setResMid(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
               <option value="">전체 중분류</option>
               {['서버', 'WEB', 'WAS', 'DBMS', '네트워크', '보안', '스토리지', '백업', '서비스'].map((option) => (
                 <option key={option} value={option}>
@@ -688,7 +688,7 @@ export function ChecklistPanel({
                 </option>
               ))}
             </FormSelect>
-            <FormSelect value={resLarge} onChange={(e) => setResLarge(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
+            <FormSelect value={resLarge} onChange={(e) => setResLarge(e.target.value)} style={{ flex: 1, padding: '5px 10px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, background: '#fff', outline: 'none' }}>
               <option value="">전체 대분류</option>
               {['하드웨어', '소프트웨어'].map((option) => (
                 <option key={option} value={option}>
@@ -698,12 +698,12 @@ export function ChecklistPanel({
             </FormSelect>
           </div>
           <div style={{ position: 'relative' }}>
-            <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
+            <FormInput value={resSearch} onChange={(e) => setResSearch(e.target.value)} placeholder="자원명 또는 IP 검색" style={{ width: '100%', padding: '5px 10px 5px 28px', fontSize: 12, border: `1px solid ${colors.border}`, borderRadius: 4, outline: 'none', boxSizing: 'border-box' }} />
             <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-              <Icon n="search" s={12} c={C.txL} />
+              <Icon name="search" size={12} color={colors.textLight} />
             </span>
             {resSearch ? (
-              <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: C.txL }}>
+              <span onClick={() => setResSearch('')} style={{ position: 'absolute', right: 7, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 15, color: colors.textLight }}>
                 ×
               </span>
             ) : null}
@@ -721,8 +721,8 @@ export function ChecklistPanel({
           </div>
         ) : null}
 
-        <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden', maxHeight: 360, overflowY: 'auto' }}>
-          {sorted.length === 0 ? <div style={{ padding: 24, textAlign: 'center', fontSize: 12, color: C.txL }}>조건에 맞는 자원이 없습니다.</div> : null}
+        <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, overflow: 'hidden', maxHeight: 360, overflowY: 'auto' }}>
+          {sorted.length === 0 ? <div style={{ padding: 24, textAlign: 'center', fontSize: 12, color: colors.textLight }}>조건에 맞는 자원이 없습니다.</div> : null}
           {sorted.map((res, index) => {
             const state = classify(res);
             const linked = state === 'linked';
@@ -732,18 +732,18 @@ export function ChecklistPanel({
             return (
               <React.Fragment key={res.id}>
                 {prevOther ? (
-                  <div style={{ padding: '6px 14px', background: '#F9FAFC', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round">
+                  <div style={{ padding: '6px 14px', background: '#F9FAFC', borderBottom: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={colors.textLight} strokeWidth="2" strokeLinecap="round">
                       <circle cx="12" cy="12" r="10" />
                       <line x1="12" y1="8" x2="12" y2="12" />
                       <line x1="12" y1="16" x2="12.01" y2="16" />
                     </svg>
-                    <span style={{ fontSize: 12, color: C.txL, fontWeight: 500 }}>다른 점검표가 이미 연결된 자원 (선택 불가)</span>
+                    <span style={{ fontSize: 12, color: colors.textLight, fontWeight: 500 }}>다른 점검표가 이미 연결된 자원 (선택 불가)</span>
                   </div>
                 ) : null}
                 <div
                   onClick={() => !isOther && onLinkChange?.(res.id, !linked)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderBottom: `1px solid ${C.brd}`, transition: 'background .12s', cursor: isOther ? 'not-allowed' : 'pointer', background: linked ? '#f0fdf4' : isOther ? '#F9FAFC' : '#fff', borderLeft: linked ? '3px solid #16a34a' : isOther ? `3px solid ${C.brd}` : '3px solid transparent', opacity: isOther ? 0.6 : 1 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderBottom: `1px solid ${colors.border}`, transition: 'background .12s', cursor: isOther ? 'not-allowed' : 'pointer', background: linked ? '#f0fdf4' : isOther ? '#F9FAFC' : '#fff', borderLeft: linked ? '3px solid #16a34a' : isOther ? `3px solid ${colors.border}` : '3px solid transparent', opacity: isOther ? 0.6 : 1 }}
                   onMouseEnter={(e) => {
                     if (!linked && !isOther) e.currentTarget.style.background = '#F5F7FF';
                   }}
@@ -751,7 +751,7 @@ export function ChecklistPanel({
                     if (!linked && !isOther) e.currentTarget.style.background = '#fff';
                   }}
                 >
-                  <div style={{ width: 18, height: 18, borderRadius: 4, flexShrink: 0, transition: 'all .15s', border: `2px solid ${linked ? '#16a34a' : C.brd}`, background: linked ? '#16a34a' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 18, height: 18, borderRadius: 4, flexShrink: 0, transition: 'all .15s', border: `2px solid ${linked ? '#16a34a' : colors.border}`, background: linked ? '#16a34a' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {linked ? (
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                         <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -759,16 +759,16 @@ export function ChecklistPanel({
                     ) : null}
                     {isOther ? (
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                        <line x1="2" y1="5" x2="8" y2="5" stroke={C.txL} strokeWidth="1.8" strokeLinecap="round" />
+                        <line x1="2" y1="5" x2="8" y2="5" stroke={colors.textLight} strokeWidth="1.8" strokeLinecap="round" />
                       </svg>
                     ) : null}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: linked ? '#166534' : isOther ? C.txL : C.txt, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: linked ? '#166534' : isOther ? colors.textLight : colors.text, display: 'flex', alignItems: 'center', gap: 6 }}>
                       {res.nm}
                       {isMatch ? <span style={{ fontSize: 12, fontWeight: 700, padding: '1px 6px', borderRadius: 8, background: '#dbeafe', color: '#1d4ed8' }}>권장</span> : null}
                     </div>
-                    <div style={{ fontSize: 12, color: C.txL, marginTop: 1 }}>
+                    <div style={{ fontSize: 12, color: colors.textLight, marginTop: 1 }}>
                       {res.sysNm} · {res.mid} · {res.ip || '—'}
                       {isOther ? <span style={{ marginLeft: 6, color: '#f59e0b' }}>· 다른 점검표 연결됨</span> : null}
                     </div>
@@ -826,13 +826,13 @@ export function ChecklistPanel({
       <SidePanel open={open} onClose={handleCancel} title={isNew ? '점검표 추가' : '점검표 상세'} width={showPreview ? 1220 : 640} noScroll>
         <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
           {showPreview ? (
-            <div style={{ flex: 1, borderRight: `1px solid ${C.brd}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ padding: '14px 20px 12px', borderBottom: `1px solid ${C.brd}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, background: '#FAFBFC' }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: C.txH }}>점검표 미리보기</span>
-                <span style={{ fontSize: 12, color: C.txL, background: '#F0F5FF', padding: '2px 8px', borderRadius: 10, border: `1px solid ${C.priL}` }}>실시간 반영</span>
+            <div style={{ flex: 1, borderRight: `1px solid ${colors.border}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              <div style={{ padding: '14px 20px 12px', borderBottom: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, background: '#FAFBFC' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: colors.textHeading }}>점검표 미리보기</span>
+                <span style={{ fontSize: 12, color: colors.textLight, background: '#F0F5FF', padding: '2px 8px', borderRadius: 10, border: `1px solid ${colors.primaryLight}` }}>실시간 반영</span>
               </div>
               <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
-                <div style={{ border: `1px solid ${C.brd}`, borderRadius: 6, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
+                <div style={{ border: `1px solid ${colors.border}`, borderRadius: 6, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
                   <PreviewDoc />
                 </div>
               </div>
@@ -842,7 +842,7 @@ export function ChecklistPanel({
           <div style={{ flex: '0 0 640px', display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
             <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
               {!isNew ? (
-                <div style={{ display: 'flex', borderBottom: `2px solid ${C.brd}`, marginBottom: 18, gap: 0 }}>
+                <div style={{ display: 'flex', borderBottom: `2px solid ${colors.border}`, marginBottom: 18, gap: 0 }}>
                   {[
                     ['info', '기본 정보'],
                     ['res', '연결 자원'],
@@ -850,11 +850,11 @@ export function ChecklistPanel({
                     <button
                       key={key}
                       onClick={() => setActiveTab(key as 'info' | 'res')}
-                      style={{ padding: '8px 20px', fontSize: 12, fontWeight: 600, border: 'none', background: 'none', cursor: 'pointer', borderBottom: activeTab === key ? `2px solid ${C.pri}` : '2px solid transparent', marginBottom: -2, color: activeTab === key ? C.pri : C.txL }}
+                      style={{ padding: '8px 20px', fontSize: 12, fontWeight: 600, border: 'none', background: 'none', cursor: 'pointer', borderBottom: activeTab === key ? `2px solid ${colors.primary}` : '2px solid transparent', marginBottom: -2, color: activeTab === key ? colors.primary : colors.textLight }}
                     >
                       {label}
                       {key === 'res' && linkedResIds.length > 0 ? (
-                        <span style={{ marginLeft: 6, fontSize: 12, padding: '1px 7px', borderRadius: 10, background: activeTab === key ? C.pri : C.brd, color: activeTab === key ? '#fff' : C.txS }}>{linkedResIds.length}</span>
+                        <span style={{ marginLeft: 6, fontSize: 12, padding: '1px 7px', borderRadius: 10, background: activeTab === key ? colors.primary : colors.border, color: activeTab === key ? '#fff' : colors.textSecondary }}>{linkedResIds.length}</span>
                       ) : null}
                     </button>
                   ))}
@@ -865,7 +865,7 @@ export function ChecklistPanel({
               {!isNew && activeTab === 'res' ? renderResourceTab() : null}
             </div>
 
-            <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+            <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
               {!isNew && readOnly && linkedResIds.length > 0 ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10, padding: '8px 12px', borderRadius: 6, background: '#FFF7ED', border: '1px solid #FED7AA' }}>
                   <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#EA580C" strokeWidth="1.8" strokeLinecap="round">

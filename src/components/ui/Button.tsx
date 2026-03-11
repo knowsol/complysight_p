@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export type ButtonVariant = 'default' | 'primary' | 'danger' | 'success' | 'outline' | 'outlineDanger' | 'ghost';
 export type ButtonSize = 'md' | 'sm' | 'xs';
@@ -62,11 +62,11 @@ const VARIANT_STYLES: Record<ButtonVariant, { style: React.CSSProperties; hoverB
     hoverBackground: '#f1f5f9',
   },
   primary: {
-    style: { background: C.sec, color: '#fff' },
+    style: { background: colors.secondary, color: '#fff' },
     hoverBackground: '#3a6cc8',
   },
   success: {
-    style: { background: C.green, color: '#fff' },
+    style: { background: colors.green, color: '#fff' },
     hoverBackground: '#14813c',
   },
   danger: {
@@ -74,7 +74,7 @@ const VARIANT_STYLES: Record<ButtonVariant, { style: React.CSSProperties; hoverB
     hoverBackground: '#c93d3d',
   },
   outline: {
-    style: { background: '#fff', color: C.sec, border: '1px solid rgb(215,215,215)' },
+    style: { background: '#fff', color: colors.secondary, border: '1px solid rgb(215,215,215)' },
     hoverBackground: '#eef3ff',
   },
   outlineDanger: {
@@ -82,7 +82,7 @@ const VARIANT_STYLES: Record<ButtonVariant, { style: React.CSSProperties; hoverB
     hoverBackground: '#fff1f1',
   },
   ghost: {
-    style: { background: 'transparent', color: C.pri, border: `1px solid ${C.pri}` },
+    style: { background: 'transparent', color: colors.primary, border: `1px solid ${colors.primary}` },
     hoverBackground: '#eef3ff',
   },
 };
@@ -143,8 +143,8 @@ export const SearchBtn = ({ onClick }: SimpleButtonProps) => (
     onClick={onClick}
     style={{
       background: '#fff',
-      border: `1px solid ${C.sec}`,
-      color: C.sec,
+      border: `1px solid ${colors.secondary}`,
+      color: colors.secondary,
       borderRadius: 4,
       padding: '0 20px',
       fontSize: 15,
@@ -157,12 +157,12 @@ export const SearchBtn = ({ onClick }: SimpleButtonProps) => (
       whiteSpace: 'nowrap',
     }}
     onMouseEnter={(e) => {
-      e.currentTarget.style.background = C.sec;
+      e.currentTarget.style.background = colors.secondary;
       e.currentTarget.style.color = '#fff';
     }}
     onMouseLeave={(e) => {
       e.currentTarget.style.background = '#fff';
-      e.currentTarget.style.color = C.sec;
+      e.currentTarget.style.color = colors.secondary;
     }}
   >
     검색
@@ -177,7 +177,7 @@ export const RefreshBtn = ({ onClick }: SimpleButtonProps) => (
       width: 40,
       height: '100%',
       minHeight: 36,
-      border: `1px solid ${C.pri}`,
+      border: `1px solid ${colors.primary}`,
       borderRadius: 4,
       background: '#fff',
       display: 'flex',
@@ -188,15 +188,15 @@ export const RefreshBtn = ({ onClick }: SimpleButtonProps) => (
       transition: 'all 0.15s ease',
     }}
     onMouseEnter={(e) => {
-      e.currentTarget.style.background = C.priL;
+      e.currentTarget.style.background = colors.primaryLight;
     }}
     onMouseLeave={(e) => {
       e.currentTarget.style.background = '#fff';
     }}
   >
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M14 2v4h-4" stroke={C.pri} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M13.5 10a6 6 0 11-1.3-6.3L14 6" stroke={C.pri} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 2v4h-4" stroke={colors.primary} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.5 10a6 6 0 11-1.3-6.3L14 6" stroke={colors.primary} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   </button>
 );

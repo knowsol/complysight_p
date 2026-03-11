@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { SearchBtn, RefreshBtn } from '@/components/ui/Button';
 import { SelectField } from '@/components/ui/SelectField';
 import { FormInput } from '@/components/ui/FormField';
@@ -10,7 +10,7 @@ import type { ReactNode } from 'react';
 const LABEL_STYLE = {
   fontSize: 11,
   fontWeight: 600,
-  color: C.txS,
+  color: colors.textSecondary,
   marginBottom: 4,
   display: 'flex',
   alignItems: 'center',
@@ -28,7 +28,7 @@ export interface SearchField {
 }
 
 export interface SearchBarProps {
-  ph?: string;
+  placeholder?: string;
   fields?: SearchField[];
   onSearch?: (fieldVals: Record<string, string>, keyword: string) => void;
   value?: string;
@@ -38,24 +38,24 @@ export interface SearchBarProps {
   onSearchClick?: () => void;
 }
 
-export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearch, value, onChange, onReset, children, onSearchClick }: SearchBarProps) {
-  const [v, setV] = useState(value ?? '');
+export function SearchBar({ placeholder = '검색어를 입력하세요', fields, onSearch, value, onChange, onReset, children, onSearchClick }: SearchBarProps) {
+  const [searchKeyword, setSearchKeyword] = useState(value ?? '');
   const [fieldVals, setFieldVals] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (value !== undefined) setV(value);
+    if (value !== undefined) setSearchKeyword(value);
   }, [value]);
 
   const reset = () => {
-    setV('');
+    setSearchKeyword('');
     setFieldVals({});
     onReset?.();
     onSearch?.({}, '');
   };
 
-  const search = () => onSearch?.(fieldVals, v);
+  const search = () => onSearch?.(fieldVals, searchKeyword);
   const handleChange = (val: string) => {
-    setV(val);
+    setSearchKeyword(val);
     onChange?.(val);
   };
 
@@ -63,8 +63,8 @@ export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearc
     <div
       style={{
         width: '100%',
-        border: `1px solid ${C.brd}`,
-        background: C.bg,
+        border: `1px solid ${colors.border}`,
+        background: colors.background,
         borderRadius: 6,
         padding: '16px 12px',
         display: 'flex',
@@ -83,7 +83,7 @@ export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearc
               <div key={i} style={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
                 <span style={{ ...LABEL_STYLE }}>
                   {f.label}
-                  {f.required && <span style={{ color: C.red, marginLeft: 2 }}>*</span>}
+                  {f.required && <span style={{ color: colors.red, marginLeft: 2 }}>*</span>}
                 </span>
                 {f.type === 'select' ? (
                   <SelectField
@@ -91,11 +91,11 @@ export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearc
                     onChange={(e) => setFieldVals((p) => ({ ...p, [f.key]: e.target.value }))}
                     style={{
                       padding: '6px 12px',
-                      border: `1px solid ${C.brd}`,
+                      border: `1px solid ${colors.border}`,
                       borderRadius: 4,
                       fontSize: 15,
                       background: '#fff',
-                      color: C.txt,
+                      color: colors.text,
                       minWidth: 120,
                       fontFamily: 'inherit',
                       outline: 'none',
@@ -116,11 +116,11 @@ export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearc
                     placeholder={f.placeholder || ''}
                     style={{
                       padding: '6px 12px',
-                      border: `1px solid ${C.brd}`,
+                      border: `1px solid ${colors.border}`,
                       borderRadius: 4,
                       fontSize: 15,
                       outline: 'none',
-                      color: C.txt,
+                      color: colors.text,
                       background: '#fff',
                       minWidth: 120,
                       fontFamily: 'inherit',
@@ -133,17 +133,17 @@ export function SearchBar({ ph = '검색어를 입력하세요', fields, onSearc
             <div style={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
               <span style={{ ...LABEL_STYLE }}>검색</span>
               <FormInput
-                value={v}
+                value={searchKeyword}
                 onChange={(e) => handleChange(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && search()}
-                placeholder={ph}
+                placeholder={placeholder}
                 style={{
                   padding: '6px 12px',
-                  border: `1px solid ${C.brd}`,
+                  border: `1px solid ${colors.border}`,
                   borderRadius: 4,
                   fontSize: 15,
                   outline: 'none',
-                  color: C.txt,
+                  color: colors.text,
                   background: '#fff',
                   minWidth: 120,
                   fontFamily: 'inherit',

@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import type { ReactNode } from 'react';
 
 export interface PaginationProps {
@@ -34,7 +34,7 @@ export function Pagination({ page, totalPages, setPage }: PaginationProps) {
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 4,
-        color: disabled ? C.txX : C.txS,
+        color: disabled ? colors.textMuted : colors.textSecondary,
         padding: 0,
       }}
     >
@@ -67,13 +67,13 @@ export function Pagination({ page, totalPages, setPage }: PaginationProps) {
                 minWidth: 28,
                 height: 28,
                 padding: '0 6px',
-                background: page === n ? C.sec : 'none',
+                background: page === n ? colors.secondary : 'none',
                 border: 'none',
                 cursor: 'pointer',
                 borderRadius: 4,
                 fontSize: 15,
                 fontWeight: page === n ? 600 : 400,
-                color: page === n ? '#fff' : C.txS,
+                color: page === n ? '#fff' : colors.textSecondary,
                 fontFamily: 'inherit',
               }}
             >

@@ -7,16 +7,18 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { Button } from '@/components/ui/Button';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { DatePicker } from '@/components/ui/DatePicker';
-import { C } from '@/lib/theme/colors';
-import { LABEL_STYLE_SM, TH, TD } from '@/lib/theme/styles';
+import { FreqBadge, RateBadge, InfoBox, SummaryCard, Toast } from '@/components/ui/StyleUtils';
+import { colors } from '@/lib/theme/colors';
+import { LABEL_STYLE_SM, TH, TD, freqChip, panelBody, panelFooterBar, sectionBar, hoverBg } from '@/lib/theme/styles';
+import { FREQ_COLORS, rateColor, rateBg } from '@/lib/theme/status-colors';
 import { SYS } from '@/data/manager';
 import { RES } from '@/data/resources';
 import { USERS } from '@/data/users';
+import css from './page.module.css';
 
 
 const MgrInspReport = () => {
   const FREQ_OPTS  = ["전체","상시","매일","매주","매월","분기","반기","연간"];
-  const FREQ_COLOR = { "전체":"#555E6C","상시":"#0891B2","매일":"#0C8CE9","매주":"#19973C","매월":"#F36D00","분기":"#7C3AED","반기":"#E24949","연간":"#333333" };
   const RES_COLS   = ["서버","WEB","WAS","DBMS","네트워크","보안","스토리지","백업"];
 
   const todayStr = new Date().toISOString().slice(0,10);
@@ -105,9 +107,6 @@ const MgrInspReport = () => {
   const allChk    = selIds.length===allIds.length;
   const toggleAll = () => allChk ? setChecked({}) : setChecked(Object.fromEntries(allIds.map(id=>[id,true])));
 
-  const rColor = r => r===100?"#19973C":r>=80?"#0C8CE9":r>=50?"#F36D00":r>=1?"#E24949":"#7C3AED";
-  const rBg    = r => r===100?"#E8F5EC":r>=80?"#E6F3FA":r>=50?"#FFF3E6":r>=1?"#FDE8E8":"#EDE9FE";
-
   const dlSingle = (sysNm,col) => showToast(`${sysNm}${col?` · ${col}`:""} 점검보고서 다운로드가 시작되었습니다.`);
   const dlBulk   = () => {
     if (!selIds.length){ showToast("다운로드할 정보시스템을 선택하세요.",false); return; }
@@ -137,24 +136,21 @@ const MgrInspReport = () => {
 
   return (
     <div>
-      <PageHeader title="점검보고서" bc="홈 > 점검현황 > 점검보고서" />
+      <PageHeader title="점검보고서" breadcrumb="홈 > 점검현황 > 점검보고서" />
 
       {/* ── 검색폼 ── */}
       <SearchBar onSearch={search} onReset={reset}>
-        <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+        <div className={css.searchField}>
           <span style={{ ...LABEL_STYLE_SM }}>기준일</span>
           <DatePicker value={baseDate} onChange={setBaseDate} style={{ width: 130 }} />
         </div>
-        <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+        <div className={css.searchField}>
           <span style={{ ...LABEL_STYLE_SM }}>보고주기</span>
-          <div style={{ display:"flex", gap:4, height:36, alignItems:"center" }}>
+          <div className={css.freqOptions}>
             {FREQ_OPTS.map(f => {
-              const active=freq===f, color=FREQ_COLOR[f];
+              const active=freq===f, color=FREQ_COLORS[f];
               return (
-                <span key={f} onClick={()=>setFreq(f)} style={{
-                    padding:"5px 13px", borderRadius:4, fontSize:12, fontWeight:active?600:400,
-                  border:`1px solid ${active?color:C.brd}`, background:active?color+"1A":"#fff",
-                  color:active?color:C.txS, cursor:"pointer", transition:"all .12s", userSelect:"none", lineHeight:"22px" }}>
+                <span key={f} onClick={()=>setFreq(f)} style={freqChip(active, color)}>
                   {f}
                 </span>
               );
@@ -164,45 +160,27 @@ const MgrInspReport = () => {
       </SearchBar>
 
       {/* ── 테이블 가이드 안내 ── */}
-      <div style={{ display:"flex", alignItems:"center", gap:16, padding:"9px 16px",
-        background:"#F0F5FF", border:`1px solid #C7D9F8`, borderRadius:8, margin:"12px 0 4px",
-        flexWrap:"wrap" }}>
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style={{ flexShrink:0 }}>
-          <circle cx="8" cy="8" r="7" stroke="#4C7EF3" strokeWidth="1.4"/>
-          <path d="M8 7v5" stroke="#4C7EF3" strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="8" cy="5" r="0.8" fill="#4C7EF3"/>
-        </svg>
-        {[
-          { icon:"📊", text:"보고된 자원수 / 전체 자원수" },
-          { icon:"🔍", text:"셀 클릭 시 자원별 보고서 상세 확인" },
-          { icon:"📄", text:"PDF: 분류별 개별 다운로드" },
-        ].map(({ icon, text }, i, arr) => (
-          <React.Fragment key={i}>
-            <div style={{ display:"flex", alignItems:"center", gap:5 }}>
-              <span style={{ fontSize:13 }}>{icon}</span>
-              <span style={{ fontSize:12, fontWeight:600, color:"#2D5BB9" }}>{text}</span>
-            </div>
-            {i < arr.length - 1 && (
-              <span style={{ width:1, height:14, background:"#C7D9F8", flexShrink:0 }} />
-            )}
-          </React.Fragment>
-        ))}
+      <div className={css.infoBox}>
+        <InfoBox items={[
+          { icon: "📊", text: "보고된 자원수 / 전체 자원수" },
+          { icon: "🔍", text: "셀 클릭 시 자원별 보고서 상세 확인" },
+          { icon: "📄", text: "PDF: 분류별 개별 다운로드" },
+        ]} />
       </div>
 
       {/* ── 섹션 타이틀 ── */}
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
-        height:52, borderBottom:`1px solid ${C.brdD}` }}>
-        <div style={{ display:"flex", alignItems:"baseline", gap:8 }}>
-          <span style={{ fontSize:18, fontWeight:600, color:C.txH }}>점검보고서 목록</span>
-          <span style={{ fontSize:12, color:C.txL }}>{filteredRows.length}건</span>
+      <div style={sectionBar}>
+        <div className={css.sectionTitle}>
+          <span className={css.sectionHeading}>점검보고서 목록</span>
+          <span className={css.sectionCount}>{filteredRows.length}건</span>
         </div>
       </div>
 
       {/* ── 테이블 ── */}
-      <div style={{ overflowX:"auto" }}>
-        <table style={{ minWidth:"100%", width:"max-content", borderCollapse:"collapse", fontSize:15, borderBottom:`1px solid ${C.brd}` }}>
+      <div className={css.tableScroll}>
+        <table className={css.reportTable}>
           <thead>
-            <tr style={{ borderTop:`1px solid ${C.txH}` }}>
+            <tr className={css.tableHeadRow}>
               <th style={{...TH({textAlign:"left", width:200})}} >정보시스템</th>
               <th style={{...TH({textAlign:"center", width:90})}} >종합</th>
               {RES_COLS.map(col=>(
@@ -230,19 +208,17 @@ const MgrInspReport = () => {
               })();
               const { cells, overall, totalAll, reportedAll } = ftotalRow;
               return (
-                <tr style={{ background:"#F0F5FF", fontWeight:700 }}>
-                  <td style={{...TD({textAlign:"left", borderBottom:`2px solid ${C.brdD}` })}}>
-                    <div style={{ fontWeight:700, color:C.pri, fontSize:15 }}>전체 자원</div>
-                    <div style={{ fontSize:12, color:C.txL, marginTop:1 }}>전체 {SYS.length}개 정보시스템</div>
+                <tr className={css.totalRow}>
+                  <td style={{...TD({textAlign:"left", borderBottom:`2px solid ${colors.borderDark}` })}}>
+                    <div className={css.totalResourceTitle}>전체 자원</div>
+                    <div className={css.totalResourceMeta}>전체 {SYS.length}개 정보시스템</div>
                   </td>
-                  <td style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}` })}}>
-                    <span style={{ fontSize:15, fontWeight:700, color:rColor(overall), background:rBg(overall), padding:"3px 8px", borderRadius:10, whiteSpace:"nowrap" }}>
-                      {reportedAll}<span style={{ fontWeight:400, fontSize:15 }}>/{totalAll}</span>
-                    </span>
+                  <td style={{...TD({textAlign:"center", borderBottom:`2px solid ${colors.borderDark}` })}}>
+                    <RateBadge rate={overall} reported={reportedAll} total={totalAll} />
                   </td>
                   {RES_COLS.map(col => {
                     const cell = cells[col];
-                    if (!cell) return <td key={col} style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}` })}}><span style={{color:C.txX}}>—</span></td>;
+                    if (!cell) return <td key={col} style={{...TD({textAlign:"center", borderBottom:`2px solid ${colors.borderDark}` })}}><span className={css.mutedDash}>—</span></td>;
                     /* 전체자원 클릭용 합산 cell 구성 */
                     const mergedCell = (() => {
                       const allDetail = filteredRows.flatMap(r => r.cells[col]?.resDetail || []);
@@ -250,18 +226,20 @@ const MgrInspReport = () => {
                     })();
                     return (
                       <td key={col} onClick={()=>openPanel({ nm:"전체 자원", type:"전체", org:`${SYS.length}개 시스템` }, col, mergedCell)}
-                        style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}`,
+                        style={{...TD({textAlign:"center", borderBottom:`2px solid ${colors.borderDark}`,
                           cursor:"pointer", transition:"background .12s" })}}
-                        onMouseEnter={e=>e.currentTarget.style.background="#D8E8FF"}
-                        onMouseLeave={e=>e.currentTarget.style.background=""}>
-                        <span style={{ fontSize:15, fontWeight:700, color:rColor(cell.rate), whiteSpace:"nowrap" }}>
-                          {cell.reported}<span style={{ fontWeight:400, fontSize:15, color:C.txL }}>/{cell.total}</span>
-                        </span>
+                        {...hoverBg("", "#D8E8FF")}>
+                        <RateBadge
+                          rate={cell.rate}
+                          reported={cell.reported}
+                          total={cell.total}
+                          style={{ background: 'transparent', padding: 0, borderRadius: 0 }}
+                        />
                       </td>
                     );
                   })}
-                  <td style={{...TD({textAlign:"center", borderBottom:`2px solid ${C.brdD}` })}}>
-                    <span style={{ fontSize:12, color:C.txL }}>—</span>
+                  <td style={{...TD({textAlign:"center", borderBottom:`2px solid ${colors.borderDark}` })}}>
+                    <span className={css.sectionCount}>—</span>
                   </td>
                 </tr>
               );
@@ -271,43 +249,43 @@ const MgrInspReport = () => {
             {filteredRows.map(({ sys, cells, overall, totalAll, reportedAll }, si) => {
               const isChk = !!checked[sys.id];
               return (
-                <tr key={sys.id} style={{ cursor:"pointer", background:isChk?C.priL+"88":"" }}
-                  onMouseEnter={e=>{ if(!isChk) e.currentTarget.style.background=C.secL; }}
-                  onMouseLeave={e=>{ e.currentTarget.style.background=isChk?C.priL+"88":""; }}>
+                <tr key={sys.id} style={{ cursor:"pointer", background:isChk?colors.primaryLight+"88":"" }}
+                  onMouseEnter={e=>{ if(!isChk) e.currentTarget.style.background=colors.secondaryLight; }}
+                  onMouseLeave={e=>{ e.currentTarget.style.background=isChk?colors.primaryLight+"88":""; }}>
 
                   <td style={{...TD({textAlign:"left"})}} >
-                    <div style={{ fontWeight:600, color:C.txH, fontSize:15 }}>{sys.nm}</div>
-                    <div style={{ fontSize:12, color:C.txL, marginTop:1 }}>{sys.type} · {sys.org}</div>
+                    <div className={css.systemName}>{sys.nm}</div>
+                    <div className={css.systemMeta}>{sys.type} · {sys.org}</div>
                   </td>
 
                   <td style={{...TD({textAlign:"center"})}} >
-                    <span style={{ fontSize:15, fontWeight:700, color:rColor(overall), background:rBg(overall), padding:"3px 8px", borderRadius:10, whiteSpace:"nowrap" }}>
-                      {reportedAll}<span style={{ fontWeight:400, fontSize:15 }}>/{totalAll}</span>
-                    </span>
+                    <RateBadge rate={overall} reported={reportedAll} total={totalAll} />
                   </td>
 
                   {RES_COLS.map(col => {
                     const cell = cells[col];
                     if (!cell) return (
                       <td key={col} style={{...TD({textAlign:"center"})}} >
-                        <span style={{ color:C.txX, fontSize:15 }}>—</span>
+                        <span className={css.mutedDash}>—</span>
                       </td>
                     );
                     return (
                       <td key={col} onClick={()=>openPanel(sys,col,cell)}
-                        style={{...TD({textAlign:"center"})}} onMouseEnter={e=>e.currentTarget.style.background="#EEF4FF"}
-                        onMouseLeave={e=>e.currentTarget.style.background=""}>
-                        <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
-                          <span style={{ fontSize:15, fontWeight:700, color:rColor(cell.rate), whiteSpace:"nowrap" }}>
-                            {cell.reported}<span style={{ fontWeight:400, fontSize:15, color:C.txL }}>/{cell.total}</span>
-                          </span>
+                        style={{...TD({textAlign:"center"})}} {...hoverBg("", "#EEF4FF")}>
+                        <div className={css.cellColumn}>
+                          <RateBadge
+                            rate={cell.rate}
+                            reported={cell.reported}
+                            total={cell.total}
+                            style={{ background: 'transparent', padding: 0, borderRadius: 0 }}
+                          />
                           {cell.hasReport ? (
                             <Button xs onClick={e=>{e.stopPropagation();dlSingle(sys.nm,col);}}
                               style={{ padding:"3px 7px", gap:3, fontWeight:400 }}>
                               {dlIcon} PDF
                             </Button>
                           ) : (
-                            <span style={{ fontSize:12, color:C.txX }}>미생성</span>
+                            <span className={css.notGenerated}>미생성</span>
                           )}
                         </div>
                       </td>
@@ -326,8 +304,8 @@ const MgrInspReport = () => {
         </table>
       </div>
 
-      <div style={{ padding:"8px 0" }}>
-        <span style={{ fontSize:12, color:C.txL }}>보고된 자원수 / 전체 자원수 &nbsp;·&nbsp; 셀 클릭 시 자원별 보고서 상세 확인 &nbsp;·&nbsp; PDF: 분류별 개별 다운로드</span>
+      <div className={css.tableGuide}>
+        <span className={css.tableGuideText}>보고된 자원수 / 전체 자원수 &nbsp;·&nbsp; 셀 클릭 시 자원별 보고서 상세 확인 &nbsp;·&nbsp; PDF: 분류별 개별 다운로드</span>
       </div>
 
       {/* ── 자원별 보고서 사이드패널 ── */}
@@ -336,51 +314,41 @@ const MgrInspReport = () => {
         const isTotal     = sysNm === "전체 자원";
         const reported    = cell.resDetail.filter(r=>r.reported);
         const notReported = cell.resDetail.filter(r=>!r.reported);
-        const thC = { padding:"8px 10px", fontSize:12, fontWeight:600, color:C.txS,
-          borderBottom:`2px solid ${C.brdD}`, background:C.bg, textAlign:"center", whiteSpace:"nowrap" };
-        const tdC = (align="center") => ({ padding:"9px 10px", fontSize:12, color:C.txt,
-          borderBottom:`1px solid ${C.brd}`, textAlign:align, verticalAlign:"middle" });
+        const thC = { padding:"8px 10px", fontSize:12, fontWeight:600, color:colors.textSecondary,
+          borderBottom:`2px solid ${colors.borderDark}`, background:colors.background, textAlign:"center", whiteSpace:"nowrap" };
+        const tdC = (align="center") => ({ padding:"9px 10px", fontSize:12, color:colors.text,
+          borderBottom:`1px solid ${colors.border}`, textAlign:align, verticalAlign:"middle" });
         return (
           <SidePanel open={!!panelInfo} onClose={()=>setPanelInfo(null)}
             title={`${col} 보고서 상세`} width={680} noScroll>
             {/* 바디 */}
-            <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+            <div style={panelBody}>
             {/* 요약 카드 */}
-            <div style={{ display:"flex", gap:10, marginBottom:18 }}>
-              <div style={{ flex:1, padding:"10px 14px", background:C.priL, borderRadius:8, textAlign:"center" }}>
-                <div style={{ fontSize:20, fontWeight:700, color:C.pri }}>{cell.reported}</div>
-                <div style={{ fontSize:12, color:C.txS, marginTop:1 }}>보고 완료</div>
-              </div>
-              <div style={{ flex:1, padding:"10px 14px", background:"#FEF2F2", borderRadius:8, textAlign:"center" }}>
-                <div style={{ fontSize:20, fontWeight:700, color:"#EF4444" }}>{cell.total-cell.reported}</div>
-                <div style={{ fontSize:12, color:C.txS, marginTop:1 }}>미보고</div>
-              </div>
-              <div style={{ flex:1, padding:"10px 14px", background:rBg(cell.rate), borderRadius:8, textAlign:"center" }}>
-                <div style={{ fontSize:20, fontWeight:700, color:rColor(cell.rate) }}>{cell.rate}%</div>
-                <div style={{ fontSize:12, color:C.txS, marginTop:1 }}>보고율</div>
-              </div>
+            <div className={css.panelSummaryRow}>
+              <SummaryCard value={cell.reported} label="보고 완료" bg={colors.primaryLight} valueColor={colors.primary} />
+              <SummaryCard value={cell.total - cell.reported} label="미보고" bg="#FEF2F2" valueColor="#EF4444" />
+              <SummaryCard value={`${cell.rate}%`} label="보고율" bg={rateBg(cell.rate)} valueColor={rateColor(cell.rate)} />
             </div>
 
-            <div style={{ fontSize:12, color:C.txL, marginBottom:14 }}>
-              <span style={{ fontWeight:600, color: isTotal ? C.pri : C.txH }}>{sysNm}</span>
+            <div className={css.panelSubInfo}>
+              <span className={css.panelSubInfoName} style={{ color: isTotal ? colors.primary : colors.textHeading }}>{sysNm}</span>
               &nbsp;·&nbsp;{col}&nbsp;·&nbsp;기준일: {baseDate}
             </div>
 
             {/* 자원 목록 테이블 */}
-            <div style={{ marginBottom:0 }}>
+            <div className={css.panelTableSection}>
               {/* 테이블 헤더 행 */}
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
-                paddingBottom:8, marginBottom:0 }}>
-                <span style={{ fontSize:12, fontWeight:600, color:C.txH }}>자원 목록</span>
+              <div className={css.panelTableHeader}>
+                <span className={css.panelTableTitle}>자원 목록</span>
                 {cell.hasReport && (
                   <Button primary onClick={()=>dlSingle(sysNm,col)}
-                    style={{ display:"inline-flex", alignItems:"center", gap:5 }}>
+                    className={css.panelDownloadButton}>
                     📥 전체 PDF 다운로드
                   </Button>
                 )}
               </div>
-              <div style={{ overflowX:"auto", border:`1px solid ${C.brd}`, borderRadius:8, overflow:"hidden" }}>
-              <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12 }}>
+              <div className={css.panelGridWrap}>
+              <table className={css.panelGrid}>
                 <thead>
                   <tr>
                     <th style={{ ...thC, textAlign:"left", minWidth:120 }}>자원명</th>
@@ -397,16 +365,16 @@ const MgrInspReport = () => {
                   {[...reported, ...notReported].map((r,i) => (
                     <tr key={r.id||i}
                       style={{ background: r.reported ? (i%2===0?"#fff":"#FAFBFC") : "#FAFBFC" }}
-                      onMouseEnter={e=>e.currentTarget.style.background=C.secL}
+                      onMouseEnter={e=>e.currentTarget.style.background=colors.secondaryLight}
                       onMouseLeave={e=>e.currentTarget.style.background=r.reported?(i%2===0?"#fff":"#FAFBFC"):"#FAFBFC"}>
                       {/* 자원명 */}
-                      <td style={{ ...tdC("left"), fontWeight:600, color:C.txH }}>
-                        <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                          <div style={{ width:7, height:7, borderRadius:"50%", flexShrink:0,
-                            background: r.reported ? "#19973C" : C.brd }} />
-                          <div style={{ minWidth:0 }}>
-                            <div style={{ overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", maxWidth:110 }}>{r.nm}</div>
-                            {isTotal && <div style={{ fontSize:12, color:C.txL, fontWeight:400 }}>{r.sysNm}</div>}
+                      <td style={{ ...tdC("left") }} className={css.panelNameCell}>
+                        <div className={css.panelNameRow}>
+                          <div className={css.statusDot}
+                            style={{ background: r.reported ? "#19973C" : colors.border }} />
+                          <div className={css.panelNameTextBox}>
+                            <div className={css.panelNameText}>{r.nm}</div>
+                            {isTotal && <div className={css.panelSystemName}>{r.sysNm}</div>}
                           </div>
                         </div>
                       </td>
@@ -414,43 +382,40 @@ const MgrInspReport = () => {
                       <td style={tdC()}>
                         {(() => {
                           const fv = r.resFreq || (freq==="전체" ? "매월" : freq);
-                          const fc = FREQ_COLOR[fv] || "#F36D00";
-                          return <span style={{ padding:"2px 8px", borderRadius:8, fontSize:12, fontWeight:600,
-                            background:fc+"1A", color:fc }}>{fv}</span>;
+                          return <FreqBadge freq={fv} />;
                         })()}
                       </td>
                       {/* 점검일자 */}
-                      <td style={{ ...tdC(), color: r.inspDt ? C.txt : C.txX }}>
+                      <td style={{ ...tdC(), color: r.inspDt ? colors.text : colors.textMuted }}>
                         {r.inspDt || "—"}
                       </td>
                       {/* 보고서제출일 */}
-                      <td style={{ ...tdC(), color: r.reportDt ? C.txt : C.txX }}>
+                      <td style={{ ...tdC(), color: r.reportDt ? colors.text : colors.textMuted }}>
                         {r.reportDt || "—"}
                       </td>
                       {/* 점검자 */}
-                      <td style={tdC()}>{r.reported ? r.inspector : <span style={{color:C.txX}}>—</span>}</td>
+                      <td style={tdC()}>{r.reported ? r.inspector : <span style={{color:colors.textMuted}}>—</span>}</td>
                       {/* 정상 */}
                       <td style={tdC()}>
                         {r.reported
-                          ? <span style={{ fontWeight:700, color:"#19973C" }}>{r.normalCnt}</span>
-                          : <span style={{color:C.txX}}>—</span>}
+                          ? <span className={css.normalCount}>{r.normalCnt}</span>
+                          : <span style={{color:colors.textMuted}}>—</span>}
                       </td>
                       {/* 비정상 */}
                       <td style={tdC()}>
                         {r.reported
-                          ? <span style={{ fontWeight:700, color: r.abnCnt>0?"#E24949":C.txL }}>{r.abnCnt}</span>
-                          : <span style={{color:C.txX}}>—</span>}
+                          ? <span style={{ fontWeight:700, color: r.abnCnt>0?"#E24949":colors.textLight }}>{r.abnCnt}</span>
+                          : <span style={{color:colors.textMuted}}>—</span>}
                       </td>
                       {/* PDF */}
                       <td style={tdC()}>
                         {r.reported ? (
                           <Button xs ghost onClick={()=>showToast(`${r.nm} 보고서 다운로드가 시작되었습니다.`)}
-                            style={{ display:"inline-flex", alignItems:"center", gap:3 }}>
+                            className={css.pdfButton}>
                             📥 PDF
                           </Button>
                         ) : (
-                          <span style={{ fontSize:12, color:C.txX, background:"#F3F4F6",
-                            padding:"3px 8px", borderRadius:4 }}>미보고</span>
+                          <span className={css.unreportedBadge}>미보고</span>
                         )}
                       </td>
                     </tr>
@@ -463,8 +428,8 @@ const MgrInspReport = () => {
             </div>{/* /바디 */}
 
             {/* 푸터 */}
-            <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={panelFooterBar}>
+              <div className={css.panelFooterLeft}>
                 <Button onClick={()=>setPanelInfo(null)}>닫기</Button>
               </div>
             </div>
@@ -472,15 +437,7 @@ const MgrInspReport = () => {
         );
       })()}
 
-      {toastMsg && (
-        <div style={{ position:"fixed", bottom:32, left:"50%", transform:"translateX(-50%)",
-          zIndex:99999, padding:"12px 28px", borderRadius:8, fontSize:15, fontWeight:600,
-          color:"#fff", background:toastMsg.ok?"#16a34a":"#dc2626",
-          boxShadow:"0 4px 20px rgba(0,0,0,.18)",
-          display:"flex", alignItems:"center", gap:8, animation:"toastIn .3s ease" }}>
-          <span>{toastMsg.ok?"✓":"✕"}</span>{toastMsg.msg}
-        </div>
-      )}
+      {toastMsg && <Toast msg={toastMsg.msg} ok={toastMsg.ok} />}
     </div>
   );
 };

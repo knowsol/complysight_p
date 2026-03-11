@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { FormInput, fieldInputStyle } from '@/components/ui/FormField';
 import type { CSSProperties, ChangeEvent } from 'react';
 
@@ -16,7 +16,7 @@ const calNavBtn: CSSProperties = {
   justifyContent: 'center',
   borderRadius: 4,
   fontSize: 13,
-  color: C.txS,
+  color: colors.textSecondary,
   fontFamily: 'inherit',
   transition: 'background .15s',
 };
@@ -57,11 +57,11 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
 
   useEffect(() => {
     if (!open) return;
-    const h = (e: MouseEvent) => {
+    const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener('mousedown', h);
-    return () => document.removeEventListener('mousedown', h);
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, [open]);
 
   useEffect(() => {
@@ -137,8 +137,8 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
     ...fieldInputStyle,
     paddingRight: 36,
     cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'pointer',
-    background: disabled || readOnly ? C.bgDis : '#fff',
-    color: value ? C.txt : C.txL,
+    background: disabled || readOnly ? colors.backgroundDisabled : '#fff',
+    color: value ? colors.text : colors.textLight,
     ...sx,
   };
 
@@ -151,9 +151,9 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
           style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', cursor: disabled || readOnly ? 'default' : 'pointer', display: 'flex', alignItems: 'center', pointerEvents: disabled || readOnly ? 'none' : 'auto' }}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="1.5" y="2.5" width="13" height="12" rx="1.5" stroke={C.txL} strokeWidth="1.2" />
-            <path d="M1.5 6.5h13" stroke={C.txL} strokeWidth="1.2" />
-            <path d="M5 1v3M11 1v3" stroke={C.txL} strokeWidth="1.2" strokeLinecap="round" />
+            <rect x="1.5" y="2.5" width="13" height="12" rx="1.5" stroke={colors.textLight} strokeWidth="1.2" />
+            <path d="M1.5 6.5h13" stroke={colors.textLight} strokeWidth="1.2" />
+            <path d="M5 1v3M11 1v3" stroke={colors.textLight} strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </span>
       </div>
@@ -166,7 +166,7 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
             ...(dropLeft ? { right: 0, left: 'auto' } : { left: 0, right: 'auto' }),
             zIndex: 1200,
             background: '#fff',
-            border: `1px solid ${C.brd}`,
+            border: `1px solid ${colors.border}`,
             borderRadius: 8,
             boxShadow: '0 8px 24px rgba(0,0,0,.12)',
             padding: 12,
@@ -190,9 +190,9 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
                 </button>
                 <span
                   onClick={() => setYearMode(true)}
-                  style={{ fontSize: 15, fontWeight: 600, color: C.txH, cursor: 'pointer', padding: '2px 8px', borderRadius: 4, transition: 'background .15s' }}
+                  style={{ fontSize: 15, fontWeight: 600, color: colors.textHeading, cursor: 'pointer', padding: '2px 8px', borderRadius: 4, transition: 'background .15s' }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = C.bg;
+                    e.currentTarget.style.background = colors.background;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = '';
@@ -217,7 +217,7 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
                 <button onClick={() => setViewYear((y) => y - 10)} style={{ ...calNavBtn }}>
                   &lt;
                 </button>
-                <span style={{ fontSize: 15, fontWeight: 600, color: C.txH }}>
+                <span style={{ fontSize: 15, fontWeight: 600, color: colors.textHeading }}>
                   {yearStart} - {yearStart + 11}
                 </span>
                 <button onClick={() => setViewYear((y) => y + 10)} style={{ ...calNavBtn }}>
@@ -236,7 +236,7 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
                     setViewYear(y);
                     setYearMode(false);
                   }}
-                  style={{ ...calDayBtn, background: y === viewYear ? C.sec : 'none', color: y === viewYear ? '#fff' : C.txt, fontWeight: y === viewYear ? 600 : 400, borderRadius: 6 }}
+                  style={{ ...calDayBtn, background: y === viewYear ? colors.secondary : 'none', color: y === viewYear ? '#fff' : colors.text, fontWeight: y === viewYear ? 600 : 400, borderRadius: 6 }}
                 >
                   {y}
                 </button>
@@ -246,7 +246,7 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
             <>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 4 }}>
                 {DAYS.map((d, i) => (
-                  <div key={d} style={{ textAlign: 'center', fontSize: 12, fontWeight: 600, color: i === 0 ? '#E24949' : i === 6 ? '#457CE1' : C.txL, padding: '2px 0' }}>
+                  <div key={d} style={{ textAlign: 'center', fontSize: 12, fontWeight: 600, color: i === 0 ? '#E24949' : i === 6 ? '#457CE1' : colors.textLight, padding: '2px 0' }}>
                     {d}
                   </div>
                 ))}
@@ -271,10 +271,10 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
                         onClick={() => select(d)}
                         style={{
                           ...calDayBtn,
-                          background: isSelected ? C.sec : 'none',
-                          color: isSelected ? '#fff' : dow === 0 ? '#E24949' : dow === 6 ? '#457CE1' : C.txt,
+                          background: isSelected ? colors.secondary : 'none',
+                          color: isSelected ? '#fff' : dow === 0 ? '#E24949' : dow === 6 ? '#457CE1' : colors.text,
                           fontWeight: isSelected || isToday ? 600 : 400,
-                          outline: isToday && !isSelected ? `2px solid ${C.sec}` : 'none',
+                          outline: isToday && !isSelected ? `2px solid ${colors.secondary}` : 'none',
                           outlineOffset: -2,
                         }}
                       >
@@ -286,14 +286,14 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
             </>
           )}
 
-          <div style={{ borderTop: `1px solid ${C.brd}`, marginTop: 8, paddingTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ borderTop: `1px solid ${colors.border}`, marginTop: 8, paddingTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
             <FormInput
               value={directInput}
               onChange={handleDirectInput}
               onKeyDown={(e) => e.key === 'Enter' && applyDirectInput()}
               onBlur={applyDirectInput}
               placeholder="YYYY-MM-DD"
-              style={{ flex: 1, padding: '4px 8px', fontSize: 14, border: `1px solid ${C.brd}`, borderRadius: 4, outline: 'none', fontFamily: 'inherit', color: C.txt, boxSizing: 'border-box' }}
+              style={{ flex: 1, padding: '4px 8px', fontSize: 14, border: `1px solid ${colors.border}`, borderRadius: 4, outline: 'none', fontFamily: 'inherit', color: colors.text, boxSizing: 'border-box' }}
             />
             <button
               onClick={() => {
@@ -301,7 +301,7 @@ export function DatePicker({ value = '', onChange, placeholder = 'YYYY-MM-DD', d
                 setDirectInput(todayStr);
                 setOpen(false);
               }}
-              style={{ fontSize: 12, color: C.sec, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500, flexShrink: 0 }}
+              style={{ fontSize: 12, color: colors.secondary, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500, flexShrink: 0 }}
             >
               오늘
             </button>
@@ -333,7 +333,7 @@ export function DateRangePicker({ from = '', to = '', onFromChange, onToChange, 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <DatePicker value={from} onChange={handleFromChange} placeholder="시작일" disabled={disabled} style={{ width: 130 }} />
-      <span style={{ color: C.txL, fontSize: 15, flexShrink: 0 }}>~</span>
+      <span style={{ color: colors.textLight, fontSize: 15, flexShrink: 0 }}>~</span>
       <DatePicker value={to} onChange={handleToChange} placeholder="종료일" disabled={disabled} style={{ width: 130 }} />
     </div>
   );
@@ -360,7 +360,7 @@ export function TimePicker({ value = '', onChange, placeholder = 'HH:MM', disabl
     const p = v.split(':');
     return { h: +p[0] || 0, m: +p[1] || 0, s: +p[2] || 0 };
   };
-  const fmt = (h: number, m: number, s: number) => (withSeconds ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
+  const formatTime = (h: number, m: number, s: number) => (withSeconds ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
 
   const { h: selH, m: selM, s: selS } = parse(value);
 
@@ -389,22 +389,22 @@ export function TimePicker({ value = '', onChange, placeholder = 'HH:MM', disabl
     ...fieldInputStyle,
     paddingRight: 36,
     cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'pointer',
-    background: disabled || readOnly ? C.bgDis : '#fff',
-    color: value ? C.txt : C.txL,
+    background: disabled || readOnly ? colors.backgroundDisabled : '#fff',
+    color: value ? colors.text : colors.textLight,
     ...sx,
   };
 
   const ColScroll = ({ label, items, selected, onSelect }: { label: string; items: number[]; selected: number; onSelect: (value: number) => void }) => (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: C.txS, marginBottom: 4, display: 'flex', alignItems: 'center', lineHeight: 1.4, minHeight: 18 }}>{label}</div>
-      <div style={{ height: 180, overflowY: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: `${C.brd} transparent` }}>
+      <div style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, marginBottom: 4, display: 'flex', alignItems: 'center', lineHeight: 1.4, minHeight: 18 }}>{label}</div>
+      <div style={{ height: 180, overflowY: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: `${colors.border} transparent` }}>
         {items.map((v) => (
           <div
             key={v}
             onClick={() => onSelect(v)}
-            style={{ padding: '6px 0', textAlign: 'center', cursor: 'pointer', fontSize: 15, fontFamily: 'inherit', borderRadius: 4, background: v === selected ? C.sec : 'none', color: v === selected ? '#fff' : C.txt, fontWeight: v === selected ? 600 : 400, transition: 'background .1s' }}
+            style={{ padding: '6px 0', textAlign: 'center', cursor: 'pointer', fontSize: 15, fontFamily: 'inherit', borderRadius: 4, background: v === selected ? colors.secondary : 'none', color: v === selected ? '#fff' : colors.text, fontWeight: v === selected ? 600 : 400, transition: 'background .1s' }}
             onMouseEnter={(e) => {
-              if (v !== selected) e.currentTarget.style.background = C.secL;
+              if (v !== selected) e.currentTarget.style.background = colors.secondaryLight;
             }}
             onMouseLeave={(e) => {
               if (v !== selected) e.currentTarget.style.background = 'none';
@@ -423,7 +423,7 @@ export function TimePicker({ value = '', onChange, placeholder = 'HH:MM', disabl
 
   const now = new Date();
   const setNow = () => {
-    onChange?.(fmt(now.getHours(), now.getMinutes(), withSeconds ? now.getSeconds() : 0));
+    onChange?.(formatTime(now.getHours(), now.getMinutes(), withSeconds ? now.getSeconds() : 0));
     setOpen(false);
   };
 
@@ -433,8 +433,8 @@ export function TimePicker({ value = '', onChange, placeholder = 'HH:MM', disabl
         <FormInput readOnly value={value || ''} placeholder={placeholder} onClick={() => !disabled && !readOnly && setOpen((o) => !o)} disabled={disabled} style={inputStyle} />
         <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', pointerEvents: 'none' }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="6.5" stroke={C.txL} strokeWidth="1.2" />
-            <path d="M8 4.5v4l2.5 2" stroke={C.txL} strokeWidth="1.2" strokeLinecap="round" />
+            <circle cx="8" cy="8" r="6.5" stroke={colors.textLight} strokeWidth="1.2" />
+            <path d="M8 4.5v4l2.5 2" stroke={colors.textLight} strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </span>
       </div>
@@ -447,7 +447,7 @@ export function TimePicker({ value = '', onChange, placeholder = 'HH:MM', disabl
             ...(dropLeft ? { right: 0, left: 'auto' } : { left: 0, right: 'auto' }),
             zIndex: 1200,
             background: '#fff',
-            border: `1px solid ${C.brd}`,
+            border: `1px solid ${colors.border}`,
             borderRadius: 8,
             boxShadow: '0 8px 24px rgba(0,0,0,.12)',
             padding: '12px 8px',
@@ -455,22 +455,22 @@ export function TimePicker({ value = '', onChange, placeholder = 'HH:MM', disabl
             userSelect: 'none',
           }}
         >
-          <div style={{ display: 'flex', gap: 4, alignItems: 'flex-start', borderBottom: `1px solid ${C.brd}`, paddingBottom: 8, marginBottom: 8 }}>
-            <ColScroll label="시" items={hours} selected={selH} onSelect={(h) => onChange?.(fmt(h, selM, selS))} />
-            <div style={{ width: 1, background: C.brd, alignSelf: 'stretch', margin: '20px 0 0' }} />
-            <ColScroll label="분" items={minutes} selected={selM} onSelect={(m) => onChange?.(fmt(selH, m, selS))} />
+          <div style={{ display: 'flex', gap: 4, alignItems: 'flex-start', borderBottom: `1px solid ${colors.border}`, paddingBottom: 8, marginBottom: 8 }}>
+            <ColScroll label="시" items={hours} selected={selH} onSelect={(h) => onChange?.(formatTime(h, selM, selS))} />
+            <div style={{ width: 1, background: colors.border, alignSelf: 'stretch', margin: '20px 0 0' }} />
+            <ColScroll label="분" items={minutes} selected={selM} onSelect={(m) => onChange?.(formatTime(selH, m, selS))} />
             {withSeconds && (
               <>
-                <div style={{ width: 1, background: C.brd, alignSelf: 'stretch', margin: '20px 0 0' }} />
-                <ColScroll label="초" items={seconds} selected={selS} onSelect={(s) => onChange?.(fmt(selH, selM, s))} />
+                <div style={{ width: 1, background: colors.border, alignSelf: 'stretch', margin: '20px 0 0' }} />
+                <ColScroll label="초" items={seconds} selected={selS} onSelect={(s) => onChange?.(formatTime(selH, selM, s))} />
               </>
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
-            <button style={{ fontSize: 12, color: C.sec, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }} onClick={setNow}>
+            <button style={{ fontSize: 12, color: colors.secondary, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }} onClick={setNow}>
               현재 시각
             </button>
-            <button style={{ fontSize: 12, color: '#fff', background: C.sec, border: 'none', borderRadius: 4, padding: '4px 12px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }} onClick={() => setOpen(false)}>
+            <button style={{ fontSize: 12, color: '#fff', background: colors.secondary, border: 'none', borderRadius: 4, padding: '4px 12px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }} onClick={() => setOpen(false)}>
               확인
             </button>
           </div>

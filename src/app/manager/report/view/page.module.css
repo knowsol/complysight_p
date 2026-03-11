@@ -1,0 +1,216 @@
+.searchField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.freqOptions {
+  display: flex;
+  gap: 4px;
+  height: 36px;
+  align-items: center;
+}
+
+.infoBox {
+  margin: 12px 0 4px;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.sectionHeading {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+.sectionCount {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.reportTable {
+  min-width: 100%;
+  width: max-content;
+  border-collapse: collapse;
+  font-size: 15px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tableHeadRow {
+  border-top: 1px solid var(--color-text-heading);
+}
+
+.totalRow {
+  background: #f0f5ff;
+  font-weight: 700;
+}
+
+.totalResourceTitle {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 15px;
+}
+
+.totalResourceMeta {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 1px;
+}
+
+.mutedDash {
+  color: var(--color-text-muted);
+}
+
+.cellColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.systemName {
+  font-weight: 600;
+  color: var(--color-text-heading);
+  font-size: 15px;
+}
+
+.systemMeta {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 1px;
+}
+
+.notGenerated {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.tableGuide {
+  padding: 8px 0;
+}
+
+.tableGuideText {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.panelSummaryRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.panelSubInfo {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-bottom: 14px;
+}
+
+.panelSubInfoName {
+  font-weight: 600;
+}
+
+.panelTableSection {
+  margin-bottom: 0;
+}
+
+.panelTableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  margin-bottom: 0;
+}
+
+.panelTableTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+.panelDownloadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.panelGridWrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.panelGrid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.panelNameCell {
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+.panelNameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.panelNameTextBox {
+  min-width: 0;
+}
+
+.panelNameText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 110px;
+}
+
+.panelSystemName {
+  font-size: 12px;
+  color: var(--color-text-light);
+  font-weight: 400;
+}
+
+.normalCount {
+  font-weight: 700;
+  color: #19973c;
+}
+
+.pdfButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.unreportedBadge {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  background: #f3f4f6;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.panelFooterLeft {
+  display: flex;
+  align-items: center;
+}

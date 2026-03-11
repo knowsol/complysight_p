@@ -8,15 +8,15 @@ export interface StatusBadgeProps {
 }
 
 export interface YnBadgeProps {
-  v: string;
+  value: string;
 }
 
 export interface RoleBadgeProps {
-  v: string;
+  value: string;
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const s = SC[status] || { b: 'rgba(140,147,157,0.12)', t: '#6B7280' };
+  const statusColor = SC[status] || { b: 'rgba(140,147,157,0.12)', t: '#6B7280' };
   return (
     <span
       style={{
@@ -29,8 +29,8 @@ export function StatusBadge({ status }: StatusBadgeProps) {
         fontWeight: 500,
         lineHeight: '18px',
         whiteSpace: 'nowrap',
-        background: s.b,
-        color: s.t,
+        background: statusColor.b,
+        color: statusColor.t,
       }}
     >
       {status}
@@ -38,8 +38,8 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   );
 }
 
-export function YnBadge({ v }: YnBadgeProps) {
-  const isY = v === 'Y' || v === '사용';
+export function YnBadge({ value }: YnBadgeProps) {
+  const isY = value === 'Y' || value === '사용';
   return (
     <span
       style={{
@@ -60,14 +60,14 @@ export function YnBadge({ v }: YnBadgeProps) {
   );
 }
 
-export function RoleBadge({ v }: RoleBadgeProps) {
-  const rc: Record<string, { b: string; t: string }> = {
+export function RoleBadge({ value }: RoleBadgeProps) {
+  const roleColorMap: Record<string, { b: string; t: string }> = {
     시스템관리자: { b: 'rgba(51,156,213,0.12)', t: '#339CD5' },
     기관관리자: { b: 'rgba(0,161,112,0.12)', t: '#00805A' },
     유지보수총괄: { b: 'rgba(243,109,0,0.12)', t: '#D15E00' },
     사용자: { b: 'rgba(140,147,157,0.12)', t: '#6B7280' },
   };
-  const s = rc[v] || { b: 'rgba(140,147,157,0.12)', t: '#6B7280' };
+  const statusColor = roleColorMap[value] || { b: 'rgba(140,147,157,0.12)', t: '#6B7280' };
 
   return (
     <span
@@ -80,11 +80,11 @@ export function RoleBadge({ v }: RoleBadgeProps) {
         fontSize: 12,
         fontWeight: 500,
         lineHeight: '18px',
-        background: s.b,
-        color: s.t,
+        background: statusColor.b,
+        color: statusColor.t,
       }}
     >
-      {v}
+      {value}
     </span>
   );
 }

@@ -11,11 +11,13 @@ import { FormInput, FormSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { FormRow, PanelDeleteButton, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
-import { C } from '@/lib/theme/colors';
-import { fInput } from '@/lib/theme/styles';
+import { colors } from '@/lib/theme/colors';
+import { filterChip, panelBody, panelFooterBar, errorText, hoverStyle, fInput, emptyState } from '@/lib/theme/styles';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
+import { EmptyState, DotIndicator } from '@/components/ui/StyleUtils';
 import { RES } from '@/data/resources';
 import { _mids, _sIds, _sysMap } from '@/data/systems';
+import css from './page.module.css';
 
 
 const MgrAgentAuth = () => {
@@ -160,8 +162,8 @@ const MgrAgentAuth = () => {
 
   const spf = (k,v) => setPanelForm(p=>({...p,[k]:v}));
   const inp = {...fInput};
-  const ro  = {background:"#f0f1f3",color:C.txS,pointerEvents:"none"};
-  const err = (msg) => msg ? <div style={{fontSize:12,color:"#ef4444",marginTop:3}}>{msg}</div> : null;
+  const ro  = {background:"#f0f1f3",color:colors.textSecondary,pointerEvents:"none"};
+  const err = (msg) => msg ? <div style={errorText}>{msg}</div> : null;
 
 
 
@@ -176,15 +178,15 @@ const MgrAgentAuth = () => {
     return (
       <>
         {/* 공통: 호스트 + 포트 */}
-        <div style={{display:"flex",gap:12}}>
-          <div style={{flex:1}}>
+        <div className={css.authFieldRow}>
+          <div className={css.fieldFlex}>
             <FormRow label="호스트 (IP)" required>
               <FormInput value={panelForm.host} onChange={e=>spf("host",e.target.value)}
                 placeholder="예) 10.100.1.1" style={inp} />
               {err(panelErr.host)}
             </FormRow>
           </div>
-          <div style={{width:90}}>
+          <div className={css.fieldPort}>
             <FormRow label="포트">
               <FormInput type="number" value={panelForm.port} onChange={e=>spf("port",parseInt(e.target.value)||0)}
                 style={inp} />
@@ -201,14 +203,13 @@ const MgrAgentAuth = () => {
               {err(panelErr.authId)}
             </FormRow>
             <FormRow label="접속 PW">
-              <div style={{position:"relative"}}>
+              <div className={css.passwordWrap}>
                 <FormInput type={showPw?"text":"password"} value={panelForm.authPw}
                   onChange={e=>spf("authPw",e.target.value)}
                   placeholder="접속 비밀번호"
                   style={{...inp,paddingRight:40}} />
                 <button onClick={()=>setShowPw(p=>!p)}
-                  style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",
-                    background:"none",border:"none",cursor:"pointer",fontSize:15,color:C.txL}}>
+                  className={css.passwordToggle}>
                   {showPw?"🙈":"👁️"}
                 </button>
               </div>
@@ -232,14 +233,14 @@ const MgrAgentAuth = () => {
         )}
 
         {/* 공통: 타임아웃 + 재시도 */}
-        <div style={{display:"flex",gap:12}}>
-          <div style={{flex:1}}>
+        <div className={css.authFieldRow}>
+          <div className={css.fieldFlex}>
             <FormRow label="타임아웃 (초)">
               <FormInput type="number" min={1} max={120} value={panelForm.timeout}
                 onChange={e=>spf("timeout",parseInt(e.target.value)||10)} style={inp} />
             </FormRow>
           </div>
-          <div style={{flex:1}}>
+          <div className={css.fieldFlex}>
             <FormRow label="재시도 횟수">
               <FormInput type="number" min={0} max={10} value={panelForm.retryCount}
                 onChange={e=>spf("retryCount",parseInt(e.target.value)||0)} style={inp} />
@@ -256,29 +257,28 @@ const MgrAgentAuth = () => {
 
   return (
     <div>
-      <PageHeader title="AGENT 권한관리" bc="홈 > 보안 및 개발 > AGENT 권한관리" />
+      <PageHeader title="AGENT 권한관리" breadcrumb="홈 > 보안 및 개발 > AGENT 권한관리" />
 
-      <div style={{display:"flex",gap:16,maxHeight:"calc(100vh - 170px)",boxSizing:"border-box"}}>
+      <div className={css.mainLayout}>
 
         {/* ── 좌: 자원 목록 ── */}
-        <div style={{width:240,flexShrink:0,display:"flex",flexDirection:"column",background:"#fff",border:`1px solid ${C.brd}`,borderRadius:10,overflow:"hidden"}}>
+        <div className={css.leftPanel}>
 
           {/* 헤더 */}
-          <div style={{padding:"14px 16px",borderBottom:`1px solid ${C.brd}`,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <span style={{fontSize:12,fontWeight:700,color:C.txt}}>자원 선택</span>
+          <div className={css.panelHeader}>
+            <span className={css.panelTitle}>자원 선택</span>
           </div>
-          <div style={{padding:"10px 12px",borderBottom:`1px solid ${C.brd}`,flexShrink:0,display:"flex",flexDirection:"column",gap:8}}>
+          <div className={css.filterSection}>
             {/* 정보시스템 필터 */}
             <FormSelect value={selSys} onChange={e=>{setSelSys(e.target.value);setResPage(1);setSelRes(null);}}
-              style={{...inp,fontSize:12,padding:"6px 10px",width:"100%",boxSizing:"border-box"}}>
+              className={css.fullWidthInput} style={inp}>
               {SYS_LIST.map(s=><option key={s.id} value={s.id}>{s.nm}</option>)}
             </FormSelect>
             {/* 분류 필터 */}
-            <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+            <div className={css.midFilterRow}>
               {MID_LIST.map(m=>(
                 <button key={m} onClick={()=>{setSelMid(m);setResPage(1);setSelRes(null);}}
-                  style={{padding:"3px 8px",fontSize:12,border:`1px solid ${selMid===m?C.pri:C.brd}`,borderRadius:5,
-                    background:selMid===m?C.pri:"#fff",color:selMid===m?"#fff":C.txS,cursor:"pointer",fontWeight:selMid===m?600:400}}>
+                  style={filterChip(selMid===m)}>
                   {m}
                 </button>
               ))}
@@ -286,13 +286,13 @@ const MgrAgentAuth = () => {
             {/* 검색 */}
             <FormInput value={resQ} onChange={e=>{setResQ(e.target.value);setResPage(1);}}
               placeholder="자원명 / IP 검색"
-              style={{...inp,fontSize:12,padding:"6px 10px",width:"100%",boxSizing:"border-box"}} />
+              className={css.fullWidthInput} style={inp} />
           </div>
 
           {/* 자원 리스트 */}
-          <div style={{flex:1,overflowY:"auto"}}>
+          <div className={css.resList}>
             {pagedRes.length===0 && (
-              <div style={{padding:30,textAlign:"center",color:C.txL,fontSize:12}}>자원이 없습니다.</div>
+              <div className={css.resEmpty} style={emptyState}>자원이 없습니다.</div>
             )}
             {pagedRes.map(r => {
               const sel = selRes?.id===r.id;
@@ -304,23 +304,21 @@ const MgrAgentAuth = () => {
               return (
                 <div key={r.id}
                   onClick={()=>{ setSelRes(r); setPanel(false); }}
-                  style={{padding:"9px 14px",cursor:"pointer", borderRadius:6, margin:"1px 6px",
-                    background:sel?C.priL:"transparent",
-                    transition:"all .3s"}}
-                  onMouseEnter={e => { if (!sel) e.currentTarget.style.background = C.secL; }}
-                  onMouseLeave={e => { if (!sel) e.currentTarget.style.background = sel ? C.priL : "transparent"; }}>
-                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:7,flex:1,minWidth:0}}>
-                      <div style={{width:8,height:8,borderRadius:"50%",background:dotColor,flexShrink:0}} />
-                      <span style={{fontSize:15,fontWeight:sel?600:500,color:sel?C.sec:C.txt,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.nm}</span>
+                  className={`${css.resItem} ${sel ? css.resItemSelected : ''}`}>
+                  <div className={css.resItemTop}>
+                    <div className={css.resNameRow}>
+                      <DotIndicator color={dotColor} />
+                      <span className={`${css.resName} ${sel ? css.resNameSelected : ''}`}>{r.nm}</span>
                     </div>
-                    <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
-                      <span style={{fontSize:12,color:C.txL,background:"#F9FAFC",borderRadius:10,padding:"1px 7px"}}>{authList.length}</span>
+                    <div className={css.resActions}>
+                      <span className={css.resCount}>{authList.length}</span>
                       <button
                         onClick={e => { e.stopPropagation(); setSelRes(r); }}
-                        style={{ width:24, height:24, border:`1px solid ${C.brd}`, borderRadius:4, background:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", color:C.txL, flexShrink:0 }}
-                        onMouseEnter={e => { e.currentTarget.style.background = C.secL; e.currentTarget.style.color = C.pri; e.currentTarget.style.borderColor = C.pri; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = C.txL; e.currentTarget.style.borderColor = C.brd; }}
+                        style={{ width:24, height:24, border:`1px solid ${colors.border}`, borderRadius:4, background:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", color:colors.textLight, flexShrink:0 }}
+                        {...hoverStyle(
+                          { bg: "#fff", color: colors.textLight, border: colors.border },
+                          { bg: colors.secondaryLight, color: colors.primary, border: colors.primary }
+                        )}
                         title="상세 보기">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
                           <circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/>
@@ -328,7 +326,7 @@ const MgrAgentAuth = () => {
                       </button>
                     </div>
                   </div>
-                  <div style={{fontSize:12,color:C.txL,marginTop:2,display:"flex",gap:8,paddingLeft:15}}>
+                  <div className={css.resMeta}>
                     <span>{r.mid}</span>
                     <span>·</span>
                     <span>{r.sysNm}</span>
@@ -340,31 +338,27 @@ const MgrAgentAuth = () => {
 
           {/* 페이지네이션 */}
           {totalResPages > 1 && (
-            <div style={{padding:"8px 12px",borderTop:`1px solid ${C.brd}`,display:"flex",alignItems:"center",justifyContent:"center",gap:3,flexShrink:0}}>
+            <div className={css.paginationBar}>
               <button onClick={()=>setResPage(p=>Math.max(1,p-1))} disabled={resPage===1}
-                style={{padding:"4px 8px",fontSize:12,border:`1px solid ${C.brd}`,borderRadius:4,background:"#fff",color:resPage===1?C.txL:C.txt,cursor:resPage===1?"default":"pointer"}}>‹</button>
-              <span style={{fontSize:12,color:C.txS,padding:"0 8px"}}>{resPage} / {totalResPages}</span>
+                className={css.paginationButton}>‹</button>
+              <span className={css.paginationText}>{resPage} / {totalResPages}</span>
               <button onClick={()=>setResPage(p=>Math.min(totalResPages,p+1))} disabled={resPage===totalResPages}
-                style={{padding:"4px 8px",fontSize:12,border:`1px solid ${C.brd}`,borderRadius:4,background:"#fff",color:resPage===totalResPages?C.txL:C.txt,cursor:resPage===totalResPages?"default":"pointer"}}>›</button>
+                className={css.paginationButton}>›</button>
             </div>
           )}
         </div>
 
         {/* ── 우: 에이전트 권한 목록 ── */}
-        <div style={{flex:1, minWidth:0}}>
+        <div className={css.rightPanel}>
           {!selRes ? (
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100%",color:C.txL,gap:8}}>
-              <div style={{fontSize:36}}>🔐</div>
-              <div style={{fontSize:15,fontWeight:600,color:C.txS}}>자원을 선택하세요</div>
-              <div style={{fontSize:12}}>왼쪽에서 자원을 선택하면 에이전트 접속 권한을 관리할 수 있습니다.</div>
-            </div>
+            <EmptyState icon="🔐" title="자원을 선택하세요" desc="왼쪽에서 자원을 선택하면 에이전트 접속 권한을 관리할 수 있습니다." style={{ height: "100%" }} />
           ) : (<>
-            <SearchBar ph="에이전트, 호스트 검색" />
-            <DataTable secTitle={`${selRes.nm} 에이전트 목록`} secCount={curAuth.length} secButtons={availableAgents.length > 0 && (
-              <div style={{position:"relative"}}>
+            <SearchBar placeholder="에이전트, 호스트 검색" />
+            <DataTable sectionTitle={`${selRes.nm} 에이전트 목록`} sectionCount={curAuth.length} sectionButtons={availableAgents.length > 0 && (
+              <div className={css.agentSelectWrap}>
                 <FormSelect defaultValue=""
                   onChange={e=>{ if(e.target.value){ openPanel(null,true,e.target.value); e.target.value=""; }}}
-                  style={{fontSize:12,padding:"6px 12px",color:C.pri,border:`1px solid ${C.pri}`,borderRadius:4,fontWeight:600,background:"#fff",cursor:"pointer",fontFamily:"inherit"}}>
+                  className={css.agentAddSelect}>
                   <option value="" disabled>+ 에이전트 추가</option>
                   {availableAgents.map(a=>(
                     <option key={a.cd} value={a.cd}>{a.icon} {a.nm}</option>
@@ -372,20 +366,20 @@ const MgrAgentAuth = () => {
                 </FormSelect>
               </div>
             )} cols={[
-              { t: "에이전트", k: "agentType", r: v => { const ag = AGENT_TYPES.find(a=>a.cd===v); return <Badge status={v} label={ag ? `${ag.icon} ${ag.nm}` : v} />; } },
-              { t: "호스트", k: "host", r: v => <span style={{fontFamily:"inherit"}}>{v}</span> },
-              { t: "포트", k: "port", r: v => <span style={{fontFamily:"inherit"}}>{v||"—"}</span> },
-              { t: "접속 정보", k: "id", r: (_, row) => {
+              { title: "에이전트", fieldKey: "agentType", renderCell: v => { const ag = AGENT_TYPES.find(a=>a.cd===v); return <Badge status={v} label={ag ? `${ag.icon} ${ag.nm}` : v} />; } },
+              { title: "호스트", fieldKey: "host", renderCell: v => <span className={css.monoText}>{v}</span> },
+              { title: "포트", fieldKey: "port", renderCell: v => <span className={css.monoText}>{v||"—"}</span> },
+              { title: "접속 정보", fieldKey: "id", renderCell: (_, row) => {
                 const info = row.agentType==="SNMP" ? `${row.snmpVer} / ${row.community}` : row.authId ? row.authId : "—";
                 return <span>{info}</span>;
               }},
-              { t: "타임아웃", k: "timeout", r: v => `${v}초` },
-              { t: "연결 테스트", k: "testResult", r: (v, row) => <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
+              { title: "타임아웃", fieldKey: "timeout", renderCell: v => `${v}초` },
+              { title: "연결 테스트", fieldKey: "testResult", renderCell: (v, row) => <div className={css.testResultCell}>
                 <Badge status={v||"미확인"} />
-                {row.testDt && <span style={{color:C.txL,fontFamily:"inherit"}}>{row.testDt}</span>}
+                {row.testDt && <span className={css.testDateText}>{row.testDt}</span>}
               </div> },
-              { t: "사용여부", k: "useYn", r: v => <YnBadge v={v} /> },
-              { t: "등록일", k: "regDt" },
+              { title: "사용여부", fieldKey: "useYn", renderCell: v => <YnBadge value={v} /> },
+              { title: "등록일", fieldKey: "regDt" },
             ]} data={curAuth} onRow={r => openPanel(r, false)} />
           </>)}
         </div>
@@ -395,18 +389,18 @@ const MgrAgentAuth = () => {
       <SidePanel open={panel} onClose={()=>setPanel(false)}
         title={panelIsNew?"에이전트 접속 설정 추가":"에이전트 접속 설정 수정"} width={460} noScroll>
       {/* 바디 */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+      <div style={panelBody}>
         {panelForm && (
           <>
             {!panelIsNew && <PanelDeleteButton onClick={()=>setDelTarget(panelForm.id)} />}
 
             <SectionTitle label="에이전트 정보" primary />
-            <div style={{marginBottom:16,padding:"12px 14px",background:"#f8fafc",border:`1px solid ${C.brd}`,borderRadius:8,display:"flex",alignItems:"center",gap:12}}>
+            <div className={css.agentInfoBox}>
               {(() => { const ag = AGENT_TYPES.find(a=>a.cd===panelForm.agentType); return <Badge status={panelForm.agentType} label={ag ? `${ag.icon} ${ag.nm}` : panelForm.agentType} />; })()}
-              <div style={{fontSize:12,color:C.txS}}>
+              <div className={css.agentDesc}>
                 {AGENT_TYPES.find(a=>a.cd===panelForm.agentType)?.desc}
                 {isRecommended(panelForm.agentType) &&
-                  <span style={{marginLeft:8,fontSize:12,color:"#16a34a",fontWeight:600}}>✓ 권장 에이전트</span>}
+                  <span className={css.recommendedTag}>✓ 권장 에이전트</span>}
               </div>
             </div>
 
@@ -414,10 +408,10 @@ const MgrAgentAuth = () => {
             {renderAuthFields()}
 
             {/* 연결 테스트 */}
-            <div style={{marginTop:4,marginBottom:16,padding:"12px 14px",background:"#f8fafc",border:`1px solid ${C.brd}`,borderRadius:8}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:panelForm.testDt?8:0}}>
-                <div style={{display:"flex",alignItems:"center",gap:8}}>
-                  <span style={{fontSize:12,fontWeight:600,color:C.txt}}>연결 테스트</span>
+            <div className={css.testBox}>
+              <div className={`${css.testHeader} ${panelForm.testDt ? css.testHeaderWithDate : ''}`}>
+                <div className={css.testHeaderLeft}>
+                  <span className={css.testTitle}>연결 테스트</span>
                   <Badge status={panelForm.testResult||"미확인"} />
                 </div>
                 <Button sm outline onClick={handleTest} disabled={testLoading}>
@@ -425,17 +419,17 @@ const MgrAgentAuth = () => {
                 </Button>
               </div>
               {panelForm.testDt && (
-                <div style={{color:C.txL,marginTop:6,fontFamily:"inherit"}}>마지막 테스트: {panelForm.testDt}</div>
+                <div className={css.lastTestText}>마지막 테스트: {panelForm.testDt}</div>
               )}
             </div>
 
           </>
         )}
       </div>{/* /바디 */}
-      <div style={{ padding: "16px 24px", borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={panelFooterBar}>
+        <div className={css.panelFooterRow}>
           <Button onClick={()=>setPanel(false)}>취소</Button>
-          <div style={{ flex: 1 }} />
+          <div className={css.panelFooterSpacer} />
           <Button primary onClick={saveAuth}>{panelIsNew ? "등록" : "저장"}</Button>
         </div>
       </div>

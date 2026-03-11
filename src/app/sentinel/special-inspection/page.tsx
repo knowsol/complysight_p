@@ -11,8 +11,9 @@ import { InspFilter } from '@/components/ui/InspFilter';
 import { PageSidebarLayout } from '@/components/ui/PageSidebarLayout';
 import { StlSpecialPanel } from '@/components/panels';
 import { SI, _specMenu } from '@/data/inspections';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM } from '@/lib/theme/styles';
+import css from './page.module.css';
 
 export default function SentinelSpecialInspectionPage() {
   const [items, setItems] = useState(SI);
@@ -51,10 +52,12 @@ export default function SentinelSpecialInspectionPage() {
   const title = fKind || '전체현황';
 
   const ST_COLOR = { 요청: '#929292', 중단: '#F36D00', 완료: '#19973C', 지연: '#E24949' };
+  const stBadge = (v: string) => ({ display: 'inline-block', padding: '2px 10px', borderRadius: 10, fontSize: 12, fontWeight: 700, background: (ST_COLOR[v] || colors.textSecondary) + '1A', color: ST_COLOR[v] || colors.textSecondary });
+  const submitDtText = (v: string) => ({ color: !v || v === '-' ? colors.textLight : colors.text });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
-      <PageHeader title="특별점검" bc="홈 > 특별점검" />
+    <div className={css.wrapper}>
+      <PageHeader title="특별점검" breadcrumb="홈 > 특별점검" />
       <PageSidebarLayout
         sidebar={(
           <Card title="점검종류" style={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -62,41 +65,41 @@ export default function SentinelSpecialInspectionPage() {
           </Card>
         )}
       >
-          <div style={{ width: '100%', border: `1px solid ${C.brd}`, background: C.bg, borderRadius: 6, padding: '16px 12px', display: 'flex', gap: 8, marginBottom: 16, alignItems: 'stretch' }}>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 'fit-content' }}>
+          <div className={css.searchForm}>
+            <div className={css.filterGroup}>
+              <div className={css.filterCol}>
                 <span style={{ ...LABEL_STYLE_SM }}>제목/점검자</span>
                 <FormInput
                   value={kw}
                   onChange={(e) => setKw(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && doSearch()}
                   placeholder="제목, 점검자 검색"
-                  style={{ padding: '6px 12px', border: `1px solid ${C.brd}`, borderRadius: 4, fontSize: 15, outline: 'none', color: C.txt, background: '#fff', minWidth: 200, fontFamily: 'inherit' }}
+                  className={css.inputStyle}
                 />
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', flexShrink: 0, alignSelf: 'stretch' }}>
+            <div className={css.searchBtnGroup}>
               <SearchBtn onClick={doSearch} />
               <RefreshBtn onClick={doReset} />
             </div>
           </div>
           <DataTable
-            secTitle={title}
-            secCount={filtered.length}
+            sectionTitle={title}
+            sectionCount={filtered.length}
             onRow={(row) => setSelItem(row)}
-            secButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 점검등록</Button>}
+            sectionButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 점검등록</Button>}
             cols={[
-              { t: '상태', k: 'st', w: 80, r: (v) => <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: 10, fontSize: 12, fontWeight: 700, background: (ST_COLOR[v] || C.txS) + '1A', color: ST_COLOR[v] || C.txS }}>{v}</span> },
-              { t: '특별점검 제목', k: 'title', mw: 220, align: 'left', r: (v) => <span style={{ fontWeight: 600, color: C.pri }}>{v}</span> },
-              { t: '점검종류', k: 'kind', w: 120 },
-              { t: '등록자', k: 'regUser', w: 80 },
-              { t: '등록일', k: 'reg', w: 100 },
-              { t: '점검계획서', k: 'planFile', w: 90, r: (v) => (v ? <span style={{ color: C.pri, cursor: 'pointer' }}>📎</span> : <span style={{ color: C.txL }}>-</span>) },
-              { t: '점검기한', k: 'due', w: 100 },
-              { t: '점검자', k: 'insp', w: 80 },
-              { t: '보고자', k: 'insp', w: 80 },
-              { t: '제출일시', k: 'submitDt', w: 110, r: (v) => <span style={{ color: !v || v === '-' ? C.txL : C.txt }}>{v || '-'}</span> },
-              { t: '점검보고서', k: 'reportFile', w: 90, r: (v) => (v ? <span style={{ color: C.pri, cursor: 'pointer' }}>📎</span> : <span style={{ color: C.txL }}>-</span>) },
+              { title: '상태', fieldKey: 'st', width: 80, renderCell: (v) => <span style={stBadge(v)}>{v}</span> },
+              { title: '특별점검 제목', fieldKey: 'title', minWidth: 220, align: 'left', renderCell: (v) => <span className={css.linkText}>{v}</span> },
+              { title: '점검종류', fieldKey: 'kind', width: 120 },
+              { title: '등록자', fieldKey: 'regUser', width: 80 },
+              { title: '등록일', fieldKey: 'reg', width: 100 },
+              { title: '점검계획서', fieldKey: 'planFile', width: 90, renderCell: (v) => (v ? <span className={css.fileLink}>📎</span> : <span className={css.noFile}>-</span>) },
+              { title: '점검기한', fieldKey: 'due', width: 100 },
+              { title: '점검자', fieldKey: 'insp', width: 80 },
+              { title: '보고자', fieldKey: 'insp', width: 80 },
+              { title: '제출일시', fieldKey: 'submitDt', width: 110, renderCell: (v) => <span style={submitDtText(v)}>{v || '-'}</span> },
+              { title: '점검보고서', fieldKey: 'reportFile', width: 90, renderCell: (v) => (v ? <span className={css.fileLink}>📎</span> : <span className={css.noFile}>-</span>) },
             ]}
             data={filtered}
           />

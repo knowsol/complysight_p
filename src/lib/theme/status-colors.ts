@@ -50,3 +50,31 @@ export const STATUS_COLORS: Record<string, { b: string; t: string }> = {
 };
 
 export const SC = STATUS_COLORS;
+
+/** 점검 주기(Frequency) 색상 맵 — report/view, inspection/schedule, SchedulePanel 등에서 공용 */
+export const FREQ_COLORS: Record<string, string> = {
+  전체: "#555E6C",
+  상시: "#0891B2",
+  매일: "#0C8CE9",
+  매주: "#19973C",
+  매월: "#F36D00",
+  분기: "#7C3AED",
+  반기: "#E24949",
+  연간: "#333333",
+};
+
+/** 점검 주기 옵션 목록 */
+export const FREQ_OPTS = ["상시", "매일", "매주", "매월", "분기", "반기", "연간"] as const;
+
+/** 비율(rate) → 텍스트 색상 */
+export const rateColor = (rate: number): string =>
+  rate === 100 ? "#19973C" : rate >= 80 ? "#0C8CE9" : rate >= 50 ? "#F36D00" : rate >= 1 ? "#E24949" : "#7C3AED";
+
+/** 비율(rate) → 배경 색상 */
+export const rateBg = (rate: number): string =>
+  rate === 100 ? "#E8F5EC" : rate >= 80 ? "#E6F3FA" : rate >= 50 ? "#FFF3E6" : rate >= 1 ? "#FDE8E8" : "#EDE9FE";
+
+/** 비율(rate) → 등급 문자열 */
+export const rateGrade = (rate: number): string =>
+  rate === 100 ? "정상" : rate >= 80 ? "경미" : rate >= 50 ? "경고" : rate >= 1 ? "지연" : "장애";
+

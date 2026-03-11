@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export interface FilterTabProps {
   options?: string[];
@@ -15,7 +15,7 @@ export const FilterTab = ({ options = ['전체', '사용', '미사용'], value, 
       <button
         key={v}
         onClick={() => onChange(v)}
-        style={{ padding: '4px 12px', fontSize: 15, fontWeight: value === v ? 600 : 400, border: `1px solid ${value === v ? C.sec : C.brd}`, borderRadius: 5, background: value === v ? C.sec : '#fff', color: value === v ? '#fff' : C.txS, cursor: 'pointer', fontFamily: 'inherit', transition: 'all .15s' }}
+        style={{ padding: '4px 12px', fontSize: 15, fontWeight: value === v ? 600 : 400, border: `1px solid ${value === v ? colors.secondary : colors.border}`, borderRadius: 5, background: value === v ? colors.secondary : '#fff', color: value === v ? '#fff' : colors.textSecondary, cursor: 'pointer', fontFamily: 'inherit', transition: 'all .15s' }}
       >
         {v}
       </button>

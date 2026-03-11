@@ -13,19 +13,19 @@ export default function SentinelBoardPage() {
 
   return (
     <div>
-      <PageHeader title="게시판" bc="홈 > 게시판" />
-      <SearchBar ph="제목으로 검색" />
+      <PageHeader title="게시판" breadcrumb="홈 > 게시판" />
+      <SearchBar placeholder="제목으로 검색" />
       <DataTable
-        secTitle="공지사항 목록"
-        secCount={NT.length}
+        sectionTitle="공지사항 목록"
+        sectionCount={NT.length}
         data={NT}
         onRow={(row) => setSelected(row as Notice)}
         cols={[
-          { t: 'No', k: 'id', w: 60 },
-          { t: '제목', k: 'title', align: 'left', mw: 280 },
-          { t: '등록자', k: 'user' },
-          { t: '등록일', k: 'dt' },
-          { t: '조회수', k: 'views' },
+          { title: 'No', fieldKey: 'id', width: 60 },
+          { title: '제목', fieldKey: 'title', align: 'left', minWidth: 280 },
+          { title: '등록자', fieldKey: 'user' },
+          { title: '등록일', fieldKey: 'dt' },
+          { title: '조회수', fieldKey: 'views' },
         ]}
       />
       <NoticePanel open={Boolean(selected)} onClose={() => setSelected(null)} item={selected} viewOnly />

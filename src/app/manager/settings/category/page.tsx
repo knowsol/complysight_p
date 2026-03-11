@@ -2,11 +2,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import type { CSSProperties } from 'react';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Button } from '@/components/ui/Button';
 import { FormInput } from '@/components/ui/Input';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
+import css from './page.module.css';
 
 
 const MgrCategory = () => {
@@ -72,6 +74,23 @@ const MgrCategory = () => {
   const [overItem,  setOverItem]  = useState(null); // { depth, id }
   const dragRef = React.useRef(null); // { depth, id }
 
+  const gridContainerStyle = (isSortMode: boolean): CSSProperties => ({
+    border: `1px solid ${isSortMode ? colors.primary : colors.border}`,
+    boxShadow: isSortMode ? `0 0 0 3px ${colors.primaryLight}` : 'none',
+  });
+
+  const catRowStyle = (isActive: boolean, isOver: boolean, isDrag: boolean, isSortMode: boolean): CSSProperties => ({
+    cursor: isSortMode ? 'grab' : 'pointer',
+    background: isOver ? '#EEF2FF' : isActive ? colors.primaryLight : '',
+    borderTop: isOver ? `2px solid ${colors.primary}` : '2px solid transparent',
+    opacity: isDrag ? 0.4 : 1,
+  });
+
+  const catNameStyle = (isActive: boolean): CSSProperties => ({
+    fontWeight: isActive ? 600 : 400,
+    color: isActive ? colors.primaryDark : colors.text,
+  });
+
   const depth2 = sel1 ? (tree.find(c => c.id === sel1)?.children || []) : [];
   const depth3 = sel2 ? (depth2.find(c => c.id === sel2)?.children || []) : [];
 
@@ -135,11 +154,11 @@ const MgrCategory = () => {
   };
 
   const colHeader = (label, count, onAdd) => (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", borderBottom: `2px solid ${C.brd}`, background: "#F9FAFC" }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: C.txt }}>{label} <span style={{ fontWeight: 400, fontSize: 12, color: C.txL }}>({count})</span></div>
+    <div className={css.colHeader}>
+      <div className={css.colTitle}>{label} <span className={css.colCount}>({count})</span></div>
       {sortMode
-        ? <span style={{ fontSize: 12, color: C.pri, background: "#EEF2FF", padding: "2px 8px", borderRadius: 8, border: `1px solid ${C.priL}` }}>드래그로 순서 변경</span>
-        : <span onClick={onAdd} style={{ cursor: "pointer", fontSize: 18, color: C.pri, fontWeight: 700, lineHeight: 1 }} title={`${label} 추가`}>+</span>
+        ? <span className={css.sortHint}>드래그로 순서 변경</span>
+        : <span onClick={onAdd} className={css.addBtn} title={`${label} 추가`}>+</span>
       }
     </div>
   );
@@ -156,24 +175,16 @@ const MgrCategory = () => {
         onDrop={sortMode      ? (e) => onDrop(e, depth, item.id) : undefined}
         onDragEnd={sortMode   ? onDragEnd : undefined}
         onClick={() => !sortMode && editId !== item.id && onSelect(item.id)}
-        style={{
-          display: "flex", alignItems: "center", padding: "9px 14px",
-          cursor: sortMode ? "grab" : "pointer",
-          background: isOver ? "#EEF2FF" : isActive ? C.priL : "",
-          borderBottom: `1px solid ${C.brd}`,
-          borderTop: isOver ? `2px solid ${C.pri}` : "2px solid transparent",
-          opacity: isDrag ? 0.4 : 1,
-          transition: "background .12s, opacity .12s",
-          userSelect: "none",
-        }}
+        className={css.catRow}
+        style={catRowStyle(isActive, isOver, isDrag, sortMode)}
         onMouseEnter={e => { if (!isActive && !sortMode) e.currentTarget.style.background = "#F9FAFC"; }}
         onMouseLeave={e => { if (!isActive && !sortMode) e.currentTarget.style.background = ""; }}
       >
         {sortMode && (
-          <svg width="12" height="12" viewBox="0 0 12 12" style={{ marginRight: 8, flexShrink: 0, opacity: 0.4 }}>
-            <rect x="1" y="1.5" width="10" height="1.5" rx="0.75" fill={C.txS}/>
-            <rect x="1" y="5"   width="10" height="1.5" rx="0.75" fill={C.txS}/>
-            <rect x="1" y="8.5" width="10" height="1.5" rx="0.75" fill={C.txS}/>
+          <svg width="12" height="12" viewBox="0 0 12 12" className={css.dragHandle}>
+            <rect x="1" y="1.5" width="10" height="1.5" rx="0.75" fill={colors.textSecondary}/>
+            <rect x="1" y="5"   width="10" height="1.5" rx="0.75" fill={colors.textSecondary}/>
+            <rect x="1" y="8.5" width="10" height="1.5" rx="0.75" fill={colors.textSecondary}/>
           </svg>
         )}
         {editId === item.id ? (
@@ -184,22 +195,22 @@ const MgrCategory = () => {
             onBlur={() => saveEdit(depth)}
             onKeyDown={e => { if (e.key === "Enter") saveEdit(depth); if (e.key === "Escape") setEditId(null); }}
             onClick={e => e.stopPropagation()}
-            style={{ flex: 1, padding: "2px 6px", border: `1px solid ${C.pri}`, borderRadius: 4, fontSize: 12, outline: "none" }}
+            className={css.editInput}
           />
         ) : (
-          <span style={{ flex: 1, fontSize: 12, fontWeight: isActive ? 600 : 400, color: isActive ? C.priD : C.txt }}>{item.nm}</span>
+          <span className={css.catName} style={catNameStyle(isActive)}>{item.nm}</span>
         )}
-        {!sortMode && item.children && <span style={{ fontSize: 12, color: C.txL, marginRight: 6 }}>{item.children.length}</span>}
+        {!sortMode && item.children && <span className={css.childCount}>{item.children.length}</span>}
         {!sortMode && editId !== item.id && <>
-          <span onClick={e => { e.stopPropagation(); startEdit(item.id, item.nm); }} style={{ cursor: "pointer", fontSize: 12, color: C.txL, marginRight: 6, padding: "0 2px" }} title="수정"><Icon n="edit" s={13} c={C.txL} /></span>
-          <span onClick={e => { e.stopPropagation(); onDel(item.id); }} style={{ cursor: "pointer", fontSize: 15, color: C.red, fontWeight: 600 }} title="삭제">×</span>
+          <span onClick={e => { e.stopPropagation(); startEdit(item.id, item.nm); }} className={css.editBtn} title="수정"><Icon name="edit" size={13} color={colors.textLight} /></span>
+          <span onClick={e => { e.stopPropagation(); onDel(item.id); }} className={css.delBtn} title="삭제">×</span>
         </>}
       </div>
     );
   };
 
   const addInputRow = (depth) => addDepth === depth && (
-    <div style={{ display: "flex", alignItems: "center", padding: "6px 14px", borderBottom: `1px solid ${C.brd}`, background: "#f0fdf4" }}>
+    <div className={css.addRow}>
       <FormInput
         autoFocus
         value={addNm}
@@ -207,19 +218,19 @@ const MgrCategory = () => {
         onBlur={commitAdd}
         onKeyDown={e => { if (e.key === "Enter") commitAdd(); if (e.key === "Escape") cancelAdd(); }}
         placeholder="이름 입력 후 Enter"
-        style={{ flex: 1, padding: "4px 8px", border: `1px solid ${C.pri}`, borderRadius: 4, fontSize: 12, outline: "none" }}
+        className={css.addInput}
       />
-      <span onClick={cancelAdd} style={{ cursor: "pointer", marginLeft: 8, fontSize: 12, color: C.txL }}>취소</span>
+      <span onClick={cancelAdd} className={css.addCancel}>취소</span>
     </div>
   );
 
   return (
     <div>
-      <PageHeader title="카테고리 관리" bc="홈 > 환경설정 > 카테고리 관리" />
+      <PageHeader title="카테고리 관리" breadcrumb="홈 > 환경설정 > 카테고리 관리" />
       {/* 그리드 툴바 */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: 8, gap: 8 }}>
+      <div className={css.toolbar}>
         {sortSaved && (
-          <span style={{ fontSize: 12, color: "#16a34a", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
+          <span className={css.savedMsg}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             저장되었습니다
           </span>
@@ -227,13 +238,13 @@ const MgrCategory = () => {
         {sortMode ? (
           <>
             <Button sm onClick={cancelSort}>취소</Button>
-            <Button sm primary onClick={saveSort} style={{ display:"flex", alignItems:"center", gap:4 }}>
+            <Button sm primary onClick={saveSort} className={css.sortBtn}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
               저장
             </Button>
           </>
         ) : (
-          <Button sm onClick={() => { setSortMode(true); setSortSaved(false); }} style={{ display:"flex", alignItems:"center", gap:4 }}>
+          <Button sm onClick={() => { setSortMode(true); setSortSaved(false); }} className={css.sortBtn}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <line x1="3" y1="6"  x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
@@ -241,34 +252,32 @@ const MgrCategory = () => {
           </Button>
         )}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
-        border: `1px solid ${sortMode ? C.pri : C.brd}`, borderRadius: 8, overflow: "hidden", minHeight: 400,
-        boxShadow: sortMode ? `0 0 0 3px ${C.priL}` : "none", transition: "box-shadow .2s, border-color .2s" }}>
+      <div className={css.gridContainer} style={gridContainerStyle(sortMode)}>
         {/* 1Depth 대분류 */}
-        <div style={{ borderRight: `1px solid ${C.brd}` }}>
+        <div className={css.colPanel}>
           {colHeader("1 Depth 대분류", tree.length, () => startAdd(1))}
-          <div style={{ maxHeight: 500, overflowY: "auto" }}>
+          <div className={css.scrollBox}>
             {tree.map(c => catRow(c, sel1 === c.id, (id) => { setSel1(id); setSel2(null); setSel3(null); }, delCat1, 1))}
             {!sortMode && addInputRow(1)}
-            {tree.length === 0 && addDepth !== 1 && <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>대분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
+            {tree.length === 0 && addDepth !== 1 && <div className={css.emptyCol}>대분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
           </div>
         </div>
         {/* 2Depth 중분류 */}
-        <div style={{ borderRight: `1px solid ${C.brd}` }}>
+        <div className={css.colPanel}>
           {colHeader("2 Depth 중분류", depth2.length, () => sel1 && startAdd(2))}
-          <div style={{ maxHeight: 500, overflowY: "auto" }}>
-            {sel1 ? depth2.map(c => catRow(c, sel2 === c.id, (id) => { setSel2(id); setSel3(null); }, delCat2, 2)) : <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>대분류를 선택하세요</div>}
+          <div className={css.scrollBox}>
+            {sel1 ? depth2.map(c => catRow(c, sel2 === c.id, (id) => { setSel2(id); setSel3(null); }, delCat2, 2)) : <div className={css.emptyCol}>대분류를 선택하세요</div>}
             {!sortMode && sel1 && addInputRow(2)}
-            {sel1 && depth2.length === 0 && addDepth !== 2 && <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>중분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
+            {sel1 && depth2.length === 0 && addDepth !== 2 && <div className={css.emptyCol}>중분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
           </div>
         </div>
         {/* 3Depth 소분류 */}
         <div>
           {colHeader("3 Depth 소분류", depth3.length, () => sel2 && startAdd(3))}
-          <div style={{ maxHeight: 500, overflowY: "auto" }}>
-            {sel2 ? depth3.map(c => catRow(c, sel3 === c.id, setSel3, delCat3, 3)) : <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>중분류를 선택하세요</div>}
+          <div className={css.scrollBox}>
+            {sel2 ? depth3.map(c => catRow(c, sel3 === c.id, setSel3, delCat3, 3)) : <div className={css.emptyCol}>중분류를 선택하세요</div>}
             {!sortMode && sel2 && addInputRow(3)}
-            {sel2 && depth3.length === 0 && addDepth !== 3 && <div style={{ padding: 20, textAlign: "center", fontSize: 12, color: C.txL }}>소분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
+            {sel2 && depth3.length === 0 && addDepth !== 3 && <div className={css.emptyCol}>소분류가 없습니다.<br/>+ 버튼으로 추가하세요.</div>}
           </div>
         </div>
       </div>

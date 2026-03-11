@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { MENU_ITEMS } from '@/lib/constants/menu';
 import { ROUTES } from '@/lib/constants/routes';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import type { MenuGroup, MenuItem, MenuLeaf, SiteType } from '@/types/menu';
 
 interface SidebarProps {
@@ -142,7 +142,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
         top: 67 + bannerH,
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0, width: 64, background: C.bg, position: 'relative' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0, width: 64, background: colors.background, position: 'relative' }}>
         <div
           style={{
             flex: 1,
@@ -153,7 +153,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
             padding: '16px 0',
             gap: 4,
             borderRadius: '0 24px 0 0',
-            background: C.brand,
+            background: colors.brand,
           }}
         >
           {menus.map((menu) => {
@@ -187,7 +187,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                   }
                 }}
               >
-                <Icon n={menu.i ?? 'info'} s={18} c={isActive || isOpen ? '#fff' : 'rgba(255,255,255,0.55)'} />
+                <Icon name={menu.i ?? 'info'} size={18} color={isActive || isOpen ? '#fff' : 'rgba(255,255,255,0.55)'} />
                 <span
                   style={{
                     fontSize: 9,
@@ -226,7 +226,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
       <div
         style={{
           width: showDepth2 ? 190 : 0,
-          background: C.bg,
+          background: colors.background,
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -263,8 +263,8 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                       borderRadius: 4,
                       fontSize: 15,
                       fontWeight: 500,
-                      background: isActive ? C.priL : '',
-                      color: isActive ? C.sec : C.txt,
+                      background: isActive ? colors.primaryLight : '',
+                      color: isActive ? colors.secondary : colors.text,
                       display: 'flex',
                       alignItems: 'center',
                       gap: 4,
@@ -273,7 +273,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                     }}
                     onMouseEnter={(event) => {
                       if (!isActive) {
-                        event.currentTarget.style.background = C.priL;
+                        event.currentTarget.style.background = colors.primaryLight;
                       }
                     }}
                     onMouseLeave={(event) => {
@@ -319,17 +319,17 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                         fontSize: 15,
                         fontWeight: 500,
                         minHeight: 36,
-                        color: hasActive || (isSingle && activeRouteKey === group.c[0].routeKey) ? C.sec : C.txt,
-                        background: isSingle && activeRouteKey === group.c[0].routeKey ? C.priL : '',
+                        color: hasActive || (isSingle && activeRouteKey === group.c[0].routeKey) ? colors.secondary : colors.text,
+                        background: isSingle && activeRouteKey === group.c[0].routeKey ? colors.primaryLight : '',
                         transition: 'all .3s',
                         userSelect: 'none',
                       }}
                       onMouseEnter={(event) => {
-                        event.currentTarget.style.background = C.priL;
+                        event.currentTarget.style.background = colors.primaryLight;
                       }}
                       onMouseLeave={(event) => {
                         event.currentTarget.style.background =
-                          isSingle && activeRouteKey === group.c[0].routeKey ? C.priL : '';
+                          isSingle && activeRouteKey === group.c[0].routeKey ? colors.primaryLight : '';
                       }}
                     >
                       <span>{group.l}</span>
@@ -348,7 +348,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                           <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
                             <path
                               d="M1.5 1l5 5-5 5"
-                              stroke={hasActive || activeGroup === group.k ? C.sec : '#333'}
+                              stroke={hasActive || activeGroup === group.k ? colors.secondary : '#333'}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -374,8 +374,8 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                               fontSize: 15,
                               fontWeight: isActive ? 500 : 400,
                               minHeight: 36,
-                              background: isActive ? C.priL : '',
-                              color: isActive ? C.sec : C.txS,
+                              background: isActive ? colors.primaryLight : '',
+                              color: isActive ? colors.secondary : colors.textSecondary,
                               display: 'flex',
                               alignItems: 'center',
                               gap: 4,
@@ -383,7 +383,7 @@ export default function Sidebar({ menuItems, site, collapsed, onToggle, bannerH 
                             }}
                             onMouseEnter={(event) => {
                               if (!isActive) {
-                                event.currentTarget.style.background = C.priL;
+                                event.currentTarget.style.background = colors.primaryLight;
                               }
                             }}
                             onMouseLeave={(event) => {

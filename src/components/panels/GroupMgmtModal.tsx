@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { FormInput } from '@/components/ui/Input';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import type { Dispatch, SetStateAction } from 'react';
 import type { User, UserGroup } from '@/types/user';
 
@@ -109,18 +109,18 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
   return (
     <Modal open={open} onClose={onClose} title="사용자 그룹 관리" width={520}>
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: 440 }}>
-        <div style={{ fontSize: 12, color: C.txS, marginBottom: 8 }}>그룹 검색</div>
+        <div style={{ fontSize: 12, color: colors.textSecondary, marginBottom: 8 }}>그룹 검색</div>
         <FormInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="그룹명 또는 그룹 ID 검색" style={{ marginBottom: 12 }} />
 
         {errMsg ? (
-          <div style={{ marginBottom: 12, padding: '8px 12px', borderRadius: 6, border: '1px solid #FECACA', background: '#FEF2F2', color: C.red, fontSize: 12 }}>
+          <div style={{ marginBottom: 12, padding: '8px 12px', borderRadius: 6, border: '1px solid #FECACA', background: '#FEF2F2', color: colors.red, fontSize: 12 }}>
             {errMsg}
           </div>
         ) : null}
 
-        <div style={{ flex: 1, overflowY: 'auto', border: `1px solid ${C.brd}`, borderRadius: 8, padding: 10, background: '#FAFBFC' }}>
+        <div style={{ flex: 1, overflowY: 'auto', border: `1px solid ${colors.border}`, borderRadius: 8, padding: 10, background: '#FAFBFC' }}>
           {filtered.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '44px 0', fontSize: 12, color: C.txL }}>
+            <div style={{ textAlign: 'center', padding: '44px 0', fontSize: 12, color: colors.textLight }}>
               {search ? '검색 결과가 없습니다.' : '등록된 그룹이 없습니다.'}
             </div>
           ) : (
@@ -137,8 +137,8 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
                     gap: 8,
                     padding: '10px 12px',
                     borderRadius: 8,
-                    border: `1px solid ${isEditing ? C.pri : C.brd}`,
-                    background: isEditing ? C.priL : '#fff',
+                    border: `1px solid ${isEditing ? colors.primary : colors.border}`,
+                    background: isEditing ? colors.primaryLight : '#fff',
                     marginBottom: 8,
                   }}
                 >
@@ -170,10 +170,10 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
                   ) : (
                     <>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: C.txH, marginBottom: 3 }}>{group.nm}</div>
-                        <div style={{ fontSize: 12, color: C.txL }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: colors.textHeading, marginBottom: 3 }}>{group.nm}</div>
+                        <div style={{ fontSize: 12, color: colors.textLight }}>
                           {group.id} · 등록일 {group.regDt}
-                          {inUseCount > 0 ? <span style={{ color: C.pri, fontWeight: 700, marginLeft: 8 }}>사용자 {inUseCount}명</span> : null}
+                          {inUseCount > 0 ? <span style={{ color: colors.primary, fontWeight: 700, marginLeft: 8 }}>사용자 {inUseCount}명</span> : null}
                         </div>
                       </div>
                       <Button xs outline onClick={() => startEdit(group)}>
@@ -190,8 +190,8 @@ export function GroupMgmtModal({ open, onClose, groups, setGroups, users }: Grou
           )}
         </div>
 
-        <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.brd}` }}>
-          <div style={{ fontSize: 12, color: C.txS, marginBottom: 8 }}>신규 그룹 등록</div>
+        <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${colors.border}` }}>
+          <div style={{ fontSize: 12, color: colors.textSecondary, marginBottom: 8 }}>신규 그룹 등록</div>
           <div style={{ display: 'flex', gap: 8 }}>
             <FormInput
               value={newNm}

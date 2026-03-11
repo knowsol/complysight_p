@@ -8,7 +8,7 @@ import { FormInput, FormTextarea, RoSelect } from '@/components/ui/Input';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { Button } from '@/components/ui/Button';
 import { ConfirmModal, UnsavedConfirm } from '@/components/ui/ConfirmModal';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { fSelect } from '@/lib/theme/styles';
 import { USERS, RES } from '@/data';
 import { useEditPanel } from '@/lib/hooks/use-edit-panel';
@@ -103,7 +103,7 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
       <SidePanel open={open} onClose={() => { if (editMode) setConfirmOpen(true); else onClose(); }} title={isNew ? '특별점검 등록' : '특별점검 상세'} width={580} noScroll>
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           {(isNew || editMode) ? (
-            <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: '16px 18px', marginBottom: 18, background: '#fff' }}>
+            <div style={{ border: `1px solid ${colors.border}`, borderRadius: 10, padding: '16px 18px', marginBottom: 18, background: '#fff' }}>
               <SectionTitle label="점검계획" primary style={{ marginBottom: 12 }} />
               <FormRow label="점검 제목" required>
                 <FormInput value={form.title} onChange={(e) => set('title', e.target.value)} placeholder="특별점검 제목을 입력하세요" maxLength={100} />
@@ -125,13 +125,13 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
                 <FormRow label="점검자" required style={{ flex: 1, position: 'relative' }}>
                   <div style={{ position: 'relative' }}>
                     <FormInput value={inspSearch || form.insp} onChange={(e) => { setInspSearch(e.target.value); if (!e.target.value) set('insp', ''); }} onFocus={() => { if (form.insp) setInspSearch(form.insp); }} placeholder="이름 또는 아이디 검색" style={{ paddingRight: 28 }} />
-                    {(inspSearch || form.insp) && <span onClick={() => { set('insp', ''); setInspSearch(''); }} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: C.txL, fontSize: 16, lineHeight: 1 }}>×</span>}
+                    {(inspSearch || form.insp) && <span onClick={() => { set('insp', ''); setInspSearch(''); }} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: colors.textLight, fontSize: 16, lineHeight: 1 }}>×</span>}
                     {inspSearch && (() => {
                       const q = inspSearch.trim().toLowerCase();
                       const filteredU = USERS.filter((u) => u.useYn === 'Y' && (u.userNm.toLowerCase().includes(q) || u.userId.toLowerCase().includes(q)));
-                      if (!filteredU.length) return <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 200, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: 6, boxShadow: '0 4px 16px rgba(0,0,0,.1)', fontSize: 12, padding: '8px 12px', color: C.txL }}>검색 결과가 없습니다.</div>;
-                      return <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 200, background: '#fff', border: `1px solid ${C.brd}`, borderRadius: 6, boxShadow: '0 4px 16px rgba(0,0,0,.1)', maxHeight: 180, overflowY: 'auto' }}>
-                        {filteredU.map((u) => <div key={u.userId} onMouseDown={(e) => { e.preventDefault(); set('insp', u.userNm); setInspSearch(''); }} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', cursor: 'pointer', borderBottom: `1px solid ${C.brd}` }} onMouseEnter={(e) => { e.currentTarget.style.background = C.priL; }} onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; }}><span style={{ fontSize: 13, fontWeight: 500, flex: 1, color: C.txt }}>{u.userNm}</span><span style={{ fontSize: 11, color: C.txL }}>{u.userId}</span><span style={{ fontSize: 11, color: C.txS, background: '#F0F0F0', padding: '1px 6px', borderRadius: 8 }}>{u.userRole}</span></div>)}
+                      if (!filteredU.length) return <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 200, background: '#fff', border: `1px solid ${colors.border}`, borderRadius: 6, boxShadow: '0 4px 16px rgba(0,0,0,.1)', fontSize: 12, padding: '8px 12px', color: colors.textLight }}>검색 결과가 없습니다.</div>;
+                      return <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 200, background: '#fff', border: `1px solid ${colors.border}`, borderRadius: 6, boxShadow: '0 4px 16px rgba(0,0,0,.1)', maxHeight: 180, overflowY: 'auto' }}>
+                        {filteredU.map((u) => <div key={u.userId} onMouseDown={(e) => { e.preventDefault(); set('insp', u.userNm); setInspSearch(''); }} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', cursor: 'pointer', borderBottom: `1px solid ${colors.border}` }} onMouseEnter={(e) => { e.currentTarget.style.background = colors.primaryLight; }} onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; }}><span style={{ fontSize: 13, fontWeight: 500, flex: 1, color: colors.text }}>{u.userNm}</span><span style={{ fontSize: 11, color: colors.textLight }}>{u.userId}</span><span style={{ fontSize: 11, color: colors.textSecondary, background: '#F0F0F0', padding: '1px 6px', borderRadius: 8 }}>{u.userRole}</span></div>)}
                       </div>;
                     })()}
                   </div>
@@ -149,45 +149,45 @@ export function StlSpecialPanel({ open, onClose, item, onSave, toast }) {
               </FormRow>
               <FormRow label="점검계획서 첨부">
                 {form.planFile ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: `1px solid ${C.brd}`, borderRadius: 6, background: '#F9FAFC' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.pri} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
-                    <span style={{ flex: 1, fontSize: 12, color: C.txt, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{form.planFile.name}{form.planFile.size && <span style={{ fontSize: 12, color: C.txL, marginLeft: 6 }}>({(form.planFile.size / 1024 / 1024).toFixed(1)} MB)</span>}</span>
-                    <span onClick={() => set('planFile', null)} style={{ cursor: 'pointer', color: C.txL, fontSize: 18, lineHeight: 1, flexShrink: 0 }} title="파일 제거">×</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: `1px solid ${colors.border}`, borderRadius: 6, background: '#F9FAFC' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={colors.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                    <span style={{ flex: 1, fontSize: 12, color: colors.text, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{form.planFile.name}{form.planFile.size && <span style={{ fontSize: 12, color: colors.textLight, marginLeft: 6 }}>({(form.planFile.size / 1024 / 1024).toFixed(1)} MB)</span>}</span>
+                    <span onClick={() => set('planFile', null)} style={{ cursor: 'pointer', color: colors.textLight, fontSize: 18, lineHeight: 1, flexShrink: 0 }} title="파일 제거">×</span>
                   </div>
                 ) : (
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', border: `2px dashed ${C.brd}`, borderRadius: 6, cursor: 'pointer', transition: 'all .15s', background: '#fff' }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.pri; e.currentTarget.style.background = C.priL + '44'; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.brd; e.currentTarget.style.background = '#fff'; }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.txL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
-                    <span style={{ fontSize: 12, color: C.txL }}>파일을 선택하거나 드래그하세요</span>
-                    <span style={{ fontSize: 12, color: C.txL, marginLeft: 'auto' }}>최대 10MB</span>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', border: `2px dashed ${colors.border}`, borderRadius: 6, cursor: 'pointer', transition: 'all .15s', background: '#fff' }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = colors.primary; e.currentTarget.style.background = colors.primaryLight + '44'; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = colors.border; e.currentTarget.style.background = '#fff'; }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={colors.textLight} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
+                    <span style={{ fontSize: 12, color: colors.textLight }}>파일을 선택하거나 드래그하세요</span>
+                    <span style={{ fontSize: 12, color: colors.textLight, marginLeft: 'auto' }}>최대 10MB</span>
                     <FormInput type="file" style={{ display: 'none' }} onChange={handlePlanFile} />
                   </label>
                 )}
               </FormRow>
             </div>
           ) : (
-            <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: '14px 16px', marginBottom: 18, background: '#fff', position: 'relative' }}>
+            <div style={{ border: `1px solid ${colors.border}`, borderRadius: 10, padding: '14px 16px', marginBottom: 18, background: '#fff', position: 'relative' }}>
               <span style={{ position: 'absolute', top: 12, right: 14, fontSize: 12, fontWeight: 700, padding: '2px 10px', borderRadius: 10, background: 'rgba(234,145,91,0.12)', color: '#c97640', border: '1px solid rgba(234,145,91,0.25)' }}>{form.kind}</span>
-              <div style={{ fontSize: 12, color: C.txL, marginBottom: 4 }}>점검 계획</div>
-              <div style={{ fontSize: 18, fontWeight: 700, color: C.txH, marginBottom: 4, paddingRight: 120 }}>{form.title || '—'}</div>
-              <div style={{ fontSize: 12, color: C.txL, marginBottom: 12 }}>{[form.kind, form.registrant].filter(Boolean).join(' · ')}</div>
+              <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 4 }}>점검 계획</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: colors.textHeading, marginBottom: 4, paddingRight: 120 }}>{form.title || '—'}</div>
+              <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 12 }}>{[form.kind, form.registrant].filter(Boolean).join(' · ')}</div>
             </div>
           )}
 
           {!isNew && (
-            <div style={{ marginTop: 20, borderRadius: 10, border: isComp ? '2px dashed #19973C' : `2px dashed ${C.sec}`, background: '#fff', padding: '16px 18px' }}>
+            <div style={{ marginTop: 20, borderRadius: 10, border: isComp ? '2px dashed #19973C' : `2px dashed ${colors.secondary}`, background: '#fff', padding: '16px 18px' }}>
               <div style={{ display: 'flex', gap: 12 }}>
                 <FormRow label="보고자" style={{ flex: 1 }}><FormInput style={{ background: '#F9FAFC', pointerEvents: 'none' }} value={form.insp || '—'} readOnly /></FormRow>
                 <FormRow label="수행일자" required={!isComp} style={{ flex: 1 }}><DatePicker value={form.execDt} onChange={(v) => set('execDt', v)} readOnly={isComp} /></FormRow>
-                <FormRow label="제출일시" style={{ flex: 1 }}><FormInput value={isComp ? (form.submitDt || '—') : ''} readOnly style={{ background: '#F9FAFC', color: C.txL, pointerEvents: 'none' }} /></FormRow>
+                <FormRow label="제출일시" style={{ flex: 1 }}><FormInput value={isComp ? (form.submitDt || '—') : ''} readOnly style={{ background: '#F9FAFC', color: colors.textLight, pointerEvents: 'none' }} /></FormRow>
               </div>
               <FormRow label="결과요약">
-                <FormTextarea style={{ background: '#fff', ...(isComp ? { color: C.txt, pointerEvents: 'none', resize: 'none' } : {}) }} value={form.resultContent} onChange={(e) => set('resultContent', e.target.value)} placeholder={isComp ? '' : '점검 결과를 요약하여 입력하세요'} readOnly={isComp} maxLength={1000} />
+                <FormTextarea style={{ background: '#fff', ...(isComp ? { color: colors.text, pointerEvents: 'none', resize: 'none' } : {}) }} value={form.resultContent} onChange={(e) => set('resultContent', e.target.value)} placeholder={isComp ? '' : '점검 결과를 요약하여 입력하세요'} readOnly={isComp} maxLength={1000} />
               </FormRow>
             </div>
           )}
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Button onClick={onClose}>닫기</Button>
             <div style={{ flex: 1 }} />

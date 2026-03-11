@@ -8,7 +8,7 @@ import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import type { User, UserGroup, UserRole } from '@/types/user';
 
 type UserPanelUser = User & {
@@ -73,7 +73,7 @@ const emptyForm: UserPanelForm = {
   memo: '',
 };
 
-const readonlyStyle = { background: '#F9FAFC', color: C.txt };
+const readonlyStyle = { background: '#F9FAFC', color: colors.text };
 const readonlyTextareaStyle = { ...readonlyStyle, resize: 'none' as const };
 
 const applyRolePreset = (role: UserRole) => {
@@ -109,19 +109,19 @@ const toForm = (user: UserPanelUser | null): UserPanelForm => ({
 });
 
 const renderError = (message?: string) =>
-  message ? <div style={{ fontSize: 11, color: C.red, marginTop: 4 }}>{message}</div> : null;
+  message ? <div style={{ fontSize: 11, color: colors.red, marginTop: 4 }}>{message}</div> : null;
 
 const AccessCard = ({ label, value, accent }: AccessCardProps) => (
   <div
     style={{
       padding: '14px 16px',
       borderRadius: 8,
-      border: `1px solid ${C.brd}`,
+      border: `1px solid ${colors.border}`,
       background: '#fff',
     }}
   >
-    <div style={{ fontSize: 12, color: C.txS, marginBottom: 6 }}>{label}</div>
-    <div style={{ fontSize: 15, fontWeight: 700, color: accent || C.txH }}>{value}</div>
+    <div style={{ fontSize: 12, color: colors.textSecondary, marginBottom: 6 }}>{label}</div>
+    <div style={{ fontSize: 15, fontWeight: 700, color: accent || colors.textHeading }}>{value}</div>
   </div>
 );
 
@@ -306,7 +306,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
             <FormRow label="상태">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.st === 'Y'} onClick={() => !ro && setField('st', form.st === 'Y' ? 'N' : 'Y')} disabled={ro} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === 'Y' ? C.green : C.txL }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === 'Y' ? colors.green : colors.textLight }}>
                   {form.st === 'Y' ? '사용' : '미사용'}
                 </span>
               </div>
@@ -320,7 +320,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                   placeholder="영문, 숫자, -, _"
                   readOnly={ro || !isNew}
                   maxLength={20}
-                  style={ro || !isNew ? readonlyStyle : errors.userId ? { borderColor: C.red } : undefined}
+                  style={ro || !isNew ? readonlyStyle : errors.userId ? { borderColor: colors.red } : undefined}
                 />
                 {renderError(errors.userId)}
               </FormRow>
@@ -336,7 +336,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                       onChange={(event) => setField('password', event.target.value)}
                       placeholder="비밀번호 입력"
                       maxLength={72}
-                      style={errors.password ? { borderColor: C.red } : undefined}
+                      style={errors.password ? { borderColor: colors.red } : undefined}
                     />
                     {passwordError}
                   </>
@@ -348,7 +348,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                         {passwordResetLabel}
                       </Button>
                     </div>
-                    <div style={{ fontSize: 11, color: resetPassword ? C.green : C.txL, marginTop: 4 }}>
+                    <div style={{ fontSize: 11, color: resetPassword ? colors.green : colors.textLight, marginTop: 4 }}>
                       {resetPassword ? '저장 시 비밀번호 초기화가 반영됩니다.' : '저장 시 비밀번호를 초기화할 수 있습니다.'}
                     </div>
                   </>
@@ -364,7 +364,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                   placeholder="실명"
                   readOnly={ro}
                   maxLength={50}
-                  style={ro ? readonlyStyle : errors.userNm ? { borderColor: C.red } : undefined}
+                  style={ro ? readonlyStyle : errors.userNm ? { borderColor: colors.red } : undefined}
                 />
                 {renderError(errors.userNm)}
               </FormRow>
@@ -377,7 +377,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                   placeholder="user@example.com"
                   readOnly={ro}
                   maxLength={254}
-                  style={ro ? readonlyStyle : errors.email ? { borderColor: C.red } : undefined}
+                  style={ro ? readonlyStyle : errors.email ? { borderColor: colors.red } : undefined}
                 />
                 {renderError(errors.email)}
               </FormRow>
@@ -461,7 +461,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
           <div style={{ marginBottom: 18 }}>
             <SectionTitle label="소속 정보시스템" />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-              {form.systems.length === 0 ? <span style={{ fontSize: 12, color: C.txL }}>소속 정보시스템이 없습니다.</span> : null}
+              {form.systems.length === 0 ? <span style={{ fontSize: 12, color: colors.textLight }}>소속 정보시스템이 없습니다.</span> : null}
               {form.systems.map((systemId) => {
                 const system = SYS.find((entry) => entry.id === systemId);
                 if (!system) return null;
@@ -475,8 +475,8 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                       gap: 6,
                       padding: '4px 10px',
                       borderRadius: 14,
-                      background: C.priL,
-                      color: C.priD,
+                      background: colors.primaryLight,
+                      color: colors.primaryDark,
                       fontSize: 12,
                       fontWeight: 600,
                     }}
@@ -486,7 +486,7 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                       <button
                         type="button"
                         onClick={() => handleRemoveSystem(systemId)}
-                        style={{ border: 'none', background: 'transparent', color: C.priD, cursor: 'pointer', padding: 0, fontSize: 14, lineHeight: 1 }}
+                        style={{ border: 'none', background: 'transparent', color: colors.primaryDark, cursor: 'pointer', padding: 0, fontSize: 14, lineHeight: 1 }}
                       >
                         ×
                       </button>
@@ -518,14 +518,14 @@ export function UserPanel({ open, onClose, user, groups = [], existingUserIds = 
                 <AccessCard
                   label="비밀번호 오류"
                   value={passwordErrorCount ? `${passwordErrorCount}회` : '0회'}
-                  accent={passwordErrorCount >= 3 ? C.red : passwordErrorCount > 0 ? '#D97706' : undefined}
+                  accent={passwordErrorCount >= 3 ? colors.red : passwordErrorCount > 0 ? '#D97706' : undefined}
                 />
               </div>
             </div>
           ) : null}
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           {(isNew || editMode) ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Button onClick={handleCancel}>취소</Button>

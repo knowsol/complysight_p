@@ -9,7 +9,7 @@ import { FormInput, FormSelect, FormTextarea } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { CL_INIT } from '@/data/checklists';
 import { SYS } from '@/data/manager';
 import { USERS } from '@/data/users';
@@ -264,13 +264,13 @@ export function ResourcePanel({
             <FormRow label="사용유무">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.st === '사용'} onClick={() => !ro && setField('st', form.st === '사용' ? '미사용' : '사용')} disabled={ro} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === '사용' ? C.pri : C.txL }}>{form.st}</span>
+                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === '사용' ? colors.primary : colors.textLight }}>{form.st}</span>
               </div>
             </FormRow>
 
             <FormRow label="자원명" required>
-              <FormInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} readOnly={ro} style={errors.nm ? { borderColor: C.red } : undefined} />
-              {errors.nm ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.nm}</div> : null}
+              <FormInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} readOnly={ro} style={errors.nm ? { borderColor: colors.red } : undefined} />
+              {errors.nm ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.nm}</div> : null}
             </FormRow>
 
             <div style={{ display: 'flex', gap: 12 }}>
@@ -286,7 +286,7 @@ export function ResourcePanel({
                     </option>
                   ))}
                 </FormSelect>
-                {errors.sysId ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.sysId}</div> : null}
+                {errors.sysId ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.sysId}</div> : null}
               </FormRow>
               <FormRow label="상위 자원명" style={{ flex: 1 }}>
                 <FormInput value={form.parentNm} onChange={(e) => setField('parentNm', e.target.value)} readOnly={ro} />
@@ -303,7 +303,7 @@ export function ResourcePanel({
                     </option>
                   ))}
                 </FormSelect>
-                {errors.large ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.large}</div> : null}
+                {errors.large ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.large}</div> : null}
               </FormRow>
               <FormRow label="중분류" required style={{ flex: 1 }}>
                 <FormSelect
@@ -321,7 +321,7 @@ export function ResourcePanel({
                     </option>
                   ))}
                 </FormSelect>
-                {errors.mid ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.mid}</div> : null}
+                {errors.mid ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.mid}</div> : null}
               </FormRow>
               <FormRow label="소분류" required style={{ flex: 1 }}>
                 <FormSelect value={form.small} onChange={(e) => setField('small', e.target.value)} disabled={ro}>
@@ -332,7 +332,7 @@ export function ResourcePanel({
                     </option>
                   ))}
                 </FormSelect>
-                {errors.small ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.small}</div> : null}
+                {errors.small ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.small}</div> : null}
               </FormRow>
             </div>
 
@@ -399,8 +399,8 @@ export function ResourcePanel({
             <SectionTitle label="네트워크 정보" />
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="장비 IP" required style={{ flex: 1 }}>
-                <FormInput value={form.ip} onChange={(e) => setField('ip', e.target.value)} readOnly={ro} style={errors.ip ? { borderColor: C.red } : undefined} />
-                {errors.ip ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.ip}</div> : null}
+                <FormInput value={form.ip} onChange={(e) => setField('ip', e.target.value)} readOnly={ro} style={errors.ip ? { borderColor: colors.red } : undefined} />
+                {errors.ip ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.ip}</div> : null}
               </FormRow>
               <FormRow label="서비스 IP" style={{ flex: 1 }}>
                 <FormInput value={form.serviceIp} onChange={(e) => setField('serviceIp', e.target.value)} readOnly={ro} />
@@ -417,7 +417,7 @@ export function ResourcePanel({
             ].map(([label, key]) => (
               <div key={key} style={{ marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                  <label style={{ fontSize: 11, fontWeight: 600, color: C.txS }}>{label}</label>
+                  <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary }}>{label}</label>
                   {!ro ? (
                     <button
                       type="button"
@@ -429,10 +429,10 @@ export function ResourcePanel({
                         padding: '2px 8px',
                         fontSize: 11,
                         fontWeight: 600,
-                        border: `1px solid ${C.pri}`,
+                        border: `1px solid ${colors.primary}`,
                         borderRadius: 4,
-                        color: C.pri,
-                        background: C.priL,
+                        color: colors.primary,
+                        background: colors.primaryLight,
                         cursor: 'pointer',
                       }}
                     >
@@ -448,7 +448,7 @@ export function ResourcePanel({
                       readOnly={ro}
                     />
                     {!ro && form[key as 'serviceUrls' | 'installPaths' | 'logPaths'].length > 1 ? (
-                      <span onClick={() => removeListValue(key as 'serviceUrls' | 'installPaths' | 'logPaths', idx)} style={{ cursor: 'pointer', fontSize: 16, color: C.txL }}>
+                      <span onClick={() => removeListValue(key as 'serviceUrls' | 'installPaths' | 'logPaths', idx)} style={{ cursor: 'pointer', fontSize: 16, color: colors.textLight }}>
                         ×
                       </span>
                     ) : null}
@@ -535,7 +535,7 @@ export function ResourcePanel({
           <div style={{ marginBottom: 18 }}>
             <SectionTitle label="점검자" />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-              {form.inspectors.length === 0 ? <span style={{ fontSize: 12, color: C.txL }}>점검자가 없습니다.</span> : null}
+              {form.inspectors.length === 0 ? <span style={{ fontSize: 12, color: colors.textLight }}>점검자가 없습니다.</span> : null}
               {form.inspectors.map((userId: string) => {
                 const user = USERS.find((entry) => entry.userId === userId);
                 if (!user) return null;
@@ -548,8 +548,8 @@ export function ResourcePanel({
                       gap: 4,
                       padding: '4px 10px',
                       borderRadius: 14,
-                      background: C.priL,
-                      color: C.priD,
+                      background: colors.primaryLight,
+                      color: colors.primaryDark,
                       fontSize: 12,
                       fontWeight: 500,
                     }}
@@ -598,7 +598,7 @@ export function ResourcePanel({
                   marginBottom: 8,
                 }}
               >
-                <Icon n="check" s={13} c="#16a34a" />
+                <Icon name="check" size={13} color="#16a34a" />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: '#166534' }}>{linkedChecklist.nm}</div>
                   <div style={{ fontSize: 11, color: '#15803d' }}>
@@ -606,23 +606,23 @@ export function ResourcePanel({
                   </div>
                 </div>
                 {!ro ? (
-                  <span onClick={() => setField('clId', 'none')} style={{ cursor: 'pointer', color: C.txL, fontSize: 18, lineHeight: 1 }}>
+                  <span onClick={() => setField('clId', 'none')} style={{ cursor: 'pointer', color: colors.textLight, fontSize: 18, lineHeight: 1 }}>
                     ×
                   </span>
                 ) : null}
               </div>
             ) : (
-              <div style={{ fontSize: 12, color: C.txL, marginBottom: 8 }}>연결된 점검표가 없습니다.</div>
+              <div style={{ fontSize: 12, color: colors.textLight, marginBottom: 8 }}>연결된 점검표가 없습니다.</div>
             )}
             {!ro ? (
               <>
                 <div style={{ position: 'relative', marginBottom: 8 }}>
                   <FormInput value={clSearch} onChange={(e) => setClSearch(e.target.value)} placeholder="점검표명, 유형, 분류 검색" style={{ paddingLeft: 28 }} />
                   <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                    <Icon n="search" s={13} c={C.txL} />
+                    <Icon name="search" size={13} color={colors.textLight} />
                   </span>
                 </div>
-                <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden', maxHeight: 220, overflowY: 'auto' }}>
+                <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, overflow: 'hidden', maxHeight: 220, overflowY: 'auto' }}>
                   <div
                     onClick={() => setField('clId', 'none')}
                     style={{
@@ -630,13 +630,13 @@ export function ResourcePanel({
                       alignItems: 'center',
                       gap: 10,
                       padding: '9px 14px',
-                      borderBottom: `1px solid ${C.brd}`,
+                      borderBottom: `1px solid ${colors.border}`,
                       cursor: 'pointer',
-                      background: form.clId === 'none' ? `${C.pri}12` : '#fff',
+                      background: form.clId === 'none' ? `${colors.primary}12` : '#fff',
                     }}
                   >
-                    <div style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${form.clId === 'none' ? C.pri : C.brd}`, background: form.clId === 'none' ? C.pri : '#fff' }} />
-                    <span style={{ fontSize: 12, color: form.clId === 'none' ? C.pri : C.txL }}>연결 안 함</span>
+                    <div style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${form.clId === 'none' ? colors.primary : colors.border}`, background: form.clId === 'none' ? colors.primary : '#fff' }} />
+                    <span style={{ fontSize: 12, color: form.clId === 'none' ? colors.primary : colors.textLight }}>연결 안 함</span>
                   </div>
                   {visibleChecklists.map((checklist) => {
                     const active = String(form.clId) === String(checklist.id);
@@ -650,20 +650,20 @@ export function ResourcePanel({
                           alignItems: 'center',
                           gap: 10,
                           padding: '9px 14px',
-                          borderBottom: `1px solid ${C.brd}`,
+                          borderBottom: `1px solid ${colors.border}`,
                           cursor: 'pointer',
-                          background: active ? `${C.pri}12` : '#fff',
+                          background: active ? `${colors.primary}12` : '#fff',
                         }}
                       >
-                        <div style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${active ? C.pri : C.brd}`, background: active ? C.pri : '#fff' }} />
+                        <div style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${active ? colors.primary : colors.border}`, background: active ? colors.primary : '#fff' }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: active ? C.pri : C.txt }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: active ? colors.primary : colors.text }}>
                             {checklist.nm}
                             {recommended ? (
                               <span style={{ fontSize: 11, fontWeight: 700, padding: '1px 6px', borderRadius: 8, background: '#DBEAFE', color: '#1D4ED8' }}>권장</span>
                             ) : null}
                           </div>
-                          <div style={{ fontSize: 11, color: C.txL, marginTop: 1 }}>
+                          <div style={{ fontSize: 11, color: colors.textLight, marginTop: 1 }}>
                             {checklist.sub || '공통'} · {checklist.items}항목 · {checklist.type}
                           </div>
                         </div>
@@ -683,7 +683,7 @@ export function ResourcePanel({
           </div>
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           {!editMode && isEdit && hasLinkedCL ? (
             <div
               style={{
@@ -697,7 +697,7 @@ export function ResourcePanel({
                 border: '1px solid #FED7AA',
               }}
             >
-              <Icon n="alert" s={13} c="#EA580C" />
+              <Icon name="alert" size={13} color="#EA580C" />
               <span style={{ color: '#9A3412', fontSize: 12 }}>연결된 점검표가 있어 삭제할 수 없습니다. 점검표 연결을 해제한 후 삭제하세요.</span>
             </div>
           ) : null}

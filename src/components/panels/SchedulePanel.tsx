@@ -9,7 +9,7 @@ import { FormInput, FormSelect } from '@/components/ui/Input';
 import { SidePanel } from '@/components/ui/SidePanel';
 import { Toggle } from '@/components/ui/Toggle';
 import { Icon } from '@/components/ui/Icon';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { CL_INIT } from '@/data/checklists';
 import { RES } from '@/data/resources';
 import { SYS } from '@/data/manager';
@@ -234,13 +234,13 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
               gap: 8,
               padding: '8px 12px',
               borderRadius: 6,
-              background: `${FREQ_COLOR[form.freq] || C.pri}0D`,
-              border: `1px solid ${(FREQ_COLOR[form.freq] || C.pri)}33`,
+              background: `${FREQ_COLOR[form.freq] || colors.primary}0D`,
+              border: `1px solid ${(FREQ_COLOR[form.freq] || colors.primary)}33`,
               marginBottom: 16,
             }}
           >
-            <Icon n="info" s={13} c={FREQ_COLOR[form.freq] || C.pri} />
-            <span style={{ fontSize: 12, color: FREQ_COLOR[form.freq] || C.pri, fontWeight: 600 }}>{summaryText}</span>
+            <Icon name="info" size={13} color={FREQ_COLOR[form.freq] || colors.primary} />
+            <span style={{ fontSize: 12, color: FREQ_COLOR[form.freq] || colors.primary, fontWeight: 600 }}>{summaryText}</span>
           </div>
 
           <div style={{ marginBottom: 18 }}>
@@ -249,23 +249,23 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
             <FormRow label="사용유무">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Toggle on={form.st === '사용'} onClick={() => !ro && setField('st', form.st === '사용' ? '미사용' : '사용')} disabled={ro} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === '사용' ? C.pri : C.txL }}>{form.st}</span>
+                <span style={{ fontSize: 13, fontWeight: 500, color: form.st === '사용' ? colors.primary : colors.textLight }}>{form.st}</span>
               </div>
             </FormRow>
 
             <FormRow label="스케줄 명" required>
-              <FormInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} readOnly={ro} style={errors.nm ? { borderColor: C.red } : undefined} />
-              {errors.nm ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.nm}</div> : null}
+              <FormInput value={form.nm} onChange={(e) => setField('nm', e.target.value)} readOnly={ro} style={errors.nm ? { borderColor: colors.red } : undefined} />
+              {errors.nm ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.nm}</div> : null}
             </FormRow>
 
             <div style={{ marginBottom: 14 }}>
-              <label style={{ fontSize: 11, fontWeight: 600, color: C.txS, marginBottom: 6, display: 'block' }}>
-                실행주기 <span style={{ color: C.red }}>*</span>
+              <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, marginBottom: 6, display: 'block' }}>
+                실행주기 <span style={{ color: colors.red }}>*</span>
               </label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {FREQ_OPTS.map((freq) => {
                   const active = form.freq === freq;
-                  const color = FREQ_COLOR[freq] || C.pri;
+                  const color = FREQ_COLOR[freq] || colors.primary;
                   return (
                     <button
                       key={freq}
@@ -276,9 +276,9 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                         borderRadius: 20,
                         fontSize: 12,
                         fontWeight: 700,
-                        border: `1.5px solid ${active ? color : C.brd}`,
+                        border: `1.5px solid ${active ? color : colors.border}`,
                         background: active ? `${color}1A` : '#fff',
-                        color: active ? color : C.txS,
+                        color: active ? color : colors.textSecondary,
                         cursor: ro ? 'default' : 'pointer',
                       }}
                     >
@@ -292,7 +292,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
             <div style={{ display: 'flex', gap: 12 }}>
               <FormRow label="시작일" required style={{ flex: 1 }}>
                 <DatePicker value={form.startDt} onChange={(value) => setField('startDt', value)} readOnly={ro} />
-                {errors.startDt ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.startDt}</div> : null}
+                {errors.startDt ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.startDt}</div> : null}
               </FormRow>
               <FormRow label="배치시작시간" required style={{ flex: 1 }}>
                 <FormInput type="time" value={form.batchStartTime} onChange={(e) => setField('batchStartTime', e.target.value)} readOnly={ro} />
@@ -319,20 +319,20 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                     </option>
                   ))}
                 </FormSelect>
-                {errors.sysId ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.sysId}</div> : null}
+                {errors.sysId ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.sysId}</div> : null}
               </FormRow>
               <FormRow label="연결 점검표" style={{ flex: 1 }}>
                 <div
                   style={{
                     minHeight: 36,
-                    border: `1px solid ${C.brd}`,
+                    border: `1px solid ${colors.border}`,
                     borderRadius: 4,
                     background: '#F9FAFC',
                     display: 'flex',
                     alignItems: 'center',
                     padding: '0 12px',
                     fontSize: 12,
-                    color: selectedChecklist ? C.txt : C.txL,
+                    color: selectedChecklist ? colors.text : colors.textLight,
                   }}
                 >
                   {selectedChecklist ? `${selectedChecklist.nm} (${selectedChecklist.sub || '공통'})` : '선택된 자원 기준 자동 연결'}
@@ -356,12 +356,12 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
             <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: C.txS }}>선택된 자원</div>
-                  <span style={{ fontSize: 11, color: C.txL }}>{form.resources.length}개</span>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: colors.textSecondary }}>선택된 자원</div>
+                  <span style={{ fontSize: 11, color: colors.textLight }}>{form.resources.length}개</span>
                 </div>
-                <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, minHeight: 120, overflow: 'hidden', background: '#FAFCFF' }}>
+                <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, minHeight: 120, overflow: 'hidden', background: '#FAFCFF' }}>
                   {form.resources.length === 0 ? (
-                    <div style={{ padding: '26px 12px', textAlign: 'center', fontSize: 12, color: C.txL }}>
+                    <div style={{ padding: '26px 12px', textAlign: 'center', fontSize: 12, color: colors.textLight }}>
                       {ro ? '연결된 자원이 없습니다.' : '오른쪽 목록에서 자원을 선택하세요.'}
                     </div>
                   ) : (
@@ -378,15 +378,15 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                               alignItems: 'center',
                               gap: 8,
                               padding: '8px 10px',
-                              borderBottom: `1px solid ${C.brd}`,
+                              borderBottom: `1px solid ${colors.border}`,
                               fontSize: 12,
                             }}
                           >
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontWeight: 600, color: C.priD, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <div style={{ fontWeight: 600, color: colors.primaryDark, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {resource.nm}
                               </div>
-                              <div style={{ fontSize: 11, color: C.txL, marginTop: 1 }}>
+                              <div style={{ fontSize: 11, color: colors.textLight, marginTop: 1 }}>
                                 {resource.mid} · {resource.small || '—'} · {resource.ip || '—'}
                               </div>
                             </div>
@@ -397,7 +397,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                                 borderRadius: 6,
                                 fontWeight: 600,
                                 background: checklist ? '#dcfce7' : '#F3F4F6',
-                                color: checklist ? '#166534' : C.txL,
+                                color: checklist ? '#166534' : colors.textLight,
                               }}
                             >
                               {checklist ? checklist.nm : '—'}
@@ -405,7 +405,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                             {!ro ? (
                               <span
                                 onClick={() => toggleResource(resId, false)}
-                                style={{ cursor: 'pointer', fontSize: 15, color: C.txL, lineHeight: 1 }}
+                                style={{ cursor: 'pointer', fontSize: 15, color: colors.textLight, lineHeight: 1 }}
                               >
                                 ×
                               </span>
@@ -416,14 +416,14 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                     </div>
                   )}
                 </div>
-                {errors.resources ? <div style={{ fontSize: 11, color: C.red, marginTop: 3 }}>{errors.resources}</div> : null}
+                {errors.resources ? <div style={{ fontSize: 11, color: colors.red, marginTop: 3 }}>{errors.resources}</div> : null}
               </div>
 
               {!ro ? (
                 <div style={{ flex: '0 0 54%', minWidth: 0 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: C.txS, marginBottom: 6 }}>자원 검색</div>
-                  <div style={{ border: `1px solid ${C.brd}`, borderRadius: 8, overflow: 'hidden' }}>
-                    <div style={{ padding: '7px 8px', background: '#F9FAFC', display: 'flex', gap: 5, borderBottom: `1px solid ${C.brd}` }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: colors.textSecondary, marginBottom: 6 }}>자원 검색</div>
+                  <div style={{ border: `1px solid ${colors.border}`, borderRadius: 8, overflow: 'hidden' }}>
+                    <div style={{ padding: '7px 8px', background: '#F9FAFC', display: 'flex', gap: 5, borderBottom: `1px solid ${colors.border}` }}>
                       <FormSelect value={form.sysId} onChange={(e) => setField('sysId', e.target.value)} style={{ flex: 1, minWidth: 0, fontSize: 12, padding: '3px 6px' }}>
                         <option value="">정보시스템</option>
                         {SYS.map((sys) => (
@@ -449,7 +449,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                         ))}
                       </FormSelect>
                     </div>
-                    <div style={{ padding: '6px 8px', background: '#F9FAFC', borderBottom: `1px solid ${C.brd}` }}>
+                    <div style={{ padding: '6px 8px', background: '#F9FAFC', borderBottom: `1px solid ${colors.border}` }}>
                       <div style={{ position: 'relative' }}>
                         <FormInput
                           value={form._resSearch}
@@ -458,13 +458,13 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                           style={{ width: '100%', padding: '3px 6px 3px 22px', fontSize: 12 }}
                         />
                         <span style={{ position: 'absolute', left: 6, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                          <Icon n="search" s={11} c={C.txL} />
+                          <Icon name="search" size={11} color={colors.textLight} />
                         </span>
                       </div>
                     </div>
                     <div style={{ maxHeight: 260, overflowY: 'auto' }}>
                       {availableResources.length === 0 ? (
-                        <div style={{ padding: 18, textAlign: 'center', fontSize: 12, color: C.txL }}>추가 가능한 자원이 없습니다.</div>
+                        <div style={{ padding: 18, textAlign: 'center', fontSize: 12, color: colors.textLight }}>추가 가능한 자원이 없습니다.</div>
                       ) : (
                         availableResources.map((resource) => {
                           const checklist = CL_INIT.find((cl) => cl.sub === resource.mid);
@@ -477,7 +477,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                                 alignItems: 'center',
                                 gap: 8,
                                 padding: '7px 10px',
-                                borderBottom: `1px solid ${C.brd}`,
+                                borderBottom: `1px solid ${colors.border}`,
                                 cursor: 'pointer',
                                 fontSize: 12,
                               }}
@@ -488,10 +488,10 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                                 e.currentTarget.style.background = '#fff';
                               }}
                             >
-                              <span style={{ color: C.pri, fontWeight: 700, fontSize: 14 }}>+</span>
+                              <span style={{ color: colors.primary, fontWeight: 700, fontSize: 14 }}>+</span>
                               <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={{ fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{resource.nm}</div>
-                                <div style={{ fontSize: 11, color: C.txL, marginTop: 1 }}>
+                                <div style={{ fontSize: 11, color: colors.textLight, marginTop: 1 }}>
                                   {resource.mid} · {resource.small || '—'} · {resource.ip || '—'}
                                 </div>
                               </div>
@@ -502,7 +502,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                                   borderRadius: 6,
                                   fontWeight: 600,
                                   background: checklist ? '#dcfce7' : '#F3F4F6',
-                                  color: checklist ? '#166534' : C.txL,
+                                  color: checklist ? '#166534' : colors.textLight,
                                 }}
                               >
                                 {checklist ? checklist.nm : '점검표 없음'}
@@ -513,7 +513,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                       )}
                     </div>
                     {availableResources.length > 0 ? (
-                      <div style={{ padding: '4px 10px', fontSize: 11, color: C.txL, textAlign: 'center', background: '#F9FAFC', borderTop: `1px solid ${C.brd}` }}>
+                      <div style={{ padding: '4px 10px', fontSize: 11, color: colors.textLight, textAlign: 'center', background: '#F9FAFC', borderTop: `1px solid ${colors.border}` }}>
                         {availableResources.length}개 추가 가능
                       </div>
                     ) : null}
@@ -538,7 +538,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
           ) : null}
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: `1px solid ${C.brd}`, flexShrink: 0 }}>
+        <div style={{ padding: '16px 24px', borderTop: `1px solid ${colors.border}`, flexShrink: 0 }}>
           {!isNew && !editMode && form.resources.length > 0 ? (
             <div
               style={{
@@ -552,7 +552,7 @@ export function SchedulePanel({ open, onClose, item, onAdd, onUpdate, onDelete }
                 border: '1px solid #FED7AA',
               }}
             >
-              <Icon n="alert" s={13} c="#EA580C" />
+              <Icon name="alert" size={13} color="#EA580C" />
               <span style={{ color: '#9A3412', fontSize: 12 }}>연결된 자원이 있어 삭제할 수 없습니다. 자원 연결을 해제한 후 삭제하세요.</span>
             </div>
           ) : null}

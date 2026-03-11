@@ -9,8 +9,9 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { Button } from '@/components/ui/Button';
 import { FormInput, FormSelect } from '@/components/ui/Input';
 import { DateRangePicker } from '@/components/ui/DatePicker';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { LABEL_STYLE_SM, fInput, fSelect } from '@/lib/theme/styles';
+import css from './page.module.css';
 
 
 const MgrAccessLog = () => {
@@ -71,28 +72,30 @@ const MgrAccessLog = () => {
   const search = () => { setApplied({ keyword, actionFilter, dateFrom, dateTo, result, path }); setPage(1); };
   const reset  = () => { setKeyword(""); setDateFrom("2026-02-22"); setDateTo(TODAY); setResult("전체"); setPath("전체"); setActionFilter("전체"); setApplied({ keyword:"", actionFilter:"전체", dateFrom:"2026-02-22", dateTo:TODAY, result:"전체", path:"전체" }); setPage(1); };
 
+  const noteText = (v: string) => ({ color: v ? colors.text : colors.textLight });
+
   /* ── 결과 배지 ── */
 
 
   return (
     <div>
-      <PageHeader title="접속로그" bc="홈 > 로그정보 > 접속로그" />
+      <PageHeader title="접속로그" breadcrumb="홈 > 로그정보 > 접속로그" />
 
       <div>
 
         {/* ── 검색 영역 (searchform) ── */}
         <SearchBar onSearch={search} onReset={reset}>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>행동유형</span>
             <FormSelect value={actionFilter} onChange={e => setActionFilter(e.target.value)} style={{...fSelect, width:"auto"}}>
               {["전체", "등록", "수정", "삭제", "다운로드", "로그인"].map(v => <option key={v}>{v}</option>)}
             </FormSelect>
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>기간</span>
             <DateRangePicker from={dateFrom} to={dateTo} onFromChange={setDateFrom} onToChange={setDateTo} />
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:4, minWidth:"fit-content" }}>
+          <div className={css.filterCol}>
             <span style={{ ...LABEL_STYLE_SM }}>사용자/IP</span>
             <FormInput value={keyword} onChange={e => setKeyword(e.target.value)}
               onKeyDown={e => e.key === "Enter" && search()}
@@ -104,21 +107,21 @@ const MgrAccessLog = () => {
         {/* ── 그리드 ── */}
         <div>
           <DataTable
-            secTitle="접속 이력"
-            secCount={filtered.length}
-            secButtons={<Button onClick={()=>{}}>📥 엑셀 다운로드</Button>}
+            sectionTitle="접속 이력"
+            sectionCount={filtered.length}
+            sectionButtons={<Button onClick={()=>{}}>📥 엑셀 다운로드</Button>}
             data={filtered}
             cols={[
-              { t:"No.",      k:"id",       w:60,  r:(_,l,i)=><span style={{color:C.txL}}>{filtered.length - i}</span> },
-              { t:"행동유형",  k:"action",   w:70,  r:(v)=><Badge status={v}/> },
-              { t:"이름",     k:"userNm",   w:90 },
-              { t:"아이디",   k:"userId",   w:110, r:(v)=><span style={{color:C.txS,fontFamily:"inherit"}}>{v}</span> },
-              { t:"IP",       k:"ip",       w:130, r:(v)=><span style={{fontFamily:"inherit"}}>{v}</span> },
-              { t:"메뉴",     k:"menu",     w:110 },
-              { t:"URL",      k:"url",      w:180, align:"left", r:(v)=><span style={{color:C.txS,fontFamily:"inherit"}}>{v}</span> },
-              { t:"일시",     k:"dt",       w:155, r:(v)=><span style={{fontFamily:"inherit"}}>{v}</span> },
-              { t:"로그인일시", k:"loginDt", w:155, r:(v)=><span style={{color:C.txS,fontFamily:"inherit"}}>{v}</span> },
-              { t:"비고",     k:"note",     w:120, align:"left", r:(v)=><span style={{color:v?C.txt:C.txL}}>{v||"—"}</span> },
+              { title:"No.",      fieldKey:"id",       width:60,  renderCell:(_,l,i)=><span className={css.rowNum}>{String(filtered.length - i)}</span> },
+              { title:"행동유형",  fieldKey:"action",   width:70,  renderCell:(v)=><Badge status={v}/> },
+              { title:"이름",     fieldKey:"userNm",   width:90 },
+              { title:"아이디",   fieldKey:"userId",   width:110, renderCell:(v)=><span className={css.idText}>{v}</span> },
+              { title:"IP",       fieldKey:"ip",       width:130, renderCell:(v)=><span className={css.monoText}>{v}</span> },
+              { title:"메뉴",     fieldKey:"menu",     width:110 },
+              { title:"URL",      fieldKey:"url",      width:180, align:"left", renderCell:(v)=><span className={css.urlText}>{v}</span> },
+              { title:"일시",     fieldKey:"dt",       width:155, renderCell:(v)=><span className={css.monoText}>{v}</span> },
+              { title:"로그인일시", fieldKey:"loginDt", width:155, renderCell:(v)=><span className={css.loginDtText}>{v}</span> },
+              { title:"비고",     fieldKey:"note",     width:120, align:"left", renderCell:(v)=><span style={noteText(v)}>{v||"—"}</span> },
             ]}
           />
         </div>

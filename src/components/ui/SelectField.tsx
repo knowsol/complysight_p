@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { fieldInputStyle } from '@/components/ui/FormField';
 import React from 'react';
 import type { CSSProperties, ChangeEventHandler, ReactNode, SelectHTMLAttributes } from 'react';
@@ -39,10 +39,10 @@ export function SelectField({ style, children, ...props }: SelectFieldProps) {
     <select
       style={{ ...selectFieldStyle, ...style }}
       onFocus={(e) => {
-        e.target.style.borderColor = C.sec;
+        e.target.style.borderColor = colors.secondary;
       }}
       onBlur={(e) => {
-        e.target.style.borderColor = C.brd;
+        e.target.style.borderColor = colors.border;
       }}
       {...props}
     >
@@ -72,7 +72,7 @@ export function ReadOnlySelect({ readOnly, value, onChange, style, children, pla
       extract(children);
     } catch (_e: unknown) {}
 
-    return <input readOnly value={label} style={{ ...fieldInputStyle, background: '#F9FAFC', color: C.txt, cursor: 'default' }} />;
+    return <input readOnly value={label} style={{ ...fieldInputStyle, background: '#F9FAFC', color: colors.text, cursor: 'default' }} />;
   }
 
   return React.createElement('select', { style: { ...style, backgroundImage: chevron }, value, onChange }, children);

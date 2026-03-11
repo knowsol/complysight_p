@@ -8,7 +8,7 @@ import { DataTable } from '@/components/ui/DataTable';
 import { YnBadge } from '@/components/ui/Badge';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Button } from '@/components/ui/Button';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { RES } from '@/data/resources';
 import { CL_INIT } from '@/data/checklists';
 import { ChecklistPanel } from '@/components/panels';
@@ -46,20 +46,20 @@ const MgrCL = () => {
   const activeItem = selItem || savedItem;
 
   return <div>
-  <PageHeader title="점검표" bc="홈 > 환경설정 > 점검표" />
-  <SearchBar ph="점검표명으로 검색" />
-  <DataTable secTitle="점검표 목록" secCount={cl.length} secButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 점검표 추가</Button>} cols={[
-    { t: "상태", k: "useYn", w: 80, r: v => <YnBadge v={v} /> },
-    { t: "점검표명", k: "nm", mw: 150, align: "left", r: (v, row) => <span style={{ fontWeight: 600, color: C.pri, cursor: "pointer" }} onClick={() => setSelItem(row)}>{v}</span> },
-    { t: "점검상세분류", k: "kind", w: 120 },
-    { t: "항목수", k: "items", w: 70 },
-    { t: "스케줄", k: "sch", w: 70 },
-    { t: "연결자원", k: "id", w: 80, r: v => {
+  <PageHeader title="점검표" breadcrumb="홈 > 환경설정 > 점검표" />
+  <SearchBar placeholder="점검표명으로 검색" />
+  <DataTable sectionTitle="점검표 목록" sectionCount={cl.length} sectionButtons={<Button variant="primary" onClick={() => setShowAdd(true)}>+ 점검표 추가</Button>} cols={[
+    { title: "상태", fieldKey: "useYn", width: 80, renderCell: v => <YnBadge value={v} /> },
+    { title: "점검표명", fieldKey: "nm", minWidth: 150, align: "left", renderCell: (v, row) => <span style={{ fontWeight: 600, color: colors.primary, cursor: "pointer" }} onClick={() => setSelItem(row)}>{v}</span> },
+    { title: "점검상세분류", fieldKey: "kind", width: 120 },
+    { title: "항목수", fieldKey: "items", width: 70 },
+    { title: "스케줄", fieldKey: "sch", width: 70 },
+    { title: "연결자원", fieldKey: "id", width: 80, renderCell: v => {
       const cnt = getLinkedResIds(v).length;
-      return <span style={{ fontWeight:600, color: cnt>0 ? C.pri : C.txL }}>{cnt}개</span>;
+      return <span style={{ fontWeight:600, color: cnt>0 ? colors.primary : colors.textLight }}>{cnt}개</span>;
     }},
-    { t: "등록자", k: "registrant", w: 90 },
-    { t: "등록일", k: "regDt", w: 140 },
+    { title: "등록자", fieldKey: "registrant", width: 90 },
+    { title: "등록일", fieldKey: "regDt", width: 140 },
   ]} data={cl} onRow={row => setSelItem(row)} />
   <ChecklistPanel open={showAdd} onClose={() => setShowAdd(false)} item={null}
     linkedResIds={[]} onLinkChange={()=>{}} onSaved={handleSaved} />

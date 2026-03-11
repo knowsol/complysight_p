@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import { fieldInputStyle } from '@/components/ui/FormField';
 import type { CSSProperties, TextareaHTMLAttributes } from 'react';
 
@@ -20,10 +20,10 @@ export function TextArea({ style, ...props }: TextAreaProps) {
     <textarea
       style={{ ...textAreaStyle, ...style }}
       onFocus={(e) => {
-        e.target.style.borderColor = C.sec;
+        e.target.style.borderColor = colors.secondary;
       }}
       onBlur={(e) => {
-        e.target.style.borderColor = C.brd;
+        e.target.style.borderColor = colors.border;
       }}
       {...props}
     />

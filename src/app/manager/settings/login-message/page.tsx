@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { FormTextarea } from '@/components/ui/Input';
 import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
-import { C } from '@/lib/theme/colors';
 import { fInput } from '@/lib/theme/styles';
+import css from './page.module.css';
 
 
 const MgrLoginMsg = ({ loginMsg, onSave }) => {
@@ -32,18 +32,16 @@ const MgrLoginMsg = ({ loginMsg, onSave }) => {
 
   const remaining = MAX_LEN - form.content.length;
 
-
-
   return (
     <div>
-      <PageHeader title="로그인 안내메시지" bc="홈 > 환경설정 > 로그인 안내메시지" />
+      <PageHeader title="로그인 안내메시지" breadcrumb="홈 > 환경설정 > 로그인 안내메시지" />
       <div>
-        <div style={{ background: "#fff", border: `1px solid ${C.brd}`, borderRadius: 12, padding: "28px 32px", maxWidth: 680 }}>
+        <div className={css.card}>
           <SectionTitle label="안내 메시지 설정" primary />
 
           <FormRow label="노출 여부">
             <Radio value={form.useYn} onChange={v => sf("useYn", v)} />
-            <div style={{ fontSize: 12, color: C.txS, marginTop: 5 }}>"노출" 설정 시 로그인 화면에 즉시 반영됩니다.</div>
+            <div className={css.helpText}>"노출" 설정 시 로그인 화면에 즉시 반영됩니다.</div>
           </FormRow>
 
           <FormRow label="안내 메시지 내용" required={form.useYn === "Y"}>
@@ -56,29 +54,29 @@ const MgrLoginMsg = ({ loginMsg, onSave }) => {
               disabled={form.useYn === "N"}
               style={{ ...fInput, resize: "vertical", fontFamily: "inherit", lineHeight: 1.7, minHeight: 160, opacity: form.useYn === "N" ? 0.5 : 1 }}
             />
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 3 }}>
-              <div>{errors.content && <span style={{ fontSize: 12, color: "#ef4444" }}>{errors.content}</span>}</div>
-              <span style={{ fontSize: 12, color: remaining < 50 ? "#ef4444" : C.txL }}>{form.content.length} / {MAX_LEN}자</span>
+            <div className={css.counterRow}>
+              <div>{errors.content && <span className={css.errorText}>{errors.content}</span>}</div>
+              <span className={remaining < 50 ? css.counterTextWarning : css.counterText}>{form.content.length} / {MAX_LEN}자</span>
             </div>
           </FormRow>
 
           {/* 미리보기 */}
           {form.useYn === "Y" && form.content.trim() && (
-            <div style={{ marginBottom: 18 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: C.txS, marginBottom: 8 }}>미리보기</div>
-              <div style={{ padding: "14px 18px", borderRadius: 8, background: "#fffbeb", border: "1px solid #fde68a", fontSize: 12, color: "#92400e", lineHeight: 1.7, whiteSpace: "pre-wrap" }}>
+            <div className={css.previewWrap}>
+              <div className={css.previewLabel}>미리보기</div>
+              <div className={css.previewBox}>
                 {form.content}
               </div>
             </div>
           )}
 
           {saveOk && (
-            <div style={{ padding: "10px 14px", borderRadius: 8, background: "#f0fdf4", border: "1px solid #bbf7d0", fontSize: 12, color: "#16a34a", marginBottom: 16 }}>
+            <div className={css.successMsg}>
               ✓ 저장이 완료되었습니다.
             </div>
           )}
 
-          <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: 8, borderTop: `1px solid ${C.brd}` }}>
+          <div className={css.footerBar}>
             <Button primary onClick={handleSave}>저장</Button>
           </div>
         </div>

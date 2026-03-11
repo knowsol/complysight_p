@@ -1,0 +1,29 @@
+.filterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.monoText {
+  font-family: inherit;
+}
+
+.idText {
+  color: var(--color-text-secondary);
+  font-family: inherit;
+}
+
+.urlText {
+  color: var(--color-text-secondary);
+  font-family: inherit;
+}
+
+.loginDtText {
+  color: var(--color-text-secondary);
+  font-family: inherit;
+}
+
+.rowNum {
+  color: var(--color-text-light);
+}

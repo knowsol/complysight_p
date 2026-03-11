@@ -5,7 +5,7 @@ import { StatCard } from '@/components/ui/StatCard';
 import { DataTable } from '@/components/ui/DataTable';
 import { Badge } from '@/components/ui/Badge';
 import { useDI } from '@/contexts/DIContext';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export default function SentinelDashboardPage() {
   const { di } = useDI();
@@ -17,22 +17,22 @@ export default function SentinelDashboardPage() {
 
   return (
     <div>
-      <PageHeader title="대시보드" bc="홈 > 대시보드" />
+      <PageHeader title="대시보드" breadcrumb="홈 > 대시보드" />
       <div style={{ display: 'flex', gap: 14, marginBottom: 18, flexWrap: 'wrap' }}>
-        <StatCard label="오늘 점검" value={cnt.p + cnt.d + cnt.c} color={C.sec} icon="cal" />
-        <StatCard label="진행 중" value={cnt.p} color={C.pri} icon="check" />
-        <StatCard label="지연" value={cnt.d} color={C.red} icon="alert" />
-        <StatCard label="완료" value={cnt.c} color={C.purp} icon="check" />
+        <StatCard label="오늘 점검" value={cnt.p + cnt.d + cnt.c} color={colors.secondary} icon="cal" />
+        <StatCard label="진행 중" value={cnt.p} color={colors.primary} icon="check" />
+        <StatCard label="지연" value={cnt.d} color={colors.red} icon="alert" />
+        <StatCard label="완료" value={cnt.c} color={colors.purple} icon="check" />
       </div>
       <DataTable
-        secTitle="나의 점검 현황"
-        secCount={di.length}
+        sectionTitle="나의 점검 현황"
+        sectionCount={di.length}
         data={di}
         cols={[
-          { t: '자원', k: 'resNm' },
-          { t: '점검표', k: 'clNm' },
-          { t: '예정일', k: 'due' },
-          { t: '상태', k: 'st', r: (v) => <Badge status={String(v)} /> },
+          { title: '자원', fieldKey: 'resNm' },
+          { title: '점검표', fieldKey: 'clNm' },
+          { title: '예정일', fieldKey: 'due' },
+          { title: '상태', fieldKey: 'st', renderCell: (v) => <Badge status={String(v)} /> },
         ]}
       />
     </div>

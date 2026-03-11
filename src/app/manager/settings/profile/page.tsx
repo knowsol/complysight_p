@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { FormInput } from '@/components/ui/Input';
 import { FormRow, SectionTitle } from '@/components/ui/FormRow';
 import { Radio } from '@/components/ui/Radio';
-import { C } from '@/lib/theme/colors';
 import { fInput } from '@/lib/theme/styles';
+import css from './page.module.css';
 
 
 const MgrSysProfile = () => {
@@ -28,11 +28,11 @@ const MgrSysProfile = () => {
 
 
   return <div>
-    <PageHeader title="시스템 프로필" bc="홈 > 환경설정 > 시스템 프로필" />
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 20, alignItems: "start" }}>
+    <PageHeader title="시스템 프로필" breadcrumb="홈 > 환경설정 > 시스템 프로필" />
+    <div className={css.grid}>
 
       {/* 왼쪽: 입력 폼 */}
-      <div style={{ background: "#fff", border: `1px solid ${C.brd}`, borderRadius: 12, padding: "28px 32px" }}>
+      <div className={css.formCard}>
         <SectionTitle label="기관 정보" primary />
         <FormRow label="기관명" required>
           <FormInput value={form.orgName} onChange={e => sf("orgName", e.target.value)} placeholder="기관명을 입력하세요" style={fInput} />
@@ -41,7 +41,7 @@ const MgrSysProfile = () => {
           <FormInput value={form.phone} onChange={e => sf("phone", e.target.value)} placeholder="02-0000-0000" style={fInput} />
         </FormRow>
 
-        <div style={{ borderTop: `1px solid ${C.brd}`, margin: "20px 0" }} />
+        <div className={css.divider} />
         <SectionTitle label="사이트 정보" />
         <FormRow label="사이트 명" required>
           <FormInput value={form.siteName} onChange={e => sf("siteName", e.target.value)} placeholder="사이트 명칭" style={fInput} />
@@ -53,25 +53,25 @@ const MgrSysProfile = () => {
           <FormInput value={form.url} onChange={e => sf("url", e.target.value)} placeholder="https://" style={fInput} />
         </FormRow>
 
-        <div style={{ borderTop: `1px solid ${C.brd}`, margin: "20px 0" }} />
+        <div className={css.divider} />
         <SectionTitle label="운영 설정" />
         <FormRow label="추가인증 사용여부" desc="로그인 시 OTP 등 추가인증을 적용합니다.">
           <Radio value={form.mfaEnabled} onChange={v => sf("mfaEnabled", v)} />
         </FormRow>
 
-        <div style={{ borderTop: `1px solid ${C.brd}`, margin: "20px 0" }} />
+        <div className={css.divider} />
         <SectionTitle label="로고 설정" />
-        <FormRow label="로고 이미지">
-          <div style={{ display:"flex", alignItems:"center", gap:16 }}>
-            <div style={{ width:120, height:48, border:`2px dashed ${C.brd}`, borderRadius:8, display:"flex", alignItems:"center", justifyContent:"center", background:"#F9FAFC", flexShrink:0 }}>
-              <span style={{ fontSize:12, color:C.txL }}>미리보기</span>
+          <FormRow label="로고 이미지">
+          <div className={css.logoRow}>
+            <div className={css.logoPreview}>
+              <span className={css.logoPreviewText}>미리보기</span>
             </div>
             <div>
-              <label style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"6px 14px", border:`1px solid ${C.brd}`, borderRadius:5, fontSize:12, color:C.txS, cursor:"pointer", background:"#fff" }}>
+              <label className={css.fileLabel}>
                 📎 파일 선택
-                <FormInput type="file" accept="image/*" style={{ display:"none" }} />
+                <FormInput type="file" accept="image/*" className={css.hiddenFileInput} />
               </label>
-              <div style={{ fontSize:12, color:C.txL, marginTop:4 }}>PNG, JPG, SVG (최대 2MB)</div>
+              <div className={css.fileHint}>PNG, JPG, SVG (최대 2MB)</div>
             </div>
           </div>
         </FormRow>
@@ -80,19 +80,19 @@ const MgrSysProfile = () => {
         </FormRow>
 
         {saveOk && (
-            <div style={{ padding:"10px 14px", borderRadius:8, background:"#f0fdf4", border:"1px solid #bbf7d0", fontSize:12, color:"#16a34a", marginBottom:12 }}>
+            <div className={css.successMsg}>
             ✓ 설정이 저장되었습니다.
           </div>
         )}
 
-        <div style={{ display:"flex", justifyContent:"flex-end", paddingTop:12, borderTop:`1px solid ${C.brd}` }}>
+        <div className={css.footerBar}>
           <Button primary onClick={handleSave}>저장</Button>
         </div>
       </div>
 
       {/* 오른쪽: 현재 설정 요약 */}
-      <div style={{ background: "#fff", border: `1px solid ${C.brd}`, borderRadius: 12, padding: "22px 22px" }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: C.txt, marginBottom: 16 }}>현재 설정 요약</div>
+      <div className={css.summaryCard}>
+        <div className={css.summaryTitle}>현재 설정 요약</div>
         {[
           ["기관명", form.orgName],
           ["전화번호", form.phone],
@@ -102,9 +102,9 @@ const MgrSysProfile = () => {
           ["추가인증", form.mfaEnabled === "Y" ? "사용" : "미사용"],
           ["로고 alt", form.logoAlt],
         ].map(([k, v]) => (
-            <div key={k} style={{ display:"flex", gap:8, marginBottom:8, fontSize:12 }}>
-            <span style={{ color:C.txS, minWidth:70, flexShrink:0 }}>{k}</span>
-            <span style={{ color:C.txt, wordBreak:"break-all" }}>{v || "—"}</span>
+            <div key={k} className={css.kvRow}>
+            <span className={css.kvLabel}>{k}</span>
+            <span className={css.kvValue}>{v || "—"}</span>
           </div>
         ))}
       </div>

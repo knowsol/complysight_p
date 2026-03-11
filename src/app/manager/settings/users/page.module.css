@@ -1,0 +1,122 @@
+.layout {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.leftPanel {
+  width: 240px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.leftHeader {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+}
+
+.leftTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+.listWrap {
+  padding: 6px 0;
+}
+
+.groupItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 1px 6px;
+  transition: all .3s;
+}
+
+.groupName {
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  margin-right: 6px;
+}
+
+.groupNameSimple {
+  font-size: 15px;
+}
+
+.ungroupedName {
+  font-size: 15px;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 500;
+  background: #EEEEEE;
+  color: #929292;
+  border-radius: 10px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.badgeFlex {
+  font-size: 12px;
+  font-weight: 500;
+  background: #EEEEEE;
+  color: #929292;
+  border-radius: 10px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.grpMgmtFooter {
+  padding: 10px 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.grpMgmtBtn {
+  width: 100%;
+}
+
+.rightPanel {
+  flex: 1;
+}
+
+.userIdText {
+  color: var(--color-text-secondary);
+  font-family: inherit;
+}
+
+.userNameText {
+  color: var(--color-primary);
+}
+
+.groupBadge {
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-light);
+}
+
+.emptyGroup {
+  color: var(--color-text-light);
+}
+
+.lastLoginText {
+  color: var(--color-text-light);
+}

@@ -1,0 +1,177 @@
+.searchWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.searchInput {
+  min-width: 200px;
+}
+
+.timelineWrap {
+  margin-bottom: 20px;
+}
+
+.timelineHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.timelineSubtext {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-light);
+}
+
+.timelineBar {
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.timeAxis {
+  display: flex;
+  position: relative;
+  height: 28px;
+  margin-bottom: 6px;
+}
+
+.timeAxisCell {
+  flex: 1;
+  position: relative;
+}
+
+.timeMarker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 9px;
+  color: var(--color-text-light);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.batchTrack {
+  display: flex;
+  position: relative;
+  height: 22px;
+  border-radius: 4px;
+  overflow: visible;
+  background: #eef0f5;
+}
+
+.batchBlock {
+  position: absolute;
+  min-width: 4px;
+  height: 100%;
+  border-radius: 3px;
+  opacity: 0.82;
+  cursor: default;
+  transition: opacity 0.15s;
+}
+
+.busyWrap {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.busyChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: #fff;
+}
+
+.busyHour {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+
+.busySep {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.busyCount {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.busyDots {
+  display: flex;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.busyDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.busyMore {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.peakWarning {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid #f59e0b;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.emptyIcon {
+  font-size: 32px;
+}
+
+.emptyTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.emptyDesc {
+  font-size: 12px;
+}
+
+.emptyQuery {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.resetBtn {
+  margin-top: 4px;
+  padding: 6px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  background: #fff;
+  cursor: pointer;
+}
+
+.schName {
+  font-weight: 600;
+  color: var(--color-primary);
+}

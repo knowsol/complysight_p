@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/Button';
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 
 export interface ConfirmModalProps {
   open: boolean;
@@ -25,8 +25,8 @@ export const ConfirmModal = ({ open, title, msg, onOk, onCancel, okLabel = '확�
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.45)', zIndex: 10001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ background: '#fff', borderRadius: 12, padding: 28, width: 360, boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
-        <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: danger ? '#ef4444' : C.txH }}>{title}</div>
-        <div style={{ fontSize: 15, color: C.txS, marginBottom: 24, lineHeight: 1.7 }}>{msg}</div>
+        <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: danger ? '#ef4444' : colors.textHeading }}>{title}</div>
+        <div style={{ fontSize: 15, color: colors.textSecondary, marginBottom: 24, lineHeight: 1.7 }}>{msg}</div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
           <Button onClick={onCancel}>취소</Button>
           <Button danger={danger} primary={!danger} onClick={onOk}>

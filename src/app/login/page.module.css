@@ -1,0 +1,401 @@
+.wrapper {
+  min-height: 100vh;
+  background: var(--color-brand-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.loginBox {
+  width: 420px;
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 44px 40px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+}
+
+.brandHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.brandLogo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--color-brand);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.brandLogoText {
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.brandTitle {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.brandComply {
+  color: var(--color-brand);
+}
+
+.brandSight {
+  color: #111;
+}
+
+.brandSub {
+  margin: 0;
+  font-size: 12px;
+  color: #929292;
+}
+
+.lockedAlert {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.lockedAlertIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.idBlock {
+  margin-bottom: 6px;
+}
+
+.idRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #929292;
+}
+
+.saveIdLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.saveIdCheck {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  border: 1.5px solid #ccc;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.saveIdCheckActive {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+}
+
+.saveIdText {
+  font-size: 12px;
+  color: #929292;
+  font-weight: 400;
+}
+
+.saveIdTextActive {
+  color: var(--color-brand);
+  font-weight: 600;
+}
+
+.pwBlock {
+  margin-bottom: 6px;
+  margin-top: 10px;
+}
+
+.pwLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #929292;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.errBox {
+  margin-bottom: 10px;
+  padding: 9px 12px;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.siteRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  margin-top: 12px;
+}
+
+.siteRowWithErr {
+  margin-top: 4px;
+}
+
+.siteCard {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 6px;
+  border: 2px solid var(--color-border);
+  text-align: center;
+  cursor: pointer;
+  background: var(--color-white);
+  transition: all 0.3s;
+  opacity: 1;
+}
+
+.siteCardActive {
+  border-color: var(--color-brand);
+  background: var(--color-primary-light);
+}
+
+.siteCardLocked {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.siteTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.siteTitleActive {
+  color: var(--color-brand);
+}
+
+.siteDesc {
+  font-size: 12px;
+  color: #929292;
+  margin-top: 2px;
+}
+
+.loginBtn {
+  width: 100%;
+  padding: 13px;
+  color: var(--color-white);
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-brand);
+  cursor: pointer;
+}
+
+.loginBtnDisabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.pwResetWrap {
+  text-align: center;
+  margin-top: 14px;
+}
+
+.pwResetText {
+  font-size: 12px;
+  color: var(--color-brand);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pwResetTextLocked {
+  color: #94a3b8;
+  cursor: default;
+  text-decoration: none;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalCard {
+  width: 400px;
+  background: var(--color-white);
+  border-radius: 14px;
+  padding: 36px 32px 32px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.resetIconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.resetTitleWrap {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.resetTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+}
+
+.resetDesc {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.65;
+}
+
+.emailBlock {
+  margin-top: 22px;
+  margin-bottom: 4px;
+}
+
+.emailLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #929292;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.emailError {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #ef4444;
+}
+
+.resetSendBtn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  color: var(--color-white);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-brand);
+  cursor: pointer;
+}
+
+.resetSendBtnDisabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.doneWrap {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.doneIconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.doneTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.doneDesc {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.75;
+}
+
+.doneEmail {
+  font-weight: 600;
+  color: #111;
+}
+
+.doneHint {
+  font-size: 12px;
+  color: #929292;
+}
+
+.doneBtn {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-brand);
+  color: var(--color-white);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}

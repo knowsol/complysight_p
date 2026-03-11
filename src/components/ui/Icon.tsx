@@ -3,9 +3,9 @@
 import React from 'react';
 
 export interface IconProps {
-  n: string;
-  s?: number;
-  c?: string;
+  name: string;
+  size?: number;
+  color?: string;
 }
 
 export type IcProps = IconProps;
@@ -36,10 +36,10 @@ const ICON_PATHS: Record<string, string> = {
   layers: 'M2 12l10-8 10 8M4 10v10h16V10',
 };
 
-export const Icon = ({ n, s = 16, c = 'currentColor' }: IconProps) => {
+export const Icon = ({ name, size = 16, color = 'currentColor' }: IconProps) => {
   return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d={ICON_PATHS[n] || ICON_PATHS.info} />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d={ICON_PATHS[name] || ICON_PATHS.info} />
     </svg>
   );
 };

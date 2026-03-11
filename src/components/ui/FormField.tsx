@@ -1,6 +1,6 @@
 'use client';
 
-import { C } from '@/lib/theme/colors';
+import { colors } from '@/lib/theme/colors';
 import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 
 export interface FormFieldProps {
@@ -18,13 +18,13 @@ export interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const fieldInputStyle: CSSProperties = {
   width: '100%',
   padding: '6px 12px',
-  border: `1px solid ${C.brd}`,
+  border: `1px solid ${colors.border}`,
   borderRadius: 4,
   fontSize: 14,
   outline: 'none',
   boxSizing: 'border-box',
   background: '#fff',
-  color: C.txt,
+  color: colors.text,
   fontFamily: 'inherit',
   transition: 'border-color .15s',
   minHeight: 36,
@@ -33,7 +33,7 @@ export const fieldInputStyle: CSSProperties = {
 const labelStyle: CSSProperties = {
   fontSize: 11,
   fontWeight: 600,
-  color: C.txS,
+  color: colors.textSecondary,
   marginBottom: 4,
   display: 'flex',
   alignItems: 'center',
@@ -56,7 +56,7 @@ export function FormField({ label, required, children, half, style: sx }: FormFi
     >
       <label style={{ ...labelStyle, gap: 3 }}>
         {label}
-        {required && <span style={{ color: C.red, fontSize: 12 }}>*</span>}
+        {required && <span style={{ color: colors.red, fontSize: 12 }}>*</span>}
       </label>
       {children}
     </div>
@@ -68,10 +68,10 @@ export function FormInput({ style, ...props }: FormInputProps) {
     <input
       style={{ ...fieldInputStyle, ...style }}
       onFocus={(e) => {
-        e.target.style.borderColor = C.sec;
+        e.target.style.borderColor = colors.secondary;
       }}
       onBlur={(e) => {
-        e.target.style.borderColor = C.brd;
+        e.target.style.borderColor = colors.border;
       }}
       {...props}
     />
